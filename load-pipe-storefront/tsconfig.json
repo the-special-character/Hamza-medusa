@@ -17,6 +17,7 @@
     "types": ["cypress"],
     "baseUrl": "./src",
     "paths": {
+      "@/components/*": ["components/*"],
       "@lib/*": ["lib/*"],
       "@modules/*": ["modules/*"],
       "@pages/*": ["pages/*"]
