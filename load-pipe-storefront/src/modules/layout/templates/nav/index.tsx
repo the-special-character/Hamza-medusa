@@ -1,6 +1,6 @@
 import { headers } from "next/headers"
 import { Suspense } from "react"
-
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { listRegions } from "@lib/data"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
@@ -57,6 +57,7 @@ export default async function Nav() {
               }
             >
               <CartButton />
+              <ConnectButton />
             </Suspense>
           </div>
         </nav>
