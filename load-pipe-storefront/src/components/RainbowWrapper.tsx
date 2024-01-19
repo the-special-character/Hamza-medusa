@@ -1,10 +1,23 @@
 "use client"
 import "@rainbow-me/rainbowkit/styles.css"
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  darkTheme,
+} from "@rainbow-me/rainbowkit"
 import { configureChains, createConfig, WagmiConfig } from "wagmi"
 import { mainnet, polygon, optimism, arbitrum, base, zora } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
+
+// Define the dark theme configuration
+const darkThemeConfig = darkTheme({
+  accentColor: "#7b3fe4",
+  accentColorForeground: "white",
+  borderRadius: "small",
+  fontStack: "system",
+  overlayBlur: "small",
+})
 
 const { chains, publicClient } = configureChains(
   [mainnet, polygon, optimism, arbitrum, base, zora],
@@ -32,7 +45,9 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+        <RainbowKitProvider theme={darkThemeConfig} chains={chains}>
+          {children}
+        </RainbowKitProvider>
       </WagmiConfig>
     </>
   )
