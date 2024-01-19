@@ -10,15 +10,15 @@ const { chains, publicClient } = configureChains(
   [mainnet, polygon, optimism, arbitrum, base, zora],
   [
     alchemyProvider({
-      apiKey: process.env.ALCHEMY_ID || "NjuNPA19gEpY6s0ATmoDNawzww64hPsk",
+      apiKey: process.env.ALCHEMY_ID || "TOXFl-1ug2pYPgCBQ1qDVySYN_yvy5sm",
     }),
     publicProvider(),
   ]
 )
 
 const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
-  projectId: "YOUR_PROJECT_ID",
+  appName: "first_app",
+  projectId: "1e4dh2uabgfvi1oa",
   chains,
 })
 
