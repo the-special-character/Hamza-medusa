@@ -29,7 +29,10 @@ Install the medusa cli: `npm install @medusajs/medusa-cli -g`
 
 Create a PostgresDB
 
-Create an admin user: `medusa user --email <email> [--password <password>]`
+in the /load-pipe folder:
+Create an admin user:
+`npx medusa user --email admin@medusa-test.com --password supersecret
+`
 
 For Postgres database we can create entities in load-pipe/src/models
 [Medusa uses TypeORM ](https://docs.medusajs.com/development/entities/overview)and adding entities to this folder will automatically register them in the database
