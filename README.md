@@ -1,38 +1,45 @@
 To setup the project I went through the following guide: https://docs.medusajs.com/create-medusa-app
 
-I've sent the environment variable files in the discord
+Running: `npx create-medusa-app@latest`
+Automatically created thepostgres database and the admin user through the cli
 
-### ENV VARIABLES
+I've sent the environment variable files in our discord group chat and they're pinned
+make sure when you copy them over to have a . at the beginning of the file name as it doesn't save it as a .env and .env.local file in discord
 
-**Backend**: medusa-v1/load-pipe
-Backend Environments are in: _.env_
+### Project Structure
+
+**Backend**: load-pipe/
+
+Environment Variable: _.env_
 
 
-**Frontend**: medusa-v1/load-pipe-storefront    
-Frontend Environments are in: _env.local_   
+
+**Frontend**: /load-pipe-storefront    
+
+Environments Variable: _env.local_   
 
 ### INSTALLING PACKAGES
 I've used NPM to install the packages
 Run `npm install` in both folders to install the packages
 
-Running: `npx create-medusa-app@latest`
-Running this command automatically created thepostgres database and the admin user through the cli
-
 `DATABASE_URL=postgres://postgres@localhost/medusa-NvEk`
+
+**You'll either have to name your dB the same or modify in your .env file**
 
 
 [Medusa CLI Documentation:](https://docs.medusajs.com/cli/reference) 
 
 I'm using **postgres v16**
 
-To manually go through this steps:
+To manually go through this, you need to install the medusa cli:
 
 Install the medusa cli: `npm install @medusajs/medusa-cli -g`
 
-### Create a PostgresDB
+### Create a [PostgresDB](https://docs.medusajs.com/development/backend/configurations#database_database)
+You need to have postgres running for this setup
 
 in the /load-pipe folder:
-Create an admin user:
+Create an admin user: (Should exist by default)
 `npx medusa user --email admin@medusa-test.com --password supersecret
 `
 
