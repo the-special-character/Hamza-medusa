@@ -58,13 +58,14 @@ When we run `migrations` or `seed` command, a migration uses this object to inse
 
 If we want to add more currencies, we can create a migration that inserts currencies into the database
 
-### MIGRATIONS Modifying Currency Example
-
-For example if we wanted to change the currency we would go to:
-root/load-pipe/data/seed.json
-Modify the currency_code, amount, etc
-Then run `npx @medusajs/medusa-cli@latest seed -f ./data/seed.json`
-
+### MIGRATIONS Adding ETH Currency Example
+Manual Migration: https://docs.medusajs.com/development/entities/migrations/create
+1. Create a migration file in the migrations folder
+`npx typeorm migration:create src/migrations/CurrencyCreate` 
+2. This created the CurrencyCreate file in load-pipe/src/migrations/{rand_numbs}-CurrencyCreate.ts
+3. After manual migration is created, we can run `npm run build`
+4. Then run `npx medusa migrations run` to run the migration
+5. If we check the database this created the new currency in the database
 
 
 
