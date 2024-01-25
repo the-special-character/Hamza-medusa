@@ -4,6 +4,7 @@ import type {
   MedusaRequest,
   MedusaResponse,
 } from "@medusajs/medusa";
+import cors from "cors";
 
 const registerLoggedInUser = async (
   req: MedusaRequest,
@@ -31,6 +32,15 @@ export const config: MiddlewaresConfig = {
     {
       matcher: "/admin/products",
       middlewares: [registerLoggedInUser],
+    },
+    {
+      matcher: "/custom/*",
+      middlewares: [
+        cors({
+          origin: "*",
+          credentials: true,
+        }),
+      ],
     },
   ],
 };
