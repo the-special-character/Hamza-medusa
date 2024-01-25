@@ -5,7 +5,7 @@ import { listRegions } from "@lib/data"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
-
+import AddEthereumCurrency from "../../../../AddEthereumCurrency"
 export default async function Nav() {
   const regions = await listRegions().then((regions) => regions)
 
@@ -19,6 +19,7 @@ export default async function Nav() {
             </div>
           </div>
 
+          {/*Add ETH CURRENCY*/}
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
@@ -56,6 +57,7 @@ export default async function Nav() {
                 </LocalizedClientLink>
               }
             >
+              <AddEthereumCurrency />
               <CartButton />
               <ConnectButton />
             </Suspense>
