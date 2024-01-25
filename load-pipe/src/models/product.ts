@@ -1,3 +1,4 @@
+// TODO: replace with actual data after it displays in the admin UI https://docs.medusajs.com/development/entities/extend-entity
 import { Column, Entity } from "typeorm";
 import {
   // alias the core entity to not cause a naming conflict
