@@ -1,6 +1,7 @@
-import { Github } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
-
+import AddEthereumCurrency from "@/AddEthereumCurrency"
+import Currencies from "@/components/Currencies"
+import Login from "@/components/AuthenticateAdmin/Login"
 const Hero = () => {
   return (
     <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
@@ -26,6 +27,7 @@ const Hero = () => {
           <Button variant="secondary">Learn About Project Nexa</Button>
         </a>
       </div>
+      <Currencies />
     </div>
   )
 }
