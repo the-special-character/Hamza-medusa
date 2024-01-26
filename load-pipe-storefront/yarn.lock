@@ -1150,10 +1150,10 @@
   resolved "https://registry.npmjs.org/@msgpackr-extract/msgpackr-extract-darwin-arm64/-/msgpackr-extract-darwin-arm64-3.0.2.tgz"
   integrity sha512-9bfjwDxIDWmmOKusUcqdS4Rw+SETlp9Dy39Xui9BEGEk19dDwH0jhipwFzEff/pFg95NKymc6TOTbRKcWeRqyQ==
 
-"@next/env@14.0.4":
-  version "14.0.4"
-  resolved "https://registry.npmjs.org/@next/env/-/env-14.0.4.tgz"
-  integrity sha512-irQnbMLbUNQpP1wcE5NstJtbuA/69kRfzBrpAD7Gsn8zm/CY6YQYc3HQBz8QPxwISG26tIm5afvvVbu508oBeQ==
+"@next/env@14.1.1-canary.12":
+  version "14.1.1-canary.12"
+  resolved "https://registry.npmjs.org/@next/env/-/env-14.1.1-canary.12.tgz"
+  integrity sha512-SbRbMWVLLD+LSHZaQQd37FLDWbnUO7pPy8/g0t9mafKtTrrvQjWcPof+Mi+Iys4KjQlGXzRuinJ4DUvMYESzow==
 
 "@next/eslint-plugin-next@13.4.19":
   version "13.4.19"
@@ -1162,10 +1162,10 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-darwin-arm64@14.0.4":
-  version "14.0.4"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.0.4.tgz"
-  integrity sha512-mF05E/5uPthWzyYDyptcwHptucf/jj09i2SXBPwNzbgBNc+XnwzrL0U6BmPjQeOL+FiB+iG1gwBeq7mlDjSRPg==
+"@next/swc-darwin-arm64@14.1.1-canary.12":
+  version "14.1.1-canary.12"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.1.1-canary.12.tgz"
+  integrity sha512-5nWHRBEDNX7LBsxy//rSAsiUAejW1D5L288gY64LY0WLNAByyc8huVUzR9QQenxGH4C29cj/dDjSpbq0b5G8+w==
 
 "@noble/curves@^1.2.0", "@noble/curves@~1.2.0", "@noble/curves@1.2.0":
   version "1.2.0"
@@ -3964,10 +3964,10 @@ camelcase@^6.2.0:
   resolved "https://registry.npmjs.org/camelcase/-/camelcase-6.3.0.tgz"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001517, caniuse-lite@^1.0.30001520:
-  version "1.0.30001538"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001538.tgz"
-  integrity sha512-HWJnhnID+0YMtGlzcp3T9drmBJUVDchPJ08tpUGFLs9CYlwWPH2uLgpHn8fND5pCgXVtnGS3H4QR9XLMHVNkHw==
+caniuse-lite@^1.0.30001517, caniuse-lite@^1.0.30001520, caniuse-lite@^1.0.30001579:
+  version "1.0.30001580"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001580.tgz"
+  integrity sha512-mtj5ur2FFPZcCEpXFy8ADXbDACuNFXg6mxVDqp7tqooX6l3zwm+d8EPoeOSIFRDvHs8qu7/SLFOGniULkcH2iA==
 
 cardinal@^2.1.1:
   version "2.1.1"
@@ -7654,29 +7654,28 @@ neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-next@^14.0.0:
-  version "14.0.4"
-  resolved "https://registry.npmjs.org/next/-/next-14.0.4.tgz"
-  integrity sha512-qbwypnM7327SadwFtxXnQdGiKpkuhaRLE2uq62/nRul9cj9KhQ5LhHmlziTNqUidZotw/Q1I9OjirBROdUJNgA==
+next@^14.1.1-canary.12:
+  version "14.1.1-canary.12"
+  resolved "https://registry.npmjs.org/next/-/next-14.1.1-canary.12.tgz"
+  integrity sha512-FvtOksBtqrED3XtbBXjd7tdNIo0Dl3++Qdn770zXghoL4kwS36CzfKcgwPS3CTJBjFz9Aw7VIO0qPgi2OZMdmQ==
   dependencies:
-    "@next/env" "14.0.4"
+    "@next/env" "14.1.1-canary.12"
     "@swc/helpers" "0.5.2"
     busboy "1.6.0"
-    caniuse-lite "^1.0.30001406"
+    caniuse-lite "^1.0.30001579"
     graceful-fs "^4.2.11"
     postcss "8.4.31"
     styled-jsx "5.1.1"
-    watchpack "2.4.0"
   optionalDependencies:
-    "@next/swc-darwin-arm64" "14.0.4"
-    "@next/swc-darwin-x64" "14.0.4"
-    "@next/swc-linux-arm64-gnu" "14.0.4"
-    "@next/swc-linux-arm64-musl" "14.0.4"
-    "@next/swc-linux-x64-gnu" "14.0.4"
-    "@next/swc-linux-x64-musl" "14.0.4"
-    "@next/swc-win32-arm64-msvc" "14.0.4"
-    "@next/swc-win32-ia32-msvc" "14.0.4"
-    "@next/swc-win32-x64-msvc" "14.0.4"
+    "@next/swc-darwin-arm64" "14.1.1-canary.12"
+    "@next/swc-darwin-x64" "14.1.1-canary.12"
+    "@next/swc-linux-arm64-gnu" "14.1.1-canary.12"
+    "@next/swc-linux-arm64-musl" "14.1.1-canary.12"
+    "@next/swc-linux-x64-gnu" "14.1.1-canary.12"
+    "@next/swc-linux-x64-musl" "14.1.1-canary.12"
+    "@next/swc-win32-arm64-msvc" "14.1.1-canary.12"
+    "@next/swc-win32-ia32-msvc" "14.1.1-canary.12"
+    "@next/swc-win32-x64-msvc" "14.1.1-canary.12"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -10267,7 +10266,7 @@ wagmi@^1.4.13, "wagmi@~1.0.1 || ~1.1.0 || ~1.2.0 || ~1.3.0 || ~1.4.0":
     abitype "0.8.7"
     use-sync-external-store "^1.2.0"
 
-watchpack@^2.4.0, watchpack@2.4.0:
+watchpack@^2.4.0:
   version "2.4.0"
   resolved "https://registry.npmjs.org/watchpack/-/watchpack-2.4.0.tgz"
   integrity sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==
