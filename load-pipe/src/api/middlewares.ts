@@ -43,7 +43,7 @@ export const config: MiddlewaresConfig = {
       ],
     },
     {
-      matcher: "http://localhost:9000/admin/currencies",
+      matcher: "/admin/currencies",
       middlewares: [
         cors({
           origin: "*",
