@@ -8,10 +8,10 @@ const AddEthereumCurrency = () => {
   const handleAdd = () => {
     addCurrency.mutate("ETH", {
       onSuccess: ({ store }) => {
-        console.log("Ethereum added. Store currencies:", store.currencies)
+        console.log(store.currencies)
       },
       onError: (error) => {
-        console.error("Error adding Ethereum:", error)
+        console.log("error adding new ETH", error)
       },
     })
   }

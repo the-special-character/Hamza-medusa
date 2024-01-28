@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class CurrencyCreate1706076346146 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `INSERT INTO "currency" (code, symbol, symbol_native, name) VALUES ('ETH', 'Ξ', 'Ξ', 'Ethereum')`,
+      `INSERT INTO "currency" (code, symbol, symbol_native, name) VALUES ('eth', 'Ξ', 'Ξ', 'Ethereum')`,
     );
   }
 
