@@ -1,9 +1,7 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Metadata } from "next"
 import "styles/globals.css"
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
-import type { AppProps } from "next/app"
-import RootLayout from "app/layout" // Import RootLayout
 import MedusaProvider from "./components/medusa-provider" // Import MedusaProvider
 import { RainbowWrapper } from "@/components/RainbowWrapper"
 
@@ -15,11 +13,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-mode="light">
       <body>
-        <MedusaProvider>
-          <RainbowWrapper>
-            <main className="relative">{props.children}</main>
-          </RainbowWrapper>
-        </MedusaProvider>
+        <div>
+          <MedusaProvider>
+            <RainbowWrapper>
+              <main className="relative">{props.children}</main>
+            </RainbowWrapper>
+          </MedusaProvider>
+        </div>
       </body>
     </html>
   )
