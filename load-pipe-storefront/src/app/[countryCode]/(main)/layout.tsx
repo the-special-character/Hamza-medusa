@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { RainbowWrapper } from "app/components/RainbowWrapper" // Import RainbowWrapper
+import { RainbowWrapper } from "@/app/rainbow-provider" // Import RainbowWrapper
 
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"

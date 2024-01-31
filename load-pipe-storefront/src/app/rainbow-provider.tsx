@@ -14,6 +14,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 
+const projectId = "aba29725308468c8020e93258c08236e"
 // We need to use 1.x.wagmi since medusa is using @tanstack/react-query": "4.22"
 // Define the dark theme configuration
 const darkThemeConfig = darkTheme({
@@ -33,12 +34,12 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [optimismSepolia, mainnet],
   [
     alchemyProvider({
-      apiKey: "TOXFl-1ug2pYPgCBQ1qDVySYN_yvy5sm",
+      apiKey: "VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",
     }),
     jsonRpcProvider({
       rpc: () => {
         return {
-          http: "<https://optimism-sepolia.blockpi.network/v1/rpc/public>",
+          http: "https://opt-sepolia.g.alchemy.com/v2/VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",
         }
       },
     }),
@@ -47,8 +48,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: "first_app",
-  projectId: "1e4dh2uabgfvi1oa",
+  appName: "op_sep",
+  projectId: projectId,
   chains,
 })
 
