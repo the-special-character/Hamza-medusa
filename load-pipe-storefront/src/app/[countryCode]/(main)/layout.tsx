@@ -12,11 +12,9 @@ export const metadata: Metadata = {
 export default async function PageLayout(props: { children: React.ReactNode }) {
   return (
     <>
-      <RainbowWrapper>
-        <Nav />
-        {props.children}
-        <Footer />
-      </RainbowWrapper>
+      <Nav />
+      {props.children}
+      <Footer />
     </>
   )
 }

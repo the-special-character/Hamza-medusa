@@ -5,6 +5,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 import type { AppProps } from "next/app"
 import RootLayout from "app/layout" // Import RootLayout
 import MedusaProvider from "./components/medusa-provider" // Import MedusaProvider
+import { RainbowWrapper } from "@/components/RainbowWrapper"
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 }
@@ -14,7 +16,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" data-mode="light">
       <body>
         <MedusaProvider>
-          <main className="relative">{props.children}</main>
+          <RainbowWrapper>
+            <main className="relative">{props.children}</main>
+          </RainbowWrapper>
         </MedusaProvider>
       </body>
     </html>

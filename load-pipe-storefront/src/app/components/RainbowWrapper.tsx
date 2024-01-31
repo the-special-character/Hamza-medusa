@@ -6,19 +6,11 @@ import {
   darkTheme,
 } from "@rainbow-me/rainbowkit"
 import { configureChains, createConfig, WagmiConfig } from "wagmi"
-import {
-  sepolia,
-  mainnet,
-  polygon,
-  optimism,
-  optimismSepolia,
-  arbitrum,
-  base,
-  zora,
-} from "wagmi/chains"
+import { mainnet, optimismSepolia } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 
+// We need to use 1.x.wagmi since medusa is using @tanstack/react-query": "4.22"
 // Define the dark theme configuration
 const darkThemeConfig = darkTheme({
   accentColor: "#7b3fe4",
@@ -28,8 +20,8 @@ const darkThemeConfig = darkTheme({
   overlayBlur: "small",
 })
 
-const { chains, publicClient } = configureChains(
-  [sepolia, mainnet, polygon, optimism, optimismSepolia],
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [optimismSepolia, mainnet],
   [
     alchemyProvider({
       apiKey: process.env.ALCHEMY_ID || "TOXFl-1ug2pYPgCBQ1qDVySYN_yvy5sm",
@@ -44,16 +36,17 @@ const { connectors } = getDefaultWallets({
   chains,
 })
 
-const wagmiConfig = createConfig({
+const wagmiClient = createConfig({
   autoConnect: true,
   connectors,
   publicClient,
+  webSocketPublicClient,
 })
 
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <WagmiConfig config={wagmiConfig}>
+      <WagmiConfig config={wagmiClient}>
         <RainbowKitProvider theme={darkThemeConfig} chains={chains}>
           {children}
         </RainbowKitProvider>
