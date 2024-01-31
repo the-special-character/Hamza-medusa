@@ -11,6 +11,7 @@ import {
   mainnet,
   polygon,
   optimism,
+  optimismSepolia,
   arbitrum,
   base,
   zora,
@@ -28,7 +29,7 @@ const darkThemeConfig = darkTheme({
 })
 
 const { chains, publicClient } = configureChains(
-  [sepolia, mainnet, polygon, optimism, arbitrum, base, zora],
+  [sepolia, mainnet, polygon, optimism, optimismSepolia],
   [
     alchemyProvider({
       apiKey: process.env.ALCHEMY_ID || "TOXFl-1ug2pYPgCBQ1qDVySYN_yvy5sm",

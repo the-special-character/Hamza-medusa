@@ -1,5 +1,9 @@
 import { Lifetime } from "awilix";
-import { TransactionBaseService, User } from "@medusajs/medusa";
+import {
+  TransactionBaseService,
+  User,
+  AbstractPaymentProcessor,
+} from "@medusajs/medusa";
 
 class HelloService extends TransactionBaseService {
   protected readonly loggedInUser_: User | null;
