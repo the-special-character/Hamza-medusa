@@ -1,13 +1,8 @@
 import { Button, Heading } from "@medusajs/ui"
-import AddEthereumCurrency from "@/AddEthereumCurrency"
-import Currencies from "@/components/Currencies"
 import Login from "@/components/AuthenticateAdmin/Login"
-import Products from "@/Products"
 import AuthToken from "@/components/GetAdminToken/AuthToken"
+import { FaucetButton } from "@/components/CheckAccount/FaucetButton"
 const Hero = () => {
-  // WHY ISNT THE PROCESS.ENV WORKING?
-  const HELLO = process.env.ALCHEMY_API_KEY
-  console.log("!()#&)$&_!&_@_$_!&)", HELLO)
   return (
     <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
       <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
@@ -32,11 +27,9 @@ const Hero = () => {
           <Button variant="secondary">Learn About Project Nexa</Button>
         </a>
         <Login />
-        <AddEthereumCurrency />
         <AuthToken />
+        <FaucetButton />
       </div>
-      <Products />
-      {/*<Currencies />*/}
     </div>
   )
 }

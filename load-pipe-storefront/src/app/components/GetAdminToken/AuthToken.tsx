@@ -17,7 +17,7 @@ const AuthToken = () => {
         console.log("DEM TOKENS", access_token)
       })
   }
-  return <button onClick={handleToken}>Get Token</button>
+  return <button onClick={handleToken}>Get Medusa Admin Token</button>
 }
 
 export default AuthToken

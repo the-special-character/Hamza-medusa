@@ -5,8 +5,6 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   darkTheme,
-  connectorsForWallets,
-  Wallet,
 } from "@rainbow-me/rainbowkit"
 import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi"
 import { mainnet, optimismSepolia } from "wagmi/chains"
@@ -52,9 +50,9 @@ const { connectors } = getDefaultWallets({
   projectId: projectId,
   chains,
 })
-
-const wagmiClient = createConfig({
-  autoConnect: false,
+// Config in v1.x.wagmi Client in 2.x.wagmi?
+const config = createConfig({
+  autoConnect: true,
   connectors,
   publicClient,
   webSocketPublicClient,
@@ -69,7 +67,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   }, [])
   return (
     <div>
-      <WagmiConfig config={wagmiClient}>
+      <WagmiConfig config={config}>
         <RainbowKitProvider theme={darkThemeConfig} chains={chains}>
           {children}
         </RainbowKitProvider>

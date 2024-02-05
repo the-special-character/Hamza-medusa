@@ -21,7 +21,7 @@ const Login = () => {
       }
     )
   }
-  return <button onClick={handleLogin}>Login</button>
+  return <button onClick={handleLogin}>Login Medusa Admin</button>
 }
 
 export default Login
