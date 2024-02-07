@@ -1,10 +1,11 @@
 import { CustomerService } from "@medusajs/medusa";
 import { EntityManager } from "typeorm";
-import { Customer } from "../models";
+import { Customer } from "../../models/customer";
 import { EventBusService } from "../services";
 import { CustomerRepository, AddressRepository } from "../repositories";
 import { CreateCustomerInput } from "../types/customers";
-
+// load - pipe / src / models / customer.ts;
+// load - pipe / src / services / Auth / auth.ts;
 type AuthServiceDependencies = {
   manager: EntityManager;
   eventBusService: EventBusService;
