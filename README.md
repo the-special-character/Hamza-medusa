@@ -66,6 +66,7 @@ Manual Migration: https://docs.medusajs.com/development/entities/migrations/crea
 3. After manual migration is created, we can run `npm run build`
 4. Then run `npx medusa migrations run` to run the migration
 5. If we check the database this created the new currency in the database
-
+*** If you made a mistake and want to REVERT, given you have written the down method 🎩
+6. Run `npx medusa migrations revert` to revert the migration
 
 
