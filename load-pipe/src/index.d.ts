@@ -3,3 +3,11 @@ export declare module "@medusajs/medusa/dist/models/product" {
     customAttribute: string;
   }
 }
+
+// modifying the User model such that email is now optional
+export declare module "@medusajs/medusa/dist/models/user" {
+  declare interface User {
+    wallet_address: string;
+    email?: string;
+  }
+}
