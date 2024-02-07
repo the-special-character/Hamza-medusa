@@ -1,59 +1,107 @@
-import { CustomerService } from "@medusajs/medusa";
-import { Customer } from "@medusajs/medusa/dist/models/customer";
-import { EventBusService } from "@medusajs/medusa/dist/services";
-import { CustomerRepository } from "@medusajs/medusa/dist/repositories/customer";
-import { AddressRepository } from "@medusajs/medusa/dist/repositories/address";
-import { CreateCustomerInput } from "@medusajs/medusa/dist/types/customers";
+import { SoftDeletableEntity, UserService } from "@medusajs/medusa";
+import { EventBusService } from "@medusajs/medusa";
 import { EntityManager } from "typeorm";
+import { UserRepository } from "@medusajs/medusa/dist/repositories/user";
+import AnalyticsConfigService from "@medusajs/medusa/dist/services/analytics-config";
+import { FlagRouter } from "@medusajs/utils";
 
-type InjectedDependencies = {
-  manager: EntityManager;
+type UserServiceProps = {
+  userRepository: typeof UserRepository;
+  analyticsConfigService: AnalyticsConfigService;
   eventBusService: EventBusService;
-  customerRepository: typeof CustomerRepository;
-  addressRepository: typeof AddressRepository;
+  manager: EntityManager;
+  featureFlagRouter: FlagRouter;
 };
-class AuthService extends CustomerService {
-  constructor(container: InjectedDependencies) {
+
+export declare enum UserRoles {
+  /** The user is an admin.*/
+  ADMIN = "admin",
+  /*** The user is a team member.*/
+  MEMBER = "member",
+  /*** The user is a developer.*/
+  DEVELOPER = "developer",
+}
+
+interface CreateUserInput {
+  id?: string;
+  email?: string;
+  wallet_address: string;
+  api_token?: string;
+  role?: UserRoles;
+  metadata?: Record<string, unknown>;
+}
+declare class User extends SoftDeletableEntity {
+  role: UserRoles;
+  wallet_address: string;
+  email: string;
+  /**
+   * @apiIgnore
+   */
+  api_token: string;
+  metadata: Record<string, unknown>;
+  /**
+   * @apiIgnore
+   */
+  private beforeInsert;
+}
+
+class AuthService extends UserService {
+  constructor(container: UserServiceProps) {
     super(container);
   }
 
-  // Example of overriding an existing method
-  async create(customer: CreateCustomerInput): Promise<Customer> {
+  // Override the create method as necessary
+  async create(user: CreateUserInput): Promise<User> {
     // Custom logic before calling the base implementation
-    console.log("Custom logic before creating a customer");
+    console.log("Custom logic before creating a user");
 
     // Call the base class method
-    const createdCustomer = await super.create(customer);
+    const createdUser = await super.create(user, password);
 
     // Custom logic after the base method
-    console.log("Custom logic after creating a customer");
+    console.log("Custom logic after creating a user");
 
-    return createdCustomer;
+    return createdUser;
   }
 
-  // Implementing custom authentication method
-  async customAuthMethod(
-    email: string,
-    password: string,
-  ): Promise<Customer | null> {
-    // Implement your authentication logic here
-    // For example, find the customer by email
-    const customer = await this.retrieveByEmail(email, {});
-
-    if (!customer) {
-      throw new Error("Customer not found");
-    }
-
-    // Here, you'd typically compare the provided password with the hashed password stored in the database
-    // This is a simplified example
-    if (password === "expectedPassword") {
-      // Authentication successful
-      return customer;
-    } else {
-      // Authentication failed
-      return null;
-    }
+  // Override and disable all other methods from UserService
+  list(): Promise<never> {
+    throw new Error("Method not supported.");
   }
+
+  retrieve(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  retrieveByApiToken(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  retrieveByEmail(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  hashPassword_(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  update(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  delete(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  setPassword_(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  generateResetPasswordToken(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
+
+  // Any other methods inherited from UserService should also be overridden in a similar manner
 }
 
 export default AuthService;
