@@ -1,63 +1,59 @@
 import { CustomerService } from "@medusajs/medusa";
+import { Customer } from "@medusajs/medusa/dist/models/customer";
+import { EventBusService } from "@medusajs/medusa/dist/services";
+import { CustomerRepository } from "@medusajs/medusa/dist/repositories/customer";
+import { AddressRepository } from "@medusajs/medusa/dist/repositories/address";
+import { CreateCustomerInput } from "@medusajs/medusa/dist/types/customers";
 import { EntityManager } from "typeorm";
-import { Customer } from "../../models/customer";
-import { EventBusService } from "../services";
-import { CustomerRepository, AddressRepository } from "../repositories";
-import { CreateCustomerInput } from "../types/customers";
-// load - pipe / src / models / customer.ts;
-// load - pipe / src / services / Auth / auth.ts;
-type AuthServiceDependencies = {
+
+type InjectedDependencies = {
   manager: EntityManager;
   eventBusService: EventBusService;
   customerRepository: typeof CustomerRepository;
   addressRepository: typeof AddressRepository;
 };
-
 class AuthService extends CustomerService {
-  constructor({
-    manager,
-    eventBusService,
-    customerRepository,
-    addressRepository,
-  }: AuthServiceDependencies) {
-    super({ manager, eventBusService, customerRepository, addressRepository });
+  constructor(container: InjectedDependencies) {
+    super(container);
   }
 
-  /**
-   * Authenticate a customer using their wallet public address and nonce.
-   * @param publicAddress - The public address of the customer's wallet.
-   * @param nonce - The nonce used for authentication.
-   * @param signature - The signature proving ownership of the wallet.
-   * @returns The authenticated customer or creates a new one if not exists.
-   */
-  async authenticateWithWallet(
-    publicAddress: string,
-    nonce: string,
-    signature: string,
-  ): Promise<Customer> {
-    // Verify the signature with the nonce and publicAddress here.
-    // This is where you'd integrate your wallet signature verification logic.
+  // Example of overriding an existing method
+  async create(customer: CreateCustomerInput): Promise<Customer> {
+    // Custom logic before calling the base implementation
+    console.log("Custom logic before creating a customer");
 
-    // Check if a customer with the given public address already exists.
-    let customer = await this.customerRepository_.findOne({
-      where: { publicAddress },
-    });
+    // Call the base class method
+    const createdCustomer = await super.create(customer);
 
-    // If the customer doesn't exist, create a new one.
+    // Custom logic after the base method
+    console.log("Custom logic after creating a customer");
+
+    return createdCustomer;
+  }
+
+  // Implementing custom authentication method
+  async customAuthMethod(
+    email: string,
+    password: string,
+  ): Promise<Customer | null> {
+    // Implement your authentication logic here
+    // For example, find the customer by email
+    const customer = await this.retrieveByEmail(email, {});
+
     if (!customer) {
-      const customerData: CreateCustomerInput = {
-        // Populate the customer data a1s needed.
-        // Since email is optional in your setup, you might not set it here.
-        publicAddress,
-      };
-      customer = await this.create(customerData);
+      throw new Error("Customer not found");
     }
 
-    // Return the authenticated or newly created customer.
-    return customer;
+    // Here, you'd typically compare the provided password with the hashed password stored in the database
+    // This is a simplified example
+    if (password === "expectedPassword") {
+      // Authentication successful
+      return customer;
+    } else {
+      // Authentication failed
+      return null;
+    }
   }
-
-  // Override or add additional methods as needed for your auth flow.
 }
 
 export default AuthService;
