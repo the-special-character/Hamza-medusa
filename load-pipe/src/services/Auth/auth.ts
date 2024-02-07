@@ -51,18 +51,19 @@ class AuthService extends UserService {
   }
 
   // Override the create method as necessary
-  async create(user: CreateUserInput): Promise<User> {
-    // Custom logic before calling the base implementation
-    console.log("Custom logic before creating a user");
-
-    // Call the base class method
-    const createdUser = await super.create(user, password);
-
-    // Custom logic after the base method
-    console.log("Custom logic after creating a user");
-
-    return createdUser;
-  }
+  // TODO: create user method commented out to build and push migrations
+  // async create(user: CreateUserInput): Promise<User> {
+  //   // Custom logic before calling the base implementation
+  //   console.log("Custom logic before creating a user");
+  //
+  //   // Call the base class method
+  //   const createdUser = await super.create(user);
+  //
+  //   // Custom logic after the base method
+  //   console.log("Custom logic after creating a user");
+  //
+  //   return createdUser;
+  // }
 
   // Override and disable all other methods from UserService
   list(): Promise<never> {
