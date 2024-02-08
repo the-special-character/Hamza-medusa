@@ -281,7 +281,11 @@ export async function getCustomer() {
     .catch((err) => null)
 }
 
-export async function createCustomer(data: StorePostCustomersReq) {
+declare class StorePostCustomersReqCustom {
+  wallet_address: string
+}
+
+export async function createCustomer(data: StorePostCustomersReqCustom) {
   const headers = getMedusaHeaders(["customer"])
 
   return medusaClient.customers

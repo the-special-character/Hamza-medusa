@@ -20,14 +20,18 @@ import {
   StorePostCustomersReq,
 } from "@medusajs/medusa"
 
+declare class StorePostCustomersReqCustom {
+  wallet_address: string
+}
 export async function signUp(_currentState: unknown, formData: FormData) {
   const customer = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-    first_name: formData.get("first_name"),
-    last_name: formData.get("last_name"),
-    phone: formData.get("phone"),
-  } as StorePostCustomersReq
+    // email: formData.get("email"),
+    // password: formData.get("password"),
+    // first_name: formData.get("first_name"),
+    // last_name: formData.get("last_name"),
+    // phone: formData.get("phone"),
+    wallet_address: formData.get("wallet_address"),
+  } as StorePostCustomersReqCustom
 
   try {
     await createCustomer(customer)
