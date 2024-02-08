@@ -1,69 +1,53 @@
-import { SoftDeletableEntity, UserService } from "@medusajs/medusa";
-import { EventBusService } from "@medusajs/medusa";
+import { UserService } from "@medusajs/medusa";
 import { EntityManager } from "typeorm";
-import { UserRepository } from "@medusajs/medusa/dist/repositories/user";
-import AnalyticsConfigService from "@medusajs/medusa/dist/services/analytics-config";
-import { FlagRouter } from "@medusajs/utils";
+import { UserRoles } from "@medusajs/medusa";
+import {
+  AnalyticsConfigService,
+  CreateUserInput,
+} from "../../utils/auth/auth-config";
+import { User } from "@medusajs/medusa/dist/models";
 
-type UserServiceProps = {
-  userRepository: typeof UserRepository;
-  analyticsConfigService: AnalyticsConfigService;
-  eventBusService: EventBusService;
-  manager: EntityManager;
-  featureFlagRouter: FlagRouter;
+type CreateAuthInput = {
+  wallet_address: string;
+  role?: UserRoles; // Assuming UserRoles is defined elsewhere
+  metadata?: Record<string, unknown>;
 };
 
-export declare enum UserRoles {
-  /** The user is an admin.*/
-  ADMIN = "admin",
-  /*** The user is a team member.*/
-  MEMBER = "member",
-  /*** The user is a developer.*/
-  DEVELOPER = "developer",
-}
-
-interface CreateUserInput {
-  id?: string;
-  email?: string;
-  wallet_address: string;
-  api_token?: string;
-  role?: UserRoles;
-  metadata?: Record<string, unknown>;
-}
-declare class User extends SoftDeletableEntity {
-  role: UserRoles;
-  wallet_address: string;
-  email: string;
-  /**
-   * @apiIgnore
-   */
-  api_token: string;
-  metadata: Record<string, unknown>;
-  /**
-   * @apiIgnore
-   */
-  private beforeInsert;
-}
-
 class AuthService extends UserService {
-  constructor(container: UserServiceProps) {
-    super(container);
+  private userRepository: Repository<User>;
+  // Other dependencies...
+
+  constructor({ userRepository, ...otherDependencies }: UserServiceProps) {
+    super({ userRepository, ...otherDependencies });
+    this.userRepository = userRepository;
+    // Initialize other dependencies if necessary
   }
 
-  // Override the create method as necessary
-  // TODO: create user method commented out to build and push migrations
-  // async create(user: CreateUserInput): Promise<User> {
-  //   // Custom logic before calling the base implementation
-  //   console.log("Custom logic before creating a user");
-  //
-  //   // Call the base class method
-  //   const createdUser = await super.create(user);
-  //
-  //   // Custom logic after the base method
-  //   console.log("Custom logic after creating a user");
-  //
-  //   return createdUser;
-  // }
+  async createAuthenticatedUser_(
+    userInput: CreateUserInput,
+  ): Promise<{ user: User; token: string }> {
+    // Step 1: Create the user
+    const newUser = this.userRepository.create({
+      ...userInput,
+      // Set any default values or additional properties here
+    });
+
+    await this.userRepository.save(newUser);
+
+    // Step 2: Generate a JWT for the user
+    const token = jwt.sign(
+      { userId: newUser.id, walletAddress: newUser.wallet_address },
+      process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your environment variables
+      { expiresIn: "1h" }, // Token expiration time
+    );
+
+    // Step 3: Return the created user and their JWT
+    return { user: newUser, token };
+  }
+
+  create(): Promise<never> {
+    throw new Error("Method not supported.");
+  }
 
   // Override and disable all other methods from UserService
   list(): Promise<never> {
