@@ -12,3 +12,11 @@ export declare module "@medusajs/medusa/dist/models/user" {
     password_hash?: string;
   }
 }
+
+export declare module "@medusajs/medusa/dist/models/customer" {
+  declare interface Customer {
+    wallet_address: string;
+    email?: string;
+    password_hash?: string;
+  }
+}

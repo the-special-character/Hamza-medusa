@@ -6,9 +6,9 @@ import {
 
 @Entity()
 export class Customer extends MedusaCustomer {
-  @Column({ unique: true }) // Ensure publicAddress is unique
-  walletAddress: string;
+  @Column({ nullable: false, default: "" })
+  wallet_address: string;
 
-  // @Column({ type: "varchar", nullable: true, unique: true, default: null })
-  // email: string | null;
+  @Column({ nullable: true })
+  email?: string;
 }

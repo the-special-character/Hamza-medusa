@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { User as MedusaUser } from "@medusajs/medusa";
 
 @Entity()
