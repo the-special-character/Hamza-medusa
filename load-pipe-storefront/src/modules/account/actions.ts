@@ -33,13 +33,13 @@ export async function signUp(_currentState: unknown, formData: FormData) {
     wallet_address: formData.get("wallet_address"),
   } as StorePostCustomersReqCustom
 
+  // TODO: Changed actions.ts to create a customer with a wallet address
   try {
     await createCustomer(customer)
-    await getToken({ email: customer.email, password: customer.password }).then(
-      () => {
-        revalidateTag("customer")
-      }
-    )
+    // await getToken({ email: customer.email, password: customer.password }).then(
+    await getToken({ wallet_address: customer.wallet_address }).then(() => {
+      revalidateTag("customer")
+    })
   } catch (error: any) {
     return error.toString()
   }
@@ -49,11 +49,12 @@ export async function logCustomerIn(
   _currentState: unknown,
   formData: FormData
 ) {
-  const email = formData.get("email") as string
-  const password = formData.get("password") as string
+  // const email = formData.get("email") as string
+  // const password = formData.get("password") as string
+  const wallet_address = formData.get("wallet_address") as string
 
   try {
-    await getToken({ email, password }).then(() => {
+    await getToken({ wallet_address }).then(() => {
       revalidateTag("customer")
     })
   } catch (error: any) {
@@ -128,8 +129,8 @@ export async function updateCustomerPassword(
   const new_password = formData.get("new_password") as string
   const old_password = formData.get("old_password") as string
   const confirm_password = formData.get("confirm_password") as string
-
-  const isValid = await authenticate({ email, password: old_password })
+  const wallet_address: string = formData.get("wallet_address") as string
+  const isValid = await authenticate({ wallet_address })
     .then(() => true)
     .catch(() => false)
 

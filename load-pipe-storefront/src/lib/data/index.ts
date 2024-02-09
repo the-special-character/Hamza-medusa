@@ -4,12 +4,10 @@ import {
   ProductCategory,
   ProductCollection,
   StoreGetProductsParams,
-  StorePostAuthReq,
   StorePostCartsCartReq,
   StorePostCustomersCustomerAddressesAddressReq,
   StorePostCustomersCustomerAddressesReq,
   StorePostCustomersCustomerReq,
-  StorePostCustomersReq,
 } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
@@ -22,6 +20,12 @@ import { ProductCategoryWithChildren, ProductPreviewType } from "types/global"
 import { medusaClient } from "../config"
 import medusaError from "@lib/util/medusa-error"
 import { cookies } from "next/headers"
+
+// Authentication actions
+// TODO: Modified to use StorePostAuthReqCustomCustom instead of StorePostAuthReqCustom
+declare class StorePostAuthReqCustom {
+  wallet_address: string
+}
 
 const emptyResponse = {
   response: { products: [], count: 0 },
@@ -236,8 +240,7 @@ export async function addShippingMethod({
     .catch((err) => medusaError(err))
 }
 
-// Authentication actions
-export async function getToken(credentials: StorePostAuthReq) {
+export async function getToken(credentials: StorePostAuthReqCustom) {
   return medusaClient.auth
     .getToken(credentials, {
       next: {
@@ -253,7 +256,7 @@ export async function getToken(credentials: StorePostAuthReq) {
     })
 }
 
-export async function authenticate(credentials: StorePostAuthReq) {
+export async function authenticate(credentials: StorePostAuthReqCustom) {
   const headers = getMedusaHeaders(["auth"])
 
   return medusaClient.auth
