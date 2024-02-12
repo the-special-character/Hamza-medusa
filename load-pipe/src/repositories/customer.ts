@@ -3,7 +3,7 @@ import { dataSource } from "@medusajs/medusa/dist/loaders/database";
 
 // TODO: Implement a customMethod; if(wallet_address) break else: create user with new wallet_address
 
-export const WalletRepository = dataSource.getRepository(Customer).extend({
+export const CustomerRepository = dataSource.getRepository(Customer).extend({
   async createCustomer(wallet_address: string): Promise<Customer | string> {
     // Check if the wallet_address exists
     const existingCustomer = await this.findOne({ where: { wallet_address } });

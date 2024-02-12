@@ -1,7 +1,9 @@
-import { CustomerService } from "@medusajs/medusa";
+import { CustomerService as DefaultCustomerService } from "@medusajs/medusa";
 import { Customer } from "../models/customer";
-
-class WalletService extends CustomerService {
+import { TransactionBaseService } from "@medusajs/medusa";
+import { Lifetime } from "awilix";
+import jwt from "jsonwebtoken";
+class CustomerService extends DefaultCustomerService {
   // ...
   // We can just use the default repository from our customer entity
 
@@ -10,4 +12,4 @@ class WalletService extends CustomerService {
   }
 }
 
-export default WalletService;
+export default CustomerService;
