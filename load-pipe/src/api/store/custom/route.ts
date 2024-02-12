@@ -1,29 +1,26 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import { CustomerRepository } from "../../../repositories/customer";
-import { EntityManager } from "typeorm";
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
-  const customerRepository: typeof CustomerRepository =
-    req.scope.resolve("customerRepository");
-  const manager: EntityManager = req.scope.resolve("manager");
-  const customerRepo = manager.withRepository(customerRepository);
+  const customerService = req.scope.resolve("customerService");
 
-  return res.json({
-    posts: await customerRepo.find(),
-  });
+  try {
+    const customers = await customerService.findAllCustomers();
+    return res.json({ customers });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
-
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   const { wallet_address } = req.body;
 
   if (!wallet_address) {
     return res.status(400).json({ message: "Wallet address is required" });
   }
-
-  const customerRepository = req.scope.resolve("customerRepository");
+  const customerService = req.scope.resolve("customerService");
 
   try {
-    const customer = await customerRepository.createCustomer(
+    const customer = await customerService.createCustomer(
       wallet_address.toString(),
     );
 
@@ -32,12 +29,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         .status(409)
         .json({ message: "Customer with this wallet address already exists." });
     }
-
     return res.status(201).json({ customer });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-// s%3A9k7yoVAJFARexFBhpEWPf8qv7NUra0Zn.A7jbZdHZ%2FKukjyd6qf1rohdHgYfUmLcwJle9epE8cn4
