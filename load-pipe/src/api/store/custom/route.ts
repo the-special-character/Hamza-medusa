@@ -13,9 +13,33 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   });
 };
 
-export const POST = (req: MedusaRequest, res: MedusaResponse) => {
-  res.json({
-    message: "[POST] Hello world!",
-  });
+export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+  const { wallet_address } = req.body;
+
+  if (!wallet_address) {
+    return res.status(400).json({ message: "Wallet address is required" });
+  }
+
+  const walletRepository = req.scope.resolve("walletRepository");
+
+  try {
+    const customer = await walletRepository.createCustomer(
+      wallet_address.toString(),
+    );
+
+    if (!customer) {
+      return res
+        .status(409)
+        .json({ message: "Customer with this wallet address already exists." });
+    }
+
+    return res.status(201).json({ customer });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
+
+// TODO: Next step is to create a POST, such that all I need to do is input the wallet_address, and it will create a user.
+
 // s%3A9k7yoVAJFARexFBhpEWPf8qv7NUra0Zn.A7jbZdHZ%2FKukjyd6qf1rohdHgYfUmLcwJle9epE8cn4
