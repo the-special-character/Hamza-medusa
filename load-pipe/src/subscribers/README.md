@@ -14,16 +14,21 @@ You may define custom eventhandlers, `subscribers` by creating files in the `/su
 //   eventName,
 //   container,
 //   pluginOptions,
-// }: SubscriberArgs) {
-//   const configModule: ConfigModule = container.resolve("configModule");
+// }: SubscriberArgs<Record<string, any>>) {
+//   const customerService: CustomerService = container.resolve("CustomerService");
+//
+//   const { wallet_address } = data;
+//
+//   const customer = await customerService.createCustomer(wallet_address);
 // }
-
+//
 // export const config: SubscriberConfig = {
 //   event: CustomerService.Events.CREATED,
 //   context: {
 //     subscriberId: "customer-handler",
 //   },
 // };
+
 
 ```
 ```ts

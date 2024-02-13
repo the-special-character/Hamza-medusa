@@ -58,12 +58,22 @@ const config = createConfig({
   webSocketPublicClient,
 })
 
+const AUTH_WALLET = "http://localhost:9000/auth/wallet"
+
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   const [isEthereumAvailable, setIsEthereumAvailable] = useState(false)
+  const [authStatus, setAuthStatus] = useState("loading")
+
   useEffect(() => {
-    if (typeof window !== "undefined" && "ethereum" in window) {
-      setIsEthereumAvailable(true)
-    }
+    // Example API call to check if the user is authenticated
+    fetch(AUTH_WALLET)
+      .then((res) => res.json())
+      .then(({ isAuthenticated }) => {
+        setAuthStatus(isAuthenticated ? "authenticated" : "unauthenticated")
+      })
+      .catch(() => {
+        setAuthStatus("unauthenticated")
+      })
   }, [])
   return (
     <div>

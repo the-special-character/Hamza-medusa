@@ -3,6 +3,8 @@ import { Customer } from "../models/customer";
 import { Lifetime } from "awilix";
 import { CustomerRepository } from "../repositories/customer";
 import jwt from "jsonwebtoken";
+import { ethers } from "ethers";
+import crypto from "crypto";
 class CustomerService extends TransactionBaseService {
   static Events: {
     CREATED: string;
@@ -42,8 +44,26 @@ class CustomerService extends TransactionBaseService {
     return await this.customerRepository_.find();
   }
 
-  getMessage() {
-    return `Welcome to the customer init page!`;
+  // Generate a Nonce
+  async generateNonce(): Promise<string> {
+    return crypto.randomBytes(16).toString("hex");
+  }
+  async verifyWalletSignature(
+    wallet_address: string,
+    signature: string,
+    message: string,
+  ): Promise<boolean> {
+    // Verify signature
+    try {
+      const signerAddress = ethers.verifyMessage(message, signature);
+      if (signerAddress.toLowerCase() === wallet_address.toLowerCase()) {
+        return true;
+      }
+    } catch (e) {
+      console.log(e);
+      // return status 401 if signature verification fails
+      return false;
+    }
   }
 }
 

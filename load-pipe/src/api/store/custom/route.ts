@@ -12,7 +12,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   }
 };
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
-  const { wallet_address } = req.body;
+  const { wallet_address, signature } = req.body;
 
   if (!wallet_address) {
     return res.status(400).json({ message: "Wallet address is required" });
@@ -20,6 +20,13 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   const customerService = req.scope.resolve("customerService");
 
   try {
+    const isVerified = await customerService.verifyWalletSignature(
+      wallet_address,
+      signature,
+    );
+    if (!isVerified) {
+      return res.status(400).json({ message: "Verification failed" });
+    }
     const customer = await customerService.createCustomer(
       wallet_address.toString(),
     );
