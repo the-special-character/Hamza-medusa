@@ -4,64 +4,49 @@ import "@rainbow-me/rainbowkit/styles.css"
 import {
   createAuthenticationAdapter,
   RainbowKitAuthenticationProvider,
-  getDefaultWallets,
   RainbowKitProvider,
   darkTheme,
   AuthenticationStatus,
 } from "@rainbow-me/rainbowkit"
-import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi"
-import { mainnet, optimismSepolia } from "wagmi/chains"
-import { alchemyProvider } from "wagmi/providers/alchemy"
-import { publicProvider } from "wagmi/providers/public"
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
-import { walletSignMessage } from "@/components/CustomAuth/walletSignMessage"
+import { WagmiConfig } from "wagmi"
+import { chains, config } from "@/components/RainbowkitUtils/rainbow-utils"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
-const projectId = "aba29725308468c8020e93258c08236e"
+import { SiweMessage } from "siwe"
 // We need to use 1.x.wagmi since medusa is using @tanstack/react-query": "4.22"
-// Define the dark theme configuration
-const darkThemeConfig = darkTheme({
-  accentColor: "#7b3fe4",
-  accentColorForeground: "white",
-  borderRadius: "small",
-  fontStack: "system",
-  overlayBlur: "small",
-})
-
-// export interface MyWalletOptions {
-//   projectId: string
-//   chains: Chain[]
-// }
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [optimismSepolia, mainnet],
-  [
-    alchemyProvider({
-      apiKey: "VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",
-    }),
-    jsonRpcProvider({
-      rpc: () => {
-        return {
-          http: "https://opt-sepolia.g.alchemy.com/v2/VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",
-        }
-      },
-    }),
-    publicProvider(),
-  ]
-)
-
-const { connectors } = getDefaultWallets({
-  appName: "op_sep",
-  projectId: projectId,
-  chains,
-})
-// Config in v1.x.wagmi Client in 2.x.wagmi?
-const config = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
-})
 const queryClient = new QueryClient()
+const AUTH_WALLET = "http://localhost:9000/auth/wallet"
+
+const walletSignature = createAuthenticationAdapter({
+  getNonce: async () => {
+    const response = await fetch(AUTH_WALLET)
+    return await response.text()
+  },
+  createMessage: ({ nonce, address, chainId }) => {
+    return new SiweMessage({
+      domain: window.location.host,
+      address,
+      statement: "Sign in with Ethereum to the app.",
+      uri: window.location.origin,
+      version: "1",
+      chainId,
+      nonce,
+    })
+  },
+  getMessageBody: ({ message }) => {
+    return message.prepareMessage()
+  },
+  verify: async ({ message, signature }) => {
+    const verifyRes = await fetch(AUTH_WALLET, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, signature }),
+    })
+    return Boolean(verifyRes.ok)
+  },
+  signOut: async () => {
+    await fetch("/api/logout")
+  },
+})
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   // Resolve AUTHENTICATION_STATUS
   const [status, setStatus] = useState<AuthenticationStatus>("unauthenticated")
@@ -71,11 +56,11 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
       <WagmiConfig config={config}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitAuthenticationProvider
-            adapter={walletSignMessage}
+            adapter={walletSignature}
             status={status}
           >
             <RainbowKitProvider
-              theme={darkThemeConfig}
+              theme={darkTheme()}
               chains={chains}
               modalSize="compact"
             >
