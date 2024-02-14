@@ -1,9 +1,5 @@
-import {
-  createAuthenticationAdapter,
-  getDefaultWallets,
-} from "@rainbow-me/rainbowkit"
+import { getDefaultWallets, darkTheme } from "@rainbow-me/rainbowkit"
 import { configureChains, createConfig } from "wagmi"
-import { SiweMessage } from "siwe"
 import { mainnet, optimismSepolia } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
@@ -11,6 +7,13 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 
 const PROJECT_ID = "aba29725308468c8020e93258c08236e"
 
+export const darkThemeConfig = darkTheme({
+  accentColor: "#7b3fe4",
+  accentColorForeground: "white",
+  borderRadius: "small",
+  fontStack: "system",
+  overlayBlur: "small",
+})
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
   [optimismSepolia, mainnet],
   [
