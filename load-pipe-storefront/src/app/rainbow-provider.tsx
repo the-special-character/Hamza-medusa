@@ -2,16 +2,20 @@
 import { useEffect, useState } from "react"
 import "@rainbow-me/rainbowkit/styles.css"
 import {
+  createAuthenticationAdapter,
+  RainbowKitAuthenticationProvider,
   getDefaultWallets,
   RainbowKitProvider,
   darkTheme,
+  AuthenticationStatus,
 } from "@rainbow-me/rainbowkit"
 import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi"
 import { mainnet, optimismSepolia } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
-
+import { walletSignMessage } from "@/components/CustomAuth/walletSignMessage"
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 const projectId = "aba29725308468c8020e93258c08236e"
 // We need to use 1.x.wagmi since medusa is using @tanstack/react-query": "4.22"
 // Define the dark theme configuration
@@ -23,10 +27,10 @@ const darkThemeConfig = darkTheme({
   overlayBlur: "small",
 })
 
-export interface MyWalletOptions {
-  projectId: string
-  chains: Chain[]
-}
+// export interface MyWalletOptions {
+//   projectId: string
+//   chains: Chain[]
+// }
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [optimismSepolia, mainnet],
@@ -57,30 +61,28 @@ const config = createConfig({
   publicClient,
   webSocketPublicClient,
 })
-
-const AUTH_WALLET = "http://localhost:9000/auth/wallet"
-
+const queryClient = new QueryClient()
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
-  const [isEthereumAvailable, setIsEthereumAvailable] = useState(false)
-  const [authStatus, setAuthStatus] = useState("loading")
+  // Resolve AUTHENTICATION_STATUS
+  const [status, setStatus] = useState<AuthenticationStatus>("unauthenticated")
 
-  useEffect(() => {
-    // Example API call to check if the user is authenticated
-    fetch(AUTH_WALLET)
-      .then((res) => res.json())
-      .then(({ isAuthenticated }) => {
-        setAuthStatus(isAuthenticated ? "authenticated" : "unauthenticated")
-      })
-      .catch(() => {
-        setAuthStatus("unauthenticated")
-      })
-  }, [])
   return (
     <div>
       <WagmiConfig config={config}>
-        <RainbowKitProvider theme={darkThemeConfig} chains={chains}>
-          {children}
-        </RainbowKitProvider>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitAuthenticationProvider
+            adapter={walletSignMessage}
+            status={status}
+          >
+            <RainbowKitProvider
+              theme={darkThemeConfig}
+              chains={chains}
+              modalSize="compact"
+            >
+              {children}
+            </RainbowKitProvider>
+          </RainbowKitAuthenticationProvider>
+        </QueryClientProvider>
       </WagmiConfig>
     </div>
   )

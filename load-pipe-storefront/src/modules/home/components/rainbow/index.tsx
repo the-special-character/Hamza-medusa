@@ -11,26 +11,26 @@ export default function Profile() {
     connector: new InjectedConnector(),
   })
   const { disconnect } = useDisconnect()
-  useEffect(() => {
-    if (isConnected) {
-      fetch(CUSTOMER_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ wallet_address: address }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response data
-          console.log(data)
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.error("Error:", error)
-        })
-    }
-  }, [isConnected, address])
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     fetch(CUSTOMER_ENDPOINT, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ wallet_address: address }),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         // Handle the response data
+  //         console.log(data)
+  //       })
+  //       .catch((error) => {
+  //         // Handle any errors
+  //         console.error("Error:", error)
+  //       })
+  //   }
+  // }, [isConnected, address])
   if (isConnected)
     return (
       <div>

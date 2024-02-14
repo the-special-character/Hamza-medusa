@@ -4,7 +4,7 @@ import { SiweMessage } from "siwe"
 
 const AUTH_WALLET = "http://localhost:9000/auth/wallet"
 
-export const authenticationAdapter = createAuthenticationAdapter({
+export const walletSignMessage = createAuthenticationAdapter({
   getNonce: async () => {
     const response = await fetch(AUTH_WALLET)
     return await response.text()
@@ -24,7 +24,7 @@ export const authenticationAdapter = createAuthenticationAdapter({
     return message.prepareMessage()
   },
   verify: async ({ message, signature }) => {
-    const verifyRes = await fetch("/api/verify", {
+    const verifyRes = await fetch(AUTH_WALLET, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, signature }),
