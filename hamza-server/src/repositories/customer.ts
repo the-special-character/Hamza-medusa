@@ -1,4 +1,4 @@
-import { Customer } from "@/models/customer";
+import { Customer } from "../models/customer";
 import { dataSource } from "@medusajs/medusa/dist/loaders/database";
 
 export const CustomerRepository = dataSource.getRepository(Customer).extend({

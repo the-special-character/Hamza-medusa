@@ -1,6 +1,3 @@
-// Manual Migration to add ETH currency
-// https://docs.medusajs.com/development/entities/migrations/create
-
 const { DataSource } = require("typeorm");
 
 const AppDataSource = new DataSource({
