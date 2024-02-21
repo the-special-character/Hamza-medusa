@@ -1,8 +1,7 @@
 import { TransactionBaseService } from "@medusajs/medusa";
-import { Customer } from "../models/customer";
+import { Customer } from "@/models/customer";
 import { Lifetime } from "awilix";
-import { CustomerRepository } from "../repositories/customer";
-import jwt from "jsonwebtoken";
+import { CustomerRepository } from "@/repositories/customer";
 import { ethers } from "ethers";
 import crypto from "crypto";
 class CustomerService extends TransactionBaseService {
