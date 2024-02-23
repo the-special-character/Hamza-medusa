@@ -64,8 +64,6 @@ medusa seed -f ./dta/seed.json
 medusa develop
 ```
 
-checking
-
 
 ## What is Medusa
 
