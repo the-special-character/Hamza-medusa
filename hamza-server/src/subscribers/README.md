@@ -1,36 +1,7 @@
 # Custom subscribers
 
 You may define custom eventhandlers, `subscribers` by creating files in the `/subscribers` directory.
-```
-// import {
-//   type SubscriberConfig,
-//   type SubscriberArgs,
-//   type ConfigModule,
-// } from "@medusajs/medusa";
-// import CustomerService from "../services/customer";
-//
-// export default async function customerHandler({
-//   data,
-//   eventName,
-//   container,
-//   pluginOptions,
-// }: SubscriberArgs<Record<string, any>>) {
-//   const customerService: CustomerService = container.resolve("CustomerService");
-//
-//   const { wallet_address } = data;
-//
-//   const customer = await customerService.createCustomer(wallet_address);
-// }
-//
-// export const config: SubscriberConfig = {
-//   event: CustomerService.Events.CREATED,
-//   context: {
-//     subscriberId: "customer-handler",
-//   },
-// };
 
-
-```
 ```ts
 import MyCustomService from "../services/my-custom";
 import {
