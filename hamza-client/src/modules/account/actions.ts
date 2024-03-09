@@ -20,16 +20,16 @@ import {
   StorePostCustomersReq,
 } from "@medusajs/medusa"
 
-declare class StorePostCustomersReqCustom {
+declare class StorePostCustomersReqCustom extends StorePostCustomersReq{
   wallet_address: string
 }
 export async function signUp(_currentState: unknown, formData: FormData) {
   const customer = {
-    // email: formData.get("email"),
-    // password: formData.get("password"),
-    // first_name: formData.get("first_name"),
-    // last_name: formData.get("last_name"),
-    // phone: formData.get("phone"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
+    phone: formData.get("phone"),
     wallet_address: formData.get("wallet_address"),
   } as StorePostCustomersReqCustom
 
@@ -37,7 +37,7 @@ export async function signUp(_currentState: unknown, formData: FormData) {
   try {
     await createCustomer(customer)
     // await getToken({ email: customer.email, password: customer.password }).then(
-    await getToken({ wallet_address: customer.wallet_address }).then(() => {
+    await getToken({ email: customer.email, password: customer.password, wallet_address: customer.wallet_address }).then(() => {
       revalidateTag("customer")
     })
   } catch (error: any) {
@@ -49,12 +49,14 @@ export async function logCustomerIn(
   _currentState: unknown,
   formData: FormData
 ) {
-  // const email = formData.get("email") as string
-  // const password = formData.get("password") as string
+  const email = formData.get("email") as string
+  const password = formData.get("password") as string
   const wallet_address = formData.get("wallet_address") as string
 
   try {
-    await getToken({ wallet_address }).then(() => {
+    console.log("attemepting to log in with wallet address: ", wallet_address)
+
+    await getToken({ email, password, wallet_address }).then(() => {
       revalidateTag("customer")
     })
   } catch (error: any) {
@@ -130,7 +132,7 @@ export async function updateCustomerPassword(
   const old_password = formData.get("old_password") as string
   const confirm_password = formData.get("confirm_password") as string
   const wallet_address: string = formData.get("wallet_address") as string
-  const isValid = await authenticate({ wallet_address })
+  const isValid = await authenticate({email, password: old_password, wallet_address })
     .then(() => true)
     .catch(() => false)
 

@@ -20,7 +20,7 @@ const web3Config = {
   // This is ours Alchemy's default API key.
   // You can get your own at https://dashboard.alchemyapi.io
   // It's recommended to store it in an env variable:
-  // ..env.local for local testing, and in the Vercel/system env config for live apps.
+  // .env.local for local testing, and in the Vercel/system env config for live apps.
   alchemyApiKey:
     process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ||
     "VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",
@@ -28,7 +28,7 @@ const web3Config = {
   // This is ours WalletConnect's default project ID.
   // You can get your own at https://cloud.walletconnect.com
   // It's recommended to store it in an env variable:
-  // ..env.local for local testing, and in the Vercel/system env config for live apps.
+  // .env.local for local testing, and in the Vercel/system env config for live apps.
   walletConnectProjectId:
     process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ||
     "aba29725308468c8020e93258c08236e",

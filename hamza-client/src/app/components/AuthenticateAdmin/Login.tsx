@@ -9,8 +9,8 @@ const Login = () => {
   const handleLogin = () => {
     adminLogin.mutate(
       {
-        email: "garo92039@gmail.com",
-        password: "fqT!eBLaJ25a2S8",
+        email: "admin@medusa-test.com",
+        password: "supersecret",
       },
       {
         onSuccess: ({ user }) => {

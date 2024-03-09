@@ -26,14 +26,21 @@ const Login = ({ setCurrentView }: Props) => {
             name="email"
             type="email"
             title="Enter a valid email address."
-            autoComplete="email"
+            defaultValue="testuser@gmail.com"
             required
           />
+            <Input label="wallet_address"
+            name="wallet_address"
+            type="text"
+            title="Enter a valid wallet address."
+            defaultValue="0xb975Bf5ca0b09E17834d0b5A526F8315F82986D4"
+            required
+            />
           <Input
             label="Password"
             name="password"
             type="password"
-            autoComplete="current-password"
+            defaultValue="toor"
             required
           />
         </div>

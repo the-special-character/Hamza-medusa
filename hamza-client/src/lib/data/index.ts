@@ -5,6 +5,8 @@ import {
   ProductCollection,
   StoreGetProductsParams,
   StorePostCartsCartReq,
+  StorePostCustomersReq,
+  StorePostAuthReq,
   StorePostCustomersCustomerAddressesAddressReq,
   StorePostCustomersCustomerAddressesReq,
   StorePostCustomersCustomerReq,
@@ -22,8 +24,8 @@ import medusaError from "@lib/util/medusa-error"
 import { cookies } from "next/headers"
 
 // Authentication actions
-// TODO: Modified to use StorePostAuthReqCustomCustom instead of StorePostAuthReqCustom
-declare class StorePostAuthReqCustom {
+// TODO: Modified to use StorePostAuthReqCustom instead of StorePostAuthReq (DONE?)
+declare class StorePostAuthReqCustom extends StorePostAuthReq{
   wallet_address: string
 }
 
@@ -284,7 +286,7 @@ export async function getCustomer() {
     .catch((err) => null)
 }
 
-declare class StorePostCustomersReqCustom {
+declare class StorePostCustomersReqCustom extends StorePostCustomersReq{
   wallet_address: string
 }
 

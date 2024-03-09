@@ -2,6 +2,8 @@ import { Button, Heading } from "@medusajs/ui"
 import Login from "@/components/AuthenticateAdmin/Login"
 import AuthToken from "@/components/GetAdminToken/AuthToken"
 import { FaucetButton } from "@/components/CheckAccount/FaucetButton"
+import Checker from "@/components/CheckCors/Checker"
+
 const Hero = () => {
   return (
     <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
@@ -27,6 +29,7 @@ const Hero = () => {
           <Button variant="secondary">Learn About Project Nexa</Button>
         </a>
         <Login />
+        <Checker/>
         <AuthToken />
         <FaucetButton />
       </div>
