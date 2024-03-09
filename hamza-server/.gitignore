@@ -4,7 +4,7 @@
 /uploads
 /node_modules
 yarn-error.log
-
+.vscode
 .idea
 
 coverage
@@ -17,6 +17,10 @@ yarn.lock
 medusa-db.sql
 build
 .cache
+
+#lock files
+yarn.lock
+package-lock.json
 
 .yarn/*
 !.yarn/patches

@@ -43,6 +43,10 @@ yarn-error.log*
 *.tsbuildinfo
 node_modules
 
+#lock files
+yarn.lock
+package-lock.json
+
 .yarn
 .swc
 dump.rdb
