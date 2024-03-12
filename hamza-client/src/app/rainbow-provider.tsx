@@ -18,7 +18,6 @@ const queryClient = new QueryClient()
 import { SiweMessage } from "siwe"
 import { getCustomer, getToken } from "@lib/data"
 import { revalidateTag } from "next/cache"
-import { Customer } from "@medusajs/medusa"
 
 const VERIFY_MSG = "http://localhost:9000/custom/verify"
 const GET_NONCE = "http://localhost:9000/custom/nonce"
@@ -39,6 +38,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
       console.log("NONCE DATA: ", data)
       return data
     },
+
     createMessage: ({ nonce, address, chainId }) => {
       console.log(`Creating message with nonce: ${nonce}, address: ${address}, chainId: ${chainId}`);
       const message = new SiweMessage({
@@ -53,12 +53,14 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
       console.log("Message Created", message)
       return message
     },
+
     getMessageBody: ({ message }) => {
       console.log('Preparing message:', message);
       const preparedMessage = message.prepareMessage();
       console.log('Message prepared:', preparedMessage);
       return preparedMessage;
     },
+
     verify: async ({ message, signature }) => {
       console.log('Verifying message with signature:', message, signature);
       const verifyRes = await fetch(VERIFY_MSG, {
@@ -81,10 +83,11 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
       });
       return Boolean(verifyRes.ok);
     },
+
     signOut: async () => {
       console.log('Signing out...');
       setStatus("unauthenticated")
-      // destroy session / cookies
+      //TODO: destroy session / cookies
     },
   })
 
