@@ -9,6 +9,7 @@ import Testimonials from "@modules/home/components/testimonials";
 import FAQSection from "@modules/home/components/FAQSection";
 import { getRegion } from "app/actions"
 import { ProductCollectionWithPreviews } from "types/global"
+import ContactSection from "@modules/home/components/contact-section";
 export const metadata: Metadata = {
   title: "Medusa Next.js Starter Template",
   description:
@@ -75,6 +76,7 @@ export default async function Home({
         <ToggleSection />
         <Testimonials />
         <FAQSection/>
+        <ContactSection/>
       {/*<div className="py-12">*/}
       {/*  <ul className="flex flex-col gap-x-6">*/}
       {/*    <FeaturedProducts collections={collections} region={region} />*/}
