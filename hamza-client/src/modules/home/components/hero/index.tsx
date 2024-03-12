@@ -5,7 +5,7 @@ import Checker from "@/components/CheckCors/Checker";
 
 const Hero = () => {
   return (
-    <Box className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
+      <Box className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
         <Flex align="center" justify="space-between" className="absolute inset-0 z-10 p-8">
           <Box className="flex-1">
             <Heading as="h1" size="xl" className="text-3xl leading-10 text-ui-fg-base font-normal mb-4">
@@ -22,10 +22,10 @@ const Hero = () => {
           </Box>
           <Box flex="1" className="hidden md:block">
             <Image
-              src="http://hamza.biz/wp-content/uploads/2024/01/hamzabiz-img.jpg"
-              alt="Image description"
-              className="w-full h-auto object-cover"
-              fallbackSrc="path_to_fallback_image" // In case the original image fails to load
+                src="http://hamza.biz/wp-content/uploads/2024/01/hamzabiz-img.jpg"
+                alt="Image description"
+                className="w-full h-auto object-cover"
+                fallbackSrc="path_to_fallback_image" // In case the original image fails to load
             />
           </Box>
         </Flex>
