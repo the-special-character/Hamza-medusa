@@ -1,6 +1,7 @@
 "use client"
 import Medusa from "@medusajs/medusa-js"
 
+//TODO: (CLEANUP) is this used for anything other than testing?
 const AuthToken = () => {
   const handleToken = () => {
     const medusa = new Medusa({

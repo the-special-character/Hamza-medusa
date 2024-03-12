@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "@rainbow-me/rainbowkit/styles.css"
 import {
   createAuthenticationAdapter,
@@ -16,11 +16,20 @@ import {
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 const queryClient = new QueryClient()
 import { SiweMessage } from "siwe"
+import { getCustomer, getToken } from "@lib/data"
+import { revalidateTag } from "next/cache"
+import { Customer } from "@medusajs/medusa"
 
 const VERIFY_MSG = "http://localhost:9000/custom/verify"
 const GET_NONCE = "http://localhost:9000/custom/nonce"
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   const [status, setStatus] = useState<AuthenticationStatus>("unauthenticated")
+
+  useEffect(() => {
+    getCustomer().then((customer) => {
+      setStatus(customer?.has_account ? "authenticated" : "unauthenticated");
+    }).catch(() => { console.log("rainbow-provider: customer not found")});
+  }, []);
 
   const walletSignature = createAuthenticationAdapter({
     getNonce: async () => {
@@ -57,11 +66,19 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message, signature }),
       })
-        .catch(error => console.error('Error verifying message:', error)); // Error handling for verify fetch
+      .catch(error => console.error('Error verifying message:', error)); // Error handling for verify fetch
+
       console.log('Verification response:', verifyRes);
       const authenticationStatus = Boolean(verifyRes.ok) ? "authenticated" : "unauthenticated";
       console.log(`Verification status: ${authenticationStatus}`);
       setStatus(authenticationStatus);
+
+      await getToken({ 
+        wallet_address: message.address,
+        email: "", password: ""
+      }).then(() => {
+        revalidateTag("customer")
+      });
       return Boolean(verifyRes.ok);
     },
     signOut: async () => {

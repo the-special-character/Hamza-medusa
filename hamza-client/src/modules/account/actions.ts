@@ -35,8 +35,7 @@ export async function signUp(_currentState: unknown, formData: FormData) {
 
   // TODO: Changed actions.ts to create a customer with a wallet address
   try {
-    await createCustomer(customer)
-    // await getToken({ email: customer.email, password: customer.password }).then(
+    await createCustomer(customer);
     await getToken({ email: customer.email, password: customer.password, wallet_address: customer.wallet_address }).then(() => {
       revalidateTag("customer")
     })
@@ -45,20 +44,24 @@ export async function signUp(_currentState: unknown, formData: FormData) {
   }
 }
 
-export async function logCustomerIn(
+export async function logCustomerInFromForm (
   _currentState: unknown,
   formData: FormData
-) {
-  const email = formData.get("email") as string
-  const password = formData.get("password") as string
-  const wallet_address = formData.get("wallet_address") as string
+): Promise<void> {
+  return logCustomerIn(formData.get("wallet_address") as string);
+}
 
+//TODO: (CLEANUP) does this ever get called? (may be used for login with email, if we implement it)
+export async function logCustomerIn(wallet_address: string) : Promise<void> {
   try {
-    console.log("attemepting to log in with wallet address: ", wallet_address)
+    console.log("logCustomerIn called with ", wallet_address);
+
+    const email = `${wallet_address}@evm.blockchain`;
+    const password = "password"; //TODO: (JK) store default password someplace
 
     await getToken({ email, password, wallet_address }).then(() => {
-      revalidateTag("customer")
-    })
+      revalidateTag("customer");
+    });
   } catch (error: any) {
     return error.toString()
   }

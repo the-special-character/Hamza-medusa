@@ -243,6 +243,12 @@ export async function addShippingMethod({
 }
 
 export async function getToken(credentials: StorePostAuthReqCustom) {
+  //set email & password automatically if not provided
+  if (!credentials.email || !credentials.email.length)
+    credentials.email = `${credentials.wallet_address}@evm.blockchain`; 
+  if (!credentials.password || !credentials.password.length)
+    credentials.password = "password"; //TODO: (JK) store this default value someplace
+    
   return medusaClient.auth
     .getToken(credentials, {
       next: {
@@ -258,8 +264,10 @@ export async function getToken(credentials: StorePostAuthReqCustom) {
     })
 }
 
+//TODO: (CLEANUP) is this ever called?
 export async function authenticate(credentials: StorePostAuthReqCustom) {
   const headers = getMedusaHeaders(["auth"])
+  console.log("calling medusa authenticate...");
 
   return medusaClient.auth
     .authenticate(credentials, headers)
