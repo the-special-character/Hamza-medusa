@@ -18,7 +18,7 @@ const MyComponent = () => {
     const tabIndicatorColor = '#DD6B20'; // Orange tab indicator
 
     return (
-        <Flex direction={{ base: 'column', md: 'row' }} justifyContent="space-between" alignItems="center" p={5}>
+        <Flex bg="black" color="white" direction={{ base: 'column', md: 'row' }} justifyContent="space-between" alignItems="center" p={5}>
             <Box flex="1" p={5} bg={bgColor} borderRadius="lg" boxShadow="lg" color="white">
                 <Text fontSize="sm" fontWeight="bold" mb={2}>JOIN THE MOVEMENT</Text>
                 <Text fontSize="2xl" fontWeight="bold" mt={2} mb={4}>
