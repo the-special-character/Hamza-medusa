@@ -10,6 +10,7 @@ type OverviewProps = {
   orders: Order[] | null
 }
 
+//TODO: (HIGH) need wallet_address property on customer 
 const Overview = ({ customer, orders }: OverviewProps) => {
   return (
     <div>
@@ -18,7 +19,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
           <span>Hello {customer?.first_name}</span>
           <span className="text-small-regular text-ui-fg-base">
             Signed in as:{" "}
-            <span className="font-semibold">{customer?.email}</span>
+            <span className="font-semibold">{customer?.email?.substring(0, 42)}</span>
           </span>
         </div>
         <div className="flex flex-col py-8 border-t border-gray-200">
