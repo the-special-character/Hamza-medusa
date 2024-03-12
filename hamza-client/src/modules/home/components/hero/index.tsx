@@ -1,7 +1,6 @@
 import { Button, Heading } from "@medusajs/ui"
 import Login from "@/components/AuthenticateAdmin/Login"
 import AuthToken from "@/components/GetAdminToken/AuthToken"
-import { FaucetButton } from "@/components/CheckAccount/FaucetButton"
 import Checker from "@/components/CheckCors/Checker"
 
 const Hero = () => {
@@ -22,16 +21,10 @@ const Hero = () => {
             Marketplace
           </Heading>
         </span>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
-          <Button variant="secondary">Learn About Project Nexa</Button>
-        </a>
-        <Login />
-        <Checker/>
-        <AuthToken />
-        <FaucetButton />
+
+        {/*<Login />*/}
+        {/*<Checker/>*/}
+        {/*<AuthToken />*/}
       </div>
     </div>
   )
