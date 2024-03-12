@@ -2,6 +2,15 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* Dark mode styles */
+.dark .text-base-regular {
+  @apply text-gray-300;
+}
+
+.dark .content-container {
+  @apply bg-gray-800;
+}
+
 @layer utilities {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
