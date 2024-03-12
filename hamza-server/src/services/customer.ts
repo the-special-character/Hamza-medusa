@@ -26,6 +26,9 @@ export default class CustomerService extends MedusaCustomerService {
       console.log(`Customer with wallet address ${input.wallet_address} already exists`);
       return existingCustomer
     }
+    else {
+      console.log(`Customer with wallet address ${input.wallet_address} not found`);
+    }
     console.log(`creating Customer with input ${JSON.stringify(input)}`);
     try {
       const _customer = await super.create(input);

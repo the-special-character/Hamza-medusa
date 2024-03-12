@@ -1,4 +1,4 @@
-import type {
+import {
   MedusaRequest,
   MedusaResponse,
 } from "@medusajs/medusa"
@@ -13,22 +13,23 @@ export const POST = async(
 ) => {
   const customerService = req.scope.resolve("customerService");
   const { message, signature } = req.body;
-  const public_wallet_address = message.address;
-  console.log("typeof wallet address", typeof public_wallet_address, public_wallet_address);
+  const wallet_address = message.address;
 
-  const dummyCustomerData = {
-    "email": "testuser@gmail.com",
-    "first_name": "g",
-    "last_name": "t",
-    "password": "toor",
-    "wallet_address": public_wallet_address
+  //create customer input data 
+  const customerInputData = {
+    "email": `${wallet_address}@evm.blockchain`,
+    "first_name": wallet_address.length >= 10 ? wallet_address.substring(0, 10) : wallet_address,
+    "last_name": wallet_address.length > 10 ? wallet_address.substring(10) : wallet_address,
+    "password": "password", //TODO: (JK) store the default password someplace
+    "wallet_address": wallet_address
   }
 
+  //send the requests to server
   const siweMessage = new SiweMessage(message);
   try {
     await siweMessage.verify({ signature });
     // If the signature is verified, we can create the user.
-    await customerService.create(dummyCustomerData);
+    await customerService.create(customerInputData);
     res.send(true);
   } catch {
     res.send(false);

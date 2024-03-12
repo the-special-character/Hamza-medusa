@@ -19,7 +19,9 @@ export default class AuthService extends MedusaAuthService {
     // Custom method signature for handling authentication with wallet address
     async authenticate(email: string, password: string, wallet_address?: string): Promise<ExtendedAuthenticateResult>;
     // Unified method implementation
+    //TODO: (CLEANUP) is this ever called?
     async authenticate(email: string, password: string, wallet_address?: string): Promise<ExtendedAuthenticateResult | AuthenticateResult> {
+        console.log("calling medusa authenticate....");
         const authResult: AuthenticateResult = await super.authenticate(email, password);
 
         // Handle the wallet address logic separately, depending on your application's needs
