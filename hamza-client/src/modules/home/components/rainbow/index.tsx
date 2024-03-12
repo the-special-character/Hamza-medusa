@@ -1,16 +1,54 @@
 "use client"
 
-import React, { useEffect } from "react"
+import { getCustomer } from "@lib/data"
+import { Customer } from "@medusajs/medusa"
+import { logCustomerIn } from "@modules/account/actions"
+import React, { useEffect, useState } from "react"
+import { custom } from "viem"
 import { useAccount, useConnect, useDisconnect } from "wagmi"
 import { InjectedConnector } from "wagmi/connectors/injected"
 
+//TODO: (JK) do we still need this component?
 const CUSTOMER_ENDPOINT = "http://localhost:9000/store/custom"
 export default function Profile() {
-  const { address, isConnected } = useAccount()
+  const [customer, setCustomer] = useState<Omit<Customer, "password_hash"> | null>(null);
+
+  const loadCustomer = () => {
+    getCustomer().then((customer) => {
+      setCustomer(customer);
+    }).catch(() => console.log("rainbow: customer not found"));
+  };
+
+  useEffect(() => {
+    loadCustomer();
+  }, []);
+
+  const isWalletConnected = () => {
+    return customer && customer.has_account;
+  };
+
+  const { address, isConnected } = useAccount({
+    onConnect: () => {
+      console.log("wagmi connected A", address);
+      loadCustomer();
+    },
+    onDisconnect: () => {
+      console.log("wagmi disconnected A");
+    }
+  });
+
   const { connect } = useConnect({
     connector: new InjectedConnector(),
+    onSuccess: (data) => {
+      console.log("wagmi connected B", address);
+      loadCustomer();
+    }
+  });
+  const { disconnect } = useDisconnect({
+    onSuccess: () => {
+      console.log("wallet disconnected B");
+    }
   })
-  const { disconnect } = useDisconnect()
   // useEffect(() => {
   //   if (isConnected) {
   //     fetch(CUSTOMER_ENDPOINT, {
@@ -31,12 +69,13 @@ export default function Profile() {
   //       })
   //   }
   // }, [isConnected, address])
-  if (isConnected)
+
+  if (isWalletConnected())
     return (
       <div>
-        Connected to {address}
+        Connected to {customer?.email.substring(0, 42)}
         <button onClick={() => disconnect()}>Disconnect</button>
       </div>
-    )
+    );
   return <button onClick={() => connect()}>Connect Wallet</button>
 }
