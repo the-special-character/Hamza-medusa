@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import { getCollectionsList, getProductsList } from "@lib/data"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
+import RecommendedItems from "@modules/home/components/products";
 import { getRegion } from "app/actions"
 import { ProductCollectionWithPreviews } from "types/global"
 export const metadata: Metadata = {
@@ -67,11 +68,12 @@ export default async function Home({
   return (
     <>
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
+        <RecommendedItems />
+      {/*<div className="py-12">*/}
+      {/*  <ul className="flex flex-col gap-x-6">*/}
+      {/*    <FeaturedProducts collections={collections} region={region} />*/}
+      {/*  </ul>*/}
+      {/*</div>*/}
     </>
   )
 }
