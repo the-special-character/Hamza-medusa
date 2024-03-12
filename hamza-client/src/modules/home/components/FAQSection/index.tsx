@@ -15,7 +15,7 @@ import {
 
 const FAQSection = () => {
     return (
-        <Box bg="#000" color="#FFF" py={12} className="h-[75vh] w-full">
+        <Box bg="#000" color="#FFF" py={12} className="h-[85vh] w-full">
             <Container maxW="container.xl" pt={12}>
                 <Flex direction={{ base: 'column', lg: 'row' }} justifyContent="space-between" alignItems="flex-start"
                       gap={{ lg: '12' }} // This adds more space between the two boxes on larger screens
