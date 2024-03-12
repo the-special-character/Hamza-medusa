@@ -2,6 +2,7 @@ const path = require("path")
 
 module.exports = {
   presets: [require("@medusajs/ui-preset")],
+  darkMode: ['selector', '[data-mode="dark"]'],
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/pages/**/*.{js,ts,jsx,tsx}",
