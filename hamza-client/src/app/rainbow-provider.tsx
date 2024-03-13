@@ -18,6 +18,7 @@ const queryClient = new QueryClient()
 import { SiweMessage } from "siwe"
 import { getCustomer, getToken } from "@lib/data"
 import { revalidateTag } from "next/cache"
+import { signOut } from "@modules/account/actions"
 
 const VERIFY_MSG = "http://localhost:9000/custom/verify"
 const GET_NONCE = "http://localhost:9000/custom/nonce"
@@ -85,9 +86,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
     },
 
     signOut: async () => {
-      console.log('Signing out...');
-      setStatus("unauthenticated")
-      //TODO: destroy session / cookies
+      await signOut();
     },
   })
 
