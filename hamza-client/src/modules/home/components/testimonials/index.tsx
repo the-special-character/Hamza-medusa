@@ -22,7 +22,16 @@ const Testimonial = () => {
                     boxShadow="lg" // Added shadow for depth
                     color={textColor}
                 >
+                    <Text
+                        fontSize="sm"
+                        color={"#7B61FF"}
+                        zIndex="docked"
+                        textAlign="left"
+                    >
+                        TESTIMONIALS
+                    </Text>
                     <VStack spacing={4} align="center" justify="center">
+
                         <Flex p={4}>
                             <Icon as={FaQuoteRight} color={iconColorLeft} boxSize={10} mr={12} />
                             <Text fontSize={["md", "lg", "xl"]} fontStyle="bold" textAlign="left">
@@ -43,9 +52,17 @@ const Testimonial = () => {
                     boxShadow="lg" // Added shadow for depth
                     color={textColor}
                 >
+                    <Text
+                        fontSize="sm"
+                        color={"#FABE06"}
+                        zIndex="docked"
+                        textAlign="left"
+                    >
+                        TESTIMONIALS
+                    </Text>
                     <VStack spacing={4} align="center" justify="center">
                         <Flex p={4}>
-                            <Icon as={FaQuoteRight} color={iconColorLeft} mr={12} boxSize={10} />
+                            <Icon as={FaQuoteRight} color={iconColorRight} mr={12} boxSize={10} />
                             <Text fontSize={["md", "lg", "xl"]} fontStyle="bold" textAlign="left">
                                 Hamza has revolutionized the way I do business. The protocol's clear transactions and real-time reporting have increased my efficiency and profitability.
                             </Text>
