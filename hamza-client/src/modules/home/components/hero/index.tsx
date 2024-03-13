@@ -1,9 +1,33 @@
+"use client";
 import { Box, Flex, Heading, Button, Image } from '@chakra-ui/react';
+import { useState, useEffect } from "react"
 import Login from "@/components/AuthenticateAdmin/Login";
 import AuthToken from "@/components/GetAdminToken/AuthToken";
 import Checker from "@/components/CheckCors/Checker";
+import { getCustomer } from '@lib/data';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { InjectedConnector } from "wagmi/connectors/injected"
+
+
+async function connectWallet() {
+  console.log("connect wallet");
+  useConnectModal();
+};
 
 const Hero = () => {
+  const [loggedIn, setLoggedIn] = useState<boolean>(true);
+
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
+  useEffect(() => {
+    getCustomer().then((customer) => {
+      setLoggedIn(customer?.has_account ? true: false);
+    }).catch(() => { console.log("hero: customer not found")});
+  }, []);
+
   return (
       <Box className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
         <Flex align="center" justify="space-between" className="absolute inset-0 z-10 p-8">
@@ -14,7 +38,8 @@ const Hero = () => {
             <Heading as="h2" size="lg" className="text-xl leading-normal text-ui-fg-subtle font-normal mb-6">
               By The People, For The People Using Blockchain Tech
             </Heading>
-            <Button colorScheme="blue" className="text-lg">Connect wallet</Button>
+            <Button colorScheme="blue" className="text-lg" onClick={connect}>Connect wallet</Button>
+
             {/* Uncomment these components if you need them */}
             {/*<Login />*/}
             {/*<Checker/>*/}
