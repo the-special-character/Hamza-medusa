@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, Image, Text, Heading } from '@chakra-ui/react';
+import { Grid, Box, Image, Text, Heading, VStack } from '@chakra-ui/react';
 
 const RecommendedItems = () => {
     // Sample data for the items, replace with your actual data
@@ -12,14 +12,23 @@ const RecommendedItems = () => {
 
     return (
         <Box bg="black" color="white" p={5}>
-            <Heading mb={5} >Recommended items</Heading>
+            <Heading mb={5} textAlign="center">Recommended items</Heading>
             <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={6}>
                 {items.map((item) => (
-                    <Box color="black" key={item.id} boxShadow='md' rounded='lg' overflow='hidden' p={5} bg='white'>
-                        <Image src={item.imageUrl} alt={item.name} boxSize='150px' objectFit='cover' m='auto'/>
-                        <Text color="black" fontWeight='bold'>{item.price}</Text>
-                        <Text color="black" >{item.name}</Text>
-                    </Box>
+                    <VStack // Using VStack for vertical centering
+                        key={item.id}
+                        boxShadow='md'
+                        rounded='lg'
+                        overflow='hidden'
+                        p={5}
+                        bg='white'
+                        align='center' // Centers content horizontally within the VStack
+                        spacing={4} // Adjust the space between items
+                    >
+                        <Image src={item.imageUrl} alt={item.name} boxSize='150px' objectFit='cover'/>
+                        <Text fontWeight='bold'>{item.price}</Text>
+                        <Text>{item.name}</Text>
+                    </VStack>
                 ))}
             </Grid>
         </Box>
