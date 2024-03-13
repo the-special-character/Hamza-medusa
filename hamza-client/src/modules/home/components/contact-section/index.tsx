@@ -1,47 +1,73 @@
-import {Flex, Box, FormControl, FormLabel, Input, Button, Heading, Text, VStack} from '@chakra-ui/react';
+import Email from "../../../../../public/email_image.png";
+import {
+    Box,
+    FormControl,
+    Flex,
+    Input,
+    Button,
+    Heading,
+    Text,
+    VStack,
+    // Image,
+    Card,
+    CardBody,
+    CardFooter
+} from '@chakra-ui/react';
+import Image from 'next/image'
+
 
 const ContactSection = () => {
     return (
         <Box bg="gray.900" color="white" py={12} px={12}>
-            <Flex
+            <Card
                 direction={{base: 'column', md: 'row'}}
-                align="center"
-                justify="center"
-                gap={10} // Adjust the gap for spacing between the left and right parts
-                p={{base: 6, md: 10}} // Adjust overall padding if necessary
-            > <VStack
-                spacing={5} // Reduced spacing between VStack elements
-                align="flex-start"
-                maxW={{md: 'lg'}} // Optional: You can constrain the width of the VStack for better control
-                mb={{base: 6, md: 0}}
+                overflow="hidden"
+                variant="outline"
+                bg="gray.800"
+                borderRadius="2xl"
+                p={{base: 6, md: 10}}
             >
+                <VStack
+                    spacing={5}
+                    align="flex-start"
+                    w={{base: '100%', md: '60%'}}
+                    p={6}
+                >
+                    <CardBody>
+                        <Heading as="h2" size="xl" mb={4}>Ready to embrace HAMZA?</Heading>
+                        <Text fontSize="lg" opacity="0.8" mb={2}>Discover the Future of E-commerce</Text>
+                        <Text mb={4}>Dive into the vibrant world of Blockchain. Discover your next product today.</Text>
+                        <Flex>
+                            <FormControl id="first-name" isRequired mr={3}>
+                                <Input borderRadius="full" placeholder="First Name*"/>
+                            </FormControl>
+                            <FormControl id="email" isRequired mb={3}>
+                                <Input borderRadius="full" type="email" placeholder="E-Mail*"/>
+                            </FormControl>
+                        </Flex>
 
-                <Heading as="h2" size="xl">Ready to embrace HAMZA?</Heading>
-                <Text fontSize="lg" opacity="0.8">Discover the Future of E-commerce</Text>
-                <Text>Dive into the vibrant world of Blockchain. Discover your next product today.</Text>
-                <FormControl id="first-name" isRequired>
-                    <FormLabel>First Name*</FormLabel>
-                    <Input placeholder="John"/>
-                </FormControl>
-                <FormControl id="email" isRequired>
-                    <FormLabel>E-Mail*</FormLabel>
-                    <Input type="email" placeholder="john@example.com"/>
-                </FormControl>
-                <Button size="lg" colorScheme="yellow">Subscribe</Button>
-            </VStack>
+                        <CardFooter>
+                            <Button size="lg" bg="#7B61FF" borderRadius="full">Subscribe</Button>
+                        </CardFooter>
+                    </CardBody>
+                </VStack>
 
                 <Box
-                    flexShrink={0} // Prevents the box from shrinking
-                    w={{ base: '100%', md: '40%' }} // Adjust the width on medium screens and up
-                    bg="gray.800"
-                    borderRadius="lg"
-                    p={6} // Adjust padding inside the box
+                    flexShrink={0}
+                    w={{base: '100%', md: '40%'}}
                     alignItems="center"
+                    justifyContent="center"
+                    p={6}
                 >
-                    {/* Place image or any content here */}
-                    <Text>Image or Content goes here</Text>
+                    <Image
+                        objectFit="cover"
+l                        width={500}
+                        height={500}
+                        src={Email}
+                        alt="Inspirational"
+                    />
                 </Box>
-            </Flex>
+            </Card>
         </Box>
     );
 };
