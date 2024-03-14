@@ -8,6 +8,11 @@ import swiggle from '../../../../../public/hero/hero_9.png';
 import twizzler from '../../../../../public/hero/hero_8.png';
 import watch from '../../../../../public/hero/hero_7.png';
 import coin_1 from '../../../../../public/hero/hero_6.png';
+import coin_2 from '../../../../../public/hero/hero_4.png';
+import coin_3 from '../../../../../public/hero/hero_3.png';
+import coin_4 from '../../../../../public/hero/hero_2.png';
+import coin_5 from '../../../../../public/hero/coin_5.png';
+import coin_6 from '../../../../../public/hero/coin_6.png';
 const Hero = () => {
 
     const ImageGrid = () => (
@@ -63,12 +68,27 @@ const Hero = () => {
                         <Box position="absolute" zIndex={-1} top={280} right={210}  overflow="hidden">
                             <Image width={110} height={110} src={headphones.src} alt="Image description" />
                         </Box>
+                        <Box position="absolute" zIndex={-1} top={210} right={200}  overflow="hidden">
+                            <Image width={110} height={110} src={coin_3.src} alt="Image description" />
+                        </Box>
+                        <Box position="absolute" zIndex={-2} top={250} right={150}  overflow="hidden">
+                            <Image width={80} height={80} src={coin_2.src} alt="Image description" />
+                        </Box>
+                        <Box position="absolute" zIndex={-2} top={55} right={225}  overflow="hidden">
+                            <Image width={120} height={120} src={coin_4.src} alt="Image description" />
+                        </Box>
 
                         <Box position="absolute" top={100} right={440} zIndex={-1} overflow="hidden">
                             <Image
                                 width={110} // Set the width
                                 height={110} // Set the height
                                 src={swiggle.src} alt="Image Balloons" />
+                        </Box>
+                        <Box position="absolute" top={70} right={470} zIndex={1} overflow="hidden">
+                            <Image
+                                width={110} // Set the width
+                                height={110} // Set the height
+                                src={coin_5.src} alt="Image Balloons" />
                         </Box>
                         <Box position="absolute" top={320} right={430} zIndex={-1} overflow="hidden">
                             <Image
@@ -87,6 +107,12 @@ const Hero = () => {
                                 width={50} // Set the width
                                 height={45} // Set the height
                                 src={watch.src} alt="Image Balloons" />
+                        </Box>
+                        <Box position="absolute" top={200} right={570} overflow="hidden">
+                            <Image
+                                width={50} // Set the width
+                                height={45} // Set the height
+                                src={coin_6.src} alt="Image Balloons" />
                         </Box>
 
                     </Box>
