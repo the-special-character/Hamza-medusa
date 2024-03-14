@@ -23,7 +23,7 @@ const ContactSection = () => {
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"
                 variant="outline"
-                bg="gray.800"
+                bg="#2C272D"
                 borderRadius="2xl"
                 p={{base: 6, md: 10}}
             >
