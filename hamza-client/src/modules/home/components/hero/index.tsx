@@ -1,35 +1,42 @@
-import { Box, Flex, Heading, Button, Image } from '@chakra-ui/react';
-import Login from "@/components/AuthenticateAdmin/Login";
-import AuthToken from "@/components/GetAdminToken/AuthToken";
-import Checker from "@/components/CheckCors/Checker";
-
+import { Box, Flex, Heading, Button, Text } from '@chakra-ui/react';
+import { FaArrowRight } from "react-icons/fa6";
+import arrow from '../../../../../public/Vector.png'
+import Image from 'next/image'
 const Hero = () => {
   return (
-      <Box className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
+      <Flex maxW="100%" bg="#2C272D" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
+            alignItems="start" p={5}>
+      <Box mx={12} bg="black" borderRadius="2xl" className="h-[50vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
         <Flex align="center" justify="space-between" className="absolute inset-0 z-10 p-8">
           <Box className="flex-1">
-            <Heading as="h1" size="xl" className="text-3xl leading-10 text-ui-fg-base font-normal mb-4">
-              Buy & Sell Products Using Crypto as a Community
-            </Heading>
-            <Heading as="h2" size="lg" className="text-xl leading-normal text-ui-fg-subtle font-normal mb-6">
-              By The People, For The People Using Blockchain Tech
-            </Heading>
-            <Button colorScheme="blue" className="text-lg">Connect wallet</Button>
-            {/* Uncomment these components if you need them */}
-            {/*<Login />*/}
-            {/*<Checker/>*/}
-            {/*<AuthToken />*/}
+            <Text fontSize="4xl" color="white" textAlign="left">
+              Buy & Sell <br />
+              Products Using <br />
+              <Box as="span" fontWeight="bold">Crypto</Box> as a <br />
+              Community
+            </Text>
+            <Text fontSize="xl" m={2}>
+              By The
+              <Box as="span" fontWeight="bold"> People </Box>
+              <Box as="span" display="inline-flex" alignItems="center"><FaArrowRight className="ml-1 mr-2" fontSize={15} /></Box>
+              For The<Box as="span" fontWeight="bold"> People</Box>
+              <br />
+              Using Blockchain Tech
+            </Text>
+            <Button className="m-4 p-4" fontWeight="italic"
+                    size='lg'
+                    bg="transparent"
+                    color="white"
+                    borderRadius="full"
+                    border="2px" // Sets the border width
+                    borderColor="whiteAlpha.600">Connect wallet  <Box as="span" mr={2} /> <FaArrowRight /> </Button>
           </Box>
           <Box flex="1" className="hidden md:block">
-            <Image
-                src="http://hamza.biz/wp-content/uploads/2024/01/hamzabiz-img.jpg"
-                alt="Image description"
-                className="w-full h-auto object-cover"
-                fallbackSrc="path_to_fallback_image" // In case the original image fails to load
-            />
+
           </Box>
         </Flex>
       </Box>
+      </Flex>
   )
 }
 
