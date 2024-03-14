@@ -3,50 +3,107 @@ import {
     Box,
     Flex,
     Text,
-    Button,
     Tabs,
     TabList,
     TabPanels,
     Tab,
     TabPanel,
 } from '@chakra-ui/react';
+import toggle_1 from '../../../../../public/toggle_1.png'
+import toggle_2 from '../../../../../public/toggle_2.png'
+import toggle_3 from '../../../../../public/toggle_3.png'
 
-const MyComponent = () => {
-    // Define your HEX colors
-    const bgColor = '#333333'; // Dark grey background
-    const buttonColor = '#805AD5'; // Purple button
-    const tabIndicatorColor = '#DD6B20'; // Orange tab indicator
+import Image from 'next/image'
+const ToggleSelection = () => {
+    const bgColor = '#53594A'; // Dark grey background
 
     return (
-        <Flex bg="black" color="white" direction={{ base: 'column', md: 'row' }} justifyContent="space-between" alignItems="center" p={5}>
-            <Box flex="1" p={5} bg={bgColor} borderRadius="lg" boxShadow="lg" color="white">
-                <Text fontSize="sm" fontWeight="bold" mb={2}>JOIN THE MOVEMENT</Text>
-                <Text fontSize="2xl" fontWeight="bold" mt={2} mb={4}>
-                    Buy and sell products as a Community
-                </Text>
-                <Text mb={4}>Let there be sung non nobis et te deum; the dead with charity enclothed in clay. And we to Calais, and to England, then... where ne'er arrived from France more happy men.</Text>
-                <Button bg={buttonColor} color="white">Know more</Button>
-            </Box>
+        <Flex maxW="100%" bg="black" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
+              alignItems="start" p={5}>
+            <Box
+                flex="1"
+                p={5}
+                bgGradient="linear(to-l, #53594A 70%, #2C272D 100%)" // This creates a gradient from right to left
+                borderRadius="2xl"
+                boxShadow="lg"
+                marginLeft={{ lg: 4 }}
+                marginRight={{ lg: 4 }}
+                color="white"
+            >
+                <Tabs isFitted variant="enclosed" colorScheme="orange" orientation="vertical">
+                    <Flex direction="column" alignItems="flex-start">
+                        <TabList>
+                            <Tab
+                                borderRadius="full"
+                                border="1px solid "
+                                p={4}
+                                m={8}
+                                fontWeight="bold" // Makes text bold for all tabs
+                                _selected={{bg: '#94D42A', color: 'black'}} // Styling for the selected tab
+                            >
+                                Buy
+                            </Tab>
+                            <Tab
+                                borderRadius="full"
+                                border="1px solid "
+                                p={4}
+                                m={8}
+                                fontWeight="bold" // Makes text bold for all tabs
+                                _selected={{bg: '#94D42A', color: 'black'}} // Adjusted to 'black' to keep consistency
+                            >
+                                Sell
+                            </Tab>
+                            <Tab
+                                borderRadius="full"
+                                border="1px solid "
+                                p={4}
+                                m={8}
+                                fontWeight="bold" // Makes text bold for all tabs
+                                _selected={{bg: '#94D42A', color: 'black'}} // Styling for the selected tab
+                            >
+                                Own
+                            </Tab>
+                        </TabList>
+                    </Flex>
+                    <TabPanels mx={12}>
+                        <TabPanel mx={12}>
+                            <Flex mb={12} direction="column" alignItems="center" justifyContent="center" height="100%">
+                                <Text fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
+                                <Text fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
+                            </Flex>
+                            <Flex mt={12} mb={4} mx={12} justifyContent="space-between">
+                                <Image src={toggle_1} width={80} height={80} alt={"toggle_1 image"} />
+                                <Image src={toggle_2} width={80} height={80} alt={"toggle_1 image"} />
+                                <Image src={toggle_3} width={80} height={80} alt={"toggle_1 image"} />
+                            </Flex>
+                            <Flex mx={12} justifyContent="space-between">
+                                <Text fontWeight="bold" color={"#94D42A"}>Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="bold" color={"#94D42A"}>Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="bold" color={"#94D42A"}>Dummy text Loren Ipsum</Text>
+                            </Flex>
+                            <Flex mx={12} justifyContent="space-between">
+                                <Text fontWeight="semi" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="semi" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="semi" >Dummy text Loren Ipsum</Text>
+                            </Flex>
+                            <Flex mx={12} justifyContent="space-between">
+                                <Text fontWeight="italic" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="italic" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="italic" >Dummy text Loren Ipsum</Text>
+                            </Flex>
+                        </TabPanel>
 
-            <Box flex="1" p={5} bg={bgColor} borderRadius="lg" boxShadow="lg" marginLeft={{ md: 4 }} color="white">
-                <Tabs isFitted variant="enclosed" colorScheme="orange">
-                    <TabList mb="1em">
-                        <Tab>Buy</Tab>
-                        <Tab>Sell</Tab>
-                        <Tab>Own</Tab>
-                    </TabList>
-                    <TabPanels>
                         <TabPanel>
-                            <Text fontWeight="bold">Dummy text</Text>
-                            <Text>We stand behind the exceptional quality.</Text>
+                            <Flex direction="column" alignItems="center" justifyContent="center" height="100%">
+                                <Text fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
+                                <Text fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
+                            </Flex>
                         </TabPanel>
                         <TabPanel>
-                            <Text fontWeight="bold">Dummy text</Text>
-                            <Text>We stand behind the exceptional dummies.</Text>
-                        </TabPanel>
-                        <TabPanel>
-                            <Text fontWeight="bold">Dummy text</Text>
-                            <Text>We stand behind the pipes.</Text>
+                            <Flex direction="column" alignItems="center" justifyContent="center" height="100%">
+                                <Text fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
+                                <Text fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
+                            </Flex>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
@@ -55,4 +112,4 @@ const MyComponent = () => {
     );
 };
 
-export default MyComponent;
+export default ToggleSelection;
