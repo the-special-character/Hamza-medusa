@@ -64,12 +64,12 @@ const Testimonial = () => {
                         <Flex p={4}>
                             <Icon as={FaQuoteRight} color={iconColorRight} mr={12} boxSize={10} />
                             <Text fontSize={["md", "lg", "xl"]} fontStyle="bold" textAlign="left">
-                                Hamza has revolutionized the way I do business. The protocol's clear transactions and real-time reporting have increased my efficiency and profitability.
+                                Hamza allows me to sell my products on the blockchain like a true Chad. The girth of my jaw has grown by 128% and my chin length by 97%. 
                             </Text>
                         </Flex>
                         <Box pt={4}>
-                            <Text color={"#FABE06"}fontWeight="bold" fontSize={["sm", "md", "lg"]} textAlign="left">Anna Richardson</Text>
-                            <Text fontSize={["xs", "sm", "md"]} fontStyle="italic" opacity={0.7} textAlign="right">Chief Editor at Art+ Magazine</Text>
+                            <Text color={"#FABE06"}fontWeight="bold" fontSize={["sm", "md", "lg"]} textAlign="left">Davey Gam</Text>
+                            <Text fontSize={["xs", "sm", "md"]} fontStyle="italic" opacity={0.7} textAlign="right">Independent Entrepreneur</Text>
                         </Box>
                     </VStack>
                 </Box>

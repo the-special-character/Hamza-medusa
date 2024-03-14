@@ -24,7 +24,7 @@ const MyComponent = () => {
                 <Text fontSize="2xl" fontWeight="bold" mt={2} mb={4}>
                     Buy and sell products as a Community
                 </Text>
-                <Text mb={4}>Loren ipsum dolor sit amet</Text>
+                <Text mb={4}>Let there be sung non nobis et te deum; the dead with charity enclothed in clay. And we to Calais, and to England, then... where ne'er arrived from France more happy men.</Text>
                 <Button bg={buttonColor} color="white">Know more</Button>
             </Box>
 
@@ -46,7 +46,7 @@ const MyComponent = () => {
                         </TabPanel>
                         <TabPanel>
                             <Text fontWeight="bold">Dummy text</Text>
-                            <Text>We stand behind the pipes</Text>
+                            <Text>We stand behind the pipes.</Text>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
