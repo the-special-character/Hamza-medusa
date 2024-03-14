@@ -46,10 +46,32 @@ Either do it by docker, or install postgresql manually on your local environment
 If doing it by docker, in the root of the repo: 
 (sudo is optional depending on your setup) 
 
+***5a. Use Docker (recommended)***
+
 ```
 sudo docker-compose up -d
 ```
 
+***5b. Manual Setup (optional)***
+
+Install and run postgresql locally, and and redis locally. Optionally, you can omit redis, but also comment out the redis lines in /hamza-server/medusa-config.js
+```
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+
+#create the database
+sudo -u postgres psql
+#psql create database hamza_dev_db;
+#psql \c hamza_dev_db
+#psql ALTER USER postgres WITH PASSWORD 'postgres';
+```
+
+Install Redis: 
+```
+sudo apt update
+sudo apt install redis 
+```
 
 **6. Run medusa seed & migrations** 
 
