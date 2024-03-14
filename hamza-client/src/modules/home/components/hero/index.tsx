@@ -30,7 +30,7 @@ const Hero = () => {
             <Box justifyContent="center" width="75%" mx={12} bg="black" borderRadius="2xl"
                  className="h-[50vh] border-b border-ui-border-base relative bg-ui-bg-subtle">
                 <Flex align="center" justify="space-between" className="absolute inset-0 z-10 p-8">
-                    <Box className="flex-1">
+                    <Box className="flex-1" ml={12}>
                         <Text fontSize="4xl" color="white" textAlign="left">
                             Buy & Sell <br/>
                             Products Using <br/>
@@ -46,7 +46,7 @@ const Hero = () => {
                             <br/>
                             Using Blockchain Tech
                         </Text>
-                        <Button className="m-4 p-4" fontWeight="italic"
+                        <Button className="mt-4 pt-4" fontWeight="italic"
                                 size='lg'
                                 bg="transparent"
                                 color="white"
@@ -90,10 +90,10 @@ const Hero = () => {
                                 height={110} // Set the height
                                 src={coin_5.src} alt="Image Balloons" />
                         </Box>
-                        <Box position="absolute" top={320} right={430} zIndex={-1} overflow="hidden">
+                        <Box position="absolute" top={320} right={400} zIndex={-1} overflow="hidden">
                             <Image
-                                width={100} // Set the width
-                                height={150} // Set the height
+                                width={130} // Set the width
+                                height={330} // Set the height
                                 src={twizzler.src} alt="Image Balloons" />
                         </Box>
                         <Box position="absolute" top={320} right={530} zIndex={-1} overflow="hidden">
