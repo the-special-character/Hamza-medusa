@@ -1,163 +1,87 @@
-import { Text, clx } from "@medusajs/ui"
+import {Text, clx} from "@medusajs/ui"
 
-import { getCategoriesList, getCollectionsList } from "@lib/data"
+import {getCategoriesList, getCollectionsList} from "@lib/data"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import MedusaCTA from "../../components/medusa-cta"
 
 const fetchCollections = async () => {
-  const { collections } = await getCollectionsList()
-  return collections
+    const {collections} = await getCollectionsList()
+    return collections
 }
 
 const fetchCategories = async () => {
-  const { product_categories } = await getCategoriesList()
-  return product_categories
+    const {product_categories} = await getCategoriesList()
+    return product_categories
 }
 
 export default async function Footer() {
-  const productCollections = await fetchCollections().then(
-    (collections) => collections
-  )
-  const productCategories = await fetchCategories().then(
-    (categories) => categories
-  )
-  return (
-    <footer className="border-t border-ui-border-base w-full dark:bg-black">
-      <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
-            >
-              Hamza.biz
-            </LocalizedClientLink>
-          </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul className="grid grid-cols-1 gap-2">
-                  {productCategories?.slice(0, 6).map((c) => {
-                    if (c.parent_category) {
-                      return
-                    }
+    const productCollections = await fetchCollections().then(
+        (collections) => collections
+    )
+    const productCategories = await fetchCategories().then(
+        (categories) => categories
+    )
+    return (
+        <footer className="border-t border-ui-border-base w-full dark:bg-black text-white">
+            <div className="content-container flex flex-col w-full">
 
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
+                <div className="flex flex-col lg:flex-row items-start justify-between py-12">
 
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
-                          href={`/categories/${c.handle}`}
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
-            {productCollections && productCollections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (productCollections?.length || 0) > 3,
-                    }
-                  )}
-                >
-                  {productCollections?.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
-                      >
-                        {c.title}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
+                    {/* Left Column for Links */}
+                    <div className="flex flex-col gap-y-4">
+                        <Text className="text-md font-bold">Processing and Shipping</Text>
+                        <Text className="text-md font-bold">Our Copyrights Policy</Text>
+                        <Text className="text-md font-bold">Our Return Policy</Text>
+                        <Text className="text-md font-bold">Catalog</Text>
+                        <Text className="text-md font-bold">Articles</Text>
+                        <Text className="text-md font-bold">Privacy Policy</Text>
+                        <Text className="text-md font-bold">Terms and Conditions</Text>
+                        {/* List of policies and services links */}
+                    </div>
+
+                    {/* Middle Column for Contact Information */}
+                    <div className="flex flex-col gap-y-4">
+                        <Text className="text-lg font-bold">CONTACT US</Text>
+                        <Text className="text-md">+1-888-417-8278</Text>
+                        <Text className="text-md">team@hamza.biz</Text>
+                        <Text className="text-md font-bold">Monday-Friday</Text>
+                        <Text className="text-md">10:00 PM - 7:00 AM</Text>
+                        <br/>
+                        <Text className="text-md">1STAG INT LTD</Text>
+                        <Text className="text-md">Agias Fylaxeos 73, 2nd Floor</Text>
+                        <Text className="text-md">Limassol, 3087, Cyprus</Text>
+                        {/* Contact details */}
+                    </div>
+
+                    {/* Right Column for Additional Services */}
+                    <div className="flex flex-col gap-y-4">
+                        <Text className="text-md font-semibold">Free Shipping Worldwide</Text>
+                        <Text className="text-md font-semibold">365 DAYS Money Back Guarantee</Text>
+                        <Text className="text-md font-semibold">Included Lifetime Warranty</Text>
+                        <Text className="text-md font-semibold">Certificate of Authenticity</Text>
+                        {/* List additional services or policies */}
+                    </div>
+
+                </div>
+
+                <div className="flex flex-col lg:flex-row justify-between items-center py-4">
+                    {/* Footer Branding */}
+                    <Text className="text-4xl font-bold">
+                        HAMZA
+                    </Text>
+
+                    {/* Social Icons */}
+                    <div>
+                        <Text className="text-sm">&copy; 2024 HAMZA. All rights reserved.</Text>
+                    </div>
+                </div>
+
+                <div className="text-center py-4">
+                    <Text className="text-sm">ICONS PLACEHOLDER</Text>
+                </div>
+
             </div>
-          </div>
-        </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Hamza.biz. All rights reserved.
-          </Text>
-          <MedusaCTA />
-        </div>
-      </div>
-    </footer>
-  )
+        </footer>
+    )
 }

@@ -3,8 +3,13 @@ import { Metadata } from "next"
 import { getCollectionsList, getProductsList } from "@lib/data"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
+import RecommendedItems from "@modules/home/components/products";
+import ToggleSection from "@modules/home/components/toggle-section"
+import Testimonials from "@modules/home/components/testimonials";
+import FAQSection from "@modules/home/components/FAQSection";
 import { getRegion } from "app/actions"
 import { ProductCollectionWithPreviews } from "types/global"
+import ContactSection from "@modules/home/components/contact-section";
 export const metadata: Metadata = {
   title: "Medusa Next.js Starter Template",
   description:
@@ -67,11 +72,16 @@ export default async function Home({
   return (
     <>
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
+        <RecommendedItems />
+        <ToggleSection />
+        <Testimonials />
+        <FAQSection/>
+        <ContactSection/>
+      {/*<div className="py-12">*/}
+      {/*  <ul className="flex flex-col gap-x-6">*/}
+      {/*    <FeaturedProducts collections={collections} region={region} />*/}
+      {/*  </ul>*/}
+      {/*</div>*/}
     </>
   )
 }
