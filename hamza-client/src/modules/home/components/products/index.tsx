@@ -21,7 +21,7 @@ const RecommendedItems = () => {
         <Flex maxW="100%" bg="black" p={5}>
             <Box
                 p={5}
-                m={12}
+                mx={12}
                 bgGradient="linear(to-l, #53594A 70%, #2C272D 100%)" // This creates a gradient from right to left
                 borderRadius="2xl"
                 boxShadow="lg"
