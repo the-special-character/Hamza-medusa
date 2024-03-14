@@ -4,6 +4,10 @@ import Image from 'next/image'
 import vr from '../../../../../public/hero/hero_1.png';
 import headphones from '../../../../../public/hero/hero_5.png';
 import balloons from '../../../../../public/hero/hero_10.png';
+import swiggle from '../../../../../public/hero/hero_9.png';
+import twizzler from '../../../../../public/hero/hero_8.png';
+import watch from '../../../../../public/hero/hero_7.png';
+import coin_1 from '../../../../../public/hero/hero_6.png';
 const Hero = () => {
 
     const ImageGrid = () => (
@@ -16,10 +20,10 @@ const Hero = () => {
 
     return (
         <Flex maxW="100%" bg="#2C272D" color="white" direction={{base: 'column', lg: 'row'}}
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="start" p={5}>
-            <Box mx={12} bg="black" borderRadius="2xl"
-                 className="h-[50vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
+            <Box justifyContent="center" width="75%" mx={12} bg="black" borderRadius="2xl"
+                 className="h-[50vh] border-b border-ui-border-base relative bg-ui-bg-subtle">
                 <Flex align="center" justify="space-between" className="absolute inset-0 z-10 p-8">
                     <Box className="flex-1">
                         <Text fontSize="4xl" color="white" textAlign="left">
@@ -47,19 +51,42 @@ const Hero = () => {
                         </Button>
                     </Box>
                     <Box flex="1" className="hidden md:block">
-
+                        <Box position="absolute" top={0} right={0}  overflow="hidden">
+                            <Image
+                                width={200} // Set the width
+                                height={300} // Set the height
+                                src={balloons.src} alt="Image Balloons" />
+                        </Box>
                         <Box position="absolute" top={100} right={300}  overflow="hidden">
                             <Image width={200} height={300} src={vr.src} alt="Image description" />
                         </Box>
                         <Box position="absolute" zIndex={-1} top={280} right={210}  overflow="hidden">
                             <Image width={110} height={110} src={headphones.src} alt="Image description" />
                         </Box>
-                        <Box position="absolute" top={0} right={0}  overflow="hidden">
+
+                        <Box position="absolute" top={100} right={440} zIndex={-1} overflow="hidden">
                             <Image
-                                width={200} // Set the width
-                                height={300} // Set the height
-                                src={balloons.src} alt="Image Balloons" />
-                            {/* ... more images */}
+                                width={110} // Set the width
+                                height={110} // Set the height
+                                src={swiggle.src} alt="Image Balloons" />
+                        </Box>
+                        <Box position="absolute" top={320} right={430} zIndex={-1} overflow="hidden">
+                            <Image
+                                width={100} // Set the width
+                                height={150} // Set the height
+                                src={twizzler.src} alt="Image Balloons" />
+                        </Box>
+                        <Box position="absolute" top={320} right={530} zIndex={-1} overflow="hidden">
+                            <Image
+                                width={130} // Set the width
+                                height={130} // Set the height
+                                src={coin_1.src} alt="Image Balloons" />
+                        </Box>
+                        <Box position="absolute" top={250} right={520} overflow="hidden">
+                            <Image
+                                width={50} // Set the width
+                                height={45} // Set the height
+                                src={watch.src} alt="Image Balloons" />
                         </Box>
 
                     </Box>
