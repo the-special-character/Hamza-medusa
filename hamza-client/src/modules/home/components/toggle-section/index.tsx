@@ -11,7 +11,10 @@ import {
     Grid,
     GridItem
 } from '@chakra-ui/react';
-
+import toggle_1 from '../../../../../public/toggle_1.png'
+import toggle_2 from '../../../../../public/toggle_2.png'
+import toggle_3 from '../../../../../public/toggle_3.png'
+import Image from 'next/image'
 const ToggleSelection = () => {
     const bgColor = '#53594A'; // Dark grey background
 
@@ -58,29 +61,29 @@ const ToggleSelection = () => {
                     <TabPanels>
 
                         <TabPanel>
-                            <Flex direction="column" alignItems="center" justifyContent="center" height="100%">
+                            <Flex mb={12} direction="column" alignItems="center" justifyContent="center" height="100%">
                                 <Text fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
                                 <Text fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
                             </Flex>
-                            <Flex m={6} mx={12} justifyContent="space-between">
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
+                            <Flex mt={12} mx={12} mb={4} justifyContent="space-between">
+                                <Image src={toggle_1} width={80} height={80} alt={"toggle_1 image"} />
+                                <Image src={toggle_2} width={80} height={80} alt={"toggle_1 image"} />
+                                <Image src={toggle_3} width={80} height={80} alt={"toggle_1 image"} />
                             </Flex>
-                            <Flex m={6} mx={12} justifyContent="space-between">
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
+                            <Flex mx={12} justifyContent="space-between">
+                                <Text fontWeight="bold" color={"#94D42A"}>Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="bold" color={"#94D42A"}>Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="bold" color={"#94D42A"}>Dummy text Loren Ipsum</Text>
                             </Flex>
-                            <Flex m={6} mx={12} justifyContent="space-between">
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
+                            <Flex mx={12} justifyContent="space-between">
+                                <Text fontWeight="semi" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="semi" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="semi" >Dummy text Loren Ipsum</Text>
                             </Flex>
-                            <Flex m={6} mx={12} justifyContent="space-between">
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
-                                <Box w='70px' h='10' bg='red.500'/>
+                            <Flex mx={12} justifyContent="space-between">
+                                <Text fontWeight="italic" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="italic" >Dummy text Loren Ipsum</Text>
+                                <Text fontWeight="italic" >Dummy text Loren Ipsum</Text>
                             </Flex>
                         </TabPanel>
 
