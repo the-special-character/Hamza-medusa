@@ -77,7 +77,8 @@ sudo apt install redis
 
 ```
 cd ./hamza-server
-npx medusa seed --seed-file=data/seed.json 
+npx medusa seed --seed-file=data/seed.json
+npx medusa seed --seed-file=data/tech_seed.json 
 npx medusa migrations run
 ```
 
