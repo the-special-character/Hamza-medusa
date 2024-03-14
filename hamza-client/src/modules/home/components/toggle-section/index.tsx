@@ -21,8 +21,16 @@ const ToggleSelection = () => {
     return (
         <Flex bg="black" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
               alignItems="start" p={5}>
-            <Box flex="1" p={5} bg={bgColor} borderRadius="2xl" boxShadow="lg" marginLeft={{lg: 4}}
-                 marginRight={{lg: 4}} color="white">
+            <Box
+                flex="1"
+                p={5}
+                bgGradient="linear(to-l, #53594A 70%, #2C272D 100%)" // This creates a gradient from right to left
+                borderRadius="2xl"
+                boxShadow="lg"
+                marginLeft={{ lg: 4 }}
+                marginRight={{ lg: 4 }}
+                color="white"
+            >
                 <Tabs isFitted variant="enclosed" colorScheme="orange" orientation="vertical">
                     <Flex direction="column" alignItems="flex-start">
                         <TabList>
