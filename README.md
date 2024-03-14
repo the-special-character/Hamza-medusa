@@ -62,9 +62,9 @@ sudo systemctl start postgresql
 
 #create the database
 sudo -u postgres psql
-#psql create database hamza_dev_db;
-#psql \c hamza_dev_db
-#psql ALTER USER postgres WITH PASSWORD 'postgres';
+postgres=# create database hamza_dev_db;
+postgres=# \c hamza_dev_db
+postgres=# ALTER USER postgres WITH PASSWORD 'postgres';
 ```
 
 Install Redis: 
