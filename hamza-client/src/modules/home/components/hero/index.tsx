@@ -54,13 +54,13 @@ const Hero = () => {
                                 <br/>
                                 Using Blockchain Tech
                             </Text>
-                            <Button className="mt-4 pt-4" fontWeight="italic"
+                            <Button fontWeight="italic"
                                     size='lg'
                                     bg="transparent"
                                     color="white"
                                     borderRadius="full"
                                     border="2px" // Sets the border width
-                                    borderColor="whiteAlpha.600">Connect wallet <Box as="span" mr={2}/> <FaArrowRight/>
+                                    borderColor="whiteAlpha.600">Connect wallet <Box as="span" m={2}/> <FaArrowRight/>
                             </Button>
                         </Box>
                         <Box flex="1" className="hidden md:block">
@@ -97,7 +97,7 @@ const Hero = () => {
                                     height={110} // Set the height
                                     src={coin_5.src} alt="Image Balloons"/>
                             </Box>
-                            <Box position="absolute" top={305} right={440} zIndex={1} overflow="hidden">
+                            <Box position="absolute" top={290} right={440} zIndex={1} overflow="hidden">
                                 <Image
                                     width={90} // Set the width
                                     height={140} // Set the height
