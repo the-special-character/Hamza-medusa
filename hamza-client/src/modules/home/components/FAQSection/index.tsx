@@ -5,41 +5,46 @@ import {
     AccordionItem,
     AccordionButton,
     AccordionPanel,
-    AccordionIcon,
     Box,
     Card,
     Heading,
     Text,
     Flex,
-    Container
+    Icon,
 } from '@chakra-ui/react';
+import { CiCirclePlus } from "react-icons/ci";
+import {FaQuoteRight} from "react-icons/fa";
 
 const FAQSection = () => {
     return (
-        <Box bg="black" py={12} px={12} className="w-full">
+        <Box bg="black" p={5} className="w-full">
                 <Card
                     direction={{base: 'column', md: 'row'}}
                     overflow="hidden"
-                    minHeight="500px"
+                    minHeight="800px"
                     variant="outline"
                     bg="#2C272D"
                     justifyContent="center"
                     alignItems="center"
                     borderRadius="2xl"
-                    p={{base: 6, md: 10}}
+                    marginLeft={{ lg: 4 }}
+                    marginRight={{ lg: 4 }}
                 >
-                <Flex direction={{ base: 'column', lg: 'row' }} justifyContent="space-between" alignItems="flex-start"
-                      gap={{ lg: '12' }} // This adds more space between the two boxes on larger screens
-                >
-                    <Box flex="1" mb={{ base: 6, lg: 0 }} mr={{ lg: 12 }} textAlign="left"
-                         pt={{ lg: '0' }} >
+                    <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justifyContent="space-between"
+                        alignItems="flex-start"
+                        gap={{ lg: '6' }}
+                        transition="height 0.5s ease"
+                    >
+                    <Box flex="1" textAlign="left">
                         <Heading mb={4} fontSize={{ base: "3xl", md: "4xl" }}>Got questions? We've got answers.</Heading>
                         <Text fontSize={{ base: "md", md: "lg" }} opacity={0.7}>
                             Everything you need to know about the product and billing.
                         </Text>
                     </Box>
 
-                    <Box flex="1" bg="#000" color="#FFF">
+                    <Box flex="1" color="#FFF" minHeight="600px" overflow="auto">
                         <Accordion allowToggle>
                             {/* Repeat for each question */}
                             <AccordionItem border="none">
@@ -49,7 +54,7 @@ const FAQSection = () => {
                                             <Box flex="1" textAlign="left" fontWeight={isExpanded ? "semibold" : "normal"}>
                                                 Is there a free trial available?
                                             </Box>
-                                            <AccordionIcon />
+                                            <Icon as={CiCirclePlus} boxSize={8}  />
                                         </AccordionButton>
                                         <AccordionPanel pb={4}>
                                             Yes, you can try us for free for 30 days. If you want, we'll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.
@@ -59,7 +64,7 @@ const FAQSection = () => {
                                             <Box flex="1" textAlign="left" fontWeight={isExpanded ? "semibold" : "normal"}>
                                                 Can I change my plan later?
                                             </Box>
-                                            <AccordionIcon />
+                                            <Icon as={CiCirclePlus} boxSize={8}  />
                                         </AccordionButton>
                                         <AccordionPanel pb={4}>
                                             Yes, you can try us for free for 30 days. If you want, we'll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.
@@ -68,7 +73,7 @@ const FAQSection = () => {
                                             <Box flex="1" textAlign="left" fontWeight={isExpanded ? "semibold" : "normal"}>
                                                 Can other info be added to an invoice?
                                             </Box>
-                                            <AccordionIcon />
+                                            <Icon as={CiCirclePlus} boxSize={8}  />
                                         </AccordionButton>
                                         <AccordionPanel pb={4}>
                                             Yes, you can try us for free for 30 days. If you want, we'll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.
@@ -78,7 +83,7 @@ const FAQSection = () => {
                                             <Box flex="1" textAlign="left" fontWeight={isExpanded ? "semibold" : "normal"}>
                                                 How do I change my account email?
                                             </Box>
-                                            <AccordionIcon />
+                                            <Icon as={CiCirclePlus} boxSize={8}  />
                                         </AccordionButton>
                                         <AccordionPanel pb={4}>
                                             Yes, you can try us for free for 30 days. If you want, we'll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.
@@ -88,7 +93,7 @@ const FAQSection = () => {
                                             <Box flex="1" textAlign="left" fontWeight={isExpanded ? "semibold" : "normal"}>
                                                 How does billing work?
                                             </Box>
-                                            <AccordionIcon />
+                                            <Icon as={CiCirclePlus} boxSize={8}  />
                                         </AccordionButton>
                                         <AccordionPanel pb={4}>
                                             Yes, you can try us for free for 30 days. If you want, we'll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.
