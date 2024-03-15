@@ -18,14 +18,15 @@ import Image from 'next/image'
 
 const ContactSection = () => {
     return (
-        <Box bg="black" color="white" py={12} px={12}>
+        <Box bg="black" color="white" p={5}>
             <Card
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"
                 variant="outline"
                 bg="#2C272D"
                 borderRadius="2xl"
-                p={{base: 6, md: 10}}
+                marginLeft={{lg: 4}}
+                marginRight={{lg: 4}}
             >
                 <VStack
                     spacing={5}
@@ -61,7 +62,7 @@ const ContactSection = () => {
                     <Image
                         objectFit="cover"
                         width={650}
-                        height={600}
+                        height={550}
                         src={Email}
                         alt="Inspirational"
                     />

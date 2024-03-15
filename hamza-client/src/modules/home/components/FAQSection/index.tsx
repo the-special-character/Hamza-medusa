@@ -21,7 +21,7 @@ const FAQSection = () => {
             <Card
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"
-                minHeight="800px"
+                minHeight="500"
                 variant="outline"
                 bg="#2C272D"
                 justifyContent="center"
@@ -31,21 +31,18 @@ const FAQSection = () => {
                 marginRight={{lg: 4}}
             >
                 <Flex
-                    direction={{base: 'column', lg: 'row'}}
-                    justifyContent="space-between"
-                    alignItems="flex-start"
-                    gap={{lg: '6'}}
-                    transition="height 0.5s ease"
+
                 >
-                    <Box flex="1" textAlign="left">
+                    <Box flex="1">
                         <Heading mb={4} fontSize={{base: "3xl", md: "4xl"}}>Got questions? We've got answers.</Heading>
                         <Text fontSize={{base: "md", md: "lg"}} opacity={0.7}>
                             Everything you need to know about the product and billing.
                         </Text>
                     </Box>
 
-                    <Accordion allowMultiple maxW="600px" border="1px solid #808080">
-                        <Box borderBottom="2px solid white">
+                    <Box flex="1">
+                    <Accordion>
+                        <Box maxW="700px" borderBottom="2px solid white">
                             <AccordionItem border="none">
                                 <h2>
                                     <AccordionButton _expanded={{ bg: "blue.900", color: "white" }}>
@@ -63,7 +60,7 @@ const FAQSection = () => {
                         </Box>
 
                         {/* Can I change my plan later? */}
-                        <Box borderBottom="2px solid white">
+                        <Box maxW="700px" borderBottom="2px solid white">
                             <AccordionItem border="none">
                                 <h2>
                                     <AccordionButton _expanded={{ bg: "blue.900", color: "white" }}>
@@ -80,7 +77,7 @@ const FAQSection = () => {
                         </Box>
 
                         {/* Can other info be added to an invoice? */}
-                        <Box borderBottom="2px solid white">
+                        <Box maxW="700px" borderBottom="2px solid white">
                             <AccordionItem border="none">
                                 <h2>
                                     <AccordionButton _expanded={{ bg: "blue.900", color: "white" }}>
@@ -97,7 +94,7 @@ const FAQSection = () => {
                         </Box>
 
                         {/* How do I change my account email? */}
-                        <Box borderBottom="2px solid white">
+                        <Box maxW="700px" borderBottom="2px solid white">
                             <AccordionItem border="none">
                                 <h2>
                                     <AccordionButton _expanded={{ bg: "blue.900", color: "white" }}>
@@ -114,7 +111,7 @@ const FAQSection = () => {
                         </Box>
 
                         {/* How does billing work? */}
-                        <Box borderBottom="0"> {/* Last item, no bottom border */}
+                        <Box maxW="700px" borderBottom="0"> {/* Last item, no bottom border */}
                             <AccordionItem border="none">
                                 <h2>
                                     <AccordionButton _expanded={{ bg: "blue.900", color: "white" }}>
@@ -130,6 +127,7 @@ const FAQSection = () => {
                             </AccordionItem>
                         </Box>
                     </Accordion>
+                    </Box>
 
                 </Flex>
             </Card>
