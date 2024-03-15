@@ -1,3 +1,5 @@
+"use client"; 
+
 import {Box, Flex, Heading, Button, Text, Grid, SimpleGrid} from '@chakra-ui/react';
 import {FaArrowRight} from "react-icons/fa6";
 import Image from 'next/image'
@@ -14,7 +16,25 @@ import coin_4 from '../../../../../public/hero/hero_2.png';
 import coin_5 from '../../../../../public/hero/coin_5.png';
 import coin_6 from '../../../../../public/hero/coin_6.png';
 
+import { useState, useEffect } from "react"
+import { getCustomer } from '@lib/data';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { InjectedConnector } from "wagmi/connectors/injected"
+
 const Hero = () => {
+    const [loggedIn, setLoggedIn] = useState<boolean>(true);
+
+    const { connect } = useConnect({
+        connector: new InjectedConnector(),
+    });
+
+    useEffect(() => {
+        getCustomer().then((customer) => {
+            setLoggedIn(customer?.has_account ? true : false);
+        }).catch(() => { console.log("hero: customer not found") });
+    }, []);
+    
     return (
         <Flex maxW="100%" bg="black" p={5}>
             <Box
@@ -58,6 +78,7 @@ const Hero = () => {
                                     bg="transparent"
                                     color="white"
                                     borderRadius="full"
+                                    onClick={connect}
                                     border="2px" // Sets the border width
                                     borderColor="whiteAlpha.600">Connect wallet <Box as="span" m={2}/> <FaArrowRight/>
                             </Button>
