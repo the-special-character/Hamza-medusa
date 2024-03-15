@@ -38,18 +38,20 @@ const ContactSection = () => {
                         <Heading as="h2" size="xl" mb={4}>Ready to embrace HAMZA?</Heading>
                         <Text fontSize="lg" opacity="0.8" mb={2}>Discover the Future of E-commerce</Text>
                         <Text mb={4}>Dive into the vibrant world of Blockchain. Discover your next product today.</Text>
-                        <Flex>
-                            <FormControl id="first-name" isRequired mr={3}>
-                                <Input borderRadius="full" placeholder="First Name*"/>
-                            </FormControl>
-                            <FormControl id="email" isRequired mb={3}>
-                                <Input borderRadius="full" type="email" placeholder="E-Mail*"/>
-                            </FormControl>
-                        </Flex>
+                        <Flex flexDirection="column" alignItems="center">
+                            <Flex mt="4">
+                                <FormControl id="first-name" isRequired mr={3}>
+                                    <Input borderRadius="full" placeholder="First Name*"/>
+                                </FormControl>
+                                <FormControl id="email" isRequired mb={3}>
+                                    <Input borderRadius="full" type="email" placeholder="E-Mail*"/>
+                                </FormControl>
+                            </Flex>
 
-                        <CardFooter>
-                            <Button size="lg" bg="#7B61FF" borderRadius="full">Subscribe</Button>
-                        </CardFooter>
+                            <Flex width="100%" justifyContent="center" mt={3}>
+                                <Button mx="2" size="lg" bg="#7B61FF" color="black" borderRadius="full">Subscribe</Button>
+                            </Flex>
+                        </Flex>
                     </CardBody>
                 </VStack>
 
