@@ -18,7 +18,7 @@ import Image from 'next/image'
 
 const ContactSection = () => {
     return (
-        <Box bg="gray.900" color="white" py={12} px={12}>
+        <Box bg="black" color="white" py={12} px={12}>
             <Card
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"
@@ -57,12 +57,11 @@ const ContactSection = () => {
                     w={{base: '100%', md: '40%'}}
                     alignItems="center"
                     justifyContent="center"
-                    p={6}
                 >
                     <Image
                         objectFit="cover"
-l                        width={500}
-                        height={500}
+                        width={650}
+                        height={600}
                         src={Email}
                         alt="Inspirational"
                     />

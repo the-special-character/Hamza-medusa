@@ -7,6 +7,7 @@ import {
     AccordionPanel,
     AccordionIcon,
     Box,
+    Card,
     Heading,
     Text,
     Flex,
@@ -15,8 +16,18 @@ import {
 
 const FAQSection = () => {
     return (
-        <Box bg="#000" color="#FFF" py={12} className="h-[85vh] w-full">
-            <Container maxW="container.xl" pt={12}>
+        <Box bg="black" py={12} px={12} className="w-full">
+                <Card
+                    direction={{base: 'column', md: 'row'}}
+                    overflow="hidden"
+                    minHeight="500px"
+                    variant="outline"
+                    bg="#2C272D"
+                    justifyContent="center"
+                    alignItems="center"
+                    borderRadius="2xl"
+                    p={{base: 6, md: 10}}
+                >
                 <Flex direction={{ base: 'column', lg: 'row' }} justifyContent="space-between" alignItems="flex-start"
                       gap={{ lg: '12' }} // This adds more space between the two boxes on larger screens
                 >
@@ -89,7 +100,7 @@ const FAQSection = () => {
                         </Accordion>
                     </Box>
                 </Flex>
-            </Container>
+                </Card>
         </Box>
     );
 };
