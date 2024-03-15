@@ -57,7 +57,7 @@ export default async function Nav() {
               }
             >
               <CartButton />
-              <ConnectButton />
+              <ConnectButton  />
             </Suspense>
           </div>
         </nav>

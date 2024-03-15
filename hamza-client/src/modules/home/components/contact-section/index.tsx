@@ -35,16 +35,16 @@ const ContactSection = () => {
                     p={6}
                 >
                     <CardBody>
-                        <Heading as="h2" size="xl" mb={4}>Ready to embrace HAMZA?</Heading>
-                        <Text fontSize="lg" opacity="0.8" mb={2}>Discover the Future of E-commerce</Text>
-                        <Text mb={4}>Dive into the vibrant world of Blockchain. Discover your next product today.</Text>
+                        <Heading color="white" as="h2" size="xl" mb={4}>Ready to embrace HAMZA?</Heading>
+                        <Text color="white" fontSize="lg" opacity="0.8" mb={2}>Discover the Future of E-commerce</Text>
+                        <Text color="white" mb={4}>Dive into the vibrant world of Blockchain. Discover your next product today.</Text>
                         <Flex flexDirection="column" alignItems="center">
                             <Flex mt="4">
                                 <FormControl id="first-name" isRequired mr={3}>
-                                    <Input borderRadius="full" placeholder="First Name*"/>
+                                    <Input color="white" borderColor="white" borderRadius="full" placeholder="First Name*"/>
                                 </FormControl>
                                 <FormControl id="email" isRequired mb={3}>
-                                    <Input borderRadius="full" type="email" placeholder="E-Mail*"/>
+                                    <Input borderColor="white" borderRadius="full" type="email" placeholder="E-Mail*"/>
                                 </FormControl>
                             </Flex>
 

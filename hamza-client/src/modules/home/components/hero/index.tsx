@@ -43,7 +43,7 @@ const Hero = () => {
                                 <Box as="span" fontWeight="bold">Crypto</Box> as a <br/>
                                 Community
                             </Text>
-                            <Text fontSize="xl" m={2}>
+                            <Text color="white" fontSize="xl" m={2}>
                                 By The
                                 <Box as="span" fontWeight="bold"> People </Box>
                                 <Box as="span" display="inline-flex" alignItems="center"><FaArrowRight
