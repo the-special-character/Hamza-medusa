@@ -11,7 +11,7 @@ import { getRegion } from "app/actions"
 import { ProductCollectionWithPreviews } from "types/global"
 import ContactSection from "@modules/home/components/contact-section";
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+    title: "Hamza Shop",
   description:
     "A performant frontend ecommerce starter template with Next.js 14 and Medusa.",
 }
