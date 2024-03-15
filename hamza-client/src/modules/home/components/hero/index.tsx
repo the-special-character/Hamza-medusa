@@ -43,7 +43,7 @@ const Hero = () => {
                         <Text fontSize="5xl" color="white" textAlign="left">
                             Buy & Sell <br/>
                             Products Using <br/>
-                            <Box as="span" fontSize="4xl" fontWeight="bold">Crypto</Box> as a <br/>
+                            <Box as="span" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
                             Community
                         </Text>
                         <Text color="white" fontSize="2xl" m={2}>
