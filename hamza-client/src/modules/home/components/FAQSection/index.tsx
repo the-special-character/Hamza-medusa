@@ -33,7 +33,7 @@ const FAQSection = () => {
                 <Flex
 
                 >
-                    <Box flex="1">
+                    <Box minW="700px" flex="1">
                         <Heading mb={4} fontSize={{base: "3xl", md: "4xl"}}>Got questions? We've got answers.</Heading>
                         <Text fontSize={{base: "md", md: "lg"}} opacity={0.7}>
                             Everything you need to know about the product and billing.
@@ -41,7 +41,7 @@ const FAQSection = () => {
                     </Box>
 
                     <Box flex="1">
-                    <Accordion>
+                    <Accordion minW="700px">
                         <Box maxW="700px" borderBottom="2px solid white">
                             <AccordionItem border="none">
                                 <h2>
