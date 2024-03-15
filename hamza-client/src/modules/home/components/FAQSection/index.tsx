@@ -34,7 +34,7 @@ const FAQSection = () => {
 
                 >
                     <Box minW="700px" flex="1">
-                        <Heading color="white" mb={4} fontSize={{base: "3xl", md: "4xl"}}>Got questions? We've got answers.</Heading>
+                        <Heading color="white" mb={4} fontSize={{base: "3xl", md: "4xl"}}>Got questions? <br/>We've got answers.</Heading>
                         <Text color="white" fontSize={{base: "md", md: "lg"}} opacity={0.7}>
                             Everything you need to know about the product and billing.
                         </Text>
