@@ -29,7 +29,12 @@ const RecommendedItems = () => {
                 marginRight={{ lg: 4 }}
                 flex="1" width="70%" bg="#2C272D">
                 <HStack justifyContent="space-around" mx={12} my={6}>
-                    <Box>
+                    <Box
+                        color="whitesmoke"
+                        fontWeight="bold"
+                        fontSize="2xl"
+                        textAlign="center"
+                    >
                         CONNECT YOUR <br/>
                         FAVORITE WALLET
                     </Box>
