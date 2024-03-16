@@ -1,6 +1,6 @@
 import { getDefaultWallets, darkTheme } from "@rainbow-me/rainbowkit"
 import { configureChains, createConfig } from "wagmi"
-import { mainnet, optimismSepolia } from "wagmi/chains"
+import { mainnet, optimismSepolia, sepolia } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
@@ -15,7 +15,7 @@ export const darkThemeConfig = darkTheme({
   overlayBlur: "small",
 })
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [optimismSepolia, mainnet],
+  [optimismSepolia, mainnet, sepolia],
   [
     alchemyProvider({
       apiKey: "VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",

@@ -16,6 +16,8 @@ import coin_4 from '../../../../../public/hero/hero_2.png';
 import coin_5 from '../../../../../public/hero/coin_5.png';
 import coin_6 from '../../../../../public/hero/coin_6.png';
 
+import TransactionContainer from "../../../../app/components/Transaction/TransactionContainer";
+
 import { useState, useEffect } from "react"
 import { getCustomer } from '@lib/data';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -36,6 +38,8 @@ const Hero = () => {
     }, []);
     
     return (
+        <>
+        <TransactionContainer />
         <Flex maxW="100%" bg="black" p={5}>
             <Box
                 p={5}
@@ -146,6 +150,7 @@ const Hero = () => {
                 </Box>
             </Box>
         </Flex>
+        </>
     )
 }
 
