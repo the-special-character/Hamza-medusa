@@ -4,6 +4,8 @@ import {CreateCustomerInput, UpdateCustomerInput} from "@medusajs/medusa/dist/ty
 import {Lifetime} from "awilix"
 import { CustomerRepository } from "../repositories/customer";
 
+// import { privateKeyToSimpleSmartAccount, privateKeyToSafeSmartAccount } from "permissionless/accounts";
+
 interface CustomCustomerInput extends CreateCustomerInput {
   wallet_address: string;
 }
