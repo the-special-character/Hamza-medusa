@@ -32,6 +32,8 @@
     "@medusajs/event-bus-redis": "^1.8.11",
     "@medusajs/file-local": "^1.0.3",
     "@medusajs/medusa": "^1.20.2",
+    "@safe-global/auth-kit": "^2.0.2",
+    "@safe-global/protocol-kit": "^3.0.1",
     "@tanstack/react-query": "4.22.0",
     "body-parser": "^1.19.0",
     "cookies-next": "^4.1.1",
