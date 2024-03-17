@@ -30,6 +30,7 @@ const RecommendedItems = () => {
                 flex="1" width="70%" bg="#2C272D">
                 <HStack justifyContent="space-around" mx={12} my={6}>
                     <Box
+                        fontFamily="font-galindo"
                         color="whitesmoke"
                         fontWeight="bold"
                         fontSize="2xl"
@@ -40,7 +41,7 @@ const RecommendedItems = () => {
                     </Box>
                     <Image className="mr-4" src={arrow} alt={"Img of arrow"} width={22} height={22}/>
 
-                    <Button fontWeight="italic"
+                    <Button fontFamily="font-galindo" fontWeight="italic"
                             size='md'
                             bg="transparent"
                             color="white"
@@ -50,7 +51,7 @@ const RecommendedItems = () => {
                     >
                         <Image className="mr-2" src={coinbase} alt={"Img of coinbase"} width={22} height={22}/>
                         Coinbase</Button>
-                    <Button fontWeight="italic"
+                    <Button fontFamily="font-galindo" fontWeight="italic"
                             size='md'
                             bg="transparent"
                             color="white"
@@ -61,7 +62,7 @@ const RecommendedItems = () => {
                         <Image className="mr-2" src={metamask} alt={"Img of a game"} width={22} height={22}/>
 
                         Metamask</Button>
-                    <Button fontWeight="italic"
+                    <Button fontFamily="font-galindo" fontWeight="italic"
                             size='md'
                             bg="transparent"
                             color="white"
@@ -71,7 +72,7 @@ const RecommendedItems = () => {
                     >
                         <Image className="mr-2" src={rainbow} alt={"Img of a laptop"} width={22} height={22}/>
                         Rainbowkit</Button>
-                    <Button fontWeight="italic"
+                    <Button fontFamily="font-galindo" fontWeight="italic"
                             size='md'
                             bg="transparent"
                             color="white"
@@ -90,32 +91,32 @@ const RecommendedItems = () => {
                     borderRadius="full"
                 />
                 <HStack justifyContent="space-around" mx={12} my={6}>
-                    <Button fontWeight="italic" bg="white"
+                    <Button fontFamily="font-galindo" fontWeight="italic" bg="white"
                             size='lg'
                             color="black"
                             borderRadius="full">
                         <Image className="mr-2" src={fire} alt={"Img of a fire"} width={22} height={22}/>
                         Best Sellers</Button>
-                    <Button fontWeight="italic" bg="black"
+                    <Button fontFamily="font-galindo" fontWeight="italic" bg="black"
                             size='lg'
                             color="white"
                             borderRadius="full">
                         <Image className="mr-2" src={gift} alt={"Img of a gift"} width={22} height={22}/>
                         Gift Cards</Button>
-                    <Button fontWeight="italic" bg="black"
+                    <Button fontFamily="font-galindo" fontWeight="italic" bg="black"
                             size='lg'
                             color="white"
                             borderRadius="full">
                         <Image className="mr-2" src={game} alt={"Img of a game"} width={22} height={22}/>
 
                         Games</Button>
-                    <Button fontWeight="italic" bg="black"
+                    <Button fontFamily="font-galindo" fontWeight="italic" bg="black"
                             size='lg'
                             color="white"
                             borderRadius="full">
                         <Image className="mr-2" src={laptop} alt={"Img of a laptop"} width={22} height={22}/>
                         Electronics</Button>
-                    <Button fontWeight="italic" bg="black"
+                    <Button fontFamily="font-galindo" fontWeight="italic" bg="black"
                             size='lg'
                             color="white"
                             borderRadius="full">
