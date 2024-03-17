@@ -83,7 +83,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                           )}
                         />
                       </div>
-                      <Text className="flex justify-between txt-compact-small">
+                      <Text className="font-galindo flex justify-between txt-compact-small">
                         © {new Date().getFullYear()} Hamza.biz. All rights
                         reserved.
                       </Text>

@@ -1,7 +1,7 @@
 import {Box, Flex, Heading, Button, Text, Grid, SimpleGrid} from '@chakra-ui/react';
 import {FaArrowRight} from "react-icons/fa6";
 import Image from 'next/image'
-import vr from '../../../../../public/hero/hero_1.png';
+import vr from '../../../../../public/hero/vr.png';
 import headphones from '../../../../../public/hero/hero_5.png';
 import balloons from '../../../../../public/hero/hero_10.png';
 import swiggle from '../../../../../public/hero/hero_9.png';
@@ -13,6 +13,7 @@ import coin_3 from '../../../../../public/hero/hero_3.png';
 import coin_4 from '../../../../../public/hero/hero_2.png';
 import coin_5 from '../../../../../public/hero/coin_5.png';
 import coin_6 from '../../../../../public/hero/coin_6.png';
+import {Galindo} from "@next/font/google";
 
 const Hero = () => {
     return (
@@ -39,11 +40,11 @@ const Hero = () => {
                     position="relative" // Add this line
                 >
 
-                    <Box flex="1" m={12}>
+                    <Box fontFamily="font-galindo" flex="1" m={12}>
                         <Text fontSize="5xl" color="white" textAlign="left">
                             Buy & Sell <br/>
                             Products Using <br/>
-                            <Box as="span" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
+                            <Box as="span" fontFamily="font-pressstart" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
                             Community
                         </Text>
                         <Text color="white" fontSize="2xl" m={2}>

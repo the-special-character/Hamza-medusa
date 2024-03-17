@@ -16,6 +16,7 @@ const Testimonial = () => {
         <Container flex="1" maxW="100%" p={6} bg="#000" centerContent>
             <Flex mx={3} justify="center" align="center" wrap="wrap" gap={6}>
                 <Box
+                    fontFamily="font-galindo"
                     flex="1"
                     bg={cardBgLeft}
                     bgImage={`url(${test_1.src})`}
@@ -54,6 +55,7 @@ const Testimonial = () => {
                     </VStack>
                 </Box>
                 <Box
+                    fontFamily="font-galindo"
                     flex="1"
                     bg={cardBgRight}
                     bgImage={`url(${test_2.src})`}

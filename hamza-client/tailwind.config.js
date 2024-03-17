@@ -60,9 +60,11 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
+        galindo: ['"Galindo-Regular"', 'cursive'],
+        heading: ['"Galindo-Regular"', 'Georgia', 'serif'],
+        pressStart: ['"PressStart2P-Regular"', 'monospace'],
         sans: [
           "Inter",
-          "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
           "Roboto",

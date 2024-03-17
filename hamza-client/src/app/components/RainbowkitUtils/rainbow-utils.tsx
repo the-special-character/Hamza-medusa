@@ -13,6 +13,7 @@ export const darkThemeConfig = darkTheme({
   borderRadius: "large",
   fontStack: "system",
   overlayBlur: "small",
+
 })
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
   [optimismSepolia, mainnet],
