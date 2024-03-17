@@ -23,13 +23,9 @@ import { Flex, Button } from '@chakra-ui/react';
 import { set } from "lodash";
 import { use } from "chai";
 
-//Pimlico Consts
-const apiKey = "dfc7d1e4-804b-41dc-9be5-57084b57ea73";
-const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`;
-
-
-//Pimlico Clients
-
+// //Pimlico Consts
+// const apiKey = "dfc7d1e4-804b-41dc-9be5-57084b57ea73";
+// const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`;
 
 
 
@@ -39,48 +35,48 @@ const ButtonContainer = () => {
 
     const [safeAccount, setSafeAccount] = useState<any>(null);
 
-    const { data: WalletClient } = useWalletClient();
+    // const { data: WalletClient } = useWalletClient();
 
-    console.log("WalletClient", WalletClient);
+    // console.log("WalletClient", WalletClient);
 
-    const publicClient = createPublicClient({
-        transport: http("https://rpc.ankr.com/eth_sepolia"),
-    });
+    // const publicClient = createPublicClient({
+    //     transport: http("https://rpc.ankr.com/eth_sepolia"),
+    // });
 
-    console.log("publicClient", publicClient);
+    // console.log("publicClient", publicClient);
     
-    const paymasterClient = createPimlicoPaymasterClient({
-        transport: http(paymasterUrl),
-        entryPoint: ENTRYPOINT_ADDRESS_V07,
-    });
+    // const paymasterClient = createPimlicoPaymasterClient({
+    //     transport: http(paymasterUrl),
+    //     entryPoint: ENTRYPOINT_ADDRESS_V07,
+    // });
 
-    console.log ("paymasterClient", paymasterClient);
+    // console.log ("paymasterClient", paymasterClient);
 
-    useEffect(() => {
-        const fetchSafeAccount = async () => {
-            if (WalletClient) {
-                const signer = walletClientToSmartAccountSigner(WalletClient);
-                console.log ("signer", signer);
+    // useEffect(() => {
+    //     const fetchSafeAccount = async () => {
+    //         if (WalletClient) {
+    //             const signer = walletClientToSmartAccountSigner(WalletClient);
+    //             console.log ("signer", signer);
     
-                try{
-                    const safeAccount = await signerToSafeSmartAccount(publicClient, {
-                        entryPoint: ENTRYPOINT_ADDRESS_V06,
-                        signer: signer,
-                        saltNonce: BigInt(0), // optional
-                        safeVersion: "1.4.1",
-                    });
+    //             try{
+    //                 const safeAccount = await signerToSafeSmartAccount(publicClient, {
+    //                     entryPoint: ENTRYPOINT_ADDRESS_V06,
+    //                     signer: signer,
+    //                     saltNonce: BigInt(0), // optional
+    //                     safeVersion: "1.4.1",
+    //                 });
         
-                    setSafeAccount(safeAccount);
-                } catch (e) {
-                    console.error("Error creating safe account", e);
-                }
-            }
-        };
+    //                 setSafeAccount(safeAccount);
+    //             } catch (e) {
+    //                 console.error("Error creating safe account", e);
+    //             }
+    //         }
+    //     };
     
-        fetchSafeAccount();
-        console.log("safeAccount", safeAccount);
+    //     fetchSafeAccount();
+    //     console.log("safeAccount", safeAccount);
 
-    },[WalletClient, clicker])
+    // },[WalletClient, clicker])
 
     
 
@@ -128,32 +124,32 @@ const ButtonContainer = () => {
 
     // }
 
-    const [number, setNumber] = useState<string>("");
+    // const [number, setNumber] = useState<string>("");
 
-    const {address } = useAccount();
-    useEffect(() => {
+    // const {address } = useAccount();
+    // useEffect(() => {
 
-        console.log("address", address);
+    //     console.log("address", address);
 
-        publicClient.getBlockNumber().then( blocknumber => {
-            publicClient.getContractEvents({
-                address: counterAddress,
-                abi: counterabi,
-                eventName: "NumberChanged",
-                fromBlock: blocknumber - BigInt(1000),
-                toBlock: "latest"
-            }).then(events => {
-                console.log("events", events);
-            })
-        })
+    //     publicClient.getBlockNumber().then( blocknumber => {
+    //         publicClient.getContractEvents({
+    //             address: counterAddress,
+    //             abi: counterabi,
+    //             eventName: "NumberChanged",
+    //             fromBlock: blocknumber - BigInt(1000),
+    //             toBlock: "latest"
+    //         }).then(events => {
+    //             console.log("events", events);
+    //         })
+    //     })
 
-    }, [clicker]);
+    // }, [clicker]);
     
     return (
         <Flex justify="center" align="center" m={4}>
             <Button onClick={handleClick}>Click me</Button>
             {/* <Button onClick={IncrementNumber}>Click me Also</Button> */}
-            <p>{address}</p>
+            {/* <p>{address}</p> */}
         </Flex>
     );
 };
