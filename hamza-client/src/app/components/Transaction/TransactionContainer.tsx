@@ -11,7 +11,7 @@ import { Address, concat, createClient, createPublicClient, encodeFunctionData, 
 import { getAccountNonce, createSmartAccountClient, ENTRYPOINT_ADDRESS_V07, ENTRYPOINT_ADDRESS_V06, bundlerActions, getSenderAddress, signUserOperationHashWithECDSA, UserOperation, walletClientToSmartAccountSigner } from "permissionless"
 import { signerToSafeSmartAccount } from "permissionless/accounts"
 import { createPimlicoBundlerClient, createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
-
+import  { SafeContextProvider, useSafeAccountContext } from "../../contexts/SafeContext"
 
 
 //Contract Context
@@ -31,9 +31,17 @@ import { use } from "chai";
 
 
 const ButtonContainer = () => {
+    const { setWalletClient, deploySafe, walletClient, safeAccount } = useSafeAccountContext();
+    const { data: currentWallet } = useWalletClient();
+    setWalletClient(currentWallet);
     const [ clicker, setClicker ] = useState<boolean>(false);
 
-    const [safeAccount, setSafeAccount] = useState<any>(null);
+
+    useEffect(() => {
+        deploySafe();
+        console.log("safeAccount", safeAccount);
+    }, [walletClient, clicker]);
+
 
     // const { data: WalletClient } = useWalletClient();
 
