@@ -60,11 +60,11 @@ const Hero = () => {
                     position="relative" // Add this line
                 >
 
-                    <Box fontFamily="font-galindo" flex="1" m={12}>
+                    <Box flex="1" m={12}>
                         <Text fontSize="5xl" color="white" textAlign="left">
                             Buy & Sell <br/>
                             Products Using <br/>
-                            <Box as="span" fontFamily="font-pressstart" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
+                            <Box as="span" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
                             Community
                         </Text>
                         <Text color="white" fontSize="2xl" m={2}>

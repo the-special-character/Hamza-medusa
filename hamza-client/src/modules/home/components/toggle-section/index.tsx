@@ -68,8 +68,8 @@ const ToggleSelection = () => {
                     <TabPanels mx={12}>
                         <TabPanel mx={12}>
                             <Flex mb={12} direction="column" alignItems="center" justifyContent="center" height="100%">
-                                <Text fontFamily="font-galindo" fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
-                                <Text fontFamily="font-galindo" fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
+                                <Text fontFamily="" fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
+                                <Text fontFamily="" fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
                             </Flex>
                             <Flex mt={12} mb={4} mx={12} justifyContent="space-between">
                                 <Image src={toggle_1} width={80} height={80} alt={"toggle_1 image"} />
