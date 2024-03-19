@@ -18,7 +18,7 @@ import Image from 'next/image'
 
 const ContactSection = () => {
     return (
-        <Box bg="black" color="white" p={5}>
+        <Box className="font-sora" bg="black" color="white" p={5}>
             <Card
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"

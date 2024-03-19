@@ -6,7 +6,6 @@ import MedusaProvider from "./medusa-provider" // Import MedusaProvider
 import { RainbowWrapper } from "@/app/rainbow-provider"
 import { ChakraProvider } from '@chakra-ui/react'
 // TODO: Refactor using scaffold-eth-2 for proper layout.
-import useCustomTheme from './theme'; // Import useCustomTheme
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 }

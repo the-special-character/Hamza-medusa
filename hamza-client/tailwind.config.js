@@ -60,10 +60,9 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
-        galindo: ['"Galindo-Regular"', 'cursive'],
-        heading: ['"Galindo-Regular"', 'Georgia', 'serif'],
-        pressStart: ['"PressStart2P-Regular"', 'monospace'],
+        sora: ['"Sora"', 'sans-serif'],
         sans: [
+          "Sora",
           "Inter",
           "BlinkMacSystemFont",
           "Segoe UI",

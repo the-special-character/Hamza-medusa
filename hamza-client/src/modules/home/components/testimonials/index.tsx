@@ -13,7 +13,7 @@ const Testimonial = () => {
     const textColor = "#FFF"
 
     return (
-        <Container flex="1" maxW="100%" p={6} bg="#000" centerContent>
+        <Container className="font-sora" flex="1" maxW="100%" p={6} bg="#000" centerContent>
             <Flex mx={3} justify="center" align="center" wrap="wrap" gap={6}>
                 <Box
                     flex="1"

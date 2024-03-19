@@ -1,14 +1,3 @@
-@font-face {
-  font-family: 'Galindo-Regular';
-  src: url('./fonts/Galindo-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'PressStart2P-Regular';
-  src: url('./fonts/PressStart2P-Regular.ttf') format('truetype');
-}
-
-
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -22,24 +11,8 @@
   @apply bg-gray-800;
 }
 
-.font-galindo {
-  font-family: 'Galindo-Regular', cursive;
-}
-
-.font-pressstart {
-  font-family: 'PressStart2P-Regular', monospace;
-}
-
-.Text{
-  font-family: 'PressStart2P-Regular', monospace;
-}
-
-body {
-  font-family: 'PressStart2P-Regular', ui-sans-serif, system-ui;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Galindo-Regular', Georgia, serif;
+.font-sora{
+  font-family: 'Sora', sans-serif;
 }
 
 @layer utilities {

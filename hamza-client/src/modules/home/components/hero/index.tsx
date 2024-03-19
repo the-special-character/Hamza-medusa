@@ -15,7 +15,6 @@ import coin_3 from '../../../../../public/hero/hero_3.png';
 import coin_4 from '../../../../../public/hero/hero_2.png';
 import coin_5 from '../../../../../public/hero/coin_5.png';
 import coin_6 from '../../../../../public/hero/coin_6.png';
-import {Galindo} from "@next/font/google";
 
 import { useState, useEffect } from "react"
 import { getCustomer } from '@lib/data';
@@ -37,7 +36,7 @@ const Hero = () => {
     }, []);
 
     return (
-        <Flex maxW="100%" bg="black" p={5} justifyContent="center" alignItems="center">
+        <Flex className="font-sora" maxW="100%" bg="black" p={5} justifyContent="center" alignItems="center">
             <Box
                 p={5}
                 mx={12}

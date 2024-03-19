@@ -18,7 +18,7 @@ const ToggleSelection = () => {
     const bgColor = '#53594A'; // Dark grey background
 
     return (
-        <Flex maxW="100%" bg="black" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
+        <Flex className="font-sora" maxW="100%" bg="black" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
               alignItems="start" p={5}>
             <Box
                 flex="1"

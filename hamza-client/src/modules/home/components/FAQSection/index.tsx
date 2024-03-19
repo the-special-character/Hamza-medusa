@@ -17,7 +17,7 @@ import {FaQuoteRight} from "react-icons/fa";
 
 const FAQSection = () => {
     return (
-        <Box bg="black" p={5} className="w-full">
+        <Box bg="black" p={5} className="w-full font-sora">
             <Card
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"

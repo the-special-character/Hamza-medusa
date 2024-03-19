@@ -18,7 +18,7 @@ import Image from 'next/image'
 const RecommendedItems = () => {
 
     return (
-        <Flex maxW="100%" bg="black" p={5}>
+        <Flex className="font-sora" maxW="100%" bg="black" p={5}>
             <Box
                 p={5}
                 mx={12}
