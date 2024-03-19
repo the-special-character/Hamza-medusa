@@ -1,15 +1,15 @@
 import React from 'react';
 import {Grid, Box, HStack, Button, Flex} from '@chakra-ui/react';
 import StoreTemplate from "@modules/store/templates"
-import fire from '../../../../../public/fire.png'
-import gift from '../../../../../public/gift.png'
-import game from '../../../../../public/games.png'
-import laptop from '../../../../../public/electronics.png'
-import collections from '../../../../../public/collections.png'
-import coinbase from '../../../../../public/coinbase.png'
-import metamask from '../../../../../public/metamask.png'
-import rainbow from '../../../../../public/rainbow.jpeg'
-import wallet from '../../../../../public/wallet.png'
+import fire from '../../../../../public/product_filters/fire.png'
+import gift from '../../../../../public/product_filters/gift.png'
+import game from '../../../../../public/product_filters/games.png'
+import laptop from '../../../../../public/product_filters/electronics.png'
+import collections from '../../../../../public/product_filters/collections.png'
+import coinbase from '../../../../../public/wallet_connect/coinbase.png'
+import metamask from '../../../../../public/wallet_connect/metamask.png'
+import rainbow from '../../../../../public/wallet_connect/rainbow.jpeg'
+import wallet from '../../../../../public/wallet_connect/wallet.png'
 import arrow from '../../../../../public/Vector.png'
 // TODO: We need to get CORS working such that
 // We can import the products by Category, etc...

@@ -9,9 +9,9 @@ import {
     Tab,
     TabPanel,
 } from '@chakra-ui/react';
-import toggle_1 from '../../../../../public/toggle_1.png'
-import toggle_2 from '../../../../../public/toggle_2.png'
-import toggle_3 from '../../../../../public/toggle_3.png'
+import toggle_1 from '../../../../../public/toggle_logos/toggle_1.png'
+import toggle_2 from '../../../../../public/toggle_logos/toggle_2.png'
+import toggle_3 from '../../../../../public/toggle_logos/toggle_3.png'
 
 import Image from 'next/image'
 const ToggleSelection = () => {

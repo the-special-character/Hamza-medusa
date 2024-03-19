@@ -1,4 +1,4 @@
-import Email from "../../../../../public/email_image.png";
+import Email from "../../../../../public/smpt_email/email_image.png";
 import {
     Box,
     FormControl,

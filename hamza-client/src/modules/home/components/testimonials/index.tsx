@@ -2,8 +2,8 @@
 import React from 'react';
 import { Box, Flex, Text, VStack, Icon, useColorModeValue, Container } from '@chakra-ui/react';
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
-import test_1 from '../../../../../public/testimonial_1.png'
-import test_2 from '../../../../../public/testimonial_2.png'
+import test_1 from '../../../../../public/testimonials/testimonial_1.png'
+import test_2 from '../../../../../public/testimonials/testimonial_2.png'
 const Testimonial = () => {
     // Define your HEX colors for icons and text
     const iconColorLeft = "#7B61FF";
