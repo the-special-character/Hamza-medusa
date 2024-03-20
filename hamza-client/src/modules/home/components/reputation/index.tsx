@@ -13,8 +13,8 @@ import Image from 'next/image'
 
 const reputation = () => {
     return (
-        <Box bg="black" p={5} display="flex" flexDirection="column" alignItems="center" className="w-full">
-            <Text fontFamily="font-galindo" fontSize="lg" color="#94D42A" textAlign="center" mb={8} mt={12}>
+        <Box bg="black" p={5} display="flex" flexDirection="column" alignItems="center" className="w-full font-sora">
+            <Text fontSize="lg" color="#94D42A" textAlign="center" mb={8} mt={12}>
                 AS SEEN IN
             </Text>
             <Flex gap={36} justifyContent="center" mb={12}>

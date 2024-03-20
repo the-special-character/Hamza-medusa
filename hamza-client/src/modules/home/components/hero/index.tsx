@@ -15,7 +15,6 @@ import coin_3 from '../../../../../public/hero/hero_3.png';
 import coin_4 from '../../../../../public/hero/hero_2.png';
 import coin_5 from '../../../../../public/hero/coin_5.png';
 import coin_6 from '../../../../../public/hero/coin_6.png';
-import {Galindo} from "@next/font/google";
 
 import { useState, useEffect } from "react"
 import { getCustomer } from '@lib/data';
@@ -37,7 +36,7 @@ const Hero = () => {
     }, []);
 
     return (
-        <Flex maxW="100%" bg="black" p={5} justifyContent="center" alignItems="center">
+        <Flex className="font-sora" maxW="100%" bg="black" p={5} justifyContent="center" alignItems="center">
             <Box
                 p={5}
                 mx={12}
@@ -60,11 +59,11 @@ const Hero = () => {
                     position="relative" // Add this line
                 >
 
-                    <Box fontFamily="font-galindo" flex="1" m={12}>
+                    <Box flex="1" m={12}>
                         <Text fontSize="5xl" color="white" textAlign="left">
                             Buy & Sell <br/>
                             Products Using <br/>
-                            <Box as="span" fontFamily="font-pressstart" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
+                            <Box as="span" fontSize="6xl" fontWeight="bold">Crypto</Box> as a <br/>
                             Community
                         </Text>
                         <Text color="white" fontSize="2xl" m={2}>

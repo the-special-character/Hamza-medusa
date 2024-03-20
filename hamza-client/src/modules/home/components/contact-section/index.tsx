@@ -1,4 +1,4 @@
-import Email from "../../../../../public/email_image.png";
+import Email from "../../../../../public/smpt_email/email_image.png";
 import {
     Box,
     FormControl,
@@ -18,7 +18,7 @@ import Image from 'next/image'
 
 const ContactSection = () => {
     return (
-        <Box bg="black" color="white" p={5}>
+        <Box className="font-sora" bg="black" color="white" p={5}>
             <Card
                 direction={{base: 'column', md: 'row'}}
                 overflow="hidden"
@@ -34,8 +34,8 @@ const ContactSection = () => {
                     w={{base: '100%', md: '60%'}}
                     p={6}
                 >
-                    <CardBody fontFamily="font-galindo">
-                        <Heading fontFamily="font-galindo" color="white" as="h2" size="xl" mb={4}>Ready to embrace HAMZA?</Heading>
+                    <CardBody >
+                        <Heading color="white" as="h2" size="xl" mb={4}>Ready to embrace HAMZA?</Heading>
                         <Text color="white" fontSize="lg" opacity="0.8" mb={2}>Discover the Future of E-commerce</Text>
                         <Text color="white" mb={4}>Dive into the vibrant world of Blockchain. Discover your next product today.</Text>
                         <Flex flexDirection="column" alignItems="center">

@@ -9,16 +9,16 @@ import {
     Tab,
     TabPanel,
 } from '@chakra-ui/react';
-import toggle_1 from '../../../../../public/toggle_1.png'
-import toggle_2 from '../../../../../public/toggle_2.png'
-import toggle_3 from '../../../../../public/toggle_3.png'
+import toggle_1 from '../../../../../public/toggle_logos/toggle_1.png'
+import toggle_2 from '../../../../../public/toggle_logos/toggle_2.png'
+import toggle_3 from '../../../../../public/toggle_logos/toggle_3.png'
 
 import Image from 'next/image'
 const ToggleSelection = () => {
     const bgColor = '#53594A'; // Dark grey background
 
     return (
-        <Flex maxW="100%" bg="black" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
+        <Flex className="font-sora" maxW="100%" bg="black" color="white" direction={{base: 'column', lg: 'row'}} justifyContent="space-between"
               alignItems="start" p={5}>
             <Box
                 flex="1"
@@ -68,8 +68,8 @@ const ToggleSelection = () => {
                     <TabPanels mx={12}>
                         <TabPanel mx={12}>
                             <Flex mb={12} direction="column" alignItems="center" justifyContent="center" height="100%">
-                                <Text fontFamily="font-galindo" fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
-                                <Text fontFamily="font-galindo" fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
+                                <Text fontFamily="" fontSize="xs" color={"#94D42A"}>JOIN THE MOVEMENT</Text>
+                                <Text fontFamily="" fontSize="xl" fontWeight="bold"> Buy products as a Community</Text>
                             </Flex>
                             <Flex mt={12} mb={4} mx={12} justifyContent="space-between">
                                 <Image src={toggle_1} width={80} height={80} alt={"toggle_1 image"} />

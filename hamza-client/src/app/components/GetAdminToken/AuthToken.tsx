@@ -2,10 +2,11 @@
 import Medusa from "@medusajs/medusa-js"
 
 //TODO: (CLEANUP) is this used for anything other than testing?
+const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
 const AuthToken = () => {
   const handleToken = () => {
     const medusa = new Medusa({
-      baseUrl: "http://localhost:9000",
+      baseUrl: `${MEDUSA_SERVER_URL}`,
       maxRetries: 3,
     })
 

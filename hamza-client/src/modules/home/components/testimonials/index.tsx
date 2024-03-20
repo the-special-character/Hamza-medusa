@@ -2,8 +2,8 @@
 import React from 'react';
 import { Box, Flex, Text, VStack, Icon, useColorModeValue, Container } from '@chakra-ui/react';
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
-import test_1 from '../../../../../public/testimonial_1.png'
-import test_2 from '../../../../../public/testimonial_2.png'
+import test_1 from '../../../../../public/testimonials/testimonial_1.png'
+import test_2 from '../../../../../public/testimonials/testimonial_2.png'
 const Testimonial = () => {
     // Define your HEX colors for icons and text
     const iconColorLeft = "#7B61FF";
@@ -13,10 +13,9 @@ const Testimonial = () => {
     const textColor = "#FFF"
 
     return (
-        <Container flex="1" maxW="100%" p={6} bg="#000" centerContent>
+        <Container className="font-sora" flex="1" maxW="100%" p={6} bg="#000" centerContent>
             <Flex mx={3} justify="center" align="center" wrap="wrap" gap={6}>
                 <Box
-                    fontFamily="font-galindo"
                     flex="1"
                     bg={cardBgLeft}
                     bgImage={`url(${test_1.src})`}
@@ -55,7 +54,6 @@ const Testimonial = () => {
                     </VStack>
                 </Box>
                 <Box
-                    fontFamily="font-galindo"
                     flex="1"
                     bg={cardBgRight}
                     bgImage={`url(${test_2.src})`}

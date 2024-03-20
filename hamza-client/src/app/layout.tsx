@@ -1,12 +1,11 @@
 import React from "react"
 import { Metadata } from "next"
 import "styles/globals.css"
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
+const BASE_URL = process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL || "https://localhost:8000"
 import MedusaProvider from "./medusa-provider" // Import MedusaProvider
 import { RainbowWrapper } from "@/app/rainbow-provider"
 import { ChakraProvider } from '@chakra-ui/react'
 // TODO: Refactor using scaffold-eth-2 for proper layout.
-import useCustomTheme from './theme'; // Import useCustomTheme
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 }

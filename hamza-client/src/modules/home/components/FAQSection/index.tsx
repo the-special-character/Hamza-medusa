@@ -17,10 +17,9 @@ import {FaQuoteRight} from "react-icons/fa";
 
 const FAQSection = () => {
     return (
-        <Box bg="black" p={5} className="w-full">
+        <Box bg="black" p={5} className="w-full font-sora">
             <Card
                 direction={{base: 'column', md: 'row'}}
-                fontFamily="font-galindo"
                 overflow="hidden"
                 minHeight="500"
                 variant="outline"
@@ -35,8 +34,8 @@ const FAQSection = () => {
 
                 >
                     <Box minW="700px" flex="1">
-                        <Heading fontFamily="font-galindo" color="white" mb={4} fontSize={{base: "3xl", md: "4xl"}}>Got questions? <br/>We've got answers.</Heading>
-                        <Text fontFamily="font-galindo" color="white" fontSize={{base: "md", md: "lg"}} opacity={0.7}>
+                        <Heading color="white" mb={4} fontSize={{base: "3xl", md: "4xl"}}>Got questions? <br/>We've got answers.</Heading>
+                        <Text color="white" fontSize={{base: "md", md: "lg"}} opacity={0.7}>
                             Everything you need to know about the product and billing.
                         </Text>
                     </Box>

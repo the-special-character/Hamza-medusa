@@ -1,5 +1,6 @@
 import { Button, Container, Text } from "@medusajs/ui"
 import { cookies } from "next/headers"
+const ADMIN_CORS = process.env.ADMIN_CORS || "http://localhost:7001";
 
 const ProductOnboardingCta = () => {
   const isOnboarding = cookies().get("_medusa_onboarding")?.value === "true"
@@ -17,7 +18,7 @@ const ProductOnboardingCta = () => {
         <Text className="text-ui-fg-subtle text-small-regular">
           You can now continue setting up your store in the admin.
         </Text>
-        <a href="http://localhost:7001/a/orders?onboarding_step=create_order_nextjs">
+        <a href="${ADMIN_CORS}/a/orders?onboarding_step=create_order_nextjs">
           <Button className="w-full">Continue setup in admin</Button>
         </a>
       </div>

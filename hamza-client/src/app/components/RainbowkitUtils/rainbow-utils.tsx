@@ -5,7 +5,8 @@ import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 
-const PROJECT_ID = "aba29725308468c8020e93258c08236e"
+const PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || ''
+const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || ''
 
 export const darkThemeConfig = darkTheme({
   accentColor: "#94D42A",
@@ -19,7 +20,7 @@ export const { chains, publicClient, webSocketPublicClient } = configureChains(
   [optimismSepolia, mainnet],
   [
     alchemyProvider({
-      apiKey: "VrVSe8y0T1pBnrwgzgFr2vtHl9Dtj3Fn",
+      apiKey: ALCHEMY_API_KEY,
     }),
     jsonRpcProvider({
       rpc: () => {
