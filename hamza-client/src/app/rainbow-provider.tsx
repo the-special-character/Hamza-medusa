@@ -20,8 +20,9 @@ import { getCustomer, getToken } from "@lib/data"
 import { revalidateTag } from "next/cache"
 import { signOut } from "@modules/account/actions"
 
-const VERIFY_MSG = "http://localhost:9000/custom/verify"
-const GET_NONCE = "http://localhost:9000/custom/nonce"
+const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`
+const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
   const [status, setStatus] = useState<AuthenticationStatus>("unauthenticated")
 

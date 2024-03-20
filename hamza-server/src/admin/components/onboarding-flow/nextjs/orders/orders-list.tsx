@@ -9,6 +9,7 @@ import { Button, Text } from "@medusajs/ui";
 import prepareRegions from "../../../../utils/prepare-region";
 import prepareShippingOptions from "../../../../utils/prepare-shipping-options";
 
+const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000"
 const OrdersListNextjs = ({ isComplete, data }: StepContentProps) => {
   const { product } = useAdminProduct(data.product_id);
   const { mutateAsync: createCart, isLoading: cartIsLoading } = useCreateCart()
@@ -55,7 +56,7 @@ const OrdersListNextjs = ({ isComplete, data }: StepContentProps) => {
       <div className="flex gap-2">
         {!isComplete && (
           <a
-            href={`http://localhost:8000/checkout?cart_id=${cartId}&onboarding=true`}
+            href={`${STORE_CORS}/checkout?cart_id=${cartId}&onboarding=true`}
             target="_blank"
           >
             <Button variant="primary" size="base" isLoading={!cartId || cartIsLoading}>

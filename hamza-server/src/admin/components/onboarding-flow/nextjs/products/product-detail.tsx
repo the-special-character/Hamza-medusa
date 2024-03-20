@@ -2,6 +2,7 @@ import { useAdminProduct } from "medusa-react";
 import { StepContentProps } from "../../../../widgets/onboarding-flow/onboarding-flow";
 import { Button, Text } from "@medusajs/ui";
 
+const MEDUSA_CLIENT_URL = process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL || "http://localhost:8000";
 const ProductDetailNextjs = ({ onNext, isComplete, data }: StepContentProps) => {
   const { product, isLoading: productIsLoading } = useAdminProduct(data?.product_id)
   return (
@@ -34,7 +35,7 @@ const ProductDetailNextjs = ({ onNext, isComplete, data }: StepContentProps) => 
       </div>
       <div className="flex gap-2 mt-6">
         <a
-          href={`http://localhost:8000/products/${product?.handle}?onboarding=true`}
+          href={`${MEDUSA_CLIENT_URL}/products/${product?.handle}?onboarding=true`}
           target="_blank"
         >
           <Button variant="primary" size="base" isLoading={productIsLoading}>

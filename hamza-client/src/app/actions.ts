@@ -1,5 +1,7 @@
 "use server"
 
+const ADMIN_CORS = process.env.NEXT_PUBLIC_ADMIN_CORS || "http://localhost:7001";
+
 import { revalidateTag } from "next/cache"
 import { cookies, headers } from "next/headers"
 import { redirect } from "next/navigation"
@@ -68,5 +70,5 @@ export async function updateRegion(countryCode: string, currentPath: string) {
 
 export async function resetOnboardingState(orderId: string) {
   cookies().set("_medusa_onboarding", "false", { maxAge: -1 })
-  redirect(`http://localhost:7001/a/orders/${orderId}`)
+  redirect(`${ADMIN_CORS}/a/orders/${orderId}`)
 }
