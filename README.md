@@ -1,5 +1,7 @@
 # <img src="hamza.png" height="40"/>
 
+[![website](https://img.shields.io/badge/website-blue '')](https://hamza.biz) [![website](https://img.shields.io/badge/dev_site-red '')](https://hamza.biz)
+
 ### Setup Quick Start
 
 1. Clone this Repository
@@ -102,34 +104,25 @@ yarn dev
 
 ## Notes
 
-To setup the project I went through the following guide: https://docs.medusajs.com/create-medusa-app
-
-Running: `npx create-medusa-app@latest`
+To set up from scratch:
+https://docs.medusajs.com/create-medusa-app
+Run: `npx create-medusa-app@latest`
 Automatically created thepostgres database and the admin user through the cli
-
-I've sent the environment variable files in our discord group chat and they're pinned
-make sure when you copy them over to have a . at the beginning of the file name as it doesn't save it as a .env and .env.local file in discord
 
 
 ### Project Structure
 
 **Backend**: hamza-server/
-
 Environment Variable: _.env_
 
-
-
 **Frontend**: /hamza-client    
-
 Environments Variable: _env.local_   
 
 ### INSTALLING PACKAGES
 Run `yarn install` in both folders to install the packages
 
 `DATABASE_URL=postgres://postgres@localhost/hamza_dev_db`
-
 **You'll either have to name your dB the same or modify in your .env file**
-
 
 [Medusa CLI Documentation:](https://docs.medusajs.com/cli/reference) 
 
