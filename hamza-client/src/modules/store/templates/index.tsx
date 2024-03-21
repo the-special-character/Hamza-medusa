@@ -23,9 +23,9 @@ const StoreTemplate = ({
         {/* Since we're not using sortBy, we might not need to pass it to RefinementList */}
         {/*<RefinementList />*/}
         <div className="w-full">
-          {/*<div className="mb-8 text-2xl-semi">*/}
-          {/*  <h1>All products</h1>*/}
-          {/*</div>*/}
+          <div className="mb-8 text-2xl-semi">
+            <h1>All products</h1>
+          </div>
           <Suspense fallback={<SkeletonProductGrid />}>
             <PaginatedProducts
                 // Removed the sortBy prop entirely

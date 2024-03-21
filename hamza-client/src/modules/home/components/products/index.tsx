@@ -1,6 +1,6 @@
-import React from 'react';
+"use client"
+import React, {useState} from 'react';
 import {Grid, Box, HStack, Button, Flex} from '@chakra-ui/react';
-import StoreTemplate from "@modules/store/templates"
 import fire from '../../../../../public/product_filters/fire.png'
 import gift from '../../../../../public/product_filters/gift.png'
 import game from '../../../../../public/product_filters/games.png'
@@ -15,7 +15,12 @@ import arrow from '../../../../../public/Vector.png'
 // We can import the products by Category, etc...
 import Image from 'next/image'
 import Login from '@/components/AuthenticateAdmin/Login'
+import {retrieveCollection} from "@modules/collections/retrieve_collection";
+
 const RecommendedItems = () => {
+    const [collectionId, setCollectionId] = useState('Demo')
+
+    retrieveCollection(collectionId)
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -29,6 +34,7 @@ const RecommendedItems = () => {
                 marginRight={{ lg: 4 }}
                 flex="1" width="70%" bg="#2C272D">
                 <HStack justifyContent="space-around" mx={12} my={6}>
+                    {/*<Login/>*/}
                     <Box
                         color="whitesmoke"
                         fontWeight="bold"
@@ -122,7 +128,7 @@ const RecommendedItems = () => {
                         <Image className="mr-2" src={collections} alt={"Img of a collections"} width={22} height={22}/>
                         Collectible</Button>
                 </HStack>
-                <StoreTemplate/>
+                {/*<retrieveCollection collectionId={collectionId}/>*/}
             </Box>
         </Flex>
     );
