@@ -11,8 +11,6 @@ import metamask from '../../../../../public/wallet_connect/metamask.png'
 import rainbow from '../../../../../public/wallet_connect/rainbow.jpeg'
 import wallet from '../../../../../public/wallet_connect/wallet.png'
 import arrow from '../../../../../public/Vector.png'
-// TODO: We need to get CORS working such that
-// We can import the products by Category, etc...
 import Image from 'next/image'
 import Login from '@/components/AuthenticateAdmin/Login'
 import ProductCollections from '@modules/collections/product_collection_filter'
@@ -37,7 +35,7 @@ const RecommendedItems = () => {
                 bg="#2C272D"
             >
                 <HStack justifyContent="space-around" mx={12} my={6}>
-                    <Login />
+                    {/*<Login />*/}
                     <Box
                         color="whitesmoke"
                         fontWeight="bold"
