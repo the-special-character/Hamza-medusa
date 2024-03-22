@@ -2,13 +2,15 @@ import React from 'react'
 import { useAdminCollection } from 'medusa-react'
 
 // TODO: Refactor goals to use <Suspense .. /> to wrap collection && <SkeletonProductGrid /> for loading state
-const ProductCollections = () => {
-    const { collection, isLoading } = useAdminCollection(
-        'pcol_01HSGAMXDJD725MR3VSW631SN2'
-    )
+
+type Props = {
+    collectionId: string
+}
+const ProductCollections = ({ collectionId }: Props) => {
+    const { collection, isLoading } = useAdminCollection(collectionId)
 
     return (
-        <div>
+        <div className="text-white">
             {isLoading && <span>Loading...</span>}
             {collection && (
                 <>

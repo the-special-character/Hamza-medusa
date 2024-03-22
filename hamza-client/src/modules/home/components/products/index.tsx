@@ -15,13 +15,12 @@ import arrow from '../../../../../public/Vector.png'
 // We can import the products by Category, etc...
 import Image from 'next/image'
 import Login from '@/components/AuthenticateAdmin/Login'
-// import {retrieveCollection} from "@modules/collections/retrieve_collection";
 import ProductCollections from '@modules/collections/product_collection_filter'
 
 const RecommendedItems = () => {
-    const [collectionId, setCollectionId] = useState('Demo')
-
-    // retrieveCollection(collectionId)
+    const [collectionId, setCollectionId] = useState(
+        'pcol_01HRVF8HCVY8B00RF5S54THTPC'
+    )
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -143,6 +142,9 @@ const RecommendedItems = () => {
                         size="lg"
                         color="black"
                         borderRadius="full"
+                        onClick={() => {
+                            setCollectionId('pcol_01HRVF8HCVY8B00RF5S54THTPC')
+                        }}
                     >
                         <Image
                             className="mr-2"
@@ -159,6 +161,9 @@ const RecommendedItems = () => {
                         size="lg"
                         color="white"
                         borderRadius="full"
+                        onClick={() => {
+                            setCollectionId('pcol_01HSGAM4918EX0DETKY6E662WT')
+                        }}
                     >
                         <Image
                             className="mr-2"
@@ -175,6 +180,9 @@ const RecommendedItems = () => {
                         size="lg"
                         color="white"
                         borderRadius="full"
+                        onClick={() => {
+                            setCollectionId('pcol_01HSGAMXDJD725MR3VSW631SN2')
+                        }}
                     >
                         <Image
                             className="mr-2"
@@ -218,8 +226,7 @@ const RecommendedItems = () => {
                         Collectible
                     </Button>
                 </HStack>
-                {/*<retrieveCollection collectionId={collectionId}/>*/}
-                <ProductCollections />
+                <ProductCollections collectionId={collectionId} />
             </Box>
         </Flex>
     )
