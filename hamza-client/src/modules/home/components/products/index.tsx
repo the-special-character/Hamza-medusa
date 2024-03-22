@@ -16,7 +16,7 @@ import arrow from '../../../../../public/Vector.png'
 import Image from 'next/image'
 import Login from '@/components/AuthenticateAdmin/Login'
 // import {retrieveCollection} from "@modules/collections/retrieve_collection";
-
+import ProductCollections from "@modules/collections/product_collection_filter";
 const RecommendedItems = () => {
     const [collectionId, setCollectionId] = useState('Demo')
 
@@ -129,6 +129,7 @@ const RecommendedItems = () => {
                         Collectible</Button>
                 </HStack>
                 {/*<retrieveCollection collectionId={collectionId}/>*/}
+                <ProductCollections/>
             </Box>
         </Flex>
     );

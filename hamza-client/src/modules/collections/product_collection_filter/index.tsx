@@ -1,31 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React from "react"
+import {useAdminCollections} from "medusa-react"
 
-import {retrieveCollection} from '../retrieve_collection/index'
+const ProductCollections = () => {
+    const {collections, isLoading} = useAdminCollections()
 
-const ProductCollectionFilter = (collectionId: string) => {
-    const [collection, setCollection] = useState('Demo')
+    return (
+        <div>
+            {isLoading && <span>Loading...</span>}
+            {collections && !collections.length && <span>
+        No Product Collections
+      </span>}
+            {collections && collections.length > 0 && (
+                <ul>
+                    {collections.map((collection) => (
+                        <ul>
+                            <li key={collection.id}>{collection.title}</li>
+                            <li>
+                                {collection.products.map((product) => (
+                                    <ul>
+                                        <li key={product.id}>{product.title}</li>
+                                    </ul>
+                                ))}
+                            </li>
+                        </ul>
 
-    // const collectionExample = retrieveCollection(collectionId)
-    // console.log("Collection Example: ", collectionExample)
-
-    // useEffect(() => {
-    //     try {
-    //         const collection = retrieveCollection(collectionId)
-    //         setCollection(collection)
-    //     } catch (e) {
-    //         console.error('Failed to fetch collection: ', e)
-    //     }
-    // }, [collectionId]);
-    // return (
-    //     <div className="flex flex-col small:flex-row small:items-start py-6 content-container">
-    //         {collection ? (
-    //                 <div className="mb-8 text-2xl-semi">
-    //                     <h1>{collection.title}</h1>
-    //                     <p>{collection.description}</p>
-    //                 </div>
-    //             ) :
-    //             <div>Loading...</div>
-    //         }
-    //     </div>
-    // )
+                    ))}
+                </ul>
+            )}
+        </div>
+    )
 }
+
+export default ProductCollections
