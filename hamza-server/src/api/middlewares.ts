@@ -46,6 +46,15 @@ export const config: MiddlewaresConfig = {
         ],
     },
     {
+      matcher: "/admin/onboarding",
+        middlewares: [
+            cors({
+            origin: ["http://localhost:7001", "http://localhost:7000"],
+            credentials: true,
+            }),
+        ],
+    },
+    {
       matcher: "/custom/*",
       middlewares: [
         cors({
