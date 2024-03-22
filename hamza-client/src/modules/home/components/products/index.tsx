@@ -15,12 +15,12 @@ import arrow from '../../../../../public/Vector.png'
 // We can import the products by Category, etc...
 import Image from 'next/image'
 import Login from '@/components/AuthenticateAdmin/Login'
-import {retrieveCollection} from "@modules/collections/retrieve_collection";
+// import {retrieveCollection} from "@modules/collections/retrieve_collection";
 
 const RecommendedItems = () => {
     const [collectionId, setCollectionId] = useState('Demo')
 
-    retrieveCollection(collectionId)
+    // retrieveCollection(collectionId)
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -34,7 +34,7 @@ const RecommendedItems = () => {
                 marginRight={{ lg: 4 }}
                 flex="1" width="70%" bg="#2C272D">
                 <HStack justifyContent="space-around" mx={12} my={6}>
-                    {/*<Login/>*/}
+                    <Login/>
                     <Box
                         color="whitesmoke"
                         fontWeight="bold"

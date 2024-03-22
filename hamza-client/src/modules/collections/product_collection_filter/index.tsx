@@ -5,8 +5,8 @@ import {retrieveCollection} from '../retrieve_collection/index'
 const ProductCollectionFilter = (collectionId: string) => {
     const [collection, setCollection] = useState('Demo')
 
-    const collectionExample = retrieveCollection(collectionId)
-    console.log("Collection Example: ", collectionExample)
+    // const collectionExample = retrieveCollection(collectionId)
+    // console.log("Collection Example: ", collectionExample)
 
     // useEffect(() => {
     //     try {
