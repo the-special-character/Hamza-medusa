@@ -1,4 +1,5 @@
-# <img src="branding/hamza.png" height="40"/>
+<img src="branding/hamza.png" height="70"/>    
+<img src="branding/LoadPipe.svg" height="50"/>
 
 [![website](https://img.shields.io/badge/website-blue '')](https://hamza.biz) [![website](https://img.shields.io/badge/dev_site-red '')](https://hamza.biz)
 
