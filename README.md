@@ -1,4 +1,4 @@
-# <img src="hamza.png" height="40"/>
+# <img src="branding/hamza.png" height="40"/>
 
 [![website](https://img.shields.io/badge/website-blue '')](https://hamza.biz) [![website](https://img.shields.io/badge/dev_site-red '')](https://hamza.biz)
 
