@@ -203,7 +203,7 @@ const Payment = ({
                     paymentInfoMap,
                     cart.payment_session.provider_id
                   ) && (
-                    <Tooltip content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.tsx'" />
+                    <Tooltip content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.ts'" />
                   )}
               </div>
               <div className="flex flex-col w-1/3">
