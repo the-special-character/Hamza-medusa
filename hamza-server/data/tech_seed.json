@@ -18,6 +18,7 @@
           "id": "headphones"
         }
       ],
+      "collections.id": "headphones",
       "subtitle": "The best noise-cancelling headphones",
       "description": "Industry-leading noise canceling with Dual Noise Sensor technology.Specific uses for product : Audio.Frequency Response : 4Hz-40,000Hz..Headphone Type : Closed, dynamic. Frequency Response : 4 Hz-40,000 Hz",
       "handle": "headphones",
@@ -64,6 +65,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "vr_headphones",
         "subtitle": "Visionary VR Experience",
         "description": "Step into the future with this visor-style VR headset, offering an immersive experience with its panoramic view and comfort-fit design.",
         "handle": "headset_future",
@@ -107,6 +109,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "headphones",
         "subtitle": "High-Tech Audio",
         "description": "The Cybernetic Headset merges state-of-the-art sound technology with a robotic design to deliver an unmatched audio experience.",
         "handle": "headset_audio",
@@ -150,6 +153,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "headphones",
         "subtitle": "Sleek Gaming Audio",
         "description": "The Streamline Rift is designed for gamers, with a focus on sleek design and superior sound quality for an all-engaging gaming experience.",
         "handle": "headset_sleek",
@@ -193,6 +197,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "headphones",
         "subtitle": "Aural Space Exploration",
         "description": "Orbit your sound experience with The Orbit Headset, featuring 360-degree audio immersion in a sleek, space-inspired design.",
         "handle": "headset_aural",
@@ -236,6 +241,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "headphones",
         "subtitle": "See the Unseen",
         "description": "The Visionary VR gear provides an unparalleled field of vision with crystal clear display, making the unseen seen.",
         "handle": "headset_vision",
@@ -279,6 +285,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "headphones",
         "subtitle": "Sound in Style",
         "description": "The Echo Shade blends high-fidelity audio with a fashion-forward design, providing both style and substance.",
         "handle": "headset_echo",
@@ -322,6 +329,7 @@
             "id": "vr_headphones"
           }
         ],
+        "collections.id": "vr_headphones",
         "subtitle": "Tech that Transcends",
         "description": "The Nova Gear is the tech enthusiast's dream, offering a transcendental experience with its advanced features and stellar design.",
         "handle": "headset_nova",
@@ -372,6 +380,23 @@
       "name": "VR Headphones",
       "rank": 2,
       "category_children": [],
+      "handle": "vr_headphones"
+    }
+  ],
+  "collections": [
+    {
+      "id": "demo",
+      "title": "Demo Collection",
+      "handle": "demo"
+    },
+    {
+      "id": "headphones",
+      "title": "Headphones",
+      "handle": "headphones"
+    },
+    {
+      "id": "vr_headphones",
+      "title": "VR Headphones",
       "handle": "vr_headphones"
     }
   ],
