@@ -111,14 +111,15 @@ Backend:
 2. Remove the dist folder
 3. Remove the build folder
 4. Remove the .cache folder
-5. docker-compose down
-6. docker volume rm <db_volume>
-7. docker-compose up -d
-8. yarn install
-9. npx medusa migrations run
-10. npx medusa seed --seed-file=data/seed.json
-11. npx medusa seed --seed-file=data/tech_seed.json
-12. yarn dev
+5. Remove yarn.lock
+6. docker-compose down
+7. docker volume rm <db_volume>
+8. docker-compose up -d
+9. yarn install
+10. npx medusa migrations run
+11. npx medusa seed --seed-file=data/seed.json
+12. yarn build
+13. yarn dev
 ```
 
 
