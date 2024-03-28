@@ -42,3 +42,6 @@ Documentation and Maintenance:
 
 Make sure to document your payment processor implementation for future reference and for other team members.
 Plan for Maintenance and Updates: Keep an eye on updates from Medusa, RainbowKit, MetaMask, and Ethereum to ensure your payment system remains compatible and secure.
+
+
+

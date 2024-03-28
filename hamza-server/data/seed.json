@@ -138,6 +138,361 @@
   ],
   "products": [
     {
+      "title": "Sony WH-1000XM4",
+      "categories": [
+        {
+          "id": "headphones"
+        }
+      ],
+      "collections.id": "headphones",
+      "subtitle": "The best noise-cancelling headphones",
+      "description": "Industry-leading noise canceling with Dual Noise Sensor technology.Specific uses for product : Audio.Frequency Response : 4Hz-40,000Hz..Headphone Type : Closed, dynamic. Frequency Response : 4 Hz-40,000 Hz",
+      "handle": "headphones",
+      "is_giftcard": false,
+      "weight": 250,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": [
+            "Black",
+            "Silver"
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Black",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 250
+            },
+            {
+              "currency_code": "usd",
+              "amount": 250
+            }
+          ],
+          "options": [
+            {
+              "value": "Black"
+            }
+          ],
+          "inventory_quantity": 100,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Futurist Visor",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "vr_headphones",
+      "subtitle": "Visionary VR Experience",
+      "description": "Step into the future with this visor-style VR headset, offering an immersive experience with its panoramic view and comfort-fit design.",
+      "handle": "headset_future",
+      "is_giftcard": false,
+      "weight": 300,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Sleek Black", "Space Gray"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Sleek Black",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 299
+            },
+            {
+              "currency_code": "usd",
+              "amount": 350
+            }
+          ],
+          "options": [
+            {
+              "value": "Sleek Black"
+            }
+          ],
+          "inventory_quantity": 50,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Cybernetic Headset",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "headphones",
+      "subtitle": "High-Tech Audio",
+      "description": "The Cybernetic Headset merges state-of-the-art sound technology with a robotic design to deliver an unmatched audio experience.",
+      "handle": "headset_audio",
+      "is_giftcard": false,
+      "weight": 260,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Robot White", "Electronic Blue"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Robot White",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 280
+            },
+            {
+              "currency_code": "usd",
+              "amount": 300
+            }
+          ],
+          "options": [
+            {
+              "value": "Robot White"
+            }
+          ],
+          "inventory_quantity": 75,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Streamline Rift",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "headphones",
+      "subtitle": "Sleek Gaming Audio",
+      "description": "The Streamline Rift is designed for gamers, with a focus on sleek design and superior sound quality for an all-engaging gaming experience.",
+      "handle": "headset_sleek",
+      "is_giftcard": false,
+      "weight": 290,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Racing Red", "Midnight Black"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Racing Red",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 270
+            },
+            {
+              "currency_code": "usd",
+              "amount": 290
+            }
+          ],
+          "options": [
+            {
+              "value": "Racing Red"
+            }
+          ],
+          "inventory_quantity": 85,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Orbit Headset",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "headphones",
+      "subtitle": "Aural Space Exploration",
+      "description": "Orbit your sound experience with The Orbit Headset, featuring 360-degree audio immersion in a sleek, space-inspired design.",
+      "handle": "headset_aural",
+      "is_giftcard": false,
+      "weight": 275,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Galactic Black", "Stellar White"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Galactic Black",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 310
+            },
+            {
+              "currency_code": "usd",
+              "amount": 330
+            }
+          ],
+          "options": [
+            {
+              "value": "Galactic Black"
+            }
+          ],
+          "inventory_quantity": 60,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Visionary",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "headphones",
+      "subtitle": "See the Unseen",
+      "description": "The Visionary VR gear provides an unparalleled field of vision with crystal clear display, making the unseen seen.",
+      "handle": "headset_vision",
+      "is_giftcard": false,
+      "weight": 310,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Visionary Black", "Innovator Ivory"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Visionary Black",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 320
+            },
+            {
+              "currency_code": "usd",
+              "amount": 340
+            }
+          ],
+          "options": [
+            {
+              "value": "Visionary Black"
+            }
+          ],
+          "inventory_quantity": 40,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Echo Shade",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "headphones",
+      "subtitle": "Sound in Style",
+      "description": "The Echo Shade blends high-fidelity audio with a fashion-forward design, providing both style and substance.",
+      "handle": "headset_echo",
+      "is_giftcard": false,
+      "weight": 265,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Eclipse Black", "Solar White"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Eclipse Black",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 250
+            },
+            {
+              "currency_code": "usd",
+              "amount": 270
+            }
+          ],
+          "options": [
+            {
+              "value": "Eclipse Black"
+            }
+          ],
+          "inventory_quantity": 90,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
+      "title": "The Nova Gear",
+      "categories": [
+        {
+          "id": "vr_headphones"
+        }
+      ],
+      "collections.id": "vr_headphones",
+      "subtitle": "Tech that Transcends",
+      "description": "The Nova Gear is the tech enthusiast's dream, offering a transcendental experience with its advanced features and stellar design.",
+      "handle": "headset_nova",
+      "is_giftcard": false,
+      "weight": 285,
+      "images": [
+      ],
+      "options": [
+        {
+          "title": "Color",
+          "values": ["Nebula Navy", "Cosmic Chrome"]
+        }
+      ],
+      "variants": [
+        {
+          "title": "Nebula Navy",
+          "prices": [
+            {
+              "currency_code": "eur",
+              "amount": 260
+            },
+            {
+              "currency_code": "usd",
+              "amount": 280
+            }
+          ],
+          "options": [
+            {
+              "value": "Nebula Navy"
+            }
+          ],
+          "inventory_quantity": 70,
+          "manage_inventory": true
+        }
+      ]
+    },
+    {
       "title": "Medusa T-Shirt",
       "categories": [
         {
@@ -1001,6 +1356,42 @@
       "rank": 0,
       "category_children": [],
       "handle": "hidden-homepage-featured-items"
+    },
+    {
+      "id": "headphones",
+      "name": "Headphones",
+      "rank": 1,
+      "category_children": [],
+      "handle": "headphones"
+    },
+    {
+      "id": "vr_headphones",
+      "name": "VR Headphones",
+      "rank": 2,
+      "category_children": [],
+      "handle": "vr_headphones"
+    }
+  ],
+  "collections": [
+    {
+      "id": "demo",
+      "title": "Demo Collection",
+      "handle": "demo"
+    },
+    {
+      "id": "headphones",
+      "title": "Headphones",
+      "handle": "headphones"
+    },
+    {
+      "id": "vr_headphones",
+      "title": "VR Headphones",
+      "handle": "vr_headphones"
+    }
+  ],
+  "publishable_api_keys": [
+    {
+      "title": "Development"
     }
   ]
 }
