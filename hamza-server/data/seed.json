@@ -136,6 +136,23 @@
       "amount": 0
     }
   ],
+  "product_collections": [
+    {
+      "id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
+      "title": "Other Items",
+      "handle": "pcol_01HRVF8HCVY8B00RF5S54THTPC"
+    },
+    {
+      "id": "pcol_01HSGAM4918EX0DETKY6E662WT",
+      "title": "Headphones",
+      "handle": "pcol_01HSGAM4918EX0DETKY6E662WT"
+    },
+    {
+      "id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
+      "title": "VR Headphones",
+      "handle": "pcol_01HSGAMXDJD725MR3VSW631SN2"
+    }
+  ],
   "products": [
     {
       "title": "Sony WH-1000XM4",
@@ -144,7 +161,7 @@
           "id": "headphones"
         }
       ],
-      "collections.id": "headphones",
+      "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
       "subtitle": "The best noise-cancelling headphones",
       "description": "Industry-leading noise canceling with Dual Noise Sensor technology.Specific uses for product : Audio.Frequency Response : 4Hz-40,000Hz..Headphone Type : Closed, dynamic. Frequency Response : 4 Hz-40,000 Hz",
       "handle": "headphones",
@@ -191,7 +208,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "vr_headphones",
+      "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
       "subtitle": "Visionary VR Experience",
       "description": "Step into the future with this visor-style VR headset, offering an immersive experience with its panoramic view and comfort-fit design.",
       "handle": "headset_future",
@@ -235,7 +252,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "headphones",
+      "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
       "subtitle": "High-Tech Audio",
       "description": "The Cybernetic Headset merges state-of-the-art sound technology with a robotic design to deliver an unmatched audio experience.",
       "handle": "headset_audio",
@@ -279,7 +296,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "headphones",
+      "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
       "subtitle": "Sleek Gaming Audio",
       "description": "The Streamline Rift is designed for gamers, with a focus on sleek design and superior sound quality for an all-engaging gaming experience.",
       "handle": "headset_sleek",
@@ -323,7 +340,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "headphones",
+      "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
       "subtitle": "Aural Space Exploration",
       "description": "Orbit your sound experience with The Orbit Headset, featuring 360-degree audio immersion in a sleek, space-inspired design.",
       "handle": "headset_aural",
@@ -367,7 +384,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "headphones",
+      "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
       "subtitle": "See the Unseen",
       "description": "The Visionary VR gear provides an unparalleled field of vision with crystal clear display, making the unseen seen.",
       "handle": "headset_vision",
@@ -411,7 +428,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "headphones",
+      "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
       "subtitle": "Sound in Style",
       "description": "The Echo Shade blends high-fidelity audio with a fashion-forward design, providing both style and substance.",
       "handle": "headset_echo",
@@ -455,7 +472,7 @@
           "id": "vr_headphones"
         }
       ],
-      "collections.id": "vr_headphones",
+      "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
       "subtitle": "Tech that Transcends",
       "description": "The Nova Gear is the tech enthusiast's dream, offering a transcendental experience with its advanced features and stellar design.",
       "handle": "headset_nova",
@@ -500,6 +517,7 @@
         }
       ],
       "subtitle": null,
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "description": "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
       "handle": "t-shirt",
       "is_giftcard": false,
@@ -722,6 +740,7 @@
           "id": "pcat_shirts"
         }
       ],
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "subtitle": null,
       "description": "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
       "handle": "sweatshirt",
@@ -832,6 +851,7 @@
           "id": "pcat_pants"
         }
       ],
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "subtitle": null,
       "description": "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
       "handle": "sweatpants",
@@ -942,6 +962,7 @@
           "id": "pcat_merch"
         }
       ],
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "subtitle": null,
       "description": "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
       "handle": "shorts",
@@ -1055,6 +1076,7 @@
           "id": "pcat_hidden_featured"
         }
       ],
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "subtitle": null,
       "description": "Reimagine the feeling of a classic hoodie. With our cotton hoodie, everyday essentials no longer have to be ordinary.",
       "handle": "hoodie",
@@ -1168,6 +1190,7 @@
           "id": "pcat_hidden_featured"
         }
       ],
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "subtitle": null,
       "description": "Reimagine the feeling of a classic longsleeve. With our cotton longsleeve, everyday essentials no longer have to be ordinary.",
       "handle": "longsleeve",
@@ -1281,6 +1304,7 @@
           "id": "pcat_hidden_featured"
         }
       ],
+      "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
       "subtitle": null,
       "description": "Every programmer's best friend.",
       "handle": "coffee-mug",
@@ -1369,23 +1393,6 @@
       "name": "VR Headphones",
       "rank": 2,
       "category_children": [],
-      "handle": "vr_headphones"
-    }
-  ],
-  "collections": [
-    {
-      "id": "demo",
-      "title": "Demo Collection",
-      "handle": "demo"
-    },
-    {
-      "id": "headphones",
-      "title": "Headphones",
-      "handle": "headphones"
-    },
-    {
-      "id": "vr_headphones",
-      "title": "VR Headphones",
       "handle": "vr_headphones"
     }
   ],
