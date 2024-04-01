@@ -77,13 +77,11 @@ sudo apt update
 sudo apt install redis 
 ```
 
-**6. Run medusa seed & migrations** 
+**6. Run medusa seed** 
 
-```medusa seed --seed-file=data/seed.json
-# or npx medusa seed --seed-file=data/seed.json
+```
 cd ./hamza-server
 npx medusa seed --seed-file=data/seed.json
-npx medusa seed --seed-file=data/tech_seed.json 
 npx medusa migrations run
 ```
 
