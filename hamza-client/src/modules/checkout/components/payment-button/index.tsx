@@ -9,6 +9,12 @@ import { placeOrder } from "@modules/checkout/actions"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
+import { MedusaProvider } from "medusa-react"
+import { RainbowWrapper } from "app/rainbow-provider"
+import { ChakraProvider } from "@chakra-ui/react"
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { InjectedConnector } from "wagmi/connectors/injected"
 
 type PaymentButtonProps = {
     cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -237,6 +243,10 @@ const CryptoPaymentButton = ({
 }) => {
     const [submitting, setSubmitting] = useState(false)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    
+    const { connect } = useConnect({
+        connector: new InjectedConnector(),
+    });
 
     const onPaymentCompleted = async () => {
         await placeOrder().catch(() => {
@@ -245,33 +255,38 @@ const CryptoPaymentButton = ({
         })
     }
 
-    const stripe = useStripe();
-    const elements = useElements();
-    const card = elements?.getElement("card");
-
     const session = cart.payment_session as PaymentSession;
-
-    const disabled = !stripe || !elements ? true : false;
 
     const handlePayment = async () => {
         setSubmitting(true);
 
-        if (!stripe || !elements || !card || !cart) {
-            setSubmitting(false);
-            return;
-        }
+        console.log(window.ethereum);
+        await connect();
+        console.log(window.ethereum);
+
+        onPaymentCompleted();   
     }
 
     return (
         <>
-            <Button
-                disabled={disabled || notReady}
-                onClick={handlePayment}
-                size="large"
-                isLoading={submitting}
-            >
-                Place Order: Crypto
-            </Button>
+            <div>
+                    <RainbowWrapper>
+                        <ChakraProvider>
+                        <main className="relative">
+                            <Button fontWeight="italic"
+                                bg="transparent"
+                                size="large"
+                                isLoading={submitting}
+                                disabled={notReady}
+                                color="white"
+                                onClick={handlePayment}
+                                border="2px" // Sets the border width
+                                >Place Order: Crypto
+                            </Button>
+                        </main>
+                        </ChakraProvider>
+                    </RainbowWrapper>
+            </div>
             <ErrorMessage error={errorMessage} />
         </>
     )
