@@ -256,18 +256,43 @@ const CryptoPaymentButton = ({
     }
 
     const session = cart.payment_session as PaymentSession;
+    
+    //1. basic scenario 
+    //2. strategy, basic plan 
+    //3. what questions are still left 
+    //how to break up what's left to do
 
     const handlePayment = async () => {
         setSubmitting(true);
         
+        //this is just a test, not important -JK
         const response = await medusaClient.paymentMethods;
         console.log("payment methods");
         console.log(response);
 
+        //ignore for now -JK 
         //const switchClient = new SwitchClient("0x000");
+        
+        /*
+        STEP 1: WEB3 client-side code: 
+         - check if wallet's connected 
+         - use the wallet to make a payment on the blockchain 
+         - capture the tx id 
+         (none of this is a mystery or really in question for the most part)
+        */
+       
+        //calls to open wallet 
+        //here I want to replace with web3 code that will actually create a blockchain 
+        //transaction. -JK
         await connect();
-
-        onPaymentCompleted();   
+        
+        /*
+        STEP 2: Communicating back to the payment processor (server)
+        - what it boils down to is: how to pass custom data to processor
+        */
+        
+        //here, somehow I would like to pass custom data back to the payment provider  -JK
+        onPaymentCompleted();
     }
 
     return (
