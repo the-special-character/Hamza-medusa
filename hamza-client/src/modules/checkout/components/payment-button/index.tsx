@@ -1,23 +1,25 @@
-"use client"
+'use client'
 
-import { Cart, PaymentSession } from "@medusajs/medusa"
-import { Button } from "@medusajs/ui"
-import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
-import { useElements, useStripe } from "@stripe/react-stripe-js"
-import { placeOrder } from "@modules/checkout/actions"
-import React, { useState } from "react"
-import ErrorMessage from "../error-message"
-import Spinner from "@modules/common/icons/spinner"
-import { RainbowWrapper } from "app/rainbow-provider"
-import { ChakraProvider } from "@chakra-ui/react"
-import { useAccount, useConnect } from "wagmi"
-import { InjectedConnector } from "wagmi/connectors/injected"
-import { SwitchClient } from "web3/switch-client";
-import { medusaClient } from "@lib/config"
+import { Cart, PaymentSession } from '@medusajs/medusa'
+import { Button } from '@medusajs/ui'
+import { OnApproveActions, OnApproveData } from '@paypal/paypal-js'
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
+import { useElements, useStripe } from '@stripe/react-stripe-js'
+import { placeOrder } from '@modules/checkout/actions'
+import React, { useState } from 'react'
+import ErrorMessage from '../error-message'
+import Spinner from '@modules/common/icons/spinner'
+import { RainbowWrapper } from 'app/rainbow-provider'
+import { ChakraProvider } from '@chakra-ui/react'
+import { useAccount, useConnect } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { IPaymentInputCurrency, ITransactionOutput, SwitchClient } from 'web3/switch-client';
+import { medusaClient } from '@lib/config'
+import { BigNumberish, ethers } from 'ethers'
+import { cookies } from 'next/headers'
 
 type PaymentButtonProps = {
-    cart: Omit<Cart, "refundable_amount" | "refunded_total">
+    cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
@@ -33,13 +35,13 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const paymentSession = cart.payment_session as PaymentSession
 
     switch (paymentSession.provider_id) {
-        case "stripe":
+        case 'stripe':
             return <StripePaymentButton notReady={notReady} cart={cart} />
-        case "manual":
+        case 'manual':
             return <ManualTestPaymentButton notReady={notReady} />
-        case "paypal":
-            return <PayPalPaymentButton notReady={notReady} cart={cart} />
-        case "crypto":
+        //case 'paypal':
+        //    return <PayPalPaymentButton notReady={notReady} cart={cart} />
+        case 'crypto':
             return <CryptoPaymentButton notReady={notReady} cart={cart} />
         default:
             return <ManualTestPaymentButton notReady={notReady} />
@@ -51,7 +53,7 @@ const StripePaymentButton = ({
     cart,
     notReady,
 }: {
-    cart: Omit<Cart, "refundable_amount" | "refunded_total">
+    cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>
     notReady: boolean
 }) => {
     const [submitting, setSubmitting] = useState(false)
@@ -59,14 +61,14 @@ const StripePaymentButton = ({
 
     const onPaymentCompleted = async () => {
         await placeOrder().catch(() => {
-            setErrorMessage("An error occurred, please try again.")
+            setErrorMessage('An error occurred, please try again.')
             setSubmitting(false)
         })
     }
 
     const stripe = useStripe()
     const elements = useElements()
-    const card = elements?.getElement("card")
+    const card = elements?.getElement('card')
 
     const session = cart.payment_session as PaymentSession
 
@@ -87,7 +89,7 @@ const StripePaymentButton = ({
                     billing_details: {
                         name:
                             cart.billing_address.first_name +
-                            " " +
+                            ' ' +
                             cart.billing_address.last_name,
                         address: {
                             city: cart.billing_address.city ?? undefined,
@@ -107,8 +109,8 @@ const StripePaymentButton = ({
                     const pi = error.payment_intent
 
                     if (
-                        (pi && pi.status === "requires_capture") ||
-                        (pi && pi.status === "succeeded")
+                        (pi && pi.status === 'requires_capture') ||
+                        (pi && pi.status === 'succeeded')
                     ) {
                         onPaymentCompleted()
                     }
@@ -118,8 +120,8 @@ const StripePaymentButton = ({
                 }
 
                 if (
-                    (paymentIntent && paymentIntent.status === "requires_capture") ||
-                    paymentIntent.status === "succeeded"
+                    (paymentIntent && paymentIntent.status === 'requires_capture') ||
+                    paymentIntent.status === 'succeeded'
                 ) {
                     return onPaymentCompleted()
                 }
@@ -133,7 +135,7 @@ const StripePaymentButton = ({
             <Button
                 disabled={disabled || notReady}
                 onClick={handlePayment}
-                size="large"
+                size='large'
                 isLoading={submitting}
             >
                 Place order
@@ -147,7 +149,7 @@ const PayPalPaymentButton = ({
     cart,
     notReady,
 }: {
-    cart: Omit<Cart, "refundable_amount" | "refunded_total">
+    cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>
     notReady: boolean
 }) => {
     const [submitting, setSubmitting] = useState(false)
@@ -155,7 +157,7 @@ const PayPalPaymentButton = ({
 
     const onPaymentCompleted = async () => {
         await placeOrder().catch(() => {
-            setErrorMessage("An error occurred, please try again.")
+            setErrorMessage('An error occurred, please try again.')
             setSubmitting(false)
         })
     }
@@ -169,7 +171,7 @@ const PayPalPaymentButton = ({
         actions?.order
             ?.authorize()
             .then((authorization) => {
-                if (authorization.status !== "COMPLETED") {
+                if (authorization.status !== 'COMPLETED') {
                     setErrorMessage(`An error occurred, status: ${authorization.status}`)
                     return
                 }
@@ -191,7 +193,7 @@ const PayPalPaymentButton = ({
         return (
             <>
                 <PayPalButtons
-                    style={{ layout: "horizontal" }}
+                    style={{ layout: 'horizontal' }}
                     createOrder={async () => session.data.id as string}
                     onApprove={handlePayment}
                     disabled={notReady || submitting || isPending}
@@ -225,7 +227,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
                 disabled={notReady}
                 isLoading={submitting}
                 onClick={handlePayment}
-                size="large"
+                size='large'
             >
                 Place order: Manual
             </Button>
@@ -238,7 +240,7 @@ const CryptoPaymentButton = ({
     cart,
     notReady,
 }: {
-    cart: Omit<Cart, "refundable_amount" | "refunded_total">
+    cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>
     notReady: boolean
 }) => {
     const [submitting, setSubmitting] = useState(false)
@@ -247,10 +249,44 @@ const CryptoPaymentButton = ({
     const { connect } = useConnect({
         connector: new InjectedConnector(),
     });
+    
+    //RETURNS TRANSACTION ID
+    const makePayment = async () => {
+        /*
+        const cartId = cookies().get('_medusa_cart_id')?.value;
+        const cart = await medusaClient.carts.retrieve(cartId ?? '');
+        console.log('CART IS');
+        console.log(cart);
+        */
+        
+        /*
+        UNCOMMENT TO MAKE ACTUAL PAYMENT
+        const session = cart.payment_session as PaymentSession;
+        const provider = new ethers.BrowserProvider(window.ethereum, 11155420);
+        const signer = await provider.getSigner();
+        
+        console.log("payer: ", signer.address);
+        
+        const switchClient: SwitchClient = new SwitchClient(provider, signer, '0xD48425B7fb702F571D872f4b7046B30c9FA47e15'); 
+        const output: ITransactionOutput = await switchClient.placeSinglePayment({
+            amount: session.amount,
+            currency: ethers.ZeroAddress, 
+            payer: signer.address,
+            receiver: '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A', //TODO: a way to get seller wallet
+            id: 1
+        });
+        
+        console.log(output);
+        
+        console.log("TX ID: ", output.txId);
+        return output.txId;
+        */
+        return "0x5ca37bc6f6d6e38010ed82d94bf43de70c6407488715ce0ef8c9d2d7f878ccd6";
+    };
 
     const onPaymentCompleted = async () => {
         await placeOrder().catch(() => {
-            setErrorMessage("An error occurred, please try again.");
+            setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         }); 
     }
@@ -267,11 +303,11 @@ const CryptoPaymentButton = ({
         
         //this is just a test, not important -JK
         const response = await medusaClient.paymentMethods;
-        console.log("payment methods");
+        console.log('payment methods');
         console.log(response);
 
         //ignore for now -JK 
-        //const switchClient = new SwitchClient("0x000");
+        //const switchClient = new SwitchClient('0x000');
         
         /*
         STEP 1: WEB3 client-side code: 
@@ -290,6 +326,7 @@ const CryptoPaymentButton = ({
         and connecting their wallet only if necessary (or is that even necessary) 
         */
         await connect();
+        const txId: string = await makePayment();
         
         /*
         STEP 2: Communicating back to the payment processor (server)
@@ -305,15 +342,13 @@ const CryptoPaymentButton = ({
             <div>
                     <RainbowWrapper>
                         <ChakraProvider>
-                        <main className="relative">
-                            <Button fontWeight="italic"
-                                bg="transparent"
-                                size="large"
+                        <main className='relative'>
+                            <Button 
+                                size='large'
                                 isLoading={submitting}
                                 disabled={notReady}
-                                color="white"
+                                color='white'
                                 onClick={handlePayment}
-                                border="2px" // Sets the border width
                                 >Place Order: Crypto
                             </Button>
                         </main>
