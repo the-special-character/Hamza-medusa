@@ -284,6 +284,11 @@ const CryptoPaymentButton = ({
         //calls to open wallet 
         //here I want to replace with web3 code that will actually create a blockchain 
         //transaction. -JK
+        
+        /* 
+        one other sub-problem here: ensuring that client is connected, 
+        and connecting their wallet only if necessary (or is that even necessary) 
+        */
         await connect();
         
         /*
