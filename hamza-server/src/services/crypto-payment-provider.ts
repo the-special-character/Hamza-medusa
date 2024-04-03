@@ -28,6 +28,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     
     async capturePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]> {
         console.log("CryptoPaymentService: capturePayment");
+        console.log(paymentSessionData);
         console.log(super.container);
         return {
             session_data: paymentSessionData
@@ -39,6 +40,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         data: PaymentProcessorSessionResponse["session_data"];
     }> {
         console.log("CryptoPaymentService: authorizePayment");
+        console.log(paymentSessionData);
         return {
             status: PaymentSessionStatus.AUTHORIZED,
             data: {
@@ -70,6 +72,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     
     async initiatePayment(context: PaymentProcessorContext): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
         console.log("CryptoPaymentService: initiatePayment");
+        console.log(context);
 
         const intentRequestData = this.getPaymentIntentOptions();
         const { email, currency_code, amount, resource_id, customer } = context;
@@ -108,6 +111,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     
     async deletePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]> {
         console.log("CryptoPaymentService: deletePayment");
+        console.log(paymentSessionData);
         return {
             session_data: paymentSessionData
         };
@@ -115,18 +119,21 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     
     async getPaymentStatus(paymentSessionData: Record<string, unknown>): Promise<PaymentSessionStatus> {
         console.log("CryptoPaymentService: getPaymentStatus");
+        console.log(paymentSessionData);
         return PaymentSessionStatus.AUTHORIZED;
     }
     
     async refundPayment(paymentSessionData: Record<string, unknown>, refundAmount: number): Promise<PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]> {
         console.log("CryptoPaymentService: refundPayment");
+        console.log(paymentSessionData);
         return {
             session_data: paymentSessionData
         };
     }
     
     async retrievePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]> {
-        console.log("CryptoPaymentService: retrievePayment"); 
+        console.log("CryptoPaymentService: retrievePayment");
+        console.log(paymentSessionData);
         return {
             session_data: paymentSessionData
         };
@@ -134,6 +141,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     
     async updatePayment(context: PaymentProcessorContext): Promise<PaymentProcessorError | PaymentProcessorSessionResponse | void> {
         console.log("CryptoPaymentService: updatePayment");
+        console.log(context);
         return this.initiatePayment(context);
     }
     

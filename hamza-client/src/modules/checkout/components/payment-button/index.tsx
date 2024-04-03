@@ -9,12 +9,12 @@ import { placeOrder } from "@modules/checkout/actions"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
-import { MedusaProvider } from "medusa-react"
 import { RainbowWrapper } from "app/rainbow-provider"
 import { ChakraProvider } from "@chakra-ui/react"
-import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { useAccount, useConnect } from "wagmi"
 import { InjectedConnector } from "wagmi/connectors/injected"
+import { SwitchClient } from "web3/switch-client";
+import { medusaClient } from "@lib/config"
 
 type PaymentButtonProps = {
     cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -252,17 +252,20 @@ const CryptoPaymentButton = ({
         await placeOrder().catch(() => {
             setErrorMessage("An error occurred, please try again.");
             setSubmitting(false);
-        })
+        }); 
     }
 
     const session = cart.payment_session as PaymentSession;
 
     const handlePayment = async () => {
         setSubmitting(true);
+        
+        const response = await medusaClient.paymentMethods;
+        console.log("payment methods");
+        console.log(response);
 
-        console.log(window.ethereum);
+        //const switchClient = new SwitchClient("0x000");
         await connect();
-        console.log(window.ethereum);
 
         onPaymentCompleted();   
     }
