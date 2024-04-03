@@ -258,34 +258,33 @@ const CryptoPaymentButton = ({
         console.log('CART IS');
         console.log(cart);
         */
+
+        //UNCOMMENT TO MAKE ACTUAL PAYMENT
+        try
+        {
+            const session = cart.payment_session as PaymentSession;
+            const provider = new ethers.BrowserProvider(window.ethereum, 11155111); //TODO: get chain dynamically
+            const signer = await provider.getSigner();
+            
+            console.log("payer: ", signer.address);
+            
+            const switchClient: SwitchClient = new SwitchClient(provider, signer, '0x2B21bf6eb4F1b8F715eC0C6647b6488584cEFC76'); 
+            const output: ITransactionOutput = await switchClient.placePayment(
+                session.amount
+            );
+            
+            console.log(output);
+            
+            console.log("TX ID: ", output.txId);
+            //return output.txId;
+        }
+        catch(e){ console.error(e); }
         
-        /*
-        UNCOMMENT TO MAKE ACTUAL PAYMENT
-        const session = cart.payment_session as PaymentSession;
-        const provider = new ethers.BrowserProvider(window.ethereum, 11155420);
-        const signer = await provider.getSigner();
-        
-        console.log("payer: ", signer.address);
-        
-        const switchClient: SwitchClient = new SwitchClient(provider, signer, '0xD48425B7fb702F571D872f4b7046B30c9FA47e15'); 
-        const output: ITransactionOutput = await switchClient.placeSinglePayment({
-            amount: session.amount,
-            currency: ethers.ZeroAddress, 
-            payer: signer.address,
-            receiver: '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A', //TODO: a way to get seller wallet
-            id: 1
-        });
-        
-        console.log(output);
-        
-        console.log("TX ID: ", output.txId);
-        return output.txId;
-        */
-        return "0x5ca37bc6f6d6e38010ed82d94bf43de70c6407488715ce0ef8c9d2d7f878ccd6";
+        return '0x5ca37bc6f6d6e38010ed82d94bf43de70c6407488715ce0ef8c9d2d7f878ccd6';
     };
 
-    const onPaymentCompleted = async () => {
-        await placeOrder().catch(() => {
+    const onPaymentCompleted = async (txId: string) => {
+        await placeOrder(txId).catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         }); 
@@ -334,7 +333,7 @@ const CryptoPaymentButton = ({
         */
         
         //here, somehow I would like to pass custom data back to the payment provider  -JK
-        onPaymentCompleted();
+        onPaymentCompleted(txId);
     }
 
     return (

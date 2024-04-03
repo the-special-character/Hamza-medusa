@@ -721,6 +721,19 @@ const abi = [
     {
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "placePayment2",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "address",
                 "name": "receiver",
                 "type": "address"
@@ -847,9 +860,9 @@ const abi = [
  * Input params to a single payment to the Switch.
  */
 export interface IPaymentInput {
-    payer: string; 
+    id: BigNumberish;
     receiver: string; 
-    id: BigNumberish; 
+    payer: string; 
     amount: BigNumberish;
 }
 
@@ -901,11 +914,21 @@ export class SwitchClient {
      * Place a single payment in a single currency. 
      * @param input The payment input
      */
-    async placeSinglePayment(input: IPaymentInputCurrency): Promise<ITransactionOutput> {
-        const tx = await this.paymentSwitch.placePayment(input);
+    async placeSinglePayment(input: IPaymentInput): Promise<ITransactionOutput> {
+        const tx = await this.paymentSwitch.placePayment(input, {value: input.amount});
         const txId = tx.identifier;
         const receipt =  await tx.wait();
         
+        return {
+            txId, tx, receipt
+        };
+    }
+    
+    async placePayment(amount: number): Promise<ITransactionOutput> {
+        const tx = await this.paymentSwitch.placePayment2(amount, { value: amount });
+        const txId = tx.identifier;
+        const receipt = await tx.wait();
+
         return {
             txId, tx, receipt
         };

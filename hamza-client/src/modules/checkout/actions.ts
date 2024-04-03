@@ -12,18 +12,19 @@ import {
 import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
+import { medusaClient } from "@lib/config"
 
 export async function cartUpdate(data: StorePostCartsCartReq) {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+    const cartId = cookies().get("_medusa_cart_id")?.value;
 
-  if (!cartId) return "No cartId cookie found"
+    if (!cartId) return "No cartId cookie found";
 
-  try {
-    await updateCart(cartId, data)
-    revalidateTag("cart")
-  } catch (error: any) {
-    return error.toString()
-  }
+    try {
+        await updateCart(cartId, data);
+        revalidateTag("cart");
+    } catch (error: any) {
+        return error.toString();
+    }
 }
 
 export async function applyDiscount(code: string) {
@@ -184,25 +185,29 @@ export async function setPaymentMethod(providerId: string) {
   }
 }
 
-export async function placeOrder() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+export async function placeOrder(txId: string) {
+    const cartId = cookies().get("_medusa_cart_id")?.value;
 
-  if (!cartId) throw new Error("No cartId cookie found")
+    if (!cartId) throw new Error("No cartId cookie found");
+    
+    //passing the tx id back to the server 
+    medusaClient.carts.update(cartId, {
+        context: { txId: txId }
+    })
 
-  let cart
+    let cart;
+    try {
+        cart = await completeCart(cartId);
+        revalidateTag("cart");
+    } catch (error: any) {
+        throw error;
+    }
 
-  try {
-    cart = await completeCart(cartId)
-    revalidateTag("cart")
-  } catch (error: any) {
-    throw error
-  }
+    if (cart?.type === "order") {
+        const countryCode = cart.data.shipping_address?.country_code?.toLowerCase();
+        cookies().set("_medusa_cart_id", "", { maxAge: -1 });
+        redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`);
+    }
 
-  if (cart?.type === "order") {
-    const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
-    cookies().set("_medusa_cart_id", "", { maxAge: -1 })
-    redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`)
-  }
-
-  return cart
+    return cart;
 }
