@@ -315,7 +315,7 @@ const CryptoPaymentButton = ({
             const switchClient: SwitchClient = new SwitchClient(
                 provider,
                 signer,
-                '0x2B21bf6eb4F1b8F715eC0C6647b6488584cEFC76'
+                '0xA5ffa0a980127493Fe770BE6fC5f6BB395321312'
             ); //TODO: get contract address dynamically
             const output: ITransactionOutput = await switchClient.placeSinglePayment({
                     amount: session.amount,
@@ -328,7 +328,7 @@ const CryptoPaymentButton = ({
             console.log(output);
 
             console.log('TX ID: ', output.txId);
-            //return output.txId;
+            return output.txId;
         } catch (e) {
             console.error(e);
         }
