@@ -5,9 +5,26 @@ import {
     PaymentProcessorContext, 
     PaymentProcessorError, 
     PaymentProcessorSessionResponse, 
-    PaymentSessionStatus 
+    PaymentSessionStatus, 
+    Payment
 } from "@medusajs/medusa";
-import { PaymentIntentOptions } from "medusa-payment-stripe";
+import { PaymentIntentOptions } from "medusa-payment-stripe"; //TODO: need? 
+import { ethers, TransactionResponse } from 'ethers';
+
+async function verifyPaymentTransactionId(txId: any) : Promise<boolean> {
+    try {
+        const provider = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
+        const tx: TransactionResponse = await provider.getTransaction(txId); 
+        if (tx) {
+            //tx.from
+            return true;
+        }
+    }
+    catch(e) {
+        console.error(e);
+    }
+    return false;
+}
 
 /**
  * @description This is being used as a test right now for payment processing using 
@@ -41,8 +58,12 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     }> {
         console.log("CryptoPaymentService: authorizePayment");
         console.log(paymentSessionData);
+        let payment_status = paymentSessionData.payment_status;
+        if (!payment_status) 
+            payment_status = "ok";
+        
         return {
-            status: PaymentSessionStatus.AUTHORIZED,
+            status: payment_status == "ok" ? PaymentSessionStatus.AUTHORIZED : PaymentSessionStatus.ERROR,
             data: {
                 session_data: paymentSessionData
             }
@@ -76,6 +97,16 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
 
         const intentRequestData = this.getPaymentIntentOptions();
         const { email, currency_code, amount, resource_id, customer } = context;
+        
+        //if there is a tx id, verify that it's legit
+        let payment_status = "ok"; 
+        if (context?.context?.txId) {
+            const txId = context.context.txId;
+            console.log("got TXID: ", txId);
+            if (!await verifyPaymentTransactionId(txId)) {
+                payment_status = "failed";
+            }
+        }
 
         const session_data: any = {
             amount: Math.round(100),
@@ -83,6 +114,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             notes: { resource_id },
             payment: {
                 capture: "manual",
+                payment_status: payment_status,
                 capture_options: {
                     refund_speed: "normal",
                     automatic_expiry_period: 5,
@@ -94,19 +126,6 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         return {
             session_data: session_data as any
         };
-        /*
-        return {
-            session_data: {
-                "method": "initiatePayment",
-                "song": "rondo alla turca", 
-                "craic": 90, 
-                "payment_methods": [
-                    "one",
-                    "two"
-                ]
-            }
-        };
-        */
     }
     
     async deletePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]> {
@@ -119,7 +138,17 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     
     async getPaymentStatus(paymentSessionData: Record<string, unknown>): Promise<PaymentSessionStatus> {
         console.log("CryptoPaymentService: getPaymentStatus");
-        console.log(paymentSessionData);
+        console.log(paymentSessionData); 
+        
+        try {
+            const payment_status = paymentSessionData.session_data['session_data']?.payment?.payment_status ?? '';
+            console.log(payment_status);
+            return payment_status === "failed" ? PaymentSessionStatus.ERROR : PaymentSessionStatus.AUTHORIZED;
+        }
+        catch(e) {
+            console.error(e);
+        }
+        
         return PaymentSessionStatus.AUTHORIZED;
     }
     
