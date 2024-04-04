@@ -258,17 +258,28 @@ const CryptoPaymentButton = ({
         console.log('CART IS');
         console.log(cart);
         */
-
+        
         //UNCOMMENT TO MAKE ACTUAL PAYMENT
+        // 2. TODO: (G) FIND A BETTER WAY TO CREATE AN ethers.Provider? 
+        // - I'm using window.ethereum
+        // 1. Is window.ethereum the best way? 
+        // 2. Is there a more wagmi-centric way? 
+        
         try
         {
+            //to call a smart contract, you need a couple things. 
+            // 1. you need a Provider (ethers) 
+            //  here, we get that from the browser 
+            // note I'm using window.ethereum; this is the most basic way to get the browser wallet
+            // TODO: (G) I would guess that Rainbow/wagmi has its own better way of getting this. 
+            // 2. you need a signer, IFF you're going to make write calls (aka transactions) 
             const session = cart.payment_session as PaymentSession;
             const provider = new ethers.BrowserProvider(window.ethereum, 11155111); //TODO: get chain dynamically
             const signer = await provider.getSigner();
             
             console.log("payer: ", signer.address);
             
-            const switchClient: SwitchClient = new SwitchClient(provider, signer, '0x2B21bf6eb4F1b8F715eC0C6647b6488584cEFC76'); 
+            const switchClient: SwitchClient = new SwitchClient(provider, signer, '0x2B21bf6eb4F1b8F715eC0C6647b6488584cEFC76'); //TODO: get contract address dynamically
             const output: ITransactionOutput = await switchClient.placePayment(
                 session.amount
             );
@@ -288,6 +299,9 @@ const CryptoPaymentButton = ({
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         }); 
+        
+        //3. //TODO: (G): when the payment succeeds, there is an error. It's looking for 
+        // 'title' in something (PaymentMethodsMap or something?) what do it want?
     }
 
     const session = cart.payment_session as PaymentSession;
@@ -300,29 +314,18 @@ const CryptoPaymentButton = ({
     const handlePayment = async () => {
         setSubmitting(true);
         
-        //this is just a test, not important -JK
-        const response = await medusaClient.paymentMethods;
-        console.log('payment methods');
-        console.log(response);
-
-        //ignore for now -JK 
-        //const switchClient = new SwitchClient('0x000');
-        
         /*
         STEP 1: WEB3 client-side code: 
-         - check if wallet's connected 
-         - use the wallet to make a payment on the blockchain 
-         - capture the tx id 
+         - check if wallet's connected (not really done)
+         - use the wallet to make a payment on the blockchain (has bug, I will fix -JK)
+         - capture the tx id (no problem)
          (none of this is a mystery or really in question for the most part)
         */
-       
-        //calls to open wallet 
-        //here I want to replace with web3 code that will actually create a blockchain 
-        //transaction. -JK
         
         /* 
         one other sub-problem here: ensuring that client is connected, 
         and connecting their wallet only if necessary (or is that even necessary) 
+        //TODO: (G): 1. Is there a better way? (e.g. hooks?)
         */
         await connect();
         const txId: string = await makePayment();
@@ -339,20 +342,20 @@ const CryptoPaymentButton = ({
     return (
         <>
             <div>
-                    <RainbowWrapper>
-                        <ChakraProvider>
+                <RainbowWrapper>
+                    <ChakraProvider>
                         <main className='relative'>
-                            <Button 
+                            <Button
                                 size='large'
                                 isLoading={submitting}
                                 disabled={notReady}
                                 color='white'
                                 onClick={handlePayment}
-                                >Place Order: Crypto
+                            >Place Order: Crypto
                             </Button>
                         </main>
-                        </ChakraProvider>
-                    </RainbowWrapper>
+                    </ChakraProvider>
+                </RainbowWrapper>
             </div>
             <ErrorMessage error={errorMessage} />
         </>

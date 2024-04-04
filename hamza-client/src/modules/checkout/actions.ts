@@ -186,26 +186,26 @@ export async function setPaymentMethod(providerId: string) {
 }
 
 export async function placeOrder(txId: string) {
-    const cartId = cookies().get("_medusa_cart_id")?.value;
+    const cartId = cookies().get('_medusa_cart_id')?.value;
 
-    if (!cartId) throw new Error("No cartId cookie found");
+    if (!cartId) throw new Error('No cartId cookie found');
     
     //passing the tx id back to the server 
     medusaClient.carts.update(cartId, {
         context: { txId: txId }
-    })
+    });
 
     let cart;
     try {
         cart = await completeCart(cartId);
-        revalidateTag("cart");
+        revalidateTag('cart');
     } catch (error: any) {
         throw error;
     }
 
-    if (cart?.type === "order") {
+    if (cart?.type === 'order') {
         const countryCode = cart.data.shipping_address?.country_code?.toLowerCase();
-        cookies().set("_medusa_cart_id", "", { maxAge: -1 });
+        cookies().set('_medusa_cart_id', '', { maxAge: -1 });
         redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`);
     }
 
