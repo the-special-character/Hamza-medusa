@@ -274,13 +274,12 @@ const CryptoPaymentButton = ({
     console.log('activeConnector: ', activeConnector);
 
     // useEffect hook to check if connection status changes
+    // if !isConnected, connect to wallet
     useEffect(() => {
         if (!isConnected) {
             openConnectModal();
         }
     }, [openConnectModal, isConnected]);
-
-    // if !isConnected, connect to wallet
 
     //RETURNS TRANSACTION ID
     const makePayment = async () => {
@@ -367,6 +366,12 @@ const CryptoPaymentButton = ({
         //TODO: (G): 1. Is there a better way? (e.g. hooks?)
         */
 
+        // Based off what Rainbowkit says in the docs verbaitum;
+        /*
+        ```It is typically recommended that you rely purely on Wagmi hooks (i.e. useAccount) to react
+         to a user's wallet connection status directly, rather than relying on the state of the Connect Modal.```
+        */
+
         connect();
         const txId: string = await makePayment();
 
@@ -381,23 +386,15 @@ const CryptoPaymentButton = ({
 
     return (
         <>
-            <div>
-                <RainbowWrapper>
-                    <ChakraProvider>
-                        <main className="relative">
-                            <Button
-                                size="large"
-                                isLoading={submitting}
-                                disabled={notReady}
-                                color="white"
-                                onClick={handlePayment}
-                            >
-                                Place Order: Crypto
-                            </Button>
-                        </main>
-                    </ChakraProvider>
-                </RainbowWrapper>
-            </div>
+            <Button
+                size="large"
+                isLoading={submitting}
+                disabled={notReady}
+                color="white"
+                onClick={handlePayment}
+            >
+                Place Order: Crypto
+            </Button>
             <ErrorMessage error={errorMessage} />
         </>
     );
