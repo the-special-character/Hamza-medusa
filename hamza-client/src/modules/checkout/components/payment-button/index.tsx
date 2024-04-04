@@ -317,8 +317,12 @@ const CryptoPaymentButton = ({
                 signer,
                 '0x2B21bf6eb4F1b8F715eC0C6647b6488584cEFC76'
             ); //TODO: get contract address dynamically
-            const output: ITransactionOutput = await switchClient.placePayment(
-                session.amount
+            const output: ITransactionOutput = await switchClient.placeSinglePayment({
+                    amount: session.amount,
+                    id: 1, 
+                    payer: signer.address ?? "", 
+                    receiver: "0xcEa845CA58C8dD4369810c3b5168C49Faa34E6F3"
+                }
             );
 
             console.log(output);
