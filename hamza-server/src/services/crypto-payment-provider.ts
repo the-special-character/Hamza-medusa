@@ -13,6 +13,7 @@ async function verifyPaymentTransactionId(transaction_id: any) : Promise<boolean
         const provider = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
         const tx: TransactionResponse = await provider.getTransaction(transaction_id); 
         if (tx) {
+            //TODO: more verification is needed 
             //tx.from
             return true;
         }
@@ -100,6 +101,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             const transaction_id = context.context.transaction_id;
             console.log('got transaction_id: ', transaction_id);
             if (!await verifyPaymentTransactionId(transaction_id)) {
+                //TODO: need a better system to communicate payment failure 
                 payment_status = 'failed';
             }
         }
