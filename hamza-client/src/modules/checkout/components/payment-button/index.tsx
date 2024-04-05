@@ -9,23 +9,15 @@ import { placeOrder } from '@modules/checkout/actions';
 import React, { useState, useEffect } from 'react';
 import ErrorMessage from '../error-message';
 import Spinner from '@modules/common/icons/spinner';
-import { RainbowWrapper } from 'app/rainbow-provider';
 import {
-    useConnectModal,
-    useAccountModal,
-    useChainModal,
+    useConnectModal
 } from '@rainbow-me/rainbowkit';
-import { ChakraProvider } from '@chakra-ui/react';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import {
-    IPaymentInputCurrency,
     ITransactionOutput,
     SwitchClient,
 } from 'web3/switch-client';
-import { medusaClient } from '@lib/config';
-import { BigNumberish, ethers } from 'ethers';
-import { cookies } from 'next/headers';
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -277,32 +269,14 @@ const CryptoPaymentButton = ({
     // if !isConnected, connect to wallet
     useEffect(() => {
         if (!isConnected) {
-            openConnectModal();
+            if (openConnectModal)
+                openConnectModal();
         }
     }, [openConnectModal, isConnected]);
 
     //RETURNS TRANSACTION ID
     const makePayment = async () => {
-        /*
-        const cartId = cookies().get('_medusa_cart_id')?.value;
-        const cart = await medusaClient.carts.retrieve(cartId ?? '');
-        console.log('CART IS');
-        console.log(cart);
-        */
-
-        //UNCOMMENT TO MAKE ACTUAL PAYMENT
-        // 2. TODO: (G) FIND A BETTER WAY TO CREATE AN ethers.Provider?
-        // - I'm using window.ethereum
-        // 1. Is window.ethereum the best way?
-        // 2. Is there a more wagmi-centric way?
-
         try {
-            //to call a smart contract, you need a couple things.
-            // 1. you need a Provider (ethers)
-            //  here, we get that from the browser
-            // note I'm using window.ethereum; this is the most basic way to get the browser wallet
-            // TODO: (G) I would guess that Rainbow/wagmi has its own better way of getting this.
-            // 2. you need a signer, IFF you're going to make write calls (aka transactions)
             const session = cart.payment_session as PaymentSession;
             const provider = new ethers.BrowserProvider(
                 window.ethereum,
@@ -326,14 +300,13 @@ const CryptoPaymentButton = ({
             );
 
             console.log(output);
-
             console.log('TX ID: ', output.txId);
             return output.txId;
         } catch (e) {
             console.error(e);
         }
 
-        return '0x5ca37bc6f6d6e38010ed82d94bf43de70c6407488715ce0ef8c9d2d7f878ccd6';
+        return '';
     };
 
     const onPaymentCompleted = async (txId: string) => {
@@ -341,50 +314,20 @@ const CryptoPaymentButton = ({
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
-
-        //3. //TODO: (G): when the payment succeeds, there is an error. It's looking for
-        // 'title' in something (PaymentMethodsMap or something?) what do it want?
     };
 
     const session = cart.payment_session as PaymentSession;
-
-    //1. basic scenario
-    //2. strategy, basic plan
-    //3. what questions are still left
-    //how to break up what's left to do
-
+    
     const handlePayment = async () => {
         setSubmitting(true);
 
-        /*
-        STEP 1: WEB3 client-side code:
-         - check if wallet's connected (not really done)
-         - use the wallet to make a payment on the blockchain (has bug, I will fix -JK)
-         - capture the tx id (no problem)
-         (none of this is a mystery or really in question for the most part)
-        */
-
-        /*
-        one other sub-problem here: ensuring that client is connected,
-        and connecting their wallet only if necessary (or is that even necessary)
-        //TODO: (G): 1. Is there a better way? (e.g. hooks?)
-        */
-
-        // Based off what Rainbowkit says in the docs verbaitum;
-        /*
-        ```It is typically recommended that you rely purely on Wagmi hooks (i.e. useAccount) to react
-         to a user's wallet connection status directly, rather than relying on the state of the Connect Modal.```
-        */
-
+        //here connect wallet and sign in, if not connected
         connect();
+        
+        //get the transaction id from payment 
         const txId: string = await makePayment();
 
-        /*
-        STEP 2: Communicating back to the payment processor (server)
-        - what it boils down to is: how to pass custom data to processor
-        */
-
-        //here, somehow I would like to pass custom data back to the payment provider  -JK
+        //pass the transaction id back to the provider
         onPaymentCompleted(txId);
     };
 
