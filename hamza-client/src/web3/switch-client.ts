@@ -867,7 +867,7 @@ export interface IPaymentInput {
 }
 
 export interface ITransactionOutput {
-    txId: string, 
+    transaction_id: string, 
     tx: any, 
     receipt: any
 }
@@ -916,21 +916,21 @@ export class SwitchClient {
      */
     async placeSinglePayment(input: IPaymentInput): Promise<ITransactionOutput> {
         const tx = await this.paymentSwitch.placePayment(input, {value: input.amount});
-        const txId = tx.hash;
+        const transaction_id = tx.hash;
         const receipt =  await tx.wait();
         
         return {
-            txId, tx, receipt
+            transaction_id, tx, receipt
         };
     }
     
     async placePayment(amount: number): Promise<ITransactionOutput> {
         const tx = await this.paymentSwitch.placePayment2(amount, { value: amount });
-        const txId = tx.identifier;
+        const transaction_id = tx.identifier;
         const receipt = await tx.wait();
 
         return {
-            txId, tx, receipt
+            transaction_id, tx, receipt
         };
     }
 

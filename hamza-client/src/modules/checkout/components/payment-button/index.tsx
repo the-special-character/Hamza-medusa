@@ -9,15 +9,11 @@ import { placeOrder } from '@modules/checkout/actions';
 import React, { useState, useEffect } from 'react';
 import ErrorMessage from '../error-message';
 import Spinner from '@modules/common/icons/spinner';
-import {
-    useConnectModal
-} from '@rainbow-me/rainbowkit';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import {
-    ITransactionOutput,
-    SwitchClient,
-} from 'web3/switch-client';
+import { ITransactionOutput, SwitchClient } from 'web3/switch-client';
+import { ethers } from "ethers";
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -300,8 +296,8 @@ const CryptoPaymentButton = ({
             );
 
             console.log(output);
-            console.log('TX ID: ', output.txId);
-            return output.txId;
+            console.log('TX ID: ', output.transaction_id);
+            return output.transaction_id;
         } catch (e) {
             console.error(e);
         }
@@ -309,8 +305,8 @@ const CryptoPaymentButton = ({
         return '';
     };
 
-    const onPaymentCompleted = async (txId: string) => {
-        await placeOrder(txId).catch(() => {
+    const onPaymentCompleted = async (transaction_id: string) => {
+        await placeOrder(transaction_id).catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
@@ -325,10 +321,10 @@ const CryptoPaymentButton = ({
         connect();
         
         //get the transaction id from payment 
-        const txId: string = await makePayment();
+        const transaction_id: string = await makePayment();
 
         //pass the transaction id back to the provider
-        onPaymentCompleted(txId);
+        onPaymentCompleted(transaction_id);
     };
 
     return (
