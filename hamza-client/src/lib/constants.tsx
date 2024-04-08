@@ -26,6 +26,10 @@ export const paymentInfoMap: Record<
     title: "PayPal",
     icon: <PayPal />,
   },
+  crypto: {
+    title: "Crypto",
+    icon: <PayPal />,
+  },
   manual: {
     title: "Test payment",
     icon: <CreditCard />,
