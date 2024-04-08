@@ -26,6 +26,12 @@ export declare module "@medusajs/medusa/dist/models/customer" {
 
 export declare module "@medusajs/medusa/dist/models/store" {
   declare interface Store {
-    members?: User[]
+    members?: User[];
+  }
+}
+
+export declare module "@medusajs/medusa/dist/models/product" {
+  declare interface Product {
+    store_id?: string;
   }
 }
