@@ -6,8 +6,8 @@ import {
 
 @Entity()
 export class Product extends MedusaProduct {
-  @Column({ nullable: true, default: "" })
-  store_id?: string;
+  @Column({ nullable: false, default: "" })
+  store_id: string;
 
   // @Column({ nullable: true })
   // email?: string;

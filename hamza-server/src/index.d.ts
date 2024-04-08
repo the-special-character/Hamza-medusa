@@ -32,6 +32,6 @@ export declare module "@medusajs/medusa/dist/models/store" {
 
 export declare module "@medusajs/medusa/dist/models/product" {
   declare interface Product {
-    store_id?: string;
+    store_id: string;
   }
 }

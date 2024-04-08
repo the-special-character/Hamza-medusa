@@ -221,7 +221,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Sleek Black", "Space Gray"]
+          "values": [
+            "Sleek Black",
+            "Space Gray"
+          ]
         }
       ],
       "variants": [
@@ -266,7 +269,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Robot White", "Electronic Blue"]
+          "values": [
+            "Robot White",
+            "Electronic Blue"
+          ]
         }
       ],
       "variants": [
@@ -300,7 +306,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
-        "store_id": "store_01HTYMMB9PQTJHSSH63EQMBZHP",
+      "store_id": "store_01HTYMMB9PQTJHSSH63EQMBZHP",
       "subtitle": "Sleek Gaming Audio",
       "description": "The Streamline Rift is designed for gamers, with a focus on sleek design and superior sound quality for an all-engaging gaming experience.",
       "handle": "headset_sleek",
@@ -311,7 +317,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Racing Red", "Midnight Black"]
+          "values": [
+            "Racing Red",
+            "Midnight Black"
+          ]
         }
       ],
       "variants": [
@@ -345,7 +354,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-        "store_id": "store_01HTYMPFRVBJRGCM3AQTXRPK80",
+      "store_id": "store_01HTYMPFRVBJRGCM3AQTXRPK80",
       "subtitle": "Aural Space Exploration",
       "description": "Orbit your sound experience with The Orbit Headset, featuring 360-degree audio immersion in a sleek, space-inspired design.",
       "handle": "headset_aural",
@@ -356,7 +365,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Galactic Black", "Stellar White"]
+          "values": [
+            "Galactic Black",
+            "Stellar White"
+          ]
         }
       ],
       "variants": [
@@ -390,7 +402,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-        "store_id": "store_01HTYMPFRVBJRGCM3AQTXRPK80",
+      "store_id": "store_01HTYMPFRVBJRGCM3AQTXRPK80",
       "subtitle": "See the Unseen",
       "description": "The Visionary VR gear provides an unparalleled field of vision with crystal clear display, making the unseen seen.",
       "handle": "headset_vision",
@@ -401,7 +413,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Visionary Black", "Innovator Ivory"]
+          "values": [
+            "Visionary Black",
+            "Innovator Ivory"
+          ]
         }
       ],
       "variants": [
@@ -446,7 +461,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Eclipse Black", "Solar White"]
+          "values": [
+            "Eclipse Black",
+            "Solar White"
+          ]
         }
       ],
       "variants": [
@@ -480,7 +498,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-        "store_id": "store_01HTYMPFRVBJRGCM3AQTXRPK80",
+      "store_id": "store_01HTYMPFRVBJRGCM3AQTXRPK80",
       "subtitle": "Tech that Transcends",
       "description": "The Nova Gear is the tech enthusiast's dream, offering a transcendental experience with its advanced features and stellar design.",
       "handle": "headset_nova",
@@ -491,7 +509,10 @@
       "options": [
         {
           "title": "Color",
-          "values": ["Nebula Navy", "Cosmic Chrome"]
+          "values": [
+            "Nebula Navy",
+            "Cosmic Chrome"
+          ]
         }
       ],
       "variants": [
