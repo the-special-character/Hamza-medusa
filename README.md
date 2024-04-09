@@ -77,10 +77,11 @@ sudo apt update
 sudo apt install redis 
 ```
 
-**6. Run medusa seed** 
+**6. Seed the data** 
 
 ```
 cd ./hamza-server
+./import-currencies.sh
 npx medusa seed --seed-file=data/seed.json
 npx medusa migrations run
 ```
@@ -97,6 +98,7 @@ yarn dev
 **8. Run the Client** 
 
 ```
+./import-currencies.sh
 cd ./hamza-client
 yarn dev
 ```
