@@ -1,15 +1,20 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import {
   // alias the core entity to not cause a naming conflict
   Product as MedusaProduct,
 } from "@medusajs/medusa";
+import { Store } from "./store";
 
 @Entity()
 export class Product extends MedusaProduct {
   @Column({ nullable: false, default: "" })
   store_id: string;
 
-  // @Column({ nullable: true })
+  @ManyToOne(() => Store)
+  @JoinColumn({ name: "store_id" })
+  store?: Store;
+
+  @Column({ nullable: true })
+  wallet_address?: string;
   // email?: string;
-  // wallet_address?: string;
 }
