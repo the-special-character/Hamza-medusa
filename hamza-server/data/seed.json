@@ -6,7 +6,8 @@
       "eth",
       "usdc",
       "usdt"
-    ]
+    ], 
+    "default_currency_code": "eth"
   },
   "users": [
     {
