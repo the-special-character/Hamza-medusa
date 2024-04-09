@@ -16,5 +16,4 @@ export class Product extends MedusaProduct {
 
   @Column({ nullable: true })
   wallet_address?: string;
-  // email?: string;
 }
