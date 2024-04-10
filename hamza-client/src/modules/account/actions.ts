@@ -59,15 +59,19 @@ export async function signUp(_currentState: unknown, formData: FormData) {
     }
 }
 
+type LoginState = string | boolean;
 export async function logCustomerInFromForm(
     _currentState: unknown,
     formData: FormData
-): Promise<void> {
+): Promise<string | null | undefined> {
     return logCustomerIn(formData.get('wallet_address') as string);
 }
 
 //TODO: (CLEANUP) does this ever get called? (may be used for login with email, if we implement it)
-export async function logCustomerIn(wallet_address: string): Promise<void> {
+export async function logCustomerIn(
+    wallet_address: string
+): Promise<string | null | undefined> {
+    if (wallet_address === null) return null;
     try {
         console.log('logCustomerIn called with ', wallet_address);
 
@@ -154,7 +158,7 @@ export async function updateCustomerPassword(
         email,
         password: old_password,
         wallet_address,
-    })
+    } as StorePostAuthReqCustom)
         .then(() => true)
         .catch(() => false);
 
