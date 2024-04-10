@@ -23,7 +23,8 @@
     "seed-1": "cross-env medusa seed -f data/seed-1.json",
     "start": "cross-env npm run build && medusa start",
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
-    "dev": "cross-env npm run build:server && medusa develop"
+    "dev": "cross-env npm run build:server && medusa develop",
+    "reset-dev-server": "docker compose down && docker volume ls -q | xargs docker volume rm && docker rmi $(docker images -q) && docker compose up -d && yarn build && medusa migrations run && yarn seed-0 && yarn dev"
   },
   "dependencies": {
     "@medusajs/admin": "7.1.11",

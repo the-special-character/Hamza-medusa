@@ -4,22 +4,32 @@ import {
   StoreService as MedusaStoreService, Store
 } from "@medusajs/medusa"
 import { User } from "../models/user"
+import StoreRepository from "../repositories/store"
 
 
 class StoreService extends MedusaStoreService {
   static LIFE_TIME = Lifetime.SCOPED
-  protected readonly loggedInUser_: User | null
+  protected readonly storeRepository_: typeof StoreRepository
 
   constructor(container, options) {
     // @ts-expect-error prefer-rest-params
     super(...arguments)
-
-    try {
-      this.loggedInUser_ = container.loggedInUser
-    } catch (e) {
-      // avoid errors when backend first runs
-    }
+    this.storeRepository_ = container.storeRepository
   }
+
+  async addUser(
+    user: User
+  ): Promise<Store> {
+    const storeRepo = this.manager_.withRepository(
+      this.storeRepository_
+    )
+    let newStore = storeRepo.create()
+    newStore = await storeRepo.save(newStore)
+    newStore.owner = user
+
+    return newStore
+  }
+
 
   // async retrieve(config?: FindConfig<Store>): Promise<Store> {
   //   if (!this.loggedInUser_) {
