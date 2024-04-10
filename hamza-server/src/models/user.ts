@@ -19,6 +19,6 @@ export class User extends MedusaUser {
   store?: Store;
 
   wallet_address: string;
-  email?: string;
-  password_hash?: string;
+  // email?: string;
+  // password_hash?: string;
 }

@@ -1,28 +1,24 @@
-import { Lifetime } from "awilix"
-import { 
-  UserService as MedusaUserService,
-} from "@medusajs/medusa"
-import { User } from "../models/user"
-import { 
-  CreateUserInput as MedusaCreateUserInput,
-} from "@medusajs/medusa/dist/types/user"
-import StoreRepository from "../repositories/store"
+import { Lifetime } from "awilix";
+import { UserService as MedusaUserService } from "@medusajs/medusa";
+import { User } from "../models/user";
+import { CreateUserInput as MedusaCreateUserInput } from "@medusajs/medusa/dist/types/user";
+import StoreRepository from "../repositories/store";
 
-type CreateUserInput = {
-  store_id?: string
-} & MedusaCreateUserInput
+interface CustomUserInput extends MedusaCreateUserInput {
+  store_id?: string;
+}
 
 class UserService extends MedusaUserService {
-  static LIFE_TIME = Lifetime.SCOPED
-  protected readonly loggedInUser_: User | null
-  protected readonly storeRepository_: typeof StoreRepository
+  static LIFE_TIME = Lifetime.SCOPED;
+  protected readonly loggedInUser_: User | null;
+  protected readonly storeRepository_: typeof StoreRepository;
 
   constructor(container) {
-    super(container)
-    this.storeRepository_ = container.storeRepository
+    super(container);
+    this.storeRepository_ = container.storeRepository;
 
     try {
-      this.loggedInUser_ = container.loggedInUser
+      this.loggedInUser_ = container.loggedInUser;
     } catch (e) {
       // avoid errors when backend first runs
     }
@@ -43,6 +39,6 @@ class UserService extends MedusaUserService {
 
 //     return await super.create(user , password)
 //   }
-}
 
-export default UserService
+}
+export default UserService;
