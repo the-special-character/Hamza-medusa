@@ -28,21 +28,21 @@ class UserService extends MedusaUserService {
     }
   }
 
-  async create(
-    user: CreateUserInput,
-    password: string
-  ): Promise<User> {
-    if (!user.store_id) {
-      const storeRepo = this.manager_.withRepository(
-        this.storeRepository_
-      )
-      let newStore = storeRepo.create()
-      newStore = await storeRepo.save(newStore)
-      user.store_id = newStore.id
-    }
+//   async create(
+//     user: CreateUserInput,
+//     password: string
+//   ): Promise<User> {
+//     if (!user.store_id) {
+//       const storeRepo = this.manager_.withRepository(
+//         this.storeRepository_
+//       )
+//       let newStore = storeRepo.create()
+//       newStore = await storeRepo.save(newStore)
+//       user.store_id = newStore.id
+//     }
 
-    return await super.create(user , password)
-  }
+//     return await super.create(user , password)
+//   }
 }
 
 export default UserService

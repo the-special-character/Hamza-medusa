@@ -21,33 +21,33 @@ class StoreService extends MedusaStoreService {
     }
   }
 
-  async retrieve(config?: FindConfig<Store>): Promise<Store> {
-    if (!this.loggedInUser_) {
-      return super.retrieve(config);
-    }
+  // async retrieve(config?: FindConfig<Store>): Promise<Store> {
+  //   if (!this.loggedInUser_) {
+  //     return super.retrieve(config);
+  //   }
 
-    return this.retrieveForLoggedInUser(config);
-  }
+  //   return this.retrieveForLoggedInUser(config);
+  // }
 
-  async retrieveForLoggedInUser (config?: FindConfig<Store>) {
-    const storeRepo = this.manager_.withRepository(this.storeRepository_);
-    const store = await storeRepo.findOne({
-        ...config,
-        relations: [
-          ...config.relations,
-          'members'
-        ],
-        where: {
-          id: this.loggedInUser_.store_id
-        },
-    });
+  // async retrieveForLoggedInUser (config?: FindConfig<Store>) {
+  //   const storeRepo = this.manager_.withRepository(this.storeRepository_);
+  //   const store = await storeRepo.findOne({
+  //       ...config,
+  //       relations: [
+  //         ...config.relations,
+  //         'members'
+  //       ],
+  //       where: {
+  //         id: this.loggedInUser_.store_id
+  //       },
+  //   });
 
-    if (!store) {
-        throw new Error('Unable to find the user store');
-    }
+  //   if (!store) {
+  //       throw new Error('Unable to find the user store');
+  //   }
 
-    return store
-  }
+  //   return store
+  // }
 }
 
 export default StoreService
