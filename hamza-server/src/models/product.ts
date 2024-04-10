@@ -11,6 +11,6 @@ export class Product extends MedusaProduct {
   store_id: string;
 
   @ManyToOne(() => Store)
-  @JoinColumn({ name: "store_id" })
+  @JoinColumn({ name: "store_id", referencedColumnName: "id" })
   store?: Store;
 }

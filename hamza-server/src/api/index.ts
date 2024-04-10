@@ -15,5 +15,5 @@ export class StorePostAuthReq extends MedusaStorePostAuthReq {
 registerOverriddenValidators(StorePostAuthReq);
 
 export default async function () {
-  await registerExtendedValidator(AdminPostProductsReq);
+  registerExtendedValidator(AdminPostProductsReq);
 }
