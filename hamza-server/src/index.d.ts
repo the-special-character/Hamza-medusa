@@ -14,7 +14,7 @@ export declare module "@medusajs/medusa/dist/models/user" {
     password_hash?: string;
     store_id?: string;
     store?: Store;
-    walletAddresses: WalletAddress[];
+    // walletAddresses: WalletAddress[];
   }
 }
 
