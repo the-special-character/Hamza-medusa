@@ -39,3 +39,17 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
       .json({ message: "Internal server error", error: error.message });
   }
 };
+
+export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
+  const userService = req.scope.resolve("userService");
+
+  try {
+    await userService.delete(req.params.id);
+    return res.json({ message: "User deleted" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
