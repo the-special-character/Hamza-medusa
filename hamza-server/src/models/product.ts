@@ -13,7 +13,4 @@ export class Product extends MedusaProduct {
   @ManyToOne(() => Store)
   @JoinColumn({ name: "store_id" })
   store?: Store;
-
-  @Column({ nullable: true })
-  wallet_address?: string;
 }
