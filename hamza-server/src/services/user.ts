@@ -35,9 +35,5 @@ class UserService extends MedusaUserService {
     return await super.create(user, password);
   }
 
-  async delete(id: string): Promise<void> {
-    // Deletes a user from a given user id.
-  }
-}
 
 export default UserService;
