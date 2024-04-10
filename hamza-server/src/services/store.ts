@@ -4,50 +4,60 @@ import {
   StoreService as MedusaStoreService, Store
 } from "@medusajs/medusa"
 import { User } from "../models/user"
+import StoreRepository from "../repositories/store"
 
 
 class StoreService extends MedusaStoreService {
   static LIFE_TIME = Lifetime.SCOPED
-  protected readonly loggedInUser_: User | null
+  protected readonly storeRepository_: typeof StoreRepository
 
   constructor(container, options) {
     // @ts-expect-error prefer-rest-params
     super(...arguments)
-
-    try {
-      this.loggedInUser_ = container.loggedInUser
-    } catch (e) {
-      // avoid errors when backend first runs
-    }
+    this.storeRepository_ = container.storeRepository
   }
 
-  async retrieve(config?: FindConfig<Store>): Promise<Store> {
-    if (!this.loggedInUser_) {
-      return super.retrieve(config);
-    }
+  async addUser(
+    user: User
+  ): Promise<Store> {
+    const storeRepo = this.manager_.withRepository(
+      this.storeRepository_
+    )
+    let newStore = storeRepo.create()
+    newStore = await storeRepo.save(newStore)
+    newStore.owner = user
 
-    return this.retrieveForLoggedInUser(config);
+    return newStore
   }
 
-  async retrieveForLoggedInUser (config?: FindConfig<Store>) {
-    const storeRepo = this.manager_.withRepository(this.storeRepository_);
-    const store = await storeRepo.findOne({
-        ...config,
-        relations: [
-          ...config.relations,
-          'members'
-        ],
-        where: {
-          id: this.loggedInUser_.store_id
-        },
-    });
 
-    if (!store) {
-        throw new Error('Unable to find the user store');
-    }
+  // async retrieve(config?: FindConfig<Store>): Promise<Store> {
+  //   if (!this.loggedInUser_) {
+  //     return super.retrieve(config);
+  //   }
 
-    return store
-  }
+  //   return this.retrieveForLoggedInUser(config);
+  // }
+
+  // async retrieveForLoggedInUser (config?: FindConfig<Store>) {
+  //   const storeRepo = this.manager_.withRepository(this.storeRepository_);
+  //   const store = await storeRepo.findOne({
+  //       ...config,
+  //       relations: [
+  //         ...config.relations,
+  //         'members'
+  //       ],
+  //       where: {
+  //         id: this.loggedInUser_.store_id
+  //       },
+  //   });
+
+  //   if (!store) {
+  //       throw new Error('Unable to find the user store');
+  //   }
+
+  //   return store
+  // }
 }
 
 export default StoreService
