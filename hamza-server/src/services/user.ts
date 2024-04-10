@@ -34,6 +34,5 @@ class UserService extends MedusaUserService {
 
     return await super.create(user, password);
   }
-
-
+}
 export default UserService;
