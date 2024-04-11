@@ -13,7 +13,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { ITransactionOutput, SwitchClient } from 'web3/switch-client';
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -33,15 +33,31 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
 
     switch (paymentSession.provider_id) {
         case 'stripe':
-            return <StripePaymentButton notReady={notReady} cart={cart} />;
+            return (
+                <StripePaymentButton
+                    notReady={notReady}
+                    cart={cart}
+                    transaction_id={''}
+                />
+            );
         case 'manual':
-            return <ManualTestPaymentButton notReady={notReady} />;
+            return (
+                <ManualTestPaymentButton
+                    notReady={notReady}
+                    transaction_id={''}
+                />
+            );
         //case 'paypal':
         //    return <PayPalPaymentButton notReady={notReady} cart={cart} />
         case 'crypto':
             return <CryptoPaymentButton notReady={notReady} cart={cart} />;
         default:
-            return <ManualTestPaymentButton notReady={notReady} />;
+            return (
+                <ManualTestPaymentButton
+                    notReady={notReady}
+                    transaction_id={''}
+                />
+            );
         //return <Button disabled>Select a payment method</Button>
     }
 };
@@ -49,15 +65,17 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
 const StripePaymentButton = ({
     cart,
     notReady,
+    transaction_id,
 }: {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
     notReady: boolean;
+    transaction_id: string;
 }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const onPaymentCompleted = async () => {
-        await placeOrder().catch(() => {
+    const onPaymentCompleted = async (transaction_id: string) => {
+        await placeOrder(transaction_id).catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
@@ -71,7 +89,14 @@ const StripePaymentButton = ({
 
     const disabled = !stripe || !elements ? true : false;
 
-    const handlePayment = async () => {
+    const wrappedClickClosure = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        event.preventDefault();
+        handlePayment(transaction_id);
+    };
+
+    const handlePayment = async (transaction_id: string) => {
         setSubmitting(true);
 
         if (!stripe || !elements || !card || !cart) {
@@ -111,7 +136,7 @@ const StripePaymentButton = ({
                         (pi && pi.status === 'requires_capture') ||
                         (pi && pi.status === 'succeeded')
                     ) {
-                        onPaymentCompleted();
+                        onPaymentCompleted(transaction_id);
                     }
 
                     setErrorMessage(error.message || null);
@@ -123,7 +148,7 @@ const StripePaymentButton = ({
                         paymentIntent.status === 'requires_capture') ||
                     paymentIntent.status === 'succeeded'
                 ) {
-                    return onPaymentCompleted();
+                    return onPaymentCompleted(transaction_id);
                 }
 
                 return;
@@ -134,7 +159,7 @@ const StripePaymentButton = ({
         <>
             <Button
                 disabled={disabled || notReady}
-                onClick={handlePayment}
+                onClick={wrappedClickClosure}
                 size="large"
                 isLoading={submitting}
             >
@@ -148,15 +173,17 @@ const StripePaymentButton = ({
 const PayPalPaymentButton = ({
     cart,
     notReady,
+    transaction_id,
 }: {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
     notReady: boolean;
+    transaction_id: string;
 }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder().catch(() => {
+        await placeOrder(transaction_id).catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
@@ -206,12 +233,18 @@ const PayPalPaymentButton = ({
     }
 };
 
-const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
+const ManualTestPaymentButton = ({
+    notReady,
+    transaction_id,
+}: {
+    notReady: boolean;
+    transaction_id: string;
+}) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder().catch((err) => {
+        await placeOrder(transaction_id).catch((err) => {
             setErrorMessage(err.toString());
             setSubmitting(false);
         });
@@ -238,6 +271,14 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
     );
 };
 
+// Extend the Window interface
+declare global {
+    interface Window {
+        ethereum: ethers.Eip1193Provider;
+    }
+}
+
+// TODO: (For G) Typescriptify this function with verbose error handling
 const CryptoPaymentButton = ({
     cart,
     notReady,
@@ -265,8 +306,7 @@ const CryptoPaymentButton = ({
     // if !isConnected, connect to wallet
     useEffect(() => {
         if (!isConnected) {
-            if (openConnectModal)
-                openConnectModal();
+            if (openConnectModal) openConnectModal();
         }
     }, [openConnectModal, isConnected]);
 
@@ -287,13 +327,13 @@ const CryptoPaymentButton = ({
                 signer,
                 '0xA5ffa0a980127493Fe770BE6fC5f6BB395321312'
             ); //TODO: get contract address dynamically
-            const output: ITransactionOutput = await switchClient.placeSinglePayment({
+            const output: ITransactionOutput =
+                await switchClient.placeSinglePayment({
                     amount: session.amount,
-                    id: 1, 
-                    payer: signer.address ?? "", 
-                    receiver: "0xcEa845CA58C8dD4369810c3b5168C49Faa34E6F3"
-                }
-            );
+                    id: 1,
+                    payer: signer.address ?? '',
+                    receiver: '0xcEa845CA58C8dD4369810c3b5168C49Faa34E6F3',
+                });
 
             console.log(output);
             console.log('TX ID: ', output.transaction_id);
@@ -313,14 +353,14 @@ const CryptoPaymentButton = ({
     };
 
     const session = cart.payment_session as PaymentSession;
-    
+
     const handlePayment = async () => {
         setSubmitting(true);
 
         //here connect wallet and sign in, if not connected
         connect();
-        
-        //get the transaction id from payment 
+
+        //get the transaction id from payment
         const transaction_id: string = await makePayment();
 
         //pass the transaction id back to the provider
