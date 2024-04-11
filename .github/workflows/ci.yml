@@ -51,7 +51,7 @@ jobs:
         run: yarn install
       - name: Start Server
         run: |
-          cd ../hamza-server
+          cd hamza-server
           yarn start &
           - name: Build Client
           run: yarn build
