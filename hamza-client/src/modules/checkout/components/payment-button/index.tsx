@@ -271,6 +271,14 @@ const ManualTestPaymentButton = ({
     );
 };
 
+// Extend the Window interface
+declare global {
+    interface Window {
+        ethereum: ethers.Eip1193Provider;
+    }
+}
+
+// TODO: (For G) Typescriptify this function with verbose error handling
 const CryptoPaymentButton = ({
     cart,
     notReady,
