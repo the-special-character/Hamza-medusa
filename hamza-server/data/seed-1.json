@@ -44,6 +44,7 @@
       "is_giftcard": false,
       "weight": 250,
       "images": [
+        "http://54.253.186.85/headphones.webp"
       ],
       "options": [
         {
@@ -92,6 +93,7 @@
       "is_giftcard": false,
       "weight": 300,
       "images": [
+        "http://54.253.186.85/dalle_black_vr.webp"
       ],
       "options": [
         {
@@ -140,6 +142,7 @@
       "is_giftcard": false,
       "weight": 260,
       "images": [
+        "http://54.253.186.85/dalle_vr.webp"
       ],
       "options": [
         {
@@ -188,6 +191,7 @@
       "is_giftcard": false,
       "weight": 290,
       "images": [
+        "http://54.253.186.85/dalle_vr_2.webp"
       ],
       "options": [
         {
@@ -236,6 +240,7 @@
       "is_giftcard": false,
       "weight": 275,
       "images": [
+        "http://54.253.186.85/dalle_vr_headset.webp"
       ],
       "options": [
         {
@@ -284,6 +289,7 @@
       "is_giftcard": false,
       "weight": 310,
       "images": [
+        "http://54.253.186.85/dalle_vr_headset3.webp"
       ],
       "options": [
         {
@@ -332,6 +338,7 @@
       "is_giftcard": false,
       "weight": 265,
       "images": [
+        "http://54.253.186.85/vr_3.webp"
       ],
       "options": [
         {
@@ -380,6 +387,7 @@
       "is_giftcard": false,
       "weight": 285,
       "images": [
+        "http://54.253.186.85/sony_wh1000xm4.jpeg"
       ],
       "options": [
         {
