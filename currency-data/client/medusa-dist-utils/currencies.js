@@ -15,7 +15,7 @@ exports.currencies = {
         symbol: "ETH",
         name: "Ethereum",
         symbol_native: "ETH",
-        decimal_digits: 2,
+        decimal_digits: 4,
         rounding: 0,
         code: "ETH",
         name_plural: "ETH",
