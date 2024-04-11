@@ -11,29 +11,29 @@ jobs:
       matrix:
         project: [hamza-client, hamza-server]
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 18.18.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18.18.x'
-      - name: Install Dependencies
-        run: yarn install
-        working-directory: ${{ matrix.project }}
+    - uses: actions/checkout@v2
+    - name: Use Node.js 18.18.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.18.x'
+    - name: Install Dependencies
+      run: yarn install
+      working-directory: ${{ matrix.project }}
 
   build_and_test:
     needs: install_dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 18.18.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18.18.x'
-      - name: Start Server
-        run: |
-          cd hamza-server
-          yarn start &
-        working-directory: .
-      - name: Build Client
-        run: yarn build
-        working-directory: hamza-client
+    - uses: actions/checkout@v2
+    - name: Use Node.js 18.18.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.18.x'
+    - name: Start Server
+      run: |
+        cd hamza-server
+        yarn start &
+      working-directory: .
+    - name: Build Client
+      run: yarn build
+      working-directory: hamza-client
