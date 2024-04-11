@@ -1,9 +1,13 @@
 {
   "store": {
     "currencies": [
-      "eur",
-      "usd"
-    ]
+        "eur",
+        "usd",
+        "eth",
+        "usdc",
+        "usdt"
+    ],
+    "default_currency_code": "eth"
   },
   "users": [
     {
@@ -16,7 +20,7 @@
     {
       "id": "test-region-eu",
       "name": "EU",
-      "currency_code": "eur",
+      "currency_code": "eth",
       "tax_rate": 0,
       "payment_providers": [
         "manual"
@@ -37,7 +41,7 @@
     {
       "id": "test-region-na",
       "name": "NA",
-      "currency_code": "usd",
+      "currency_code": "eth",
       "tax_rate": 0,
       "payment_providers": [
         "manual"
