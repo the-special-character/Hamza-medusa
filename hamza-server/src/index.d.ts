@@ -12,7 +12,6 @@ export declare module "@medusajs/medusa/dist/models/user" {
     wallet_address: string;
     email?: string;
     password_hash?: string;
-    store_id?: string;
     store?: Store;
     // walletAddresses: WalletAddress[];
   }
@@ -28,7 +27,7 @@ export declare module "@medusajs/medusa/dist/models/customer" {
 
 export declare module "@medusajs/medusa/dist/models/store" {
   declare interface Store {
-    members?: User[];
+    owner?: User;
   }
 }
 
