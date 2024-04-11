@@ -15,6 +15,10 @@ const nextConfig = withStoreConfig({
       },
       {
         protocol: "http",
+        hostname: "54.253.186.85",
+      },
+      {
+        protocol: "http",
         hostname: "localhost:9000",
       },
       {
