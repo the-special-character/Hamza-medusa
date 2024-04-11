@@ -26,6 +26,7 @@ class StoreService extends MedusaStoreService {
     let newStore = storeRepo.create()
     newStore = await storeRepo.save(newStore)
     newStore.owner = user
+    newStore.owner_id = user.id
 
     return newStore
   }
