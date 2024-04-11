@@ -2,8 +2,12 @@
   "store": {
     "currencies": [
       "eur",
-      "usd"
-    ]
+      "usd",
+      "eth",
+      "usdc",
+      "usdt"
+    ], 
+    "default_currency_code": "eth"
   },
   "users": [
   ],
@@ -36,7 +40,7 @@
           "id": "headphones"
         }
       ],
-      "store_id": "store_01HV36RENKPJGFZGYRPHHFF4HD",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
       "subtitle": "The best noise-cancelling headphones",
       "description": "Industry-leading noise canceling with Dual Noise Sensor technology.Specific uses for product : Audio.Frequency Response : 4Hz-40,000Hz..Headphone Type : Closed, dynamic. Frequency Response : 4 Hz-40,000 Hz",
@@ -60,11 +64,11 @@
           "title": "Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 250
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 250
             }
           ],
@@ -86,7 +90,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-      "store_id": "store_01HV36RENKPJGFZGYRPHHFF4HD",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "Visionary VR Experience",
       "description": "Step into the future with this visor-style VR headset, offering an immersive experience with its panoramic view and comfort-fit design.",
       "handle": "headset_future",
@@ -109,11 +113,11 @@
           "title": "Sleek Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 299
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 350
             }
           ],
@@ -135,7 +139,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-      "store_id": "store_01HV36RENKPJGFZGYRPHHFF4HD",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "High-Tech Audio",
       "description": "The Cybernetic Headset merges state-of-the-art sound technology with a robotic design to deliver an unmatched audio experience.",
       "handle": "headset_audio",
@@ -158,11 +162,11 @@
           "title": "Robot White",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 280
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 300
             }
           ],
@@ -184,7 +188,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
-      "store_id": "store_01HV36RENKPJGFZGYRPHHFF4HD",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "Sleek Gaming Audio",
       "description": "The Streamline Rift is designed for gamers, with a focus on sleek design and superior sound quality for an all-engaging gaming experience.",
       "handle": "headset_sleek",
@@ -207,11 +211,11 @@
           "title": "Racing Red",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 270
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 290
             }
           ],
@@ -233,7 +237,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-      "store_id": "store_01HV36RENKPJGFZGYRPHHFF4HD",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "Aural Space Exploration",
       "description": "Orbit your sound experience with The Orbit Headset, featuring 360-degree audio immersion in a sleek, space-inspired design.",
       "handle": "headset_aural",
@@ -256,11 +260,11 @@
           "title": "Galactic Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 310
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 330
             }
           ],
@@ -282,7 +286,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-      "store_id": "store_01HV36REPK004GCY874FT4FNZ5",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "See the Unseen",
       "description": "The Visionary VR gear provides an unparalleled field of vision with crystal clear display, making the unseen seen.",
       "handle": "headset_vision",
@@ -305,11 +309,11 @@
           "title": "Visionary Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 320
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 340
             }
           ],
@@ -331,7 +335,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAM4918EX0DETKY6E662WT",
-      "store_id": "store_01HV36REPK004GCY874FT4FNZ5",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "Sound in Style",
       "description": "The Echo Shade blends high-fidelity audio with a fashion-forward design, providing both style and substance.",
       "handle": "headset_echo",
@@ -354,11 +358,11 @@
           "title": "Eclipse Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 250
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 270
             }
           ],
@@ -380,7 +384,7 @@
         }
       ],
       "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
-      "store_id": "store_01HV36REPK004GCY874FT4FNZ5",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": "Tech that Transcends",
       "description": "The Nova Gear is the tech enthusiast's dream, offering a transcendental experience with its advanced features and stellar design.",
       "handle": "headset_nova",
@@ -403,11 +407,11 @@
           "title": "Nebula Navy",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 260
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 280
             }
           ],
@@ -430,7 +434,7 @@
       ],
       "subtitle": null,
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REPK004GCY874FT4FNZ5",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "description": "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
       "handle": "t-shirt",
       "is_giftcard": false,
@@ -464,11 +468,11 @@
           "title": "S / Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -487,11 +491,11 @@
           "title": "S / White",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -510,11 +514,11 @@
           "title": "M / Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -533,11 +537,11 @@
           "title": "M / White",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -556,11 +560,11 @@
           "title": "L / Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -579,11 +583,11 @@
           "title": "L / White",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -602,11 +606,11 @@
           "title": "XL / Black",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -625,11 +629,11 @@
           "title": "XL / White",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2200
             }
           ],
@@ -654,7 +658,7 @@
         }
       ],
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REPK004GCY874FT4FNZ5",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": null,
       "description": "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
       "handle": "sweatshirt",
@@ -680,11 +684,11 @@
           "title": "S",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -700,11 +704,11 @@
           "title": "M",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -720,11 +724,11 @@
           "title": "L",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -740,11 +744,11 @@
           "title": "XL",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -766,7 +770,7 @@
         }
       ],
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REQ2EZ78D515XWP6KZ63",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": null,
       "description": "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
       "handle": "sweatpants",
@@ -792,11 +796,11 @@
           "title": "S",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -812,11 +816,11 @@
           "title": "M",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -832,11 +836,11 @@
           "title": "L",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -852,11 +856,11 @@
           "title": "XL",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2950
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 3350
             }
           ],
@@ -878,7 +882,7 @@
         }
       ],
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REQ2EZ78D515XWP6KZ63",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": null,
       "description": "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
       "handle": "shorts",
@@ -904,11 +908,11 @@
           "title": "S",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2500
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2850
             }
           ],
@@ -924,11 +928,11 @@
           "title": "M",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2500
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2850
             }
           ],
@@ -944,11 +948,11 @@
           "title": "L",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2500
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2850
             }
           ],
@@ -964,11 +968,11 @@
           "title": "XL",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 2500
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 2850
             }
           ],
@@ -993,7 +997,7 @@
         }
       ],
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REQ2EZ78D515XWP6KZ63",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": null,
       "description": "Reimagine the feeling of a classic hoodie. With our cotton hoodie, everyday essentials no longer have to be ordinary.",
       "handle": "hoodie",
@@ -1019,11 +1023,11 @@
           "title": "S",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1039,11 +1043,11 @@
           "title": "M",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1059,11 +1063,11 @@
           "title": "L",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1079,11 +1083,11 @@
           "title": "XL",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1108,7 +1112,7 @@
         }
       ],
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REQ2EZ78D515XWP6KZ63",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": null,
       "description": "Reimagine the feeling of a classic longsleeve. With our cotton longsleeve, everyday essentials no longer have to be ordinary.",
       "handle": "longsleeve",
@@ -1134,11 +1138,11 @@
           "title": "S",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1154,11 +1158,11 @@
           "title": "M",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1174,11 +1178,11 @@
           "title": "L",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1194,11 +1198,11 @@
           "title": "XL",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 3650
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 4150
             }
           ],
@@ -1223,7 +1227,7 @@
         }
       ],
       "collection_id": "pcol_01HRVF8HCVY8B00RF5S54THTPC",
-      "store_id": "store_01HV36REQ2EZ78D515XWP6KZ63",
+      "store_id": "store_01HV5TEQTJT9X64EVWG8Y1AD4H",
       "subtitle": null,
       "description": "Every programmer's best friend.",
       "handle": "coffee-mug",
@@ -1245,11 +1249,11 @@
           "title": "One Size",
           "prices": [
             {
-              "currency_code": "eur",
+              "currency_code": "usdc",
               "amount": 1000
             },
             {
-              "currency_code": "usd",
+              "currency_code": "eth",
               "amount": 1200
             }
           ],
