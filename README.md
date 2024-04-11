@@ -77,10 +77,12 @@ sudo apt update
 sudo apt install redis 
 ```
 
-**6. Run medusa seed** 
+
+**6. Seed the data** 
 
 ```
 cd ./hamza-server
+./import-currencies.sh
 npx medusa seed --seed-file=data/seed.json
 yarn seed-0 (Also seeds)
 npx medusa migrations run
@@ -98,6 +100,7 @@ yarn dev
 **8. Run the Client** 
 
 ```
+./import-currencies.sh
 cd ./hamza-client
 yarn dev
 ```
@@ -115,9 +118,11 @@ Backend:
 7. docker volume rm <db_volume>
 8. docker-compose up -d
 9. yarn install
-10. npx medusa migrations run
-11. npx medusa seed --seed-file=data/seed.json
-12. yarn build
+10. yarn build
+11. npx medusa migrations run
+12. npx medusa seed --seed-file=data/seed-0.json
+13. api call shenanigans
+14. npx medusa seed --seed-file=data/seed-1.json
 13. yarn dev
 ```
 
