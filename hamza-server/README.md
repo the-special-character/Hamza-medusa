@@ -3,7 +3,7 @@
 ### Setup Quick Start
 
 - yarn install 
-- ./import-currencies.sh
+- ./import-currencies.sh (note: must be run before build, and before migrations, but definitely after yarn install)
 - yarn build
 - medusa migrations run 
 - medusa seed --seed-file=data/seed-0.json
