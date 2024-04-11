@@ -3,20 +3,20 @@
 import {
     ProductCategory,
     ProductCollection,
+    Region,
     StoreGetProductsParams,
     StorePostCartsCartReq,
-    StorePostCustomersReq,
     StorePostAuthReq,
     StorePostCustomersCustomerAddressesAddressReq,
     StorePostCustomersCustomerAddressesReq,
     StorePostCustomersCustomerReq,
 } from '@medusajs/medusa';
 import { PricedProduct } from '@medusajs/medusa/dist/types/pricing';
+import { cache } from 'react';
 
 import sortProducts from '@lib/util/sort-products';
 import transformProductPreview from '@lib/util/transform-product-preview';
 import { SortOptions } from '@modules/store/components/refinement-list/sort-products';
-import { getRegion } from 'app/actions';
 import { ProductCategoryWithChildren, ProductPreviewType } from 'types/global';
 
 import { medusaClient } from '../config';
@@ -387,6 +387,37 @@ export async function retrieveRegion(id: string) {
         .then(({ region }) => region)
         .catch((err) => medusaError(err));
 }
+
+const regionMap = new Map<string, Region>();
+
+export const getRegion = cache(async function (countryCode: string) {
+    try {
+        if (regionMap.has(countryCode)) {
+            return regionMap.get(countryCode);
+        }
+
+        const regions = await listRegions();
+
+        if (!regions) {
+            return null;
+        }
+
+        regions.forEach((region) => {
+            region.countries.forEach((c) => {
+                regionMap.set(c.iso_2, region);
+            });
+        });
+
+        const region = countryCode
+            ? regionMap.get(countryCode)
+            : regionMap.get('us');
+
+        return region;
+    } catch (e: any) {
+        console.log(e.toString());
+        return null;
+    }
+});
 
 // Product actions
 export async function getProductsById({
