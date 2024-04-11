@@ -87,6 +87,7 @@ npx medusa seed --seed-file=data/seed.json
 yarn seed-0 (Also seeds)
 yarn seed-1 (Also seeds)
 npx medusa migrations run
+medusa migrations run (this also runs if global installed medusa-cli)
 ```
 
 
