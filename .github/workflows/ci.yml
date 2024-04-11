@@ -47,11 +47,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18.18.x'
+      - name: Install Server Dependencies (for running server)
+        run: yarn install
+        working-directory: hamza-server
+      - name: Start Server
+        run: yarn start &
+        working-directory: hamza-server
       - name: Install Client Dependencies (if not cached)
         run: yarn install
-      - name: Start Server
-        run: |
-          cd hamza-server
-          yarn start &
-          - name: Build Client
-          run: yarn build
+        working-directory: hamza-client
+      - name: Build Client
+        run: yarn build
+        working-directory: hamza-client
