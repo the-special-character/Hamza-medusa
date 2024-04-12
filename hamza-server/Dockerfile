@@ -2,7 +2,6 @@ FROM node:18.18.1
 
 WORKDIR /app
 
- Now, remove unnecessary files or directories
 RUN if [ -d "dist" ]; then rm -r dist; fi && \
     if [ -d "build" ]; then rm -r build; fi && \
     if [ -d ".cache" ]; then rm -r .cache; fi && \
@@ -21,9 +20,10 @@ COPY currency-data/server/utils-dist-defaults/currencies.js node_modules/@medusa
 
 # Build the application
 RUN yarn build
-RUN yarn medusa migrations run
+RUN yarn global add @medusajs/medusa-cli
+RUN npx medusa migrations run
 RUN yarn seed-0
 
-EXPOSE 9000
+EXPOSE 9000 7001
 
 ENTRYPOINT ["yarn", "run", "dev"]
