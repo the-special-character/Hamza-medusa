@@ -916,21 +916,21 @@ export class SwitchClient {
      */
     async placeSinglePayment(input: IPaymentInput): Promise<ITransactionOutput> {
         const tx = await this.paymentSwitch.placePayment(input, {value: input.amount});
-        const transaction_id = tx.hash;
+        const transactionId = tx.hash;
         const receipt =  await tx.wait();
         
         return {
-            transaction_id, tx, receipt
+            transaction_id: transactionId, tx, receipt
         };
     }
     
     async placePayment(amount: number): Promise<ITransactionOutput> {
         const tx = await this.paymentSwitch.placePayment2(amount, { value: amount });
-        const transaction_id = tx.identifier;
+        const transactionId = tx.identifier;
         const receipt = await tx.wait();
 
         return {
-            transaction_id, tx, receipt
+            transaction_id: transactionId, tx, receipt
         };
     }
 

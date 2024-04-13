@@ -1,4 +1,4 @@
-import { 
+import {
     AbstractPaymentProcessor,
     Cart,
     CartService,
@@ -7,27 +7,29 @@ import {
     PaymentProcessorSessionResponse,
     PaymentSessionStatus,
 } from '@medusajs/medusa';
-import { PaymentIntentOptions } from 'medusa-payment-stripe'; //TODO: need? 
+import { PaymentIntentOptions } from 'medusa-payment-stripe'; //TODO: need?
 import { ethers, TransactionResponse } from 'ethers';
 
-async function verifyPaymentTransactionId(transactionId: any) : Promise<boolean> {
+async function verifyPaymentTransactionId(
+    transactionId: any
+): Promise<boolean> {
     try {
         const provider = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
-        const tx: TransactionResponse = await provider.getTransaction(transactionId); 
+        const tx: TransactionResponse =
+            await provider.getTransaction(transactionId);
         if (tx) {
-            //TODO: more verification is needed 
+            //TODO: more verification is needed
             //tx.from
             return true;
         }
-    }
-    catch(e) {
+    } catch (e) {
         console.error(e);
     }
     return false;
 }
 
 /**
- * @description This is being used as a test right now for payment processing using 
+ * @description This is being used as a test right now for payment processing using
  * crypto wallets; if used it will be changed alot. Right now only a test.
  * @author John R. Kosinski
  */
@@ -42,37 +44,52 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         this.cartService = container.cartService;
     }
 
-    async capturePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']> {
+    async capturePayment(
+        paymentSessionData: Record<string, unknown>
+    ): Promise<
+        PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
+    > {
         console.log('CryptoPaymentService: capturePayment');
         console.log(paymentSessionData);
         return {
-            session_data: paymentSessionData
+            session_data: paymentSessionData,
         };
     }
 
-    async authorizePayment(paymentSessionData: Record<string, unknown>, context: Record<string, unknown>): Promise<PaymentProcessorError | {
-        status: PaymentSessionStatus;
-        data: PaymentProcessorSessionResponse['session_data'];
-    }> {
+    async authorizePayment(
+        paymentSessionData: Record<string, unknown>,
+        context: Record<string, unknown>
+    ): Promise<
+        | PaymentProcessorError
+        | {
+              status: PaymentSessionStatus;
+              data: PaymentProcessorSessionResponse['session_data'];
+          }
+    > {
         console.log('CryptoPaymentService: authorizePayment');
         console.log(paymentSessionData);
         let payment_status = paymentSessionData.payment_status;
-        if (!payment_status) 
-            payment_status = 'ok';
-        
+        if (!payment_status) payment_status = 'ok';
+
         return {
-            status: payment_status == 'ok' ? PaymentSessionStatus.AUTHORIZED : PaymentSessionStatus.ERROR,
+            status:
+                payment_status == 'ok'
+                    ? PaymentSessionStatus.AUTHORIZED
+                    : PaymentSessionStatus.ERROR,
             data: {
-                session_data: paymentSessionData
-            }
-        }
+                session_data: paymentSessionData,
+            },
+        };
     }
 
-    async cancelPayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']>
-    {
+    async cancelPayment(
+        paymentSessionData: Record<string, unknown>
+    ): Promise<
+        PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
+    > {
         console.log('CryptoPaymentService: cancelPayment');
         return {
-            session_data: paymentSessionData
+            session_data: paymentSessionData,
         };
     }
 
@@ -80,40 +97,40 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         const options: PaymentIntentOptions = {};
 
         options.capture_method = 'manual';
-            
-        options.payment_method_types = [
-            'crypto',
-            'payment',
-            'manual'
-        ]
+
+        options.payment_method_types = ['crypto', 'payment', 'manual'];
         return options;
     }
 
-    async initiatePayment(context: PaymentProcessorContext): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
+    async initiatePayment(
+        context: PaymentProcessorContext
+    ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
         console.log('CryptoPaymentService: initiatePayment');
         console.log(context);
 
         //get the store id
         let walletAddresses: string[] = [];
         if (context.resource_id) {
-            walletAddresses = await this._getCartWalletAddresses(context.resource_id.toString());
+            walletAddresses = await this._getCartWalletAddresses(
+                context.resource_id.toString()
+            );
         }
 
         const intentRequestData = this.getPaymentIntentOptions();
         const { email, currency_code, amount, resource_id, customer } = context;
-        
+
         //if there is a tx id, verify that it's legit
-        let payment_status = 'ok'; 
+        let payment_status = 'ok';
         if (context?.context?.transaction_id) {
             const transactionId = context.context.transaction_id;
             console.log('got transaction_id: ', transactionId);
-            if (!await verifyPaymentTransactionId(transactionId)) {
-                //TODO: need a better system to communicate payment failure 
+            if (!(await verifyPaymentTransactionId(transactionId))) {
+                //TODO: need a better system to communicate payment failure
                 payment_status = 'failed';
             }
         }
-        
-        const addr = walletAddresses.length ? walletAddresses[0] : ''; //TODO: return whole array 
+
+        const addr = walletAddresses.length ? walletAddresses[0] : ''; //TODO: return whole array
 
         const session_data: any = {
             amount: Math.round(100),
@@ -132,68 +149,93 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             ...intentRequestData,
         };
         return {
-            session_data: session_data as any
+            session_data: session_data as any,
         };
     }
 
-    async deletePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']> {
+    async deletePayment(
+        paymentSessionData: Record<string, unknown>
+    ): Promise<
+        PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
+    > {
         console.log('CryptoPaymentService: deletePayment');
         console.log(paymentSessionData);
         return {
-            session_data: paymentSessionData
+            session_data: paymentSessionData,
         };
     }
 
-    async getPaymentStatus(paymentSessionData: Record<string, unknown>): Promise<PaymentSessionStatus> {
+    async getPaymentStatus(
+        paymentSessionData: Record<string, unknown>
+    ): Promise<PaymentSessionStatus> {
         console.log('CryptoPaymentService: getPaymentStatus');
-        console.log(paymentSessionData); 
-        
+        console.log(paymentSessionData);
+
         try {
-            const payment_status = paymentSessionData.session_data['session_data']?.payment?.payment_status ?? '';
+            const payment_status =
+                paymentSessionData.session_data['session_data']?.payment
+                    ?.payment_status ?? '';
             console.log(payment_status);
-            return payment_status === 'failed' ? PaymentSessionStatus.ERROR : PaymentSessionStatus.AUTHORIZED;
-        }
-        catch(e) {
+            return payment_status === 'failed'
+                ? PaymentSessionStatus.ERROR
+                : PaymentSessionStatus.AUTHORIZED;
+        } catch (e) {
             console.error(e);
         }
-        
+
         return PaymentSessionStatus.AUTHORIZED;
     }
 
-    async refundPayment(paymentSessionData: Record<string, unknown>, refundAmount: number): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']> {
+    async refundPayment(
+        paymentSessionData: Record<string, unknown>,
+        refundAmount: number
+    ): Promise<
+        PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
+    > {
         console.log('CryptoPaymentService: refundPayment');
         console.log(paymentSessionData);
         return {
-            session_data: paymentSessionData
+            session_data: paymentSessionData,
         };
     }
 
-    async retrievePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']> {
+    async retrievePayment(
+        paymentSessionData: Record<string, unknown>
+    ): Promise<
+        PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
+    > {
         console.log('CryptoPaymentService: retrievePayment');
         console.log(paymentSessionData);
         return {
-            session_data: paymentSessionData
+            session_data: paymentSessionData,
         };
     }
 
-    async updatePayment(context: PaymentProcessorContext): Promise<PaymentProcessorError | PaymentProcessorSessionResponse | void> {
+    async updatePayment(
+        context: PaymentProcessorContext
+    ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse | void> {
         console.log('CryptoPaymentService: updatePayment');
         console.log(context);
         return this.initiatePayment(context);
     }
 
-    async updatePaymentData(sessionId: string, data: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']> {
+    async updatePaymentData(
+        sessionId: string,
+        data: Record<string, unknown>
+    ): Promise<
+        PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
+    > {
         console.log('CryptoPaymentService: updatePaymentData');
         return {
             session_data: {
-                'method': 'updatePaymentData',
-                'actor': 'stephen chow',
-                'sessionId': sessionId
-            }
+                method: 'updatePaymentData',
+                actor: 'stephen chow',
+                sessionId: sessionId,
+            },
         };
     }
-    
-    private async _getCartWalletAddresses(cartId: string) : Promise<string[]> {
+
+    private async _getCartWalletAddresses(cartId: string): Promise<string[]> {
         const output: string[] = [];
 
         try {
@@ -202,26 +244,26 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
 
             //get cart; cart has items, items have variants, variants have products,
             // products have stores, stores have owners, owners have wallets
-            const cart: Cart = await this.cartService.retrieve(
-                cartId, { relations: ["items.variant.product.store.owner"]}
-            );
-            
+            const cart: Cart = await this.cartService.retrieve(cartId, {
+                relations: ['items.variant.product.store.owner'],
+            });
+
             //add unique wallet addresses to output
             if (cart && cart.items) {
-                cart.items.forEach(i => {
-                    const wallet: string = i.variant?.product?.store?.owner?.wallet_address;
-                    if (wallet && output.findIndex(s => s === wallet) < 0) {
+                cart.items.forEach((i) => {
+                    const wallet: string =
+                        i.variant?.product?.store?.owner?.wallet_address;
+                    if (wallet && output.findIndex((s) => s === wallet) < 0) {
                         output.push(wallet);
                     }
                 });
             }
-        }
-        catch(e) {
+        } catch (e) {
             console.error(e);
         }
-        
+
         return output;
     }
 }
 
-export default CryptoPaymentService
+export default CryptoPaymentService;
