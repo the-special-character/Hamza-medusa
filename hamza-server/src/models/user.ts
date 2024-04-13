@@ -1,4 +1,5 @@
 import {
+    Column,
   Entity,
   OneToOne,
 } from "typeorm";
@@ -18,6 +19,7 @@ export class User extends MedusaUser {
   @OneToOne(() => Store, (store) => store.owner)
   store?: Store;
 
+  @Column()
   wallet_address: string;
   // email?: string;
   // password_hash?: string;

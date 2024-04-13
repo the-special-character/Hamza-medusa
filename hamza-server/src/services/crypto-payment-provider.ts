@@ -1,17 +1,19 @@
 import { 
     AbstractPaymentProcessor,
+    Cart,
+    CartService,
     PaymentProcessorContext,
     PaymentProcessorError,
     PaymentProcessorSessionResponse,
-    PaymentSessionStatus
+    PaymentSessionStatus,
 } from '@medusajs/medusa';
 import { PaymentIntentOptions } from 'medusa-payment-stripe'; //TODO: need? 
 import { ethers, TransactionResponse } from 'ethers';
 
-async function verifyPaymentTransactionId(transaction_id: any) : Promise<boolean> {
+async function verifyPaymentTransactionId(transactionId: any) : Promise<boolean> {
     try {
         const provider = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
-        const tx: TransactionResponse = await provider.getTransaction(transaction_id); 
+        const tx: TransactionResponse = await provider.getTransaction(transactionId); 
         if (tx) {
             //TODO: more verification is needed 
             //tx.from
@@ -31,19 +33,18 @@ async function verifyPaymentTransactionId(transaction_id: any) : Promise<boolean
  */
 class CryptoPaymentService extends AbstractPaymentProcessor {
     static identifier = 'crypto';
+    cartService: CartService;
 
     constructor(container, config) {
-        console.log('CryptoPaymentService::container');
-        console.log(container);
         console.log('CryptoPaymentService::config');
         console.log(config);
         super(container, config);
+        this.cartService = container.cartService;
     }
 
     async capturePayment(paymentSessionData: Record<string, unknown>): Promise<PaymentProcessorError | PaymentProcessorSessionResponse['session_data']> {
         console.log('CryptoPaymentService: capturePayment');
         console.log(paymentSessionData);
-        console.log(super.container);
         return {
             session_data: paymentSessionData
         };
@@ -92,24 +93,33 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         console.log('CryptoPaymentService: initiatePayment');
         console.log(context);
 
+        //get the store id
+        let walletAddresses: string[] = [];
+        if (context.resource_id) {
+            walletAddresses = await this._getCartWalletAddresses(context.resource_id.toString());
+        }
+
         const intentRequestData = this.getPaymentIntentOptions();
         const { email, currency_code, amount, resource_id, customer } = context;
         
         //if there is a tx id, verify that it's legit
         let payment_status = 'ok'; 
         if (context?.context?.transaction_id) {
-            const transaction_id = context.context.transaction_id;
-            console.log('got transaction_id: ', transaction_id);
-            if (!await verifyPaymentTransactionId(transaction_id)) {
+            const transactionId = context.context.transaction_id;
+            console.log('got transaction_id: ', transactionId);
+            if (!await verifyPaymentTransactionId(transactionId)) {
                 //TODO: need a better system to communicate payment failure 
                 payment_status = 'failed';
             }
         }
+        
+        const addr = walletAddresses.length ? walletAddresses[0] : ''; //TODO: return whole array 
 
         const session_data: any = {
             amount: Math.round(100),
             currency: 'USD',
             notes: { resource_id },
+            wallet_address: addr,
             payment: {
                 capture: 'manual',
                 payment_status: payment_status,
@@ -181,6 +191,36 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
                 'sessionId': sessionId
             }
         };
+    }
+    
+    private async _getCartWalletAddresses(cartId: string) : Promise<string[]> {
+        const output: string[] = [];
+
+        try {
+            const productIds: string[] = [];
+            const promises: Promise<string>[] = [];
+
+            //get cart; cart has items, items have variants, variants have products,
+            // products have stores, stores have owners, owners have wallets
+            const cart: Cart = await this.cartService.retrieve(
+                cartId, { relations: ["items.variant.product.store.owner"]}
+            );
+            
+            //add unique wallet addresses to output
+            if (cart && cart.items) {
+                cart.items.forEach(i => {
+                    const wallet: string = i.variant?.product?.store?.owner?.wallet_address;
+                    if (wallet && output.findIndex(s => s === wallet) < 0) {
+                        output.push(wallet);
+                    }
+                });
+            }
+        }
+        catch(e) {
+            console.error(e);
+        }
+        
+        return output;
     }
 }
 

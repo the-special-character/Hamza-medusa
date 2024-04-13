@@ -1,5 +1,7 @@
 // We're extending CORE Medusa models here
 
+import { Store } from "@medusajs/medusa";
+
 export declare module "@medusajs/medusa/dist/models/product" {
   declare interface Product {
     customAttribute: string;
@@ -34,6 +36,7 @@ export declare module "@medusajs/medusa/dist/models/store" {
 
 export declare module "@medusajs/medusa/dist/models/product" {
   declare interface Product {
+    store?: Store;
     store_id: string;
   }
 }
