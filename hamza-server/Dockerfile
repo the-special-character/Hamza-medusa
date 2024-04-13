@@ -1,15 +1,16 @@
-FROM node:18.18.1
+FROM node:18.0.0
 
 WORKDIR /app
 
-RUN if [ -d "dist" ]; then rm -r dist; fi && \
-    if [ -d "build" ]; then rm -r build; fi && \
-    if [ -d ".cache" ]; then rm -r .cache; fi && \
-    if [ -d "node_modules" ]; then rm -r node_modules; fi
+#RUN if [ -d "dist" ]; then rm -r dist; fi && \
+#    if [ -d "build" ]; then rm -r build; fi && \
+#    if [ -d ".cache" ]; then rm -r .cache; fi && \
+#    if [ -d "node_modules" ]; then rm -r node_modules; fi
 
-# Copy package files and install dependencies first to leverage Docker cache
-COPY .env medusa-config.js tsconfig.json datasource.js tsconfig.server.json package.json yarn.lock ./
-RUN yarn install
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn
 
 # Copy the rest of the application source files
 COPY . .
@@ -20,10 +21,7 @@ COPY currency-data/server/utils-dist-defaults/currencies.js node_modules/@medusa
 
 # Build the application
 RUN yarn build
-RUN yarn global add @medusajs/medusa-cli
-RUN npx medusa migrations run
-RUN yarn seed-0
 
-EXPOSE 9000 7001
-
-ENTRYPOINT ["yarn", "run", "dev"]
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/bin/sh", "/docker-entrypoint.sh"]
