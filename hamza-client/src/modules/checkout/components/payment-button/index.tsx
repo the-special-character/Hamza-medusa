@@ -290,7 +290,7 @@ const CryptoPaymentButton = ({
             ); //TODO: get contract address dynamically
             const output: ITransactionOutput = await switchClient.placeSinglePayment({
                     amount: session.amount,
-                    id: 1, 
+                    id: Math.floor(Math.random() * 9999) + 1, 
                     payer: signer.address ?? "", 
                     receiver: receiver
                 }
