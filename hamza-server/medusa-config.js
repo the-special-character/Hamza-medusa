@@ -3,17 +3,17 @@ const dotenv = require("dotenv");
 let ENV_FILE_NAME = "";
 switch (process.env.NODE_ENV) {
   case "production":
-    ENV_FILE_NAME = ".env.production";
+    ENV_FILE_NAME = "backend.env.production";
     break;
   case "staging":
-    ENV_FILE_NAME = ".env.staging";
+    ENV_FILE_NAME = "backend.env.staging";
     break;
   case "test":
-    ENV_FILE_NAME = ".env.test";
+    ENV_FILE_NAME = "backend.env.test";
     break;
   case "development":
   default:
-    ENV_FILE_NAME = ".env";
+    ENV_FILE_NAME = "backend.env";
     break;
 }
 
@@ -29,7 +29,8 @@ const ADMIN_CORS =
 const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 
 const DATABASE_URL =
-  process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
+  process.env.DATABASE_URL ||
+  "postgres://postgres:postgres@localhost:5432/hamza_dev_db";
 
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
@@ -79,7 +80,7 @@ const projectConfig = {
   admin_cors: ADMIN_CORS,
   // logging: 'all',
   // Uncomment the following lines to enable REDIS
-  redis_url: REDIS_URL
+  redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */

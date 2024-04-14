@@ -1,13 +1,16 @@
 FROM node:18.18.1
 
-# Set the working directory for all subsequent commands
+# Install nc (netcat)
+RUN apt-get update && \
+    apt-get install -y netcat-openbsd && \
+    rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Copy the package.json and yarn lock files to the working directory
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn
+RUN yarn install
 
 COPY . .
 
