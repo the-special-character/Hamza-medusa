@@ -1,20 +1,17 @@
-# Set the base image to Node 18-alpine3.18
-FROM node:18-alpine3.18
+FROM node:18.18.1
 
 # Set the working directory for all subsequent commands
-WORKDIR /app/storefront
+WORKDIR /app
 
 # Copy the package.json and yarn lock files to the working directory
-COPY .env.local package.json yarn.lock ./
+COPY package.json .
+COPY yarn.lock .
 
-# Run the apk update command to update package information
-RUN apk update
+RUN yarn
 
-# Install the dependencies
-RUN yarn install
-
-# Copy all files in the current directory (.) to the working directory in the container
 COPY . .
 
-# Set the default command to run the application in development mode
-ENTRYPOINT ["yarn", "run", "dev"]
+# Copy all files in the current directory (.) to the working directory in the container
+COPY docker-entry.sh /
+RUN chmod +x /docker-entry.sh
+ENTRYPOINT ["/bin/sh", "/docker-entry.sh"]

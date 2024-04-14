@@ -14,6 +14,6 @@
 
 npx medusa migrations run
 
-#yarn seed-0
+yarn seed-0
 
 yarn start

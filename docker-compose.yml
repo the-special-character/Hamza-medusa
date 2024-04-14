@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./hamza-server
+      dockerfile: Dockerfile
+    env_file:
+      - backend.env
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "9000:9000"
+      - "7005:7000"
+      - "7001:7001"
+
+
+  storefront:
+    build:
+      context: ./hamza-client
+      dockerfile: Dockerfile
+    env_file:
+      - frontend.env
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "8000:8000"
+
+
+  postgres:
+    env_file:
+      - backend.env
+    image: postgres:15.6
+    restart: always
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+
+  redis:
+    image: redis:6.2.14
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg-data:
