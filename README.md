@@ -84,6 +84,8 @@ sudo apt install redis
 cd ./hamza-server
 ./import-currencies.sh
 npx medusa seed --seed-file=data/seed.json
+yarn seed-0 (Also seeds)
+yarn seed-1 (Also seeds)
 npx medusa migrations run
 ```
 
