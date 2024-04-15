@@ -3,23 +3,25 @@ const dotenv = require("dotenv");
 let ENV_FILE_NAME = "";
 switch (process.env.NODE_ENV) {
   case "production":
-    ENV_FILE_NAME = "backend.env.production";
+    ENV_FILE_NAME = ".env.production";
     break;
   case "staging":
-    ENV_FILE_NAME = "backend.env.staging";
+    ENV_FILE_NAME = ".env.staging";
     break;
   case "test":
-    ENV_FILE_NAME = "backend.env.test";
+    ENV_FILE_NAME = ".env.test";
     break;
   case "development":
   default:
-    ENV_FILE_NAME = "backend.env";
+    ENV_FILE_NAME = ".env";
     break;
 }
 
 try {
   dotenv.config({ path: process.cwd() + "/" + ENV_FILE_NAME });
-} catch (e) {}
+} catch (e) {
+  console.error("Failed to load the dotenv configuration file ", e);
+}
 
 // CORS when consuming Medusa from admin
 const ADMIN_CORS =

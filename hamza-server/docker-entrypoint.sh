@@ -1,14 +1,14 @@
 #!/bin/bash
 echo "Waiting for postgres..."
 while ! nc -z postgres 5432; do
-  sleep 0.1
+  sleep 5
 done
 echo "PostgreSQL started"
 
 # Wait for Redis to be ready
 echo "Waiting for Redis..."
 while ! nc -z redis 6379; do
-  sleep 0.1
+  sleep 5
 done
 echo "Redis is ready."
 

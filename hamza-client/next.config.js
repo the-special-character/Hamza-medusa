@@ -1,6 +1,6 @@
 const { withStoreConfig } = require('./store-config');
 const store = require('./store.config.json');
-require('dotenv').config({ path: './frontend.env' });
+require('dotenv').config({ path: './.env.local' });
 
 /**
  * @type {import('next').NextConfig}
