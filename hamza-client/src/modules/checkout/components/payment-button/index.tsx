@@ -311,7 +311,7 @@ const CryptoPaymentButton = ({
     }, [openConnectModal, isConnected]);
 
     //RETURNS TRANSACTION ID
-    const makePayment = async () => {
+    const makePayment = async (receiver: string) => {
         try {
             const session = cart.payment_session as PaymentSession;
             const provider = new ethers.BrowserProvider(
@@ -321,6 +321,7 @@ const CryptoPaymentButton = ({
             const signer = await provider.getSigner();
 
             console.log('payer: ', signer.address);
+            console.log('receiver: ', receiver);
 
             const switchClient: SwitchClient = new SwitchClient(
                 provider,
@@ -330,9 +331,9 @@ const CryptoPaymentButton = ({
             const output: ITransactionOutput =
                 await switchClient.placeSinglePayment({
                     amount: session.amount,
-                    id: 1,
+                    id: Math.floor(Math.random() * 9999) + 1,
                     payer: signer.address ?? '',
-                    receiver: '0xcEa845CA58C8dD4369810c3b5168C49Faa34E6F3',
+                    receiver: receiver,
                 });
 
             console.log(output);
@@ -345,8 +346,8 @@ const CryptoPaymentButton = ({
         return '';
     };
 
-    const onPaymentCompleted = async (transaction_id: string) => {
-        await placeOrder(transaction_id).catch(() => {
+    const onPaymentCompleted = async (transactionId: string) => {
+        await placeOrder(transactionId).catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
@@ -355,16 +356,21 @@ const CryptoPaymentButton = ({
     const session = cart.payment_session as PaymentSession;
 
     const handlePayment = async () => {
-        setSubmitting(true);
+        try {
+            setSubmitting(true);
 
-        //here connect wallet and sign in, if not connected
-        connect();
+            //here connect wallet and sign in, if not connected
+            connect();
+            //get the transaction id from payment
+            const transactionId: string = await makePayment(
+                session.data.wallet_address.toString()
+            );
 
-        //get the transaction id from payment
-        const transaction_id: string = await makePayment();
-
-        //pass the transaction id back to the provider
-        onPaymentCompleted(transaction_id);
+            //pass the transaction id back to the provider
+            if (transactionId?.length) onPaymentCompleted(transactionId);
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     return (
