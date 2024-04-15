@@ -77,9 +77,9 @@ sudo apt install redis
 
 ```
 cd ./hamza-server
-./setup-0.sh
+yarn setup-0
 # WAIT for the server to start listening on port 9000
-./setup-1.sh
+yarn setup-1
 # at this point, you can shut the server down if you wish
 ```
 
