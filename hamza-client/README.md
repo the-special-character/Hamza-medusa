@@ -3,5 +3,5 @@
 ### Setup Quick Start
 
 - yarn install 
-- ./import-currencies.sh
+- yarn import-currencies
 - yarn dev
