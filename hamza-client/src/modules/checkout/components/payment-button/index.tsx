@@ -13,7 +13,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { ITransactionOutput, SwitchClient } from 'web3/switch-client';
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -57,10 +57,10 @@ const StripePaymentButton = ({
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder().catch(() => {
-            setErrorMessage('An error occurred, please try again.');
-            setSubmitting(false);
-        });
+        //await placeOrder().catch(() => {
+        //    setErrorMessage('An error occurred, please try again.');
+        //    setSubmitting(false);
+        //});
     };
 
     const stripe = useStripe();
@@ -156,10 +156,10 @@ const PayPalPaymentButton = ({
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder().catch(() => {
-            setErrorMessage('An error occurred, please try again.');
-            setSubmitting(false);
-        });
+        //await placeOrder().catch(() => {
+        //    setErrorMessage('An error occurred, please try again.');
+        //    setSubmitting(false);
+        //});
     };
 
     const session = cart.payment_session as PaymentSession;
@@ -211,7 +211,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder().catch((err) => {
+        await placeOrder('hi!').catch((err) => {
             setErrorMessage(err.toString());
             setSubmitting(false);
         });
@@ -265,8 +265,7 @@ const CryptoPaymentButton = ({
     // if !isConnected, connect to wallet
     useEffect(() => {
         if (!isConnected) {
-            if (openConnectModal)
-                openConnectModal();
+            if (openConnectModal) openConnectModal();
         }
     }, [openConnectModal, isConnected]);
 
@@ -288,13 +287,13 @@ const CryptoPaymentButton = ({
                 signer,
                 '0xA5ffa0a980127493Fe770BE6fC5f6BB395321312'
             ); //TODO: get contract address dynamically
-            const output: ITransactionOutput = await switchClient.placeSinglePayment({
+            const output: ITransactionOutput =
+                await switchClient.placeSinglePayment({
                     amount: session.amount,
-                    id: Math.floor(Math.random() * 9999) + 1, 
-                    payer: signer.address ?? "", 
-                    receiver: receiver
-                }
-            );
+                    id: Math.floor(Math.random() * 9999) + 1,
+                    payer: signer.address ?? '',
+                    receiver: receiver,
+                });
 
             console.log(output);
             console.log('TX ID: ', output.transaction_id);
@@ -314,23 +313,24 @@ const CryptoPaymentButton = ({
     };
 
     const session = cart.payment_session as PaymentSession;
-    
+
     const handlePayment = async () => {
-        try
-        {
+        try {
             setSubmitting(true);
 
             //here connect wallet and sign in, if not connected
             connect();
 
-            //get the transaction id from payment 
-            const transactionId: string = await makePayment(session.data.wallet_address.toString());
+            //get the transaction id from payment
+            const transactionId: string = await makePayment(
+                session.data.wallet_address.toString()
+            );
 
             //pass the transaction id back to the provider
-            if (transactionId?.length)
-                onPaymentCompleted(transactionId);
+            if (transactionId?.length) onPaymentCompleted(transactionId);
+        } catch (e) {
+            console.error(e);
         }
-        catch(e) { console.error(e); }
     };
 
     return (

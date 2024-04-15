@@ -1,11 +1,7 @@
-import {
-    Column,
-  Entity,
-  OneToOne,
-} from "typeorm";
-import { User as MedusaUser } from "@medusajs/medusa";
-import { WalletAddress } from "./walletAddress";
-import { Store } from "./store";
+import { Column, Entity, OneToOne } from 'typeorm';
+import { User as MedusaUser } from '@medusajs/medusa';
+import { WalletAddress } from './walletAddress';
+import { Store } from './store';
 // For a simple solution, we're not going to extend (User Entity roles) from Medusa's User Entity
 // `admin` will have all permissions
 // `member` will have limited permissions; they will act as vendors
@@ -13,14 +9,14 @@ import { Store } from "./store";
 // TODO: https://docs.medusajs.com/modules/users/backend/rbac
 @Entity()
 export class User extends MedusaUser {
-  // @OneToMany(() => WalletAddress, walletAddress => walletAddress.user)
-  // walletAddresses?: WalletAddress[];
+    // @OneToMany(() => WalletAddress, walletAddress => walletAddress.user)
+    // walletAddresses?: WalletAddress[];
 
-  @OneToOne(() => Store, (store) => store.owner)
-  store?: Store;
+    @OneToOne(() => Store, (store) => store.owner)
+    store?: Store;
 
-  @Column()
-  wallet_address: string;
-  // email?: string;
-  // password_hash?: string;
+    @Column()
+    wallet_address: string;
+    // email?: string;
+    // password_hash?: string;
 }
