@@ -17,29 +17,27 @@ function replaceStoreIdsInSeed(filename, storeIds) {
     console.log("created ", filename);
 }
 
-//auth call first
-fetch('http://localhost:9000/admin/auth', {
-        method: 'POST',
-        body: JSON.stringify({ email: 'admin@medusa-test.com', password:'supersecret' }),
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-}).then((response) => response.json())
-.then((json) => {
-    //call to create records 
-    fetch('http://localhost:9000/admin/custom/user?email=goblinvendor@hamza.com&password=password', {
-        method: 'GET',
-        headers: { 'Cookie': 'connect.sid=s%3AWa1xUWUBc_6S8ZmJxcLDmSXXXVCOGbdU.Rfmyt4%2BSWR%2Bw7WGnBSESFhgoPvo6kGVPph03%2BOI0Wpw', 'Content-type': 'application/json; charset=UTF-8' },
-    }).then((response) => response.json())
-    .then((json) => {
-        console.log(json.store0.id);
+async function main() 
+{
+    try {
+        const authResponse = await fetch('http://localhost:9000/admin/auth', {
+            method: 'POST',
+            body: JSON.stringify({ email: 'admin@medusa-test.com', password:'supersecret' }),
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }); 
         
-        //get the store IDs
-        const storeIds = [json.store0.id]; 
+        const response = await fetch('http://localhost:9000/admin/custom/user?email=goblinvendor@hamza.com&password=password', {
+            method: 'GET',
+            headers: { 'Cookie': 'connect.sid=s%3AWa1xUWUBc_6S8ZmJxcLDmSXXXVCOGbdU.Rfmyt4%2BSWR%2Bw7WGnBSESFhgoPvo6kGVPph03%2BOI0Wpw', 'Content-type': 'application/json; charset=UTF-8' },
+        });
         
-        //write them to seed-1
+        const data = response.json();
+        const storeIds = [data.store0.id];
         replaceStoreIdsInSeed("data/seed-1.json", storeIds);
-    }).catch(error => {
-        console.log(error)
-    });
-}).catch(error => {
-    console.log(error)
-});
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
+
+main();
