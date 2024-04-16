@@ -26,9 +26,7 @@ async function main()
             headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }); 
         const authData = await authResponse.json();
-        console.log(authResponse.headers);
         const authCookie = authResponse.headers.get('set-cookie');
-        console.log(authCookie.substring(0, authCookie.indexOf(';')));
         
         const response = await fetch('http://localhost:9000/admin/custom/user?email=goblinvendor@hamza.com&password=password', {
             method: 'GET',
