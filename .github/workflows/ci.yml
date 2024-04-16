@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, staging, staging-ci]
+
+jobs:
+  install_dependencies:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [hamza-client, hamza-server]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 18.18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.18.x'
+          cache: 'yarn' # Enables automatic caching for Yarn
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ${{ matrix.project }}/node_modules
+          key: ${{ runner.os }}-${{ matrix.project }}-${{ hashFiles(format('{0}/yarn.lock', matrix.project)) }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.project }}-
+      - name: Install Dependencies
+        run: yarn install
+        working-directory: ${{ matrix.project }}
+
+  build_and_test:
+    needs: install_dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 18.18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.18.x'
+      - name: Cache node_modules for hamza-client
+        uses: actions/cache@v2
+        with:
+          path: hamza-client/node_modules
+          key: ${{ runner.os }}-hamza-client-${{ hashFiles('hamza-client/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-hamza-client-
+      - name: Cache node_modules for hamza-server
+        uses: actions/cache@v2
+        with:
+          path: hamza-server/node_modules
+          key: ${{ runner.os }}-hamza-server-${{ hashFiles('hamza-server/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-hamza-server-
+      - name: Build Server
+        run: yarn build
+        working-directory: hamza-server
+      - name: Lint Client
+        run: yarn lint
+        working-directory: hamza-client
