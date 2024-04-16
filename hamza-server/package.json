@@ -12,13 +12,20 @@
     "headless",
     "medusa"
   ],
+  
   "scripts": {
     "clean": "cross-env ./node_modules/.bin/rimraf dist",
+    "normalclean": "./clean.sh",
+    "softclean": "./softclean.sh",
+    "deepclean": "./deepclean.sh",
+    "import-currencies": "./scripts/import-currencies.sh",
     "build": "cross-env npm run clean && npm run build:server && npm run build:admin",
     "build:server": "cross-env npm run clean && tsc -p tsconfig.server.json",
     "build:admin": "cross-env medusa-admin build",
     "watch": "cross-env tsc --watch",
     "test": "cross-env jest",
+    "setup-0": "./setup-0.sh",
+    "setup-1": "./setup-1.sh",
     "seed-0": "cross-env medusa seed -f data/seed-0.json",
     "seed-1": "cross-env medusa seed -f data/seed-1.json",
     "start": "cross-env npm run build && medusa start",

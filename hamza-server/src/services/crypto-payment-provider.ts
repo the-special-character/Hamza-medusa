@@ -110,7 +110,11 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
 
         //get the store id
         let walletAddresses: string[] = [];
-        if (context.resource_id) {
+        if (
+            context.resource_id ||
+            !context.paymentSessionData?.wallet_address ||
+            !context.paymentSessionData.wallet_address.toString().length
+        ) {
             walletAddresses = await this._getCartWalletAddresses(
                 context.resource_id.toString()
             );
@@ -126,7 +130,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             console.log('got transaction_id: ', transactionId);
             if (!(await verifyPaymentTransactionId(transactionId))) {
                 //TODO: need a better system to communicate payment failure
-                payment_status = 'failed';
+                //payment_status = 'failed';
             }
         }
 
@@ -239,9 +243,6 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         const output: string[] = [];
 
         try {
-            const productIds: string[] = [];
-            const promises: Promise<string>[] = [];
-
             //get cart; cart has items, items have variants, variants have products,
             // products have stores, stores have owners, owners have wallets
             const cart: Cart = await this.cartService.retrieve(cartId, {

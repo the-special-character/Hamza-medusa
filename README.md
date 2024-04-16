@@ -1,19 +1,18 @@
 <img src="branding/hamza.png" height="70"/>    
 <img src="branding/LoadPipeGray.png" height="50"/>
 
-[![website](https://img.shields.io/badge/website-blue '')](https://hamza.biz) [![website](https://img.shields.io/badge/dev_site-red '')](https://hamza.biz) [![ethglobal](https://img.shields.io/badge/eth-london-green '')](https://ethglobal.com/showcase/hamza-u5dm7) 
+[![website](https://img.shields.io/badge/website-blue)](https://hamza.biz) [![website](https://img.shields.io/badge/dev_site-red)](https://hamza.biz) [![ethglobal](https://img.shields.io/badge/eth-london-green)](https://ethglobal.com/showcase/hamza-u5dm7)
 
 ### Setup Quick Start
 
 1. Clone this Repository
-2. Create the .env files 
+2. Create the .env files
 3. Install Packages with yarn
 4. Install the Medusa CLI
 5. Set up the Database
 6. Run medusa seed & migrations
 7. Run the Server
 8. Run the Client
-
 
 
 
@@ -35,27 +34,22 @@ I have added Meilisearch to the docker-compose.yml, so it should just be the sam
 2. ./meilisearch --master-key=key 
 
 
-
 **1. Clone this Repository**
-
 
 **2. Create the .env file in both the project root, and in ./hamza-server**
 ./hamza-server/.env
 ./hamza-client/.env.local
 
-
-See .env.example. 
+See .env.example.
 
 **3. Install Packages with yarn**
-
 
 ```
 cd ./hamza-server
 yarn install
 cd ../hamza-client
-yarn install 
+yarn install
 ```
-
 
 **4. Install the Medusa CLI**
 
@@ -63,23 +57,23 @@ yarn install
 yarn global add @medusajs/medusa-cli
 ```
 
-
 **5. Set up the Database**
 
-Either do it by docker, or install postgresql manually on your local environment, and create an empty database called "hamza_dev_db". 
+Either do it by docker, or install postgresql manually on your local environment, and create an empty database called "hamza_dev_db".
 
-If doing it by docker, in the root of the repo: 
-(sudo is optional depending on your setup) 
+If doing it by docker, in the root of the repo:
+(sudo is optional depending on your setup)
 
-***5a. Use Docker (recommended)***
+**_5a. Use Docker (recommended)_**
 
 ```
 sudo docker-compose up -d
 ```
 
-***5b. Manual Setup (optional)***
+**_5b. Manual Setup (optional)_**
 
 Install and run postgresql locally, and and redis locally. Optionally, you can omit redis, but also comment out the redis lines in /hamza-server/medusa-config.js
+
 ```
 sudo apt update
 sudo apt install postgresql postgresql-contrib
@@ -92,34 +86,31 @@ postgres=# \c hamza_dev_db
 hamza_dev_db=# ALTER USER postgres WITH PASSWORD 'postgres'
 ```
 
-Install Redis: 
+Install Redis:
+
 ```
 sudo apt update
-sudo apt install redis 
+sudo apt install redis
 ```
 
-
-**6. Seed the data** 
+**6. Seed the data**
 
 ```
 cd ./hamza-server
-./import-currencies.sh
-npx medusa seed --seed-file=data/seed.json
-yarn seed-0 (Also seeds)
-yarn seed-1 (Also seeds)
-npx medusa migrations run
+yarn setup-0
+# WAIT for the server to start listening on port 9000
+yarn setup-1
+# at this point, you can shut the server down if you wish
 ```
 
-
-**7. Run the Server** 
+**7. Run the Server**
 
 ```
 cd ./hamza-server
 yarn dev
 ```
 
-
-**8. Run the Client** 
+**8. Run the Client**
 
 ```
 ./import-currencies.sh
@@ -127,9 +118,9 @@ cd ./hamza-client
 yarn dev
 ```
 
-
 **9. Fresh Reset**
-Backend: 
+Backend:
+
 ```
 1. Remove the node_modules folder
 2. Remove the dist folder
@@ -148,7 +139,6 @@ Backend:
 13. yarn dev
 ```
 
-
 ### Docker Cheat Sheet (WIP) - G
 **We can either do `docker-compose` or `docker compose` (the `-` is optional)**
 1. docker compose up -d
@@ -163,7 +153,6 @@ Backend:
 4. docker logs <container-name>
 
 
-
 ## Notes
 
 To set up from scratch:
@@ -171,18 +160,17 @@ https://docs.medusajs.com/create-medusa-app
 Run: `npx create-medusa-app@latest`
 Automatically created thepostgres database and the admin user through the cli
 
-
 ### Project Structure
 
 **Backend**: hamza-server/
 Environment Variable: _.env_
 
-**Frontend**: /hamza-client    
-Environments Variable: _env.local_   
+**Frontend**: /hamza-client  
+Environments Variable: _env.local_
 
 For Postgres database we can create entities in load-pipe/src/models
 [Medusa uses TypeORM ](https://docs.medusajs.com/development/entities/overview) ... adding entities to this folder will automatically register them in the database.
 
 ### Payment Architecture:
-[E-commerce.pdf](/E-commerce.pdf) in root of repo has a diagram of the [payment architecture](https://docs.medusajs.com/modules/carts-and-checkout/payment)
 
+[E-commerce.pdf](/E-commerce.pdf) in root of repo has a diagram of the [payment architecture](https://docs.medusajs.com/modules/carts-and-checkout/payment)
