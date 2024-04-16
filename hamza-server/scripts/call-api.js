@@ -26,10 +26,13 @@ async function main()
             headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }); 
         const authData = await authResponse.json();
+        console.log(authResponse.headers);
+        const authCookie = authResponse.headers.get('set-cookie');
+        console.log(authCookie.substring(0, authCookie.indexOf(';')));
         
         const response = await fetch('http://localhost:9000/admin/custom/user?email=goblinvendor@hamza.com&password=password', {
             method: 'GET',
-            headers: { 'Cookie': 'connect.sid=s%3AENcK-STil6VcoXHGJ_BfJ_li0E96O7r7.Hu%2FI58TPs20jB%2BeX6KSjoJ0z6NninxhRd%2B0AK5%2BWEFI', 'Content-type': 'application/json; charset=UTF-8' },
+            headers: { 'Cookie': authCookie.substring(0, authCookie.indexOf(';')) },
         });
         
         const data = await response.json();
