@@ -13,7 +13,8 @@
     {
       "email": "admin@medusa-test.com",
       "password": "supersecret",
-      "role": "admin"
+      "role": "admin",
+      "wallet_address": "0x84318B362Cf6a7DBc46655bF66dF3B5e2a17eb9A"
     }
   ],
   "regions": [
