@@ -10,6 +10,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'GoblinVendor@hamza.com',
                 first_name: 'Goblin',
                 last_name: 'Vendor',
+                wallet_address: '0x1234567890',
             },
             'password'
         );
@@ -19,6 +20,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'QualityVendor@hamza.com',
                 first_name: 'Quality',
                 last_name: 'Vendor',
+                wallet_address: '0x1234567891',
             },
             'password'
         );
@@ -28,14 +30,29 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'HeadphonesVendor@hamza.com',
                 first_name: 'Headphones',
                 last_name: 'Vendor',
+                wallet_address: '0x1234567892',
             },
             'password'
         );
 
-        const store0 = await storeService.createStore(user0);
-        const store1 = await storeService.createStore(user1);
+        const store0 = await storeService.createStore(
+            user0,
+            'Goblin Store',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPC'
+        );
+        const store1 = await storeService.createStore(
+            user1,
+            'Quality Store',
+            'vr_headphones',
+            'pcol_01HSGAM4918EX0DETKY6E662WT'
+        );
+        const store2 = await storeService.createStore(
+            user2,
+            'Headphones Store',
+            'pcol_01HSGAMXDJD725MR3VSW631SN2'
+        );
 
-        return res.json({ user0, user1, user2, store0, store1 });
+        return res.json({ user0, user1, user2, store0, store1, store2 });
     } catch (error) {
         console.error(error);
         return res
