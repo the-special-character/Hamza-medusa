@@ -38,64 +38,64 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         this.productService = productService;
     }
 
-    async complete(
+    complete(
         cartId: string,
         idempotencyKey: IdempotencyKey,
         context: RequestContext
     ): Promise<CartCompletionResponse> {
-        const cart = await this.cartService.retrieve(cartId, {
-            relations: ['items'],
+        return new Promise<CartCompletionResponse>((resolve, reject) => {
+            this.cartService
+                .retrieve(cartId, {
+                    relations: ['items'],
+                })
+                .then((cart) => {
+                    // Assume the total amount should be split into two payments
+                    let total = 2; //TODO: how to get a total from cart?
+                    if (!total) total = 2;
+                    const halfTotal = total / 2;
+                    console.log('cart total:', total);
+
+                    const input1: PaymentDataInput = {
+                        currency_code: 'eth',
+                        provider_id: 'crypto',
+                        amount: halfTotal,
+                        data: {},
+                    };
+
+                    const input2: PaymentDataInput = {
+                        currency_code: 'usdc',
+                        provider_id: 'crypto',
+                        amount: total - halfTotal,
+                        data: {},
+                    };
+
+                    // Creating two payments
+                    console.log('creating payment 1');
+                    this.paymentService.create(input1).then((payment1) => {
+                        console.log('creating payment 2');
+                        this.paymentService.create(input2).then((payment2) => {
+                            const response: CartCompletionResponse = {
+                                response_code: 200,
+                                response_body: {
+                                    payment1: payment1.id,
+                                    payment2: payment2.id,
+                                    message: 'payment successful',
+                                },
+                            };
+                            console.log('sending response', response);
+                            resolve(response);
+                        });
+                    });
+                });
+
+            //return a default value of some sort
+            resolve({
+                response_code: 500,
+                response_body: {
+                    message: 'nothing happened',
+                },
+            });
         });
-
-        //check for inventory
-        /*for (const line of cart.items) {
-            const product = await this.productService.retrieve(line.product_id);
-
-            if (product.i < line.quantity) {
-                throw new MedusaError(
-                    MedusaError.Types.NOT_ALLOWED,
-                    `Product ${product.name} is out of stock`
-                );
-            }
-        }
-        */
-
-        // Assume the total amount should be split into two payments
-        let total = cart.total; // Assume 'total' is available on the cart object
-        if (!total) total = 2;
-        const halfTotal = total / 2;
-        console.log('cart total:', total);
-
-        const input1: PaymentDataInput = {
-            currency_code: 'eth',
-            provider_id: 'crypto',
-            amount: halfTotal,
-            data: {},
-        };
-
-        const input2: PaymentDataInput = {
-            currency_code: 'usdc',
-            provider_id: 'crypto',
-            amount: total - halfTotal,
-            data: {},
-        };
-
-        // Creating two payments
-        console.log('creating payment 1');
-        const payment1 = await this.paymentService.create(input1);
-
-        console.log('creating payment 2');
-        const payment2 = await this.paymentService.create(input2);
-
-        const response: CartCompletionResponse = {
-            response_code: 200,
-            response_body: {
-                payment1: payment1.id,
-                payment2: payment2.id,
-            },
-        };
-        console.log('sending response', response);
-        return response;
     }
 }
 
