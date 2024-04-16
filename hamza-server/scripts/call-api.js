@@ -25,15 +25,22 @@ async function main()
             body: JSON.stringify({ email: 'admin@medusa-test.com', password:'supersecret' }),
             headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }); 
+        const authData = await authResponse.json();
+        const authCookie = authResponse.headers.get('set-cookie');
         
         const response = await fetch('http://localhost:9000/admin/custom/user?email=goblinvendor@hamza.com&password=password', {
             method: 'GET',
-            headers: { 'Cookie': 'connect.sid=s%3AWa1xUWUBc_6S8ZmJxcLDmSXXXVCOGbdU.Rfmyt4%2BSWR%2Bw7WGnBSESFhgoPvo6kGVPph03%2BOI0Wpw', 'Content-type': 'application/json; charset=UTF-8' },
+            headers: { 'Cookie': authCookie.substring(0, authCookie.indexOf(';')) },
         });
         
-        const data = response.json();
-        const storeIds = [data.store0.id];
-        replaceStoreIdsInSeed("data/seed-1.json", storeIds);
+        const data = await response.json();
+        if (!data.store0) {
+            console.error(data);
+        }
+        else {
+            const storeIds = [data.store0.id];
+            replaceStoreIdsInSeed("data/seed-1.json", storeIds);
+        }
     }
     catch(e) {
         console.error(e);
