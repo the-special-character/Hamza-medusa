@@ -15,6 +15,25 @@
 8. Run the Client
 
 
+
+
+### Meilisearch 
+I have added Meilisearch to the docker-compose.yml, so it should just be the same command
+**(recommended)**
+1. docker-compose up -d 
+2. Obtain API Key w/ curl request: (Master_Key is in the docker-compose.yml MeiliSearch section)
+`curl -X GET 'http://localhost:7700/keys' \
+   -H 'Authorization: Bearer MASTER_KEY'`
+**This has also been added to the POSTMAN collection as a GET request, so you can use that as well.**
+3. Add the Default Admin API Key to the .env `MEILISEARCH_API_KEY=Default_Admin_API_Key``` 
+4. http://localhost:7700 Now the Meiliesearch should be working
+
+**However if you want to download it locally;** 
+1. curl -L https://install.meilisearch.com | sh
+2. ./meilisearch --master-key=key 
+
+
+
 **1. Clone this Repository**
 
 
@@ -126,6 +145,21 @@ Backend:
 14. npx medusa seed --seed-file=data/seed-1.json
 13. yarn dev
 ```
+
+
+### Docker Cheat Sheet (WIP) - G
+**We can either do `docker-compose` or `docker compose` (the `-` is optional)**
+1. docker compose up -d
+
+**This is nice to clean up everything, but be careful, it will remove all volumes and images)**
+2. docker compose down --volumes --rmi all
+
+**Find all running containers**
+3. docker ps
+
+**Show container logs**
+4. docker logs <container-name>
+
 
 
 ## Notes
