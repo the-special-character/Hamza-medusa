@@ -1,20 +1,20 @@
-import React from 'react'
-import { useAdminCollection } from 'medusa-react'
-import { Suspense } from 'react'
-import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid'
-import Thumbnail from '@modules/products/components/thumbnail'
-import { Text } from '@medusajs/ui'
-import PreviewPrice from '@modules/products/components/product-preview/price'
-import { ProductPreviewType } from 'types/global'
-import LocalizedClientLink from '@modules/common/components/localized-client-link'
+import React from 'react';
+import { useAdminCollection } from 'medusa-react';
+import { Suspense } from 'react';
+import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid';
+import Thumbnail from '@modules/products/components/thumbnail';
+import { Text } from '@medusajs/ui';
+import PreviewPrice from '@modules/products/components/product-preview/price';
+import { ProductPreviewType } from 'types/global';
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
 // TODO: Refactor goals to use <Suspense .. /> to wrap collection && <SkeletonProductGrid /> for loading state
 
 type Props = {
-    collectionId: string
-}
-const ProductCollections = ({ collectionId }: Props) => {
-    const { collection, isLoading } = useAdminCollection(collectionId)
+    vendorName: string;
+};
+const ProductCollections = ({ vendorName }: Props) => {
+    const { collection, isLoading } = useAdminCollection(collectionId);
 
     return (
         <div className="text-white">
@@ -42,7 +42,7 @@ const ProductCollections = ({ collectionId }: Props) => {
                 )}
             </Suspense>
         </div>
-    )
-}
+    );
+};
 
-export default ProductCollections
+export default ProductCollections;
