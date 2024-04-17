@@ -20,7 +20,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'QualityVendor@hamza.com',
                 first_name: 'Quality',
                 last_name: 'Vendor',
-                wallet_address: '0x6610C5B2e87465732787736f2DBE5c3a11358893',
+                wallet_address: '0x6A75b412495838621e9352FE72fF5e9191DD5ab1',
             },
             'password'
         );
