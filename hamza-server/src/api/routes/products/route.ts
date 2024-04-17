@@ -11,7 +11,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
                 .json({ message: 'Missing product_id or store_id' });
         }
         const product = await productService.updateProduct(product_id, {
-            store_id: 'store_01HVKA8MD9R937BC12TTD96DQ1',
+            store_id: store_id,
         });
         return res.json({ product });
     } catch (error) {
