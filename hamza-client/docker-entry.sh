@@ -13,7 +13,7 @@
 #done
 #echo "Redis is ready."
 
-while ! nc -z localhost 7001; do
+while ! nc -z backend 7001; do
   echo "Waiting for port 7001 to be available..."
   sleep 10 # wait for 1 second before check again
 done
