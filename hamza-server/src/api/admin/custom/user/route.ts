@@ -43,7 +43,6 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         const store1 = await storeService.createStore(
             user1,
             'Quality Store',
-            'vr_headphones',
             'pcol_01HSGAM4918EX0DETKY6E662WT'
         );
         const store2 = await storeService.createStore(
