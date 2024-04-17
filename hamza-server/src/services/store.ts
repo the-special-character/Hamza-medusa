@@ -61,6 +61,15 @@ class StoreService extends MedusaStoreService {
             console.error('Error processing products:', error);
         }
     }
+
+    async getStoreByName(store_name: string): Promise<Store> {
+        const storeRepo = this.manager_.withRepository(this.storeRepository_);
+        const store = await storeRepo.findOneBy({ name: store_name });
+        if (!store) {
+            throw new Error(`Store with name ${store_name} not found`);
+        }
+        return store;
+    }
 }
 
 export default StoreService;
