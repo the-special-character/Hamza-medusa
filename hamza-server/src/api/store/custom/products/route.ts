@@ -4,6 +4,7 @@ import type {
     ProductService,
 } from '@medusajs/medusa';
 import { ProductSelector as MedusaProductSelector } from '@medusajs/medusa/dist/types/product';
+import StoreService from '../../../../services/store';
 
 type ProductSelector = {
     store_id?: string;
@@ -11,22 +12,29 @@ type ProductSelector = {
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     try {
-        //get product service
+        //get store by name
+        const storeService: StoreService = req.scope.resolve('storeService');
+        if (!req.query.store_name || !req.query.store_name.length)
+            return res.status(400).json({ message: 'Missing store_name' });
+
+        const store = await storeService.getStoreByName(
+            req.query.store_name.toString()
+        );
+
+        // Simple error handing
+        if (!store) {
+            return res.status(404).json({ message: 'Store not found' });
+        }
+
+        // Chain query to get products
         const productService: ProductService =
             req.scope.resolve('productService');
 
-        //validate request
-        if (!req.query.store_id || !req.query.store_id.length)
-            return res.status(400).json({ message: 'Missing store_id' });
-
-        //select products by store
-        const selector: ProductSelector = {
-            store_id: req.query.store_id.toString(),
-        };
-        const products = await productService.list(selector);
-
-        //return results
-        return res.json({ products });
+        const store_id = store.id;
+        const list_products = await productService.list({
+            store_id: store_id,
+        });
+        return res.json(list_products);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
