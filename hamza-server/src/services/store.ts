@@ -43,15 +43,6 @@ class StoreService extends MedusaStoreService {
             // Get a list of products belonging to a collection
             const collectionListResponse = await axios.get(collectionListUrl);
             const products = collectionListResponse.data.products;
-            console.log(
-                'Products fetched',
-                products.length,
-                products[0].id,
-                products[1].id,
-                products[2].id,
-                products[3].id,
-                products[4].id
-            );
 
             // Map `each` product to a `POST` request to update product with `store_id`
             const updatePromises = products.map((product) => {

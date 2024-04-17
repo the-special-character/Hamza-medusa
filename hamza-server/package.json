@@ -26,9 +26,10 @@
     "test": "cross-env jest",
     "setup-0": "./scripts/setup-0.sh",
     "setup-1": "./scripts/setup-1.sh",
-    "seed-0": "cross-env medusa seed -f data/seed-0.json",
-    "seed-1": "cross-env medusa seed -f data/seed-1.json",
+    "seed": "cross-env medusa seed -f data/seed.json",
     "start": "cross-env npm run build && medusa start",
+    "nuke": "docker-compose down --volumes --rmi all",
+    "up": "docker-compose up -d",
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
     "dev": "cross-env npm run build:server && medusa develop",
     "reset-dev-server": "docker compose down && docker volume ls -q | xargs docker volume rm && docker compose up -d && yarn build && medusa migrations run && yarn seed-0 && yarn dev"
