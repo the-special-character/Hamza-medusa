@@ -21,20 +21,20 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             req.query.store_name.toString()
         );
 
-        // //get product service
-        // const productService: ProductService =
-        //     req.scope.resolve('productService');
-        //
-        // //validate request
-        //
-        // //select products by store
-        // const selector: ProductSelector = {
-        //     store_id: req.query.store_id.toString(),
-        // };
-        // const products = await productService.list(selector);
+        // Simple error handing
+        if (!store) {
+            return res.status(404).json({ message: 'Store not found' });
+        }
 
-        //return results
-        return res.json({ store });
+        // Chain query to get products
+        const productService: ProductService =
+            req.scope.resolve('productService');
+
+        const store_id = store.id;
+        const list_products = await productService.list({
+            store_id: store_id,
+        });
+        return res.json(list_products);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
