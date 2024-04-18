@@ -1,24 +1,36 @@
-'use client'
-import React, { useState } from 'react'
-import { Grid, Box, HStack, Button, Flex } from '@chakra-ui/react'
-import fire from '../../../../../public/product_filters/fire.png'
-import gift from '../../../../../public/product_filters/gift.png'
-import game from '../../../../../public/product_filters/games.png'
-import laptop from '../../../../../public/product_filters/electronics.png'
-import collections from '../../../../../public/product_filters/collections.png'
-import coinbase from '../../../../../public/wallet_connect/coinbase.png'
-import metamask from '../../../../../public/wallet_connect/metamask.png'
-import rainbow from '../../../../../public/wallet_connect/rainbow.jpeg'
-import wallet from '../../../../../public/wallet_connect/wallet.png'
-import arrow from '../../../../../public/Vector.png'
-import Image from 'next/image'
-import Login from '@/components/AuthenticateAdmin/Login'
-import ProductCollections from '@modules/collections/product_collection_filter'
+'use client';
+import React, { useState, useEffect } from 'react';
+import { Grid, Box, HStack, Button, Flex } from '@chakra-ui/react';
+import fire from '../../../../../public/product_filters/fire.png';
+import gift from '../../../../../public/product_filters/gift.png';
+import game from '../../../../../public/product_filters/games.png';
+import laptop from '../../../../../public/product_filters/electronics.png';
+import collections from '../../../../../public/product_filters/collections.png';
+import coinbase from '../../../../../public/wallet_connect/coinbase.png';
+import metamask from '../../../../../public/wallet_connect/metamask.png';
+import rainbow from '../../../../../public/wallet_connect/rainbow.jpeg';
+import wallet from '../../../../../public/wallet_connect/wallet.png';
+import arrow from '../../../../../public/Vector.png';
+import Image from 'next/image';
+import Login from '@/components/AuthenticateAdmin/Login';
+import ProductCollections from '@modules/collections/product_collection_filter';
+import axios from 'axios';
 
 const RecommendedItems = () => {
-    const [collectionId, setCollectionId] = useState(
-        'pcol_01HRVF8HCVY8B00RF5S54THTPC'
-    )
+    const [vendorName, setVendorName] = useState('Goblin Store');
+
+    // useEffect(() => {
+    //     const fetchProductsByStoreName = async (store_name: string) => {
+    //         try {
+    //             const response = await axios.get(
+    //                 `http://localhost:9000/store/custom/products?store_name=${store_name}`
+    //             );
+    //         } catch (e) {
+    //             console.error('Error fetching data', e);
+    //         }
+    //     };
+    //     fetchProductsByStoreName(vendorName);
+    // }, [vendorName]);
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -141,7 +153,7 @@ const RecommendedItems = () => {
                         color="black"
                         borderRadius="full"
                         onClick={() => {
-                            setCollectionId('pcol_01HRVF8HCVY8B00RF5S54THTPC')
+                            setVendorName('Goblin Store');
                         }}
                     >
                         <Image
@@ -151,7 +163,7 @@ const RecommendedItems = () => {
                             width={22}
                             height={22}
                         />
-                        Best Sellers
+                        Goblin Vendor
                     </Button>
                     <Button
                         fontWeight="italic"
@@ -160,7 +172,7 @@ const RecommendedItems = () => {
                         color="white"
                         borderRadius="full"
                         onClick={() => {
-                            setCollectionId('pcol_01HSGAM4918EX0DETKY6E662WT')
+                            setVendorName('Quality Store');
                         }}
                     >
                         <Image
@@ -170,7 +182,7 @@ const RecommendedItems = () => {
                             width={22}
                             height={22}
                         />
-                        Gift Cards
+                        Quality Vendor
                     </Button>
                     <Button
                         fontWeight="italic"
@@ -179,7 +191,7 @@ const RecommendedItems = () => {
                         color="white"
                         borderRadius="full"
                         onClick={() => {
-                            setCollectionId('pcol_01HSGAMXDJD725MR3VSW631SN2')
+                            setVendorName('Headphones Store');
                         }}
                     >
                         <Image
@@ -189,7 +201,7 @@ const RecommendedItems = () => {
                             width={22}
                             height={22}
                         />
-                        Games
+                        Headphone Vendor
                     </Button>
                     <Button
                         fontWeight="italic"
@@ -224,10 +236,10 @@ const RecommendedItems = () => {
                         Collectible
                     </Button>
                 </HStack>
-                <ProductCollections collectionId={collectionId} />
+                <ProductCollections vendorName={vendorName} />
             </Box>
         </Flex>
-    )
-}
+    );
+};
 
-export default RecommendedItems
+export default RecommendedItems;
