@@ -12,6 +12,7 @@ export default defineConfig({
     videosFolder: 'cypress/videos',
     video: true,
     chromeWebSecurity: true,
+
     viewportWidth: 1366,
     viewportHeight: 850,
 
@@ -23,14 +24,13 @@ export default defineConfig({
     pageLoadTimeout: 30000,
     requestTimeout: 30000,
 
-    component: {
-        setupNodeEvents(on, config) {},
-        specPattern: './**/*spec.{js,jsx,ts,tsx}',
-    },
-
     e2e: {
+        baseUrl: 'http://localhost:8000',
+        supportFile: 'cypress/support/commands.ts',
+        specPattern: '**/*.cy.{js,jsx,ts,tsx}', // Changed to match typical Cypress pattern, adjust if needed
         setupNodeEvents(on, config) {
-            // implement node event listeners here
+            // Define node event listeners or tasks here if needed
+            // Example: on('task', { setupMetamask() { return null } });
         },
     },
 });
