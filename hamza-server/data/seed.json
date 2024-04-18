@@ -24,7 +24,7 @@
       "currency_code": "eth",
       "tax_rate": 0,
       "payment_providers": [
-        "manual"
+        "manual", "crypto"
       ],
       "fulfillment_providers": [
         "manual"
@@ -45,7 +45,7 @@
       "currency_code": "eth",
       "tax_rate": 0,
       "payment_providers": [
-        "manual"
+        "manual", "crypto"
       ],
       "fulfillment_providers": [
         "manual"

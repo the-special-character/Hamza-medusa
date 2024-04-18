@@ -10,7 +10,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'GoblinVendor@hamza.com',
                 first_name: 'Goblin',
                 last_name: 'Vendor',
-                wallet_address: '0x1234567890',
+                wallet_address: '0xb794f5ea0ba39494ce839613fffba74279579268',
             },
             'password'
         );
@@ -20,7 +20,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'QualityVendor@hamza.com',
                 first_name: 'Quality',
                 last_name: 'Vendor',
-                wallet_address: '0x1234567891',
+                wallet_address: '0x6A75b412495838621e9352FE72fF5e9191DD5ab1',
             },
             'password'
         );
@@ -30,7 +30,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 email: 'HeadphonesVendor@hamza.com',
                 first_name: 'Headphones',
                 last_name: 'Vendor',
-                wallet_address: '0x1234567892',
+                wallet_address: '0x5728C7b8b448332Acda43369afa3a2c25C947D43',
             },
             'password'
         );

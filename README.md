@@ -59,41 +59,15 @@ yarn global add @medusajs/medusa-cli
 
 **5. Set up the Database**
 
-Either do it by docker, or install postgresql manually on your local environment, and create an empty database called "hamza_dev_db".
+Setting up the DB without docker is no longer recommended, as the docker is doing more than just running the DB now.
 
-If doing it by docker, in the root of the repo:
-(sudo is optional depending on your setup)
-
-**_5a. Use Docker (recommended)_**
 
 ```
 sudo docker-compose up -d
 ```
 
-**_5b. Manual Setup (optional)_**
 
-Install and run postgresql locally, and and redis locally. Optionally, you can omit redis, but also comment out the redis lines in /hamza-server/medusa-config.js
-
-```
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-sudo systemctl start postgresql
-
-#create the database
-sudo -u postgres psql
-postgres=# create database hamza_dev_db;
-postgres=# \c hamza_dev_db
-hamza_dev_db=# ALTER USER postgres WITH PASSWORD 'postgres'
-```
-
-Install Redis:
-
-```
-sudo apt update
-sudo apt install redis
-```
-
-**6. Seed the data**
+**6. Set up and Run the Server**
 
 ```
 cd ./hamza-server
@@ -103,7 +77,7 @@ yarn setup-1
 # at this point, you can shut the server down if you wish
 ```
 
-**7. Run the Server**
+**7. Just Run the Server (if not already running) **
 
 ```
 cd ./hamza-server
@@ -118,25 +92,14 @@ cd ./hamza-client
 yarn dev
 ```
 
-**9. Fresh Reset**
+**9. Other Helpful Scripts**
 Backend:
 
 ```
-1. Remove the node_modules folder
-2. Remove the dist folder
-3. Remove the build folder
-4. Remove the .cache folder
-5. Remove yarn.lock
-6. docker-compose down
-7. docker volume rm <db_volume>
-8. docker-compose up -d
-9. yarn install
-10. yarn build
-11. npx medusa migrations run
-12. npx medusa seed --seed-file=data/seed-0.json
-13. api call shenanigans
-14. npx medusa seed --seed-file=data/seed-1.json
-13. yarn dev
+yarn clean
+yarn deepclean
+yarn softclean
+yarn nuke
 ```
 
 ### Docker Cheat Sheet (WIP) - G
