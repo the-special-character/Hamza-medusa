@@ -13,6 +13,8 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "cypress": "cypress open",
+    "test": "npx synpress open -cf synpress.json",
+    "test-cli": "npx synpress run -cf synpress.config.ts --config supportFile='cypress/support/index.js'",
     "analyze": "ANALYZE=true next build"
   },
   "resolutions": {
@@ -37,6 +39,7 @@
     "@rainbow-me/rainbowkit": "^1.3.3",
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
+    "@synthetixio/synpress": "^3.7.2-beta.9",
     "@tanstack/react-query": "4.22",
     "algoliasearch": "^4.20.0",
     "axios": "^1.6.7",
@@ -73,7 +76,7 @@
     "@types/react-instantsearch-dom": "^6.12.3",
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.3",
-    "cypress": "^9.5.2",
+    "cypress": "12.7.0",
     "eslint": "8.10.0",
     "eslint-config-next": "^13.4.5",
     "postcss": "^8.4.8",

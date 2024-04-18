@@ -36,7 +36,7 @@
     "**/*.tsx",
     "cypress/support/index.js",
     "cypress/support/commands.js",
-    "cypress/integration/product.spec.js",
+    "cypress/e2e/product.cy.js",
     "cypress/plugins/index.js",
     ".next/types/**/*.ts"
   ],
