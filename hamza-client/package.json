@@ -13,7 +13,7 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "cypress": "cypress open",
-    "test": "npx synpress open -cf synpress.json",
+    "test": "npx synpress open -cf synpress.config.ts",
     "test-cli": "npx synpress run -cf synpress.config.ts --config supportFile='cypress/support/index.js'",
     "analyze": "ANALYZE=true next build"
   },
