@@ -363,7 +363,8 @@ const CryptoPaymentButton = ({
             connect();
             //get the transaction id from payment
             const transactionId: string = await makePayment(
-                session.data.wallet_address.toString()
+                //@ts-ignore
+                session.data.wallet_address.length > 0 ? session.data.wallet_address[0].toString() : ''
             );
 
             //pass the transaction id back to the provider
