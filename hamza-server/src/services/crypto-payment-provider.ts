@@ -134,13 +134,12 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             }
         }
 
-        const addr = walletAddresses.length ? walletAddresses[0] : ''; //TODO: return whole array
 
         const session_data: any = {
             amount: Math.round(100),
             currency: 'USD',
             notes: { resource_id },
-            wallet_address: addr,
+            wallet_address: walletAddresses,
             payment: {
                 capture: 'manual',
                 payment_status: payment_status,
