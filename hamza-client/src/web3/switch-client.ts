@@ -1,4 +1,5 @@
 import { BigNumberish, ethers } from 'ethers';
+import getCurrencyAddress from '../currency.config';
 
 const abi = [
     {
@@ -864,20 +865,13 @@ export interface IPaymentInput {
     receiver: string;
     payer: string;
     amount: BigNumberish;
+    currency?: string; //token address, or ethers.ZeroAddress for native
 }
 
 export interface ITransactionOutput {
     transaction_id: string;
     tx: any;
     receipt: any;
-}
-
-/**
- * Input params to a payment to the Switch, plus a property indicating the currency
- * in which the payment is being made.
- */
-export interface IPaymentInputCurrency extends IPaymentInput {
-    currency: string; //token address, or ethers.ZeroAddress for native
 }
 
 /**
@@ -925,24 +919,19 @@ export class SwitchClient {
     async placeSinglePayment(
         input: IPaymentInput
     ): Promise<ITransactionOutput> {
-        const tx = await this.paymentSwitch.placePayment(input, {
+        //check for token currency
+        if (input.currency) {
+            input.currency = getCurrencyAddress(
+                parseInt((await this.provider.getNetwork()).chainId.toString()),
+                input.currency
+            );
+        }
+
+        const tx: any = await this.paymentSwitch.placePayment(input, {
             value: input.amount,
         });
+
         const transaction_id = tx.hash;
-        const receipt = await tx.wait();
-
-        return {
-            transaction_id,
-            tx,
-            receipt,
-        };
-    }
-
-    async placePayment(amount: number): Promise<ITransactionOutput> {
-        const tx = await this.paymentSwitch.placePayment2(amount, {
-            value: amount,
-        });
-        const transaction_id = tx.identifier;
         const receipt = await tx.wait();
 
         return {
