@@ -921,10 +921,16 @@ export class SwitchClient {
     ): Promise<ITransactionOutput> {
         //check for token currency
         if (input.currency) {
-            input.currency = getCurrencyAddress(
-                parseInt((await this.provider.getNetwork()).chainId.toString()),
-                input.currency
-            );
+            //if it's already a proper address, we can use it; otherwise, convert
+            //currency name to currency address
+            if (!ethers.isAddress(input.currency)) {
+                input.currency = getCurrencyAddress(
+                    parseInt(
+                        (await this.provider.getNetwork()).chainId.toString()
+                    ),
+                    input.currency
+                );
+            }
         }
 
         const tx: any = await this.paymentSwitch.placePayment(input, {
