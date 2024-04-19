@@ -26,8 +26,8 @@ class WishlistService extends TransactionBaseService {
             const createdWishlist = wishlistRepository.create(payload);
             const id = await wishlistRepository.save(createdWishlist);
 
-            const [wishlist] = await wishlistRepository.find({
-                where: { id },
+            const wishlist = await wishlistRepository.find({
+                where: id,
                 relations: ['items', 'items.product'],
             });
 
@@ -49,7 +49,6 @@ class WishlistService extends TransactionBaseService {
                     `Wishlist with ${id} was not found`
                 );
             }
-
             return wishlist;
         });
     }
@@ -57,6 +56,7 @@ class WishlistService extends TransactionBaseService {
     async addWishItem(wishlist_id, product_id) {
         const wishlistItemRepository =
             this.activeManager_.getRepository(WishlistItem);
+        const wishlistRepository = this.activeManager_.getRepository(Wishlist);
         return await this.atomicPhase_(async (transactionManager) => {
             const [item] = await wishlistItemRepository.find({
                 where: { wishlist_id, product_id },
