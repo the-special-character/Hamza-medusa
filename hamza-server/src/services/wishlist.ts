@@ -3,6 +3,11 @@ import { MedusaError } from 'medusa-core-utils';
 import { Lifetime } from 'awilix';
 import { WishlistItem } from '../models/wishlist-item';
 import { Wishlist } from '../models/wishlist';
+
+interface CreateWishlistPayload {
+    region_id: string;
+    customer_id: string;
+}
 class WishlistService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
 
@@ -13,7 +18,7 @@ class WishlistService extends TransactionBaseService {
     }
 
     // TODO: Running this multiple times should NOT create multiple wishlists, look into how to prevent this && how atomicPhase_ works
-    async create(payload: any) {
+    async create(payload: CreateWishlistPayload) {
         return await this.atomicPhase_(async (transactionManager) => {
             if (!payload.region_id) {
                 throw new MedusaError(
@@ -25,10 +30,11 @@ class WishlistService extends TransactionBaseService {
             const wishlistRepository =
                 this.activeManager_.getRepository(Wishlist);
             const createdWishlist = wishlistRepository.create(payload);
-            const { id } = await wishlistRepository.save(createdWishlist);
+            const savedWishList =
+                await wishlistRepository.save(createdWishlist);
 
             const [wishlist] = await wishlistRepository.find({
-                where: { id },
+                where: { id: savedWishList.id },
                 relations: ['items', 'items.product'],
             });
 
