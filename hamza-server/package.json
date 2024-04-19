@@ -26,6 +26,7 @@
     "test": "cross-env jest",
     "setup-0": "./scripts/setup-0.sh",
     "setup-1": "./scripts/setup-1.sh",
+    "migrate": "chmod +x ./scripts/create-migration.sh && ./scripts/create-migration.sh",
     "seed": "cross-env medusa seed -f data/seed.json",
     "start": "cross-env npm run build && medusa start",
     "nuke": "docker-compose down --volumes --rmi all",
