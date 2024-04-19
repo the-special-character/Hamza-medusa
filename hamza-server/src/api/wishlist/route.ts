@@ -32,17 +32,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     }
 };
 
-// ADD Wishlist `item`
-export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
-    const wishlistService: WishlistService =
-        req.scope.resolve('wishlistService');
-    const wishlist = await wishlistService.addWishItem(
-        req.params.id,
-        req.body.product_id
-    );
-    res.json(wishlist);
-};
-
 export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');

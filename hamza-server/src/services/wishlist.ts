@@ -12,6 +12,7 @@ class WishlistService extends TransactionBaseService {
         super(container);
     }
 
+    // TODO: Running this multiple times should NOT create multiple wishlists, look into how to prevent this && how atomicPhase_ works
     async create(payload: any) {
         return await this.atomicPhase_(async (transactionManager) => {
             if (!payload.region_id) {
