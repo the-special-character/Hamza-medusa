@@ -6,10 +6,10 @@ import {
     IdempotencyKeyService,
     ProductService,
     CartService,
-    OrderService,
     Order,
     Payment,
 } from '@medusajs/medusa';
+import OrderService from '../services/order';
 import { OrderRepository } from '@medusajs/medusa/dist/repositories/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
@@ -190,6 +190,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
         //create the payments
         for (let i = 0; i < paymentInputs.length; i++) {
+            //TODO: batch these for efficiency
             const payment: Payment = await this.paymentService.create(
                 paymentInputs[i]
             );
@@ -203,6 +204,14 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cart: Cart,
         payments: Payment[]
     ): Promise<Order[]> {
+        const output: Payment[] = [];
+        //TODO: batch these for efficiency
+        for (let i = 0; i < payments.length; i++) {
+            const order: Order = await this.orderService.createFromPayment(
+                cart.id,
+                payments[i]
+            );
+        }
         const order = await this.orderService.createFromCart(cart);
         return [order];
     }
