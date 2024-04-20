@@ -21,7 +21,7 @@ import { revalidateTag } from 'next/cache';
 import { signOut } from '@modules/account/actions';
 
 const MEDUSA_SERVER_URL =
-    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+    process.env.NEXT_CLIENT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`;
 const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {

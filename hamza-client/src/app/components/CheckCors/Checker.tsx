@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 
-const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const MEDUSA_SERVER_URL = process.env.NEXT_CLIENT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
 const CHECKER = `${MEDUSA_SERVER_URL}/custom/checker`;
 const Checker = () => {
     const [message, setMessage] = useState(""); // State to store the message
