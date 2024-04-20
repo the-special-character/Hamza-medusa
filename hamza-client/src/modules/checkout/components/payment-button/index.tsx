@@ -1,6 +1,6 @@
 'use client';
 
-import { Cart, PaymentSession as MedusaPaymentSession } from '@medusajs/medusa';
+import { Cart, PaymentSession } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
 import { OnApproveActions, OnApproveData } from '@paypal/paypal-js';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
@@ -61,10 +61,6 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
         //return <Button disabled>Select a payment method</Button>
     }
 };
-
-declare class PaymentSession extends MedusaPaymentSession {
-    data: Record<string, any>
-}
 
 const StripePaymentButton = ({
     cart,
@@ -337,7 +333,7 @@ const CryptoPaymentButton = ({
                     amount: session.amount,
                     id: Math.floor(Math.random() * 9999) + 1,
                     payer: signer.address ?? '',
-                    receiver: receiver
+                    receiver: receiver,
                 });
 
             console.log(output);
@@ -366,9 +362,14 @@ const CryptoPaymentButton = ({
             //here connect wallet and sign in, if not connected
             connect();
             //get the transaction id from payment
-            const transactionId: string = await makePayment(
-                session.data.wallet_address && session.data.wallet_address.length > 0 ? session.data.wallet_address[0].toString() : ''
-            );
+            let receiver_address = '';
+            const walletAddresses: any = session.data.wallet_addresses;
+            if (walletAddresses?.length) {
+                const addresses = walletAddresses.split(',');
+                receiver_address = addresses[0];
+            }
+
+            const transactionId: string = await makePayment(receiver_address);
 
             //pass the transaction id back to the provider
             if (transactionId?.length) onPaymentCompleted(transactionId);

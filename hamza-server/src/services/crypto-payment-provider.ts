@@ -129,17 +129,17 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             const transactionId = context.context.transaction_id;
             console.log('got transaction_id: ', transactionId);
             if (!(await verifyPaymentTransactionId(transactionId))) {
+                console.log('verified transaction', transactionId);
                 //TODO: need a better system to communicate payment failure
                 //payment_status = 'failed';
             }
         }
 
-
         const session_data: any = {
             amount: Math.round(100),
             currency: 'USD',
             notes: { resource_id },
-            wallet_address: walletAddresses,
+            wallet_addresses: walletAddresses.join(','),
             payment: {
                 capture: 'manual',
                 payment_status: payment_status,
