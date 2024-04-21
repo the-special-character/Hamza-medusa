@@ -13,7 +13,10 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "cypress": "cypress open",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "normalclean": "chmod +x ./scripts/clean.sh && ./scripts/clean.sh",
+    "softclean": "chmod +x ./scripts/clean.sh && ./scripts/softclean.sh",
+    "deepclean": "chmod +x ./scripts/clean.sh && ./scripts/deepclean.sh"
   },
   "resolutions": {
     "webpack": "^5",
