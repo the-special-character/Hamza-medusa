@@ -203,7 +203,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
             promises.push(
-                this.orderService.createFromPayment(cart.id, payments[i])
+                this.orderService.createFromPayment(cart, payments[i])
             );
         }
 
