@@ -80,13 +80,16 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             });
 
             //create payments
-            const payments: Payment[] = await this._createCartPayments(cart);
+            const payments: Payment[] = await this.createCartPayments(cart);
 
             //create orders
-            const orders: Order[] = await this._createOrdersForPayments(
+            const orders: Order[] = await this.createOrdersForPayments(
                 cart,
                 payments
             );
+
+            //update payments with order ids
+            await this.updatePaymentsWithOrderId(payments, orders);
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -116,7 +119,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         }
     }
 
-    private async _getStoreCurrencyData(cart: Cart): Promise<{
+    private async getStoreCurrencyData(cart: Cart): Promise<{
         store_currencies: { [key: string]: string };
         unique_store_ids: string[];
     }> {
@@ -139,7 +142,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         };
     }
 
-    private _createPaymentInput(
+    private createPaymentInput(
         cart: Cart,
         storeId: string,
         currencyCode: string
@@ -169,7 +172,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return output;
     }
 
-    private async _createCartPayments(cart: Cart): Promise<Payment[]> {
+    private async createCartPayments(cart: Cart): Promise<Payment[]> {
         //unique store ids
         const currencyData = await this._getStoreCurrencyData(cart);
         console.log('store currencies: ', currencyData.store_currencies);
@@ -196,7 +199,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return await Promise.all(promises);
     }
 
-    private async _createOrdersForPayments(
+    private async createOrdersForPayments(
         cart: Cart,
         payments: Payment[]
     ): Promise<Order[]> {
@@ -208,6 +211,22 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         }
 
         return await Promise.all(promises);
+    }
+
+    private async updatePaymentsWithOrderId(
+        payments: Payment[],
+        orders: Order[]
+    ): Promise<void> {
+        const promises: Promise<Payment>[] = [];
+        for (let n = 0; n < payments.length; n++) {
+            if (orders.length > n) {
+                payments[n].order_id = orders[n].id;
+                promises.push(
+                    this.paymentService.update(payments[n].id, payments[n])
+                );
+            }
+        }
+        await Promise.all(promises);
     }
 }
 
