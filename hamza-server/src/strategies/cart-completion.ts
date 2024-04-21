@@ -176,7 +176,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         console.log('uniqueStoreIds: ', currencyData.unique_store_ids);
 
         //for each unique store, make payment input to create a payment
-        const payments: Payment[] = [];
         const paymentInputs: PaymentDataInput[] = [];
         currencyData.unique_store_ids.forEach((storeId) => {
             paymentInputs.push(
@@ -189,31 +188,26 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         });
 
         //create the payments
+        const promises: Promise<Payment>[] = [];
         for (let i = 0; i < paymentInputs.length; i++) {
-            //TODO: batch these for efficiency
-            const payment: Payment = await this.paymentService.create(
-                paymentInputs[i]
-            );
-            payments.push(payment);
+            promises.push(this.paymentService.create(paymentInputs[i]));
         }
 
-        return payments;
+        return await Promise.all(promises);
     }
 
     private async _createOrdersForPayments(
         cart: Cart,
         payments: Payment[]
     ): Promise<Order[]> {
-        const output: Payment[] = [];
-        //TODO: batch these for efficiency
+        const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
-            const order: Order = await this.orderService.createFromPayment(
-                cart.id,
-                payments[i]
+            promises.push(
+                this.orderService.createFromPayment(cart.id, payments[i])
             );
         }
-        const order = await this.orderService.createFromCart(cart);
-        return [order];
+
+        return await Promise.all(promises);
     }
 }
 
