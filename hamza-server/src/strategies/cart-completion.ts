@@ -174,7 +174,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
     private async createCartPayments(cart: Cart): Promise<Payment[]> {
         //unique store ids
-        const currencyData = await this._getStoreCurrencyData(cart);
+        const currencyData = await this.getStoreCurrencyData(cart);
         console.log('store currencies: ', currencyData.store_currencies);
         console.log('uniqueStoreIds: ', currencyData.unique_store_ids);
 

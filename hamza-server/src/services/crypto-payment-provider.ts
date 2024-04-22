@@ -115,7 +115,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             !context.paymentSessionData?.wallet_address ||
             !context.paymentSessionData.wallet_address.toString().length
         ) {
-            walletAddresses = await this._getCartWalletAddresses(
+            walletAddresses = await this.getCartWalletAddresses(
                 context.resource_id.toString()
             );
         }
@@ -238,7 +238,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         };
     }
 
-    private async _getCartWalletAddresses(cartId: string): Promise<string[]> {
+    private async getCartWalletAddresses(cartId: string): Promise<string[]> {
         const output: string[] = [];
 
         try {
