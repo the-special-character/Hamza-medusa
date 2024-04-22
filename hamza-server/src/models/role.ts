@@ -38,7 +38,7 @@ export class Role extends BaseEntity {
     })
     permissions: Permission[];
 
-    @OneToMany(() => User, (user) => user.teamRole)
+    @OneToMany(() => User, (user) => user.team_role)
     @JoinColumn({ name: 'id', referencedColumnName: 'role_id' })
     users: User[];
 

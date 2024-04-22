@@ -12,7 +12,7 @@ export declare module '@medusajs/medusa/dist/models/user' {
         password_hash?: string;
         store?: Store;
         role_id: string | null;
-        teamRole: Role | null;
+        team_role: Role | null;
         // walletAddresses: WalletAddress[];
     }
 }

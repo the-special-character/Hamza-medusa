@@ -45,16 +45,16 @@ export const permissions = async (
     const userService = req.scope.resolve('userService') as UserService;
     const loggedInUser = await userService.retrieve(req.user.userId, {
         select: ['id'],
-        relations: ['teamRole', 'teamRole.permissions'],
+        relations: ['team_role', 'team_role.permissions'],
     });
 
-    if (!loggedInUser.teamRole) {
+    if (!loggedInUser.team_role) {
         // considered as super user
         next();
         return;
     }
 
-    const isAllowed = loggedInUser.teamRole?.permissions.some((permission) => {
+    const isAllowed = loggedInUser.team_role?.permissions.some((permission) => {
         const metadataKey = Object.keys(permission.metadata).find(
             (key) => key === req.path
         );
