@@ -182,7 +182,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const paymentInputs: PaymentDataInput[] = [];
         currencyData.unique_store_ids.forEach((storeId) => {
             paymentInputs.push(
-                this._createPaymentInput(
+                this.createPaymentInput(
                     cart,
                     storeId,
                     currencyData.store_currencies[storeId]
