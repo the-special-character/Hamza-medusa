@@ -1,4 +1,4 @@
-'use server';
+//'use server';
 
 import {
     ProductCategory,
@@ -18,10 +18,11 @@ import sortProducts from '@lib/util/sort-products';
 import transformProductPreview from '@lib/util/transform-product-preview';
 import { SortOptions } from '@modules/store/components/refinement-list/sort-products';
 import { ProductCategoryWithChildren, ProductPreviewType } from 'types/global';
-
 import { medusaClient } from '../config';
 import medusaError from '@lib/util/medusa-error';
-import { cookies } from 'next/headers';
+
+//TODO: is the following commented out code needed? (JK)
+//import { cookies } from 'next/headers';
 
 // Authentication actions
 // TODO: Modified to use StorePostAuthReqCustom instead of StorePostAuthReq (DONE?)
@@ -50,11 +51,14 @@ const getMedusaHeaders = (tags: string[] = []) => {
         },
     } as Record<string, any>;
 
+    //TODO: is the following commented out code needed? (JK)
+    /*
     const token = cookies().get('_medusa_jwt')?.value;
 
     if (token) {
         headers.authorization = `Bearer ${token}`;
     }
+    */
 
     return headers;
 };
@@ -259,7 +263,7 @@ export async function getToken(credentials: StorePostAuthReqCustom) {
             },
         })
         .then(({ access_token }) => {
-            access_token && cookies().set('_medusa_jwt', access_token);
+            //TODO: is the following commented out code needed? (JK)access_token && cookies().set('_medusa_jwt', access_token);
             return access_token;
         })
         .catch((err) => {
