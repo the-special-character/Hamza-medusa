@@ -28,8 +28,8 @@ const ProductCollections = ({ vendorName }: Props) => {
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
     }
+    return <div>Error: {error?.message}</div>;
 
     const products = data?.data;
 

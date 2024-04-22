@@ -68,6 +68,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
      * @param context
      * @returns
      */
+
     async complete(
         cartId: string,
         idempotencyKey: IdempotencyKey,
@@ -98,6 +99,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     payment_count: payments.length,
                     message: 'payment successful',
                     payments,
+                    cartId: cartId,
                 },
             };
 
@@ -110,6 +112,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     payment_count: 0,
                     message: e.toString(),
                     payments: [],
+                    cartId: cartId,
                 },
             };
 
