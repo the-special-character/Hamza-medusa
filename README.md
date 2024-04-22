@@ -14,26 +14,6 @@
 7. Run the Server
 8. Run the Client
 
-
-
-### Meilisearch 
-I have added Meilisearch to the docker-compose.yml, so it should just be the same command
-**(recommended)**
-1. docker-compose up -d 
-2. Obtain API Key w/ curl request: (Master_Key is in the docker-compose.yml MeiliSearch section)
-`curl -X GET 'http://localhost:7700/keys' \
-   -H 'Authorization: Bearer MASTER_KEY'`
-**This has also been added to the POSTMAN collection as a GET request, so you can use that as well.**
-3. Add the Default Admin API Key to the .env `MEILISEARCH_API_KEY=Default_Admin_API_Key``` 
-4. http://localhost:7700 Now the Meiliesearch should be working
-5. Copy & Paste the last three env variables from .env.local.example to the .env.local file
-6. Add `Default_Admin_API_Key` to .env.local 
-
-**However if you want to download it locally;** 
-1. curl -L https://install.meilisearch.com | sh
-2. ./meilisearch --master-key=key 
-
-
 **1. Clone this Repository**
 
 **2. Create the .env file in both the project root, and in ./hamza-server**
@@ -61,11 +41,9 @@ yarn global add @medusajs/medusa-cli
 
 Setting up the DB without docker is no longer recommended, as the docker is doing more than just running the DB now.
 
-
 ```
 sudo docker-compose up -d
 ```
-
 
 **6. Set up and Run the Server**
 
@@ -87,34 +65,74 @@ yarn dev
 **8. Run the Client**
 
 ```
-./import-currencies.sh
+./import-currencies.sh #only needs to be done once, until node_modules is cleaned
 cd ./hamza-client
 yarn dev
 ```
 
 **9. Other Helpful Scripts**
-Backend:
+
+**Backend:**
 
 ```
+# removes node_modules, build, dist, and .cache
 yarn clean
+
+# removes node_modules, build, dist, .cache and yarn.lock/package-lock.json
 yarn deepclean
+
+# removes build & dist, and .cache
 yarn softclean
+
+# removes database entirely
 yarn nuke
 ```
 
+**Frontend:**
+
+```
+# removes node_modules, .next
+yarn clean
+
+# removes node_modules, .next, and yarn.lock/package-lock.json
+yarn deepclean
+
+# removes .next
+yarn softclean
+
+```
+
 ### Docker Cheat Sheet (WIP) - G
+
 **We can either do `docker-compose` or `docker compose` (the `-` is optional)**
+
 1. docker compose up -d
 
-**This is nice to clean up everything, but be careful, it will remove all volumes and images)**
-2. docker compose down --volumes --rmi all
+**This is nice to clean up everything, but be careful, it will remove all volumes and images)** 2. docker compose down --volumes --rmi all
 
-**Find all running containers**
-3. docker ps
+**Find all running containers** 3. docker ps
 
-**Show container logs**
-4. docker logs <container-name>
+**Show container logs** 4. docker logs <container-name>
 
+### Meilisearch
+
+I have added Meilisearch to the docker-compose.yml, so it should just be the same command
+**(recommended)**
+
+1. docker-compose up -d
+2. Obtain API Key w/ curl request: (Master_Key is in the docker-compose.yml MeiliSearch section)
+   `curl -X GET 'http://localhost:7700/keys' \
+-H 'Authorization: Bearer MASTER_KEY'`
+   **This has also been added to the POSTMAN collection as a GET request, so you can use that as well.**
+3. Add the Default Admin API Key to the .env `MEILISEARCH_API_KEY=Default_Admin_API_Key```
+4. http://localhost:7700 Now the Meiliesearch should be working
+5. Copy & Paste the last three env variables from .env.local.example to the .env.local file
+6. Add `Default_Admin_API_Key` to .env.local
+
+**However if you want to download it locally;**
+
+1. curl -L https://install.meilisearch.com | sh
+2. ./meilisearch --master-key=key
 
 ## Notes
 
@@ -128,7 +146,7 @@ Automatically created thepostgres database and the admin user through the cli
 **Backend**: hamza-server/
 Environment Variable: _.env_
 
-**Frontend**: /hamza-client  
+**Frontend**: /hamza-client
 Environments Variable: _env.local_
 
 For Postgres database we can create entities in load-pipe/src/models
@@ -137,3 +155,7 @@ For Postgres database we can create entities in load-pipe/src/models
 ### Payment Architecture:
 
 [E-commerce.pdf](/E-commerce.pdf) in root of repo has a diagram of the [payment architecture](https://docs.medusajs.com/modules/carts-and-checkout/payment)
+
+```
+
+```

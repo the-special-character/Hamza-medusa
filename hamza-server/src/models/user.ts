@@ -25,7 +25,7 @@ export class User extends MedusaUser {
 
     @ManyToOne(() => Role, (role) => role.users)
     @JoinColumn({ name: 'role_id' })
-    teamRole: Role | null;
+    team_role: Role | null;
 
     @OneToOne(() => Store, (store) => store.owner)
     store?: Store;
