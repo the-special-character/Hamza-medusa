@@ -52,18 +52,23 @@ const ProductCollections = ({ vendorName }: Props) => {
                             spacing="20px"
                         >
                             {products.map((product) => (
-                                <div key={product.id}>
-                                    <Thumbnail
-                                        thumbnail={product.thumbnail}
-                                        size="small"
-                                    />
-                                    <div className="flex txt-compact-medium mt-4 ">
-                                        <Text className="text-ui-fg-subtle font-bold text-white ">
-                                            {product.title}
-                                        </Text>
-                                        <div className="flex items-center gap-x-2 "></div>
+                                <LocalizedClientLink
+                                    href={`/products/${product.handle}`}
+                                    className="group"
+                                >
+                                    <div key={product.id}>
+                                        <Thumbnail
+                                            thumbnail={product.thumbnail}
+                                            size="small"
+                                        />
+                                        <div className="flex txt-compact-medium mt-4 ">
+                                            <Text className="text-ui-fg-subtle font-bold text-white ">
+                                                {product.title}
+                                            </Text>
+                                            <div className="flex items-center gap-x-2 "></div>
+                                        </div>
                                     </div>
-                                </div>
+                                </LocalizedClientLink>
                             ))}
                         </SimpleGrid>
                     </div>
