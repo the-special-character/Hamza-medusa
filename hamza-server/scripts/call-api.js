@@ -1,24 +1,3 @@
-const fs = require('fs');
-
-/*
-function readAsJson(filename) {
-    return JSON.parse(fs.readFileSync(filename));
-}
-
-function replaceStoreIdsInSeed(filename, storeIds) {
-    const seedData = readAsJson(filename);
-
-    //replace store ids
-    for (let n = 0; n < seedData.products.length; n++) {
-        seedData.products[n].store_id = storeIds[0];
-    }
-
-    //overwrite the file
-    fs.writeFileSync(filename, JSON.stringify(seedData, null, 2));
-    console.log('created ', filename);
-}
-*/
-
 async function main() {
     try {
         const authResponse = await fetch('http://localhost:9000/admin/auth', {
@@ -41,16 +20,6 @@ async function main() {
                 },
             }
         );
-
-	/*
-        const data = await response.json();
-        if (!data.store0) {
-            console.error(data);
-        } else {
-            const storeIds = [data.store0.id];
-            replaceStoreIdsInSeed('data/seed.json', storeIds);
-        }
-        */
     } catch (e) {
         console.error(e);
     }

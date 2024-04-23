@@ -39,11 +39,7 @@ yarn global add @medusajs/medusa-cli
 
 **5. Set up the Database**
 
-Setting up the DB without docker is no longer recommended, as the docker is doing more than just running the DB now.
-
-```
-sudo docker-compose up -d
-```
+Setup will do this for you in the next step. Just make sure that you are not running anything (e.g. postgres) on the default postgresql port (5432), nor on the default redis port .
 
 **6. Set up and Run the Server**
 
