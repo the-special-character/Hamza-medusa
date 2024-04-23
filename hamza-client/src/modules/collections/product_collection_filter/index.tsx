@@ -27,9 +27,7 @@ const ProductCollections = ({ vendorName }: Props) => {
         return null; // Suspense will handle the loading fallback.
     }
 
-    if (error) {
-    }
-    return <div>Error: {error?.message}</div>;
+    if (error) return <div>Error: {error?.message}</div>;
 
     const products = data?.data;
 

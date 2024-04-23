@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { SimpleGrid, Box, HStack, Button, Flex } from '@chakra-ui/react';
+import { SimpleGrid, Box, Button, Flex } from '@chakra-ui/react';
 import fire from '../../../../../public/product_filters/fire.png';
 import gift from '../../../../../public/product_filters/gift.png';
 import game from '../../../../../public/product_filters/games.png';
@@ -12,25 +12,10 @@ import rainbow from '../../../../../public/wallet_connect/rainbow.jpeg';
 import wallet from '../../../../../public/wallet_connect/wallet.png';
 import arrow from '../../../../../public/Vector.png';
 import Image from 'next/image';
-import Login from '@/components/AuthenticateAdmin/Login';
 import ProductCollections from '@modules/collections/product_collection_filter';
-import axios from 'axios';
 
 const RecommendedItems = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
-
-    // useEffect(() => {
-    //     const fetchProductsByStoreName = async (store_name: string) => {
-    //         try {
-    //             const response = await axios.get(
-    //                 `http://localhost:9000/store/custom/products?store_name=${store_name}`
-    //             );
-    //         } catch (e) {
-    //             console.error('Error fetching data', e);
-    //         }
-    //     };
-    //     fetchProductsByStoreName(vendorName);
-    // }, [vendorName]);
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
