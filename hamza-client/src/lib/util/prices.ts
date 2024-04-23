@@ -241,7 +241,7 @@ const convertToLocale = ({
     maximumFractionDigits,
     locale = 'en-US',
 }: ConvertToLocaleParams) => {
-    return `${amount.toString()} ${currency_code}`;
+    return `${amount.toString()} ${currency_code.toUpperCase()}`;
     return currency_code && !isEmpty(currency_code)
         ? new Intl.NumberFormat(locale, {
               style: 'currency',
