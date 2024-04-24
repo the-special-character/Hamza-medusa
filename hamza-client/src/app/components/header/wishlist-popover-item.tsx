@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRegion } from 'medusa-react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-
+import Image from 'next/image';
 import { useRegions } from 'medusa-react';
 
 // const { regions, isLoading } = useRegions()
@@ -18,7 +18,7 @@ const WishlistPopoverItem = ({ item }) => {
         >
             <div className="flex hover:bg-gray-100">
                 <div className="overflow-hidden rounded-md mr-4">
-                    <img
+                    <Image
                         className="w-16 h-auto"
                         src={item.thumbnail}
                         alt={item.title}

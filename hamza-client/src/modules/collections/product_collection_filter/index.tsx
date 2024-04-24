@@ -53,6 +53,7 @@ const ProductCollections = ({ vendorName }: Props) => {
                         >
                             {products.map((product) => (
                                 <LocalizedClientLink
+                                    key={product.id}
                                     href={`/products/${product.handle}`}
                                     className="group"
                                 >
