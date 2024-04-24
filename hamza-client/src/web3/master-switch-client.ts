@@ -42,7 +42,7 @@ export class MasterSwitchClient {
         //prepare the inputs
         for (let n = 0; n < inputs.length; n++) {
             const input: IMultiPaymentInput = inputs[n];
-            if (!input.currency) {
+            if (!input.currency || input.currency === 'eth') {
                 input.currency = ethers.ZeroAddress;
             } else {
                 if (!ethers.isAddress(input.currency)) {
@@ -63,6 +63,7 @@ export class MasterSwitchClient {
 
         //get total native amount
         const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
+        console.log('native amount:', nativeTotal);
 
         const tx: any = await this.masterSwitch.placeMultiPayments(inputs, {
             value: nativeTotal,

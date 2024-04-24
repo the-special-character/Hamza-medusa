@@ -18,6 +18,8 @@ class WishlistService extends TransactionBaseService {
     }
 
     // TODO: Running this multiple times should NOT create multiple wishlists, look into how to prevent this && how atomicPhase_ works
+    // XGH NOTE: atomicPhase_ handles dB transactions in a safe and isolated way, method is designed to encapsulate the block of
+    // transactional work to ensure ALL operations are completed successfully or none are.- GN
     async create(payload: CreateWishlistPayload) {
         return await this.atomicPhase_(async (transactionManager) => {
             if (!payload.region_id) {
