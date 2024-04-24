@@ -1,25 +1,26 @@
 import {
     Cart,
     FulfillmentStatus,
-    Order,
     OrderService as MedusaOrderService,
+    OrderStatus,
     Payment,
     PaymentStatus,
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
-import { PaymentService } from '@medusajs/medusa/dist/services';
+import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import { Order } from '../models/order';
 import { Lifetime } from 'awilix';
+import { UpdateResult } from 'typeorm';
 
 export default class OrderService extends MedusaOrderService {
     static LIFE_TIME = Lifetime.SINGLETON; // default, but just to show how to change it
 
     protected orderRepository_: typeof OrderRepository;
-    protected paymentService_: typeof PaymentService;
+    protected paymentRepository_: typeof PaymentRepository;
 
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
-        this.paymentService_ = container.paymentService;
     }
 
     async createFromPayment(cart: Cart, payment: Payment): Promise<Order> {
@@ -59,5 +60,32 @@ export default class OrderService extends MedusaOrderService {
         } catch (e) {
             console.log(`Error creating customer: ${e}`);
         }
+    }
+
+    async getOrdersForCart(cartId: string): Promise<Order[]> {
+        return await this.orderRepository_.find({
+            where: { cart_id: cartId },
+        });
+    }
+
+    async finalizeOrdersAndPayments(
+        cartId: string,
+        transactionId: string
+    ): Promise<Order[]> {
+        const orders: Order[] = await this.getOrdersForCart(cartId);
+        const promises: Promise<UpdateResult>[] = [];
+
+        orders.forEach((o, i) => {
+            orders[i].status = OrderStatus.COMPLETED;
+            orders[i].payment_status = PaymentStatus.AWAITING;
+            orders[i].payments.forEach((p: Payment, n) => {
+                orders[i].transaction_id = transactionId;
+            });
+            promises.push(this.orderRepository_.update(o.id, orders[i]));
+        });
+
+        await Promise.all(promises);
+
+        return orders;
     }
 }
