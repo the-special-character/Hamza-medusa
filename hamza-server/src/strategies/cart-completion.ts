@@ -90,13 +90,20 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 ],
             });
 
+            //group payments by store and currency
+            const groups: IPaymentGroupData[] = this.createPaymentGroups(cart);
+
             //create payments
-            const payments: Payment[] = await this.createCartPayments(cart);
+            const payments: Payment[] = await this.createCartPayments(
+                cart,
+                groups
+            );
 
             //create orders
             const orders: Order[] = await this.createOrdersForPayments(
                 cart,
-                payments
+                payments,
+                groups
             );
 
             //update payments with order ids
@@ -194,14 +201,13 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return Object.keys(groups).map((key) => groups[key]);
     }
 
-    private async createCartPayments(cart: Cart): Promise<Payment[]> {
-        //unique store ids
-        const groups: IPaymentGroupData[] = this.createPaymentGroups(cart);
-        console.log('PAYMENT GROUPS:', groups);
-
-        //for each unique store, make payment input to create a payment
+    private async createCartPayments(
+        cart: Cart,
+        paymentGroups: IPaymentGroupData[]
+    ): Promise<Payment[]> {
+        //for each unique group, make payment input to create a payment
         const paymentInputs: PaymentDataInput[] = [];
-        groups.forEach((group) => {
+        paymentGroups.forEach((group) => {
             paymentInputs.push(
                 this.createPaymentInput(
                     cart,
@@ -222,12 +228,17 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
     private async createOrdersForPayments(
         cart: Cart,
-        payments: Payment[]
+        payments: Payment[],
+        paymentGroups: IPaymentGroupData[]
     ): Promise<Order[]> {
         const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
             promises.push(
-                this.orderService.createFromPayment(cart, payments[i])
+                this.orderService.createFromPayment(
+                    cart,
+                    payments[i],
+                    paymentGroups[i].store_id
+                )
             );
         }
 
