@@ -36,7 +36,8 @@ const defaultWishlist: WishlistType = {
     },
 };
 
-const useWishlistStore = create(
+// TODO: Refactor to pull useWishlistStore from this component or the Wishlist component to create a sort of separation (e.g. useWishlistStore.tsx)
+export const useWishlistStore = create(
     persist(
         (set, get) => ({
             wishlist: {
@@ -74,8 +75,6 @@ const useWishlistStore = create(
     )
 );
 
-export default useWishlistStore;
-
 interface WishlistProps {
     productIds: string[];
     countryCode: string;
@@ -87,37 +86,40 @@ const isBrowser = typeof window !== 'undefined';
 export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
     const { region } = useRegion(countryCode);
 
-    const addWishItem = (product_id: string) => {
-        try {
-            const query = ['item', { product_id: product_id }];
-            const fetchWishlist = () =>
-                axios.get(`/store/wishlist/${wishlist.id}/wish-item`);
-            const { data, error, isLoading } = useMutation(
-                query,
-                fetchWishlist
-            );
-            setWishlistItem(data?.data);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    // Let's now use the useWishlistStore hook to get the wishlist state and actions
+    const { actions } = useWishlistStore((state) => ({
+        actions: state.actions,
+    }));
 
-    const removeWishItem = (product_id: string) => {
-        try {
-            const query = ['item', { product_id: product_id }];
-            const fetchWishlist = () =>
-                axios.get(
-                    `/store/wishlist/${wishlist.id}/wish-item/${product_id}`
-                );
-            const { data, error, isLoading } = useMutation(
-                query,
-                fetchWishlist
-            );
-            setWishlistItem(data?.data);
-        } catch (e) {
-            console.log(e);
+    const addWishlistMutation = useMutation(
+        (product_id) =>
+            axios.post(`/store/wishlist/${wishlist.id}/wish-item`, {
+                product_id,
+            }),
+        {
+            onSuccess: (data) => {
+                actions.addWishlistItem(data);
+            },
+            onError: (error) => {
+                console.log('Error adding item to wishlist', error);
+            },
         }
-    };
+    );
 
-    return { wishlist };
+    // now we will refactor removeWishItem to removeWishlistItemMutation
+
+    const removeWishlistItemMutation = useMutation(
+        (product_id) =>
+            axios.delete(
+                `/store/wishlist/${wishlist.id}/wish-item/${product_id}`
+            ),
+        {
+            onSuccess: (data) => {
+                actions.removeWishlistItem(data);
+            },
+            onError: (error) => {
+                console.log('Error removing item from wishlist', error);
+            },
+        }
+    );
 };
