@@ -60,23 +60,20 @@ export async function signUp(_currentState: unknown, formData: FormData) {
 }
 
 type LoginState = string | boolean;
-export async function logCustomerInFromForm(
-    _currentState: unknown,
-    formData: FormData
-): Promise<string | null | undefined> {
-    return logCustomerIn(formData.get('wallet_address') as string);
-}
 
 //TODO: (CLEANUP) does this ever get called? (may be used for login with email, if we implement it)
 export async function logCustomerIn(
-    wallet_address: string
+    _currentState: unknown,
+    formData: FormData
 ): Promise<string | null | undefined> {
+    const wallet_address = formData.get('wallet_address') as string;
+    const password = formData.get('password') as string;
+    const email = formData.get('email') as string;
     if (wallet_address === null) return null;
     try {
         console.log('logCustomerIn called with ', wallet_address);
 
         const email = `${wallet_address}@evm.blockchain`;
-        const password = 'password'; //TODO: (JK) store default password someplace
 
         await getToken({ email, password, wallet_address }).then(() => {
             revalidateTag('customer');

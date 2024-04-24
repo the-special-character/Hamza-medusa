@@ -61,7 +61,8 @@
     "tailwindcss-radix": "^2.8.0",
     "viem": "^1.21.4",
     "wagmi": "^1.4.13",
-    "webpack": "^5"
+    "webpack": "^5",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",

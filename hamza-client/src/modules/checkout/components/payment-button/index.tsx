@@ -31,34 +31,19 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
             : false;
 
     const paymentSession = cart.payment_session as PaymentSession;
+    console.log('paymentSession: ', paymentSession);
 
     switch (paymentSession.provider_id) {
         case 'stripe':
-            return (
-                <StripePaymentButton
-                    notReady={notReady}
-                    cart={cart}
-                    transaction_id={''}
-                />
-            );
+            return <StripePaymentButton notReady={notReady} cart={cart} />;
         case 'manual':
-            return (
-                <ManualTestPaymentButton
-                    notReady={notReady}
-                    transaction_id={''}
-                />
-            );
+            return <ManualTestPaymentButton notReady={notReady} />;
         //case 'paypal':
         //    return <PayPalPaymentButton notReady={notReady} cart={cart} />
         case 'crypto':
             return <CryptoPaymentButton notReady={notReady} cart={cart} />;
         default:
-            return (
-                <ManualTestPaymentButton
-                    notReady={notReady}
-                    transaction_id={''}
-                />
-            );
+            return <ManualTestPaymentButton notReady={notReady} />;
         //return <Button disabled>Select a payment method</Button>
     }
 };
@@ -66,23 +51,22 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
 const StripePaymentButton = ({
     cart,
     notReady,
-    transaction_id,
 }: {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
     notReady: boolean;
-    transaction_id: string;
 }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const onPaymentCompleted = async (transaction_id: string) => {
-        await placeOrder(transaction_id).catch(() => {
+    const onPaymentCompleted = async () => {
+        await placeOrder().catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
     };
 
     const stripe = useStripe();
+
     const elements = useElements();
     const card = elements?.getElement('card');
 
@@ -94,10 +78,10 @@ const StripePaymentButton = ({
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
         event.preventDefault();
-        handlePayment(transaction_id);
+        handlePayment();
     };
 
-    const handlePayment = async (transaction_id: string) => {
+    const handlePayment = async () => {
         setSubmitting(true);
 
         if (!stripe || !elements || !card || !cart) {
@@ -137,7 +121,7 @@ const StripePaymentButton = ({
                         (pi && pi.status === 'requires_capture') ||
                         (pi && pi.status === 'succeeded')
                     ) {
-                        onPaymentCompleted(transaction_id);
+                        onPaymentCompleted();
                     }
 
                     setErrorMessage(error.message || null);
@@ -149,7 +133,7 @@ const StripePaymentButton = ({
                         paymentIntent.status === 'requires_capture') ||
                     paymentIntent.status === 'succeeded'
                 ) {
-                    return onPaymentCompleted(transaction_id);
+                    return onPaymentCompleted();
                 }
 
                 return;
@@ -174,17 +158,15 @@ const StripePaymentButton = ({
 const PayPalPaymentButton = ({
     cart,
     notReady,
-    transaction_id,
 }: {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
     notReady: boolean;
-    transaction_id: string;
 }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder(transaction_id).catch(() => {
+        await placeOrder().catch(() => {
             setErrorMessage('An error occurred, please try again.');
             setSubmitting(false);
         });
@@ -234,18 +216,12 @@ const PayPalPaymentButton = ({
     }
 };
 
-const ManualTestPaymentButton = ({
-    notReady,
-    transaction_id,
-}: {
-    notReady: boolean;
-    transaction_id: string;
-}) => {
+const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder(transaction_id).catch((err) => {
+        await placeOrder().catch((err) => {
             setErrorMessage(err.toString());
             setSubmitting(false);
         });
@@ -343,7 +319,7 @@ const CryptoPaymentButton = ({
             console.log('TX ID: ', output.transaction_id);
             return output.transaction_id;
         } catch (e) {
-            console.error(e);
+            console.error('error has occured during transaction', e);
         }
 
         return '';

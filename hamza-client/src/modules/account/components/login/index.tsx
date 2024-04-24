@@ -2,7 +2,7 @@ import { useFormState } from 'react-dom';
 
 import { LOGIN_VIEW } from '@modules/account/templates/login-template';
 import Input from '@modules/common/components/input';
-import { logCustomerInFromForm } from '@modules/account/actions';
+import { logCustomerIn } from '@modules/account/actions';
 import ErrorMessage from '@modules/checkout/components/error-message';
 import { SubmitButton } from '@modules/checkout/components/submit-button';
 
@@ -11,10 +11,7 @@ type Props = {
 };
 
 const Login = ({ setCurrentView }: Props) => {
-    const [message, formAction] = useFormState(
-        logCustomerInFromForm,
-        undefined
-    );
+    const [message, formAction] = useFormState(logCustomerIn, undefined);
 
     return (
         <div className="max-w-sm w-full flex flex-col items-center">
