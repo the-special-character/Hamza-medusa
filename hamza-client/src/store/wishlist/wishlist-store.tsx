@@ -37,7 +37,7 @@ const defaultWishlist: WishlistType = {
 };
 
 // TODO: Refactor to pull useWishlistStore from this component or the Wishlist component to create a sort of separation (e.g. useWishlistStore.tsx)
-export const useWishlistStore = create(
+const useWishlistStore = create(
     persist(
         (set, get) => ({
             wishlist: {
@@ -66,6 +66,9 @@ export const useWishlistStore = create(
                         },
                     }));
                 },
+                setWishlist: async (wishlist) => {
+                    set((state) => ({ wishlist }));
+                },
             },
         }),
         {
@@ -74,6 +77,8 @@ export const useWishlistStore = create(
         }
     )
 );
+
+export default useWishlistStore;
 
 interface WishlistProps {
     productIds: string[];
@@ -84,12 +89,19 @@ const WISHLIST_ID = 'wishlist_id';
 const isBrowser = typeof window !== 'undefined';
 
 export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
-    const { region } = useRegion(countryCode);
-
     // Let's now use the useWishlistStore hook to get the wishlist state and actions
     const { actions } = useWishlistStore((state) => ({
         actions: state.actions,
     }));
+    const { region } = useRegion(countryCode);
+
+    // TODO: Set initial wishlist if it already exists in localStorage
+    // useEffect(() => {
+    //     const fetchInitialWishlist = async () => {
+    //         if (isBrowser) {
+    //         }
+    //     };
+    // });
 
     const addWishlistMutation = useMutation(
         (product_id) =>
