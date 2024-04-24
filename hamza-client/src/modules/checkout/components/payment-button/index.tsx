@@ -1,5 +1,4 @@
 'use client';
-
 import { Cart, PaymentSession } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
 import { OnApproveActions, OnApproveData } from '@paypal/paypal-js';
@@ -14,6 +13,8 @@ import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { ITransactionOutput, SwitchClient } from 'web3/switch-client';
 import { ethers } from 'ethers';
+import { useCompleteCart, useUpdateCart } from 'medusa-react';
+import { useRouter } from 'next/navigation';
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -264,9 +265,11 @@ const CryptoPaymentButton = ({
 }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+    const completeCart = useCompleteCart(cart.id);
+    const updateCart = useUpdateCart(cart.id);
     const { openConnectModal } = useConnectModal();
     const { connector: activeConnector, isConnected } = useAccount();
+    const router = useRouter();
     const { connect, connectors, error, isLoading, pendingConnector } =
         useConnect({
             connector: new InjectedConnector(),
@@ -322,11 +325,27 @@ const CryptoPaymentButton = ({
         return '';
     };
 
-    const onPaymentCompleted = async () => {
-        await placeOrder().catch(() => {
-            setErrorMessage('An error occurred, please try again.');
-            setSubmitting(false);
-        });
+    const onPaymentCompleted = async (transactionId: string) => {
+        updateCart.mutate(
+            { context: { transactionId } },
+            {
+                onSuccess: ({}) => {
+                    console.log('updated cart successfully');
+                    completeCart.mutate(void 0, {
+                        onSuccess: ({ data, type }) => {
+                            console.log('completed cart successfully');
+                            setSubmitting(false);
+                            const countryCode =
+                                cart.shipping_address?.country_code?.toLowerCase();
+                            //Todo Add riderection after the payment is captured in order service
+                            // router.push(
+                            //     `/${countryCode}/order/confirmed/${cart.id}`
+                            // );
+                        },
+                    });
+                },
+            }
+        );
     };
 
     const session = cart.payment_session as PaymentSession;
@@ -348,7 +367,7 @@ const CryptoPaymentButton = ({
             const transactionId: string = await makePayment(receiver_address);
 
             //pass the transaction id back to the provider
-            if (transactionId?.length) onPaymentCompleted();
+            if (transactionId?.length) onPaymentCompleted(transactionId);
         } catch (e) {
             console.error(e);
         }
