@@ -1,8 +1,9 @@
-import React, {createContext, ReactNode, useEffect, useState} from "react"
+import React, { useEffect, useState} from "react"
 import { useMedusa, useRegion } from "medusa-react"
 import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from "axios";
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type WishlistItem = {
     id: string
@@ -35,23 +36,34 @@ const defaultWishlist: WishlistType = {
     },
 }
 
-const WishlistContext = createContext<WishlistType>(defaultWishlist)
-// REFACTOR WishlistContext to use zustand instead of useState
-const WishlistStore = create((set) => ({
+const useWishlistStore = create(persist((set) => ({
     wishlist: {
         items: [],
     },
     loading: false,
     actions: {
-        addItem: async () => {},
-        removeItem: async () => {},
+        addWishlistItem: async (item) => {
+            set((state) => ({
+                wishlist: {
+                    items: [...state.wishlist.items, item],
+                }
+            }));
+        },
+        removeWishlistItem: async (item) => {
+            set((state) => ({
+                wishlist: {
+                    items: state.wishlist.items.filter(i => i !== item),
+                }
+            }));
+        },
     },
-}))
+}), {
+    name: 'wishlist-storage', // name of the item in the storage
+}));
 
-export default WishlistStore
+export default useWishlistStore
 
 interface WishlistProviderProps {
-    children: ReactNode;
     productIds: string[];
     countryCode: string;
 }
@@ -61,11 +73,8 @@ const WISHLIST_ID = "wishlist_id"
 const isBrowser = typeof window !== "undefined"
 
 
-export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children, productIds, countryCode }) => {
-    const [wishlist, setWishlist] = useState<Wishlist>(defaultWishlist.wishlist)
-    const [loading, setLoading] = useState<boolean>(defaultWishlist.loading)
+export const Wishlist: React.FC<WishlistProviderProps> = ({ children, productIds, countryCode }) => {
     const { region } = useRegion(countryCode)
-    const { client } = useMedusa()
 
     const setWishlistItem = (wishlist: Wishlist) => {
         if (isBrowser) {
@@ -124,26 +133,22 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children, pr
 
 
     const addWishItem = (product_id: string) => {
-        setLoading(true)
         try {
             const query = ['item', { product_id: product_id }]
             const fetchWishlist = () => axios.get(`/store/wishlist/${wishlist.id}/wish-item`)
             const { data, error, isLoading } = useMutation(query, fetchWishlist)
             setWishlistItem(data?.data)
-            setLoading(false)
         } catch (e) {
             console.log(e)
         }
     }
 
     const removeWishItem = (product_id: string) => {
-        setLoading(true)
         try {
             const query = ['item', { product_id: product_id }]
             const fetchWishlist = () => axios.get(`/store/wishlist/${wishlist.id}/wish-item/${product_id}`)
             const { data, error, isLoading } = useMutation(query, fetchWishlist)
             setWishlistItem(data?.data)
-            setLoading(false)
         } catch (e) {
             console.log(e)
         }
