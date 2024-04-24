@@ -1,8 +1,7 @@
 import { BigNumberish, ethers } from 'ethers';
 import { masterAbi, erc20abi } from './switch-abi';
-import { IPaymentInput, IMultiPaymentInput, ITransactionOutput } from './';
+import { IMultiPaymentInput, ITransactionOutput } from './';
 import getCurrencyAddress from '../currency.config';
-import { cp } from 'fs';
 
 /**
  * Client-side Switch contract client; allows for payments to be made.
@@ -63,10 +62,10 @@ export class MasterSwitchClient {
         await this.approveAllTokens(this.contractAddress, inputs);
 
         //get total native amount
-        const nativeAmount: BigNumberish = this.getNativeTotal(inputs);
+        const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
 
         const tx: any = await this.masterSwitch.placeMultiPayments(inputs, {
-            value: nativeAmount,
+            value: nativeTotal,
         });
 
         const transaction_id = tx.hash;
@@ -90,12 +89,15 @@ export class MasterSwitchClient {
         [id: string]: BigNumberish;
     } {
         const output: { [id: string]: BigNumberish } = {};
+
+        //this will sum the amounts to pay for each token
         const sum = (arr: { amount: BigNumberish }[]) =>
             arr.reduce(
                 (acc, obj) => BigInt(acc) + BigInt(obj.amount),
                 BigInt(0)
             );
-                
+
+        //get the sum for each token
         inputs.forEach((i) => {
             //place a 0 if entry is null, otherwise place a sum of all payments
             if (i.currency != ethers.ZeroAddress) {
@@ -104,12 +106,27 @@ export class MasterSwitchClient {
                     : sum(i.payments);
             }
         });
+
         return output;
     }
 
     private getNativeTotal(inputs: IMultiPaymentInput[]): BigNumberish {
-        const totals = this.getTokensAndAmounts(inputs);
-        return totals[ethers.ZeroAddress.toString()];
+        //TODO: this is too similar to getTokensAndAmounts
+        let output: bigint = BigInt(0);
+        const sum = (arr: { amount: BigNumberish }[]) =>
+            arr.reduce(
+                (acc, obj) => BigInt(acc) + BigInt(obj.amount),
+                BigInt(0)
+            );
+
+        inputs.forEach((i) => {
+            //place a 0 if entry is null, otherwise place a sum of all payments
+            if (i.currency == ethers.ZeroAddress) {
+                output += sum(i.payments);
+            }
+        });
+
+        return output;
     }
 
     /**
@@ -148,11 +165,7 @@ export class MasterSwitchClient {
         const promises: Promise<void>[] = [];
         for (let tokenAddr in tokenAmounts) {
             promises.push(
-                this.approveToken(
-                    spender,
-                    tokenAddr,
-                    tokenAmounts[tokenAddr]
-                )
+                this.approveToken(spender, tokenAddr, tokenAmounts[tokenAddr])
             );
         }
         await Promise.all(promises);
@@ -165,8 +178,6 @@ export class MasterSwitchClient {
      * @param tokenAddr The token address
      * @param amount The amount that needs to be approved
      */
-
-    // TODO: Need to triple check this one, not really sure what I'm doing here - G (was necessary to build)
     private async approveToken(
         spender: string,
         tokenAddr: string,
