@@ -23,7 +23,11 @@ export default class OrderService extends MedusaOrderService {
         this.orderRepository_ = container.orderRepository;
     }
 
-    async createFromPayment(cart: Cart, payment: Payment): Promise<Order> {
+    async createFromPayment(
+        cart: Cart,
+        payment: Payment,
+        storeId: string
+    ): Promise<Order> {
         console.log(
             'OrderService.createFromPayment() method running with input;',
             payment
@@ -39,7 +43,7 @@ export default class OrderService extends MedusaOrderService {
             order.currency_code = payment.currency_code;
             order.customer_id = cart.customer_id;
             order.discount_total = 0; //TODO: get proper discount
-            order.display_id;
+            order.store_id = storeId;
             order.email = cart.email;
             order.payment_status = PaymentStatus.AWAITING;
             order.shipping_address_id = cart.shipping_address_id;
@@ -65,6 +69,7 @@ export default class OrderService extends MedusaOrderService {
     async getOrdersForCart(cartId: string): Promise<Order[]> {
         return await this.orderRepository_.find({
             where: { cart_id: cartId },
+            relations: ['store.owner', 'payments'],
         });
     }
 
@@ -72,16 +77,20 @@ export default class OrderService extends MedusaOrderService {
         cartId: string,
         transactionId: string
     ): Promise<Order[]> {
-        const orders: Order[] = await this.getOrdersForCart(cartId);
+        const orders: Order[] = await this.orderRepository_.find({
+            where: { cart_id: cartId },
+        });
         const promises: Promise<UpdateResult>[] = [];
 
         orders.forEach((o, i) => {
-            orders[i].status = OrderStatus.COMPLETED;
-            orders[i].payment_status = PaymentStatus.AWAITING;
-            orders[i].payments.forEach((p: Payment, n) => {
-                orders[i].transaction_id = transactionId;
-            });
-            promises.push(this.orderRepository_.update(o.id, orders[i]));
+            orders[i].transaction_id = transactionId;
+            promises.push(
+                this.orderRepository_.update(o.id, {
+                    payment_status: PaymentStatus.AWAITING,
+                    status: OrderStatus.COMPLETED,
+                    //transaction_id: transactionId
+                })
+            );
         });
 
         await Promise.all(promises);
