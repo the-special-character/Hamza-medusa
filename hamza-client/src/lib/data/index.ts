@@ -1,4 +1,4 @@
-//'use server';
+'use server';
 
 import {
     ProductCategory,
@@ -22,10 +22,8 @@ import { medusaClient } from '../config';
 import medusaError from '@lib/util/medusa-error';
 
 //TODO: is the following commented out code needed? (JK)
-//import { cookies } from 'next/headers';
-
-// Authentication actions
-// TODO: Modified to use StorePostAuthReqCustom instead of StorePostAuthReq (DONE?)
+// We need this or it changes the whole architecture
+import { cookies } from 'next/headers';
 
 declare class StorePostAuthReqCustom {
     email: string;
@@ -52,13 +50,12 @@ const getMedusaHeaders = (tags: string[] = []) => {
     } as Record<string, any>;
 
     //TODO: is the following commented out code needed? (JK)
-    /*
+    // Not a good idea to reset
     const token = cookies().get('_medusa_jwt')?.value;
 
     if (token) {
         headers.authorization = `Bearer ${token}`;
     }
-    */
 
     return headers;
 };
