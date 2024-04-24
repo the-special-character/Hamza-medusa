@@ -1,8 +1,7 @@
 import { BigNumberish, ethers } from 'ethers';
 import { switchAbi } from './switch-abi';
-import { IPaymentInput, IMultiPaymentInput, ITransactionOutput } from './'; 
+import { IPaymentInput, IMultiPaymentInput, ITransactionOutput } from './';
 import getCurrencyAddress from '../currency.config';
-
 
 /**
  * Client-side Switch contract client; allows for payments to be made.
@@ -75,7 +74,7 @@ export class SwitchClient {
      */
     async placeMultiplePayments(inputs: IMultiPaymentInput[]) {
         //make any necessary token approvals
-        await this._approveAllTokens(this.contractAddress, inputs);
+        await this.approveAllTokens(this.contractAddress, inputs);
 
         //place payments
         await this.paymentSwitch.placeMultiplePayments(inputs);
@@ -88,7 +87,7 @@ export class SwitchClient {
      * @param inputs An array of payment inputs
      * @returns A dictionary in which the keys are token addresses, the values are amounts.
      */
-    _getTokensAndAmounts(inputs: IMultiPaymentInput[]): {
+    private getTokensAndAmounts(inputs: IMultiPaymentInput[]): {
         [id: string]: BigNumberish;
     } {
         const output: { [id: string]: BigNumberish } = {};
@@ -116,7 +115,7 @@ export class SwitchClient {
      * @param address An ERC20 token address
      * @returns An ethers.Contract object
      */
-    _getTokenContract(address: string): ethers.Contract {
+    private getTokenContract(address: string): ethers.Contract {
         let output: ethers.Contract = this.tokens[address];
 
         //if not yet created, create & store it
@@ -135,17 +134,17 @@ export class SwitchClient {
      * @param spender The contract address which will receive approval
      * @param inputs An array of payment inputs
      */
-    async _approveAllTokens(
+    private async approveAllTokens(
         spender: string,
         inputs: IMultiPaymentInput[]
     ): Promise<void> {
-        const tokenAmounts = this._getTokensAndAmounts(inputs);
+        const tokenAmounts = this.getTokensAndAmounts(inputs);
 
         //approve each token amount
         const promises: Promise<void>[] = [];
         for (let tokenAddr in tokenAmounts) {
             promises.push(
-                this._approveToken(spender, tokenAddr, tokenAmounts[tokenAddr])
+                this.approveToken(spender, tokenAddr, tokenAmounts[tokenAddr])
             );
         }
         await Promise.all(promises);
@@ -158,14 +157,12 @@ export class SwitchClient {
      * @param tokenAddr The token address
      * @param amount The amount that needs to be approved
      */
-
-    // TODO: Need to triple check this one, not really sure what I'm doing here - G (was necessary to build)
-    async _approveToken(
+    private async approveToken(
         spender: string,
         tokenAddr: string,
         amount: BigNumberish
     ): Promise<void> {
-        const token = this._getTokenContract(tokenAddr);
+        const token = this.getTokenContract(tokenAddr);
 
         //check first for existing allowance before approving
         const allowance = BigInt(
