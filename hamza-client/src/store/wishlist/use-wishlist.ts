@@ -1,4 +1,4 @@
-import WishlistContext from './wishlist-context';
+import WishlistContext from './wishlist-store';
 import {useStore}
 export const useWishlist = () => {
     const context = useContext(WishlistContext);
