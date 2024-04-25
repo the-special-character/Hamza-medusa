@@ -1,14 +1,14 @@
 import { BigNumberish, ethers } from 'ethers';
-import { switchAbi } from './switch-abi';
-import { IPaymentInput, IMultiPaymentInput, ITransactionOutput } from './';
+import { masterAbi, erc20abi } from './switch-abi';
+import { IMultiPaymentInput, ITransactionOutput } from './';
 import getCurrencyAddress from '../currency.config';
 
 /**
  * Client-side Switch contract client; allows for payments to be made.
  */
-export class SwitchClient {
+export class MasterSwitchClient {
     contractAddress: string;
-    paymentSwitch: ethers.Contract;
+    masterSwitch: ethers.Contract;
     provider: ethers.Provider;
     signer: ethers.Signer;
     tokens: { [id: string]: ethers.Contract } = {};
@@ -25,9 +25,9 @@ export class SwitchClient {
         this.provider = provider;
         this.signer = signer;
         this.contractAddress = address;
-        this.paymentSwitch = new ethers.Contract(
+        this.masterSwitch = new ethers.Contract(
             this.contractAddress,
-            switchAbi,
+            masterAbi,
             signer
         );
     }
@@ -36,26 +36,37 @@ export class SwitchClient {
      * Place a single payment in a single currency.
      * @param input The payment input
      */
-    async placeSinglePayment(
-        input: IPaymentInput
+    async placeMultiplePayments(
+        inputs: IMultiPaymentInput[]
     ): Promise<ITransactionOutput> {
-        //check for token currency
-        if (input.currency) {
-            //if it's already a proper address, we can use it; otherwise, convert
-            //currency name to currency address
-            if (!ethers.isAddress(input.currency)) {
-                input.currency = getCurrencyAddress(
-                    parseInt(
-                        (await this.provider.getNetwork()).chainId.toString()
-                    ),
-                    input.currency
-                );
-                console.log('input currency type is ', input.currency);
+        //prepare the inputs
+        for (let n = 0; n < inputs.length; n++) {
+            const input: IMultiPaymentInput = inputs[n];
+            if (!input.currency || input.currency === 'eth') {
+                input.currency = ethers.ZeroAddress;
+            } else {
+                if (!ethers.isAddress(input.currency)) {
+                    input.currency = getCurrencyAddress(
+                        parseInt(
+                            (
+                                await this.provider.getNetwork()
+                            ).chainId.toString()
+                        ),
+                        input.currency
+                    );
+                }
             }
         }
 
-        const tx: any = await this.paymentSwitch.placePayment(input, {
-            value: input.amount,
+        //make any necessary token approvals
+        await this.approveAllTokens(this.contractAddress, inputs);
+
+        //get total native amount
+        const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
+        console.log('native amount:', nativeTotal);
+
+        const tx: any = await this.masterSwitch.placeMultiPayments(inputs, {
+            value: nativeTotal,
         });
 
         const transaction_id = tx.hash;
@@ -69,18 +80,6 @@ export class SwitchClient {
     }
 
     /**
-     * Place multiple payments in single or multiple different currencies.
-     * @param inputs An array of payment inputs
-     */
-    async placeMultiplePayments(inputs: IMultiPaymentInput[]) {
-        //make any necessary token approvals
-        await this.approveAllTokens(this.contractAddress, inputs);
-
-        //place payments
-        await this.paymentSwitch.placeMultiplePayments(inputs);
-    }
-
-    /**
      * In a batch of payments to be made, total up the amounts per currency. Returns a
      * dictionary of distinct token addresses, with their respective total amounts.
      *
@@ -91,6 +90,30 @@ export class SwitchClient {
         [id: string]: BigNumberish;
     } {
         const output: { [id: string]: BigNumberish } = {};
+
+        //this will sum the amounts to pay for each token
+        const sum = (arr: { amount: BigNumberish }[]) =>
+            arr.reduce(
+                (acc, obj) => BigInt(acc) + BigInt(obj.amount),
+                BigInt(0)
+            );
+
+        //get the sum for each token
+        inputs.forEach((i) => {
+            //place a 0 if entry is null, otherwise place a sum of all payments
+            if (i.currency != ethers.ZeroAddress) {
+                output[i.currency] = output[i.currency]
+                    ? BigInt(output[i.receiver]) + sum(i.payments)
+                    : sum(i.payments);
+            }
+        });
+
+        return output;
+    }
+
+    private getNativeTotal(inputs: IMultiPaymentInput[]): BigNumberish {
+        //TODO: this is too similar to getTokensAndAmounts
+        let output: bigint = BigInt(0);
         const sum = (arr: { amount: BigNumberish }[]) =>
             arr.reduce(
                 (acc, obj) => BigInt(acc) + BigInt(obj.amount),
@@ -99,12 +122,11 @@ export class SwitchClient {
 
         inputs.forEach((i) => {
             //place a 0 if entry is null, otherwise place a sum of all payments
-            if (i.currency != ethers.ZeroAddress) {
-                output[i.currency] = output[i.currency]
-                    ? BigInt(output[i.receiver]) + sum(i.payments)
-                    : 0;
+            if (i.currency == ethers.ZeroAddress) {
+                output += sum(i.payments);
             }
         });
+
         return output;
     }
 
@@ -120,7 +142,7 @@ export class SwitchClient {
 
         //if not yet created, create & store it
         if (!output) {
-            output = new ethers.Contract(address, [], null);
+            output = new ethers.Contract(address, erc20abi, this.signer);
             this.tokens[address] = output;
         }
 
@@ -165,9 +187,7 @@ export class SwitchClient {
         const token = this.getTokenContract(tokenAddr);
 
         //check first for existing allowance before approving
-        const allowance = BigInt(
-            await token.allowance(/*owner*/ ethers.ZeroAddress, spender)
-        );
+        const allowance = BigInt(await token.allowance(tokenAddr, spender));
 
         // Convert amount to bigint for comparison and arithmetic, assuming it could be string, number, or bigint already
         // BigNumber instances (from ethers.js or similar libraries) should be converted to string or number before passing to this function
