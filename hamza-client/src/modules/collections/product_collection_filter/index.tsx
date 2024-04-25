@@ -44,6 +44,7 @@ const ProductCollections = ({ vendorName }: Props) => {
                             <h1>{products.title}</h1>
                         </div>
                         <SimpleGrid
+                            justifyItems="center"
                             minChildWidth={{
                                 base: '100%',
                                 sm: '50%',

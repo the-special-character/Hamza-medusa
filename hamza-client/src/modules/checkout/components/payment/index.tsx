@@ -98,12 +98,12 @@ const Payment = ({
     }, [isOpen]);
 
     return (
-        <div className="bg-white">
+        <div className="bg-black">
             <div className="flex flex-row items-center justify-between mb-6">
                 <Heading
                     level="h2"
                     className={clx(
-                        'flex flex-row text-3xl-regular gap-x-2 items-baseline',
+                        'flex flex-row text-3xl-regular gap-x-2 items-baseline text-white',
                         {
                             'opacity-50 pointer-events-none select-none':
                                 !isOpen && !paymentReady,
@@ -117,7 +117,7 @@ const Payment = ({
                     <Text>
                         <button
                             onClick={handleEdit}
-                            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+                            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-white"
                         >
                             Edit
                         </button>
@@ -128,6 +128,7 @@ const Payment = ({
                 {cart?.payment_sessions?.length ? (
                     <div className={isOpen ? 'block' : 'hidden'}>
                         <RadioGroup
+                            className="text-white"
                             value={cart.payment_session?.provider_id || ''}
                             onChange={(value: string) => handleChange(value)}
                         >
@@ -181,7 +182,7 @@ const Payment = ({
 
                         <Button
                             size="large"
-                            className="mt-6"
+                            className="mt-6 text-white"
                             onClick={handleSubmit}
                             isLoading={isLoading}
                             disabled={
