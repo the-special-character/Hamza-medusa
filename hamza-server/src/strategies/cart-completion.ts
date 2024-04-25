@@ -121,7 +121,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 },
             };
 
-            console.log(response);
             return response;
         } catch (e) {
             const response: CartCompletionResponse = {
@@ -169,7 +168,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             },
         };
 
-        console.log('payment: ', output);
         return output;
     }
 

@@ -28,11 +28,6 @@ export default class OrderService extends MedusaOrderService {
         payment: Payment,
         storeId: string
     ): Promise<Order> {
-        console.log(
-            'OrderService.createFromPayment() method running with input;',
-            payment
-        );
-
         console.log(`creating Order with input ${JSON.stringify(payment)}`);
         try {
             //create the order
@@ -62,13 +57,13 @@ export default class OrderService extends MedusaOrderService {
 
             return order;
         } catch (e) {
-            console.log(`Error creating customer: ${e}`);
+            console.log(`Error creating order: ${e}`);
         }
     }
 
     async getOrdersForCart(cartId: string): Promise<Order[]> {
         return await this.orderRepository_.find({
-            where: { cart_id: cartId },
+            where: { cart_id: cartId, status: OrderStatus.PENDING },
             relations: ['store.owner', 'payments'],
         });
     }
@@ -78,7 +73,7 @@ export default class OrderService extends MedusaOrderService {
         transactionId: string
     ): Promise<Order[]> {
         const orders: Order[] = await this.orderRepository_.find({
-            where: { cart_id: cartId },
+            where: { cart_id: cartId, status: OrderStatus.PENDING },
         });
         const promises: Promise<UpdateResult>[] = [];
 
@@ -87,7 +82,7 @@ export default class OrderService extends MedusaOrderService {
             promises.push(
                 this.orderRepository_.update(o.id, {
                     payment_status: PaymentStatus.AWAITING,
-                    status: OrderStatus.COMPLETED,
+                    status: OrderStatus.REQUIRES_ACTION,
                     //transaction_id: transactionId
                 })
             );

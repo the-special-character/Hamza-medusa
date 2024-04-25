@@ -13,6 +13,10 @@ import { MasterSwitchClient } from 'web3/master-switch-client';
 import { ethers } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
 import { useRouter } from 'next/navigation';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { clearCart } from '@lib/data';
+
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 
@@ -100,12 +104,6 @@ const CryptoPaymentButton = ({
             connector: new InjectedConnector(),
         });
 
-    // Check if a wallet is connected, console log results
-    console.log('isConnected: ', isConnected);
-
-    // connector: activeConnector extracts connector object from useAccount hook (provides active wallet connection data)
-    console.log('activeConnector: ', activeConnector);
-
     // useEffect hook to check if connection status changes
     // if !isConnected, connect to wallet
     useEffect(() => {
@@ -114,7 +112,7 @@ const CryptoPaymentButton = ({
         }
     }, [openConnectModal, isConnected]);
 
-    //RETURNS TRANSACTION ID
+    //return transaction id
     const doWalletPayment = async (data: any) => {
         try {
             //get provider and such
@@ -136,11 +134,12 @@ const CryptoPaymentButton = ({
                 data,
                 await signer.getAddress()
             );
+
+            console.log(switchInput);
             const output: ITransactionOutput =
                 await switchClient.placeMultiplePayments(switchInput);
 
             console.log(output);
-            console.log('TX ID: ', output.transaction_id);
             return output.transaction_id;
         } catch (e) {
             console.error('error has occured during transaction', e);
@@ -150,14 +149,10 @@ const CryptoPaymentButton = ({
     };
 
     const retrieveCheckoutData = async (cartId: string) => {
-        const response = await fetch(
+        const response = await axios.get(
             `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cartId}`
         );
-        if (response.status == 200) {
-            const data = await response.json();
-            return data;
-        }
-        return {};
+        return response.status == 200 && response.data ? response.data : {};
     };
 
     const createSwitchInput = async (data: any, payer: string) => {
@@ -169,7 +164,7 @@ const CryptoPaymentButton = ({
                     receiver: o.wallet_address,
                     payments: [
                         {
-                            id: o.order_id,
+                            id: Math.floor(Math.random() * 100000) + 1,
                             payer: payer,
                             amount: o.amount,
                             currency: o.currency_code,
@@ -185,25 +180,33 @@ const CryptoPaymentButton = ({
         return [];
     };
 
-    const finalizeCheckout = async (cartId: string, transactionId: string) => {
-        const response = await fetch(`${MEDUSA_SERVER_URL}/custom/checkout`, {
-            method: 'POST',
-            body: JSON.stringify({
-                cart_id: cartId,
-                transaction_id: transactionId,
+    const useFinalizeCheckout = useMutation(
+        (data: { cart_id: string; transaction_id: string }) =>
+            axios.post(`${MEDUSA_SERVER_URL}/custom/checkout`, {
+                cart_id: data.cart_id,
+                transaction_id: data.transaction_id,
             }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
+        {
+            onSuccess: (data) => {
+                return true;
             },
-        });
-    };
+            onError: (error) => {
+                return false;
+            },
+        }
+    );
 
     const completeCheckout = async (cartId: string) => {
         const data = await retrieveCheckoutData(cartId);
         const transactionId = await doWalletPayment(data);
+
         if (transactionId?.length) {
             //final step in process
-            await finalizeCheckout(cartId, transactionId);
+            const { mutate: finalizeCheckout } = useFinalizeCheckout;
+            finalizeCheckout({
+                cart_id: cartId,
+                transaction_id: transactionId,
+            });
         }
     };
 
@@ -218,19 +221,23 @@ const CryptoPaymentButton = ({
                 { context: {} },
                 {
                     onSuccess: ({}) => {
-                        console.log('updated cart successfully');
                         completeCart.mutate(void 0, {
                             onSuccess: ({ data, type }) => {
-                                console.log('completed cart successfully');
+                                //TODO: data is undefined
                                 try {
                                     completeCheckout(cart.id).then((r) => {
                                         setSubmitting(false);
+
+                                        //clear cart
+                                        clearCart();
+
+                                        //redirect to confirmation page
                                         const countryCode =
                                             cart.shipping_address?.country_code?.toLowerCase();
-                                        //Todo Add redirection after the payment is captured in order service
-                                        // router.push(
-                                        //     `/${countryCode}/order/confirmed/${cart.id}`
-                                        // );
+
+                                        router.push(
+                                            `/${countryCode}/order/confirmed/${cart.id}`
+                                        );
                                     });
                                 } catch (e) {
                                     console.error(e);
