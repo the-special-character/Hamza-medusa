@@ -156,7 +156,7 @@ const RecommendedItems = () => {
                 />
                 <SimpleGrid
                     spacing={10}
-                    columns={{ base: 1, md: 2, xl: 5 }} // Adjusted to your requirements
+                    columns={{ base: 1, md: 2, xl: 3 }} // Adjusted to your requirements
                     justifyContent="space-around"
                     justifyItems="center"
                     mx={12}

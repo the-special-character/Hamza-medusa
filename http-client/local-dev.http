@@ -13,3 +13,9 @@ Content-Type: application/json
 // Note: This should likely be a POST request if it modifies server state.
 GET http://localhost:9000/admin/custom/user
 Content-Type: application/json
+
+###
+GET http://localhost:9000/store/custom/products?store_name=Goblin Store
+Content-Type: application/json
+
+###
