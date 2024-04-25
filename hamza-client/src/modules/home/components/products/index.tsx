@@ -41,113 +41,113 @@ const RecommendedItems = () => {
                     <button onClick={increasePopulation}>one up</button>
                 </div>
                 <Flex>
-                    <Box
-                        color="whitesmoke"
-                        fontWeight="bold"
-                        fontSize="2xl"
-                        textAlign="center"
-                    >
-                        CONNECT YOUR <br />
-                        FAVORITE WALLET
-                    </Box>
-                    <Image
-                        className="mr-4"
-                        src={arrow}
-                        alt={'Img of arrow'}
-                        width={22}
-                        height={22}
-                    />
+                    <Flex>
+                        <Box
+                            color="whitesmoke"
+                            fontWeight="bold"
+                            fontSize="2xl"
+                            textAlign="center"
+                        >
+                            CONNECT YOUR <br />
+                            FAVORITE WALLET
+                        </Box>
+                        <Image
+                            src={arrow}
+                            alt={'Img of arrow'}
+                            width={22}
+                            height={22}
+                        />
+                    </Flex>
+                    <Flex>
+                        <SimpleGrid
+                            columns={{ base: 1, md: 2, lg: 4 }}
+                            justifyContent="space-around"
+                            spacing={5}
+                        >
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="md"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={coinbase}
+                                        alt={'Img of coinbase'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Coinbase
+                                </Button>
+                            </Box>
+                            <Box maxWidth={80}>
+                                <Button
+                                    fontWeight="italic"
+                                    size="md"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={metamask}
+                                        alt={'Img of a game'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Metamask
+                                </Button>
+                            </Box>
+                            <Box maxWidth={80}>
+                                <Button
+                                    fontWeight="italic"
+                                    size="md"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={rainbow}
+                                        alt={'Img of a laptop'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Rainbowkit
+                                </Button>
+                            </Box>
+                            <Box maxWidth={80}>
+                                <Button
+                                    fontWeight="italic"
+                                    size="md"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={wallet}
+                                        alt={'Img of a collections'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Wallet Connect
+                                </Button>
+                            </Box>
+                        </SimpleGrid>
+                    </Flex>
                 </Flex>
-                <Flex>
-                    <SimpleGrid
-                        columns={[2, null, 4]}
-                        justifyContent="space-around"
-                        mx={12}
-                        my={6}
-                        spacing={5}
-                    >
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={coinbase}
-                                    alt={'Img of coinbase'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Coinbase
-                            </Button>
-                        </Box>
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={metamask}
-                                    alt={'Img of a game'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Metamask
-                            </Button>
-                        </Box>
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={rainbow}
-                                    alt={'Img of a laptop'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Rainbowkit
-                            </Button>
-                        </Box>
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={wallet}
-                                    alt={'Img of a collections'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Wallet Connect
-                            </Button>
-                        </Box>
-                    </SimpleGrid>
-                </Flex>
+
                 <Box
                     height="1px"
                     bg="whiteAlpha.600"
@@ -159,6 +159,7 @@ const RecommendedItems = () => {
                     columns={2}
                     spacing={10}
                     justifyContent="space-around"
+                    justifyItems="center"
                     mx={12}
                     my={6}
                 >
