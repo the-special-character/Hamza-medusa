@@ -33,7 +33,7 @@
     "up": "docker-compose up -d",
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
     "dev": "cross-env npm run build:server && medusa develop",
-    "reset-dev-server": "docker compose down && docker volume ls -q | xargs docker volume rm && docker compose up -d && yarn build && medusa migrations run && yarn seed-0 && yarn dev"
+    "ageddon": "chmod +x ./scripts/armageddon.sh && ./scripts/armageddon.sh"
   },
   "_comment": "addition to the script to remove images: //&& docker rmi $(docker images -q)",
   "dependencies": {
