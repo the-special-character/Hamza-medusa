@@ -56,9 +56,10 @@ const RecommendedItems = () => {
                             <Box>
                                 <Button
                                     fontWeight="italic"
-                                    size="md"
+                                    size="lg"
                                     bg="transparent"
                                     color="white"
+                                    width="full"
                                     borderRadius="full"
                                     border="1px" // Sets the border width
                                     borderColor="whiteAlpha.600"
@@ -76,7 +77,8 @@ const RecommendedItems = () => {
                             <Box>
                                 <Button
                                     fontWeight="italic"
-                                    size="md"
+                                    size="lg"
+                                    width="full"
                                     bg="transparent"
                                     color="white"
                                     borderRadius="full"
@@ -96,7 +98,8 @@ const RecommendedItems = () => {
                             <Box>
                                 <Button
                                     fontWeight="italic"
-                                    size="md"
+                                    size="lg"
+                                    width="full"
                                     bg="transparent"
                                     color="white"
                                     borderRadius="full"
@@ -116,7 +119,7 @@ const RecommendedItems = () => {
                             <Box>
                                 <Button
                                     fontWeight="italic"
-                                    size="md"
+                                    size="lg"
                                     bg="transparent"
                                     color="white"
                                     borderRadius="full"
@@ -145,113 +148,107 @@ const RecommendedItems = () => {
                     borderRadius="full"
                 />
                 <SimpleGrid
-                    columns={2}
                     spacing={10}
+                    columns={{ base: 1, md: 2, xl: 5 }} // Adjusted to your requirements
                     justifyContent="space-around"
                     justifyItems="center"
                     mx={12}
                     my={6}
                 >
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="white"
-                            size="lg"
-                            color="black"
-                            borderRadius="full"
-                            onClick={() => {
-                                setVendorName('Goblin Store');
-                            }}
-                        >
-                            <Image
-                                className="mr-2"
-                                src={fire}
-                                alt={'Img of a fire'}
-                                width={22}
-                                height={22}
-                            />
-                            Goblin Vendor
-                        </Button>
-                    </Box>
+                    <Button
+                        fontWeight="italic"
+                        bg="white"
+                        size="lg"
+                        width="250px"
+                        color="black"
+                        borderRadius="full"
+                        onClick={() => {
+                            setVendorName('Goblin Store');
+                        }}
+                    >
+                        <Image
+                            className="mr-2"
+                            src={fire}
+                            alt={'Img of a fire'}
+                            width={22}
+                            height={22}
+                        />
+                        Goblin Vendor
+                    </Button>
 
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                            onClick={() => {
-                                setVendorName('Quality Store');
-                            }}
-                        >
-                            <Image
-                                className="mr-2"
-                                src={gift}
-                                alt={'Img of a gift'}
-                                width={22}
-                                height={22}
-                            />
-                            Quality Vendor
-                        </Button>
-                    </Box>
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                            onClick={() => {
-                                setVendorName('Headphones Store');
-                            }}
-                        >
-                            <Image
-                                className="mr-2"
-                                src={game}
-                                alt={'Img of a game'}
-                                width={22}
-                                height={22}
-                            />
-                            Headphone Vendor
-                        </Button>
-                    </Box>
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                        >
-                            <Image
-                                className="mr-2"
-                                src={laptop}
-                                alt={'Img of a laptop'}
-                                width={22}
-                                height={22}
-                            />
-                            Electronics
-                        </Button>
-                    </Box>
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                        >
-                            <Image
-                                className="mr-2"
-                                src={collections}
-                                alt={'Img of a collections'}
-                                width={22}
-                                height={22}
-                            />
-                            Collectible
-                        </Button>
-                    </Box>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        size="lg"
+                        width="250px"
+                        color="white"
+                        borderRadius="full"
+                        onClick={() => {
+                            setVendorName('Quality Store');
+                        }}
+                    >
+                        <Image
+                            className="mr-2"
+                            src={gift}
+                            alt={'Img of a gift'}
+                            width={22}
+                            height={22}
+                        />
+                        Quality Vendor
+                    </Button>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        size="lg"
+                        width="250px"
+                        color="white"
+                        borderRadius="full"
+                        onClick={() => {
+                            setVendorName('Headphones Store');
+                        }}
+                    >
+                        <Image
+                            className="mr-2"
+                            src={game}
+                            alt={'Img of a game'}
+                            height={22}
+                        />
+                        Headphone Vendor
+                    </Button>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        width="250px"
+                        size="lg"
+                        color="white"
+                        borderRadius="full"
+                    >
+                        <Image
+                            className="mr-2"
+                            src={laptop}
+                            alt={'Img of a laptop'}
+                            width={22}
+                            height={22}
+                        />
+                        Electronics
+                    </Button>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        width="250px"
+                        size="lg"
+                        color="white"
+                        borderRadius="full"
+                    >
+                        <Image
+                            className="mr-2"
+                            src={collections}
+                            alt={'Img of a collections'}
+                            width={22}
+                            height={22}
+                        />
+                        Collectible
+                    </Button>
                 </SimpleGrid>
                 <ProductCollections vendorName={vendorName} />
             </Box>
