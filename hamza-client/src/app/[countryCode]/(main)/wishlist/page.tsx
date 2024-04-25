@@ -1,46 +1,31 @@
 'use client';
-
 import React from 'react';
-import WishlistIcon from '../../../components/header/wishlist';
 import useWishlistStore from '@store/wishlist/wishlist-store';
-import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import WishlistItem from '@/components/header/Wishlistitem';
 
-const WishlistItem = ({ item }) => {
+const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
-    const { product } = item;
-
     return (
-        <div className="flex mb-6 last:mb-0">
-            <div className="bg-ui rounded-md overflow-hidden mr-4 max-w-1/4">
-                <img
-                    className="h-auto w-full object-cover"
-                    src={product.thumbnail}
-                    alt={product.title}
-                />
-            </div>
-            <div className="flex text-sm flex-grow py-2 justify-between space-x-8">
-                <LocalizedClientLink href={product.handle} className="w-full">
-                    <div className="flex flex-col justify-between w-full hover:text-green-400">
-                        <div className="flex flex-col">
-                            <p className="font-semibold mb-4">
-                                {product.title}
-                            </p>
-                            <p>{product.description}</p>
-                        </div>
+        <div className="layout-base">
+            <div className="flex relative flex-col-reverse lg:flex-row mb-24">
+                <div className="flex flex-col">
+                    <div className="mb-8">
+                        <h1 className="font-semibold text-4xl">Wish list</h1>
                     </div>
-                </LocalizedClientLink>
-
-                <div className="flex flex-col justify-between">
-                    <div className="flex justify-end w-full">
-                        <button
-                            onClick={async () =>
-                                await wishlist.removeWishItem(item.id)
-                            }
-                        >
-                            <WishlistIcon fill={true} />
-                        </button>
+                    <div className="w-full grid grid-cols-2 gap-16">
+                        {wishlist.items.map((item) => {
+                            return (
+                                <WishlistItem
+                                    key={item.id}
+                                    item={item}
+                                    currencyCode={
+                                        wishlist.region?.currency_code || 'usd'
+                                    }
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -48,4 +33,4 @@ const WishlistItem = ({ item }) => {
     );
 };
 
-export default WishlistItem;
+export default Wishlist;
