@@ -13,12 +13,9 @@ import wallet from '../../../../../public/wallet_connect/wallet.png';
 import arrow from '../../../../../public/Vector.png';
 import Image from 'next/image';
 import ProductCollections from '@modules/collections/product_collection_filter';
-import { useStore } from '@store/store';
 
 const RecommendedItems = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
-    const bears = useStore((state) => state.bears);
-    const increasePopulation = useStore((state) => state.increasePopulation);
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -34,120 +31,115 @@ const RecommendedItems = () => {
                 width="70%"
                 bg="#2C272D"
             >
-                {/*<Login />*/}
-                {/*// Zustand attempt*/}
-                <div className="text-white">
-                    {bears}
-                    <button onClick={increasePopulation}>one up</button>
-                </div>
-                <Flex>
-                    <Box
-                        color="whitesmoke"
-                        fontWeight="bold"
-                        fontSize="2xl"
-                        textAlign="center"
-                    >
-                        CONNECT YOUR <br />
-                        FAVORITE WALLET
-                    </Box>
-                    <Image
-                        className="mr-4"
-                        src={arrow}
-                        alt={'Img of arrow'}
-                        width={22}
-                        height={22}
-                    />
+                <Flex
+                    justifyItems={'center'}
+                    justifyContent={'center'}
+                    className="my-4"
+                >
+                    <Flex>
+                        <Box
+                            color="whitesmoke"
+                            fontWeight="bold"
+                            fontSize="2xl"
+                            textAlign="center"
+                        >
+                            CONNECT YOUR <br />
+                            FAVORITE WALLET
+                        </Box>
+                    </Flex>
+                    <Flex className="ml-4">
+                        <SimpleGrid
+                            columns={{ base: 1, md: 2, lg: 4 }}
+                            justifyContent="space-around"
+                            spacing={5}
+                        >
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    bg="transparent"
+                                    color="white"
+                                    width="full"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={coinbase}
+                                        alt={'Img of coinbase'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Coinbase
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    width="full"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={metamask}
+                                        alt={'Img of a game'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Metamask
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    width="full"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={rainbow}
+                                        alt={'Img of a laptop'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Rainbowkit
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={wallet}
+                                        alt={'Img of a collections'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Wallet Connect
+                                </Button>
+                            </Box>
+                        </SimpleGrid>
+                    </Flex>
                 </Flex>
-                <Flex>
-                    <SimpleGrid
-                        columns={[2, null, 4]}
-                        justifyContent="space-around"
-                        mx={12}
-                        my={6}
-                        spacing={5}
-                    >
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={coinbase}
-                                    alt={'Img of coinbase'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Coinbase
-                            </Button>
-                        </Box>
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={metamask}
-                                    alt={'Img of a game'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Metamask
-                            </Button>
-                        </Box>
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={rainbow}
-                                    alt={'Img of a laptop'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Rainbowkit
-                            </Button>
-                        </Box>
-                        <Box maxWidth={80}>
-                            <Button
-                                fontWeight="italic"
-                                size="md"
-                                bg="transparent"
-                                color="white"
-                                borderRadius="full"
-                                border="1px" // Sets the border width
-                                borderColor="whiteAlpha.600"
-                            >
-                                <Image
-                                    className="mr-2"
-                                    src={wallet}
-                                    alt={'Img of a collections'}
-                                    width={22}
-                                    height={22}
-                                />
-                                Wallet Connect
-                            </Button>
-                        </Box>
-                    </SimpleGrid>
-                </Flex>
+
                 <Box
                     height="1px"
                     bg="whiteAlpha.600"
@@ -156,112 +148,107 @@ const RecommendedItems = () => {
                     borderRadius="full"
                 />
                 <SimpleGrid
-                    columns={2}
                     spacing={10}
+                    columns={{ base: 1, md: 2, xl: 5 }} // Adjusted to your requirements
                     justifyContent="space-around"
+                    justifyItems="center"
                     mx={12}
                     my={6}
                 >
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="white"
-                            size="lg"
-                            color="black"
-                            borderRadius="full"
-                            onClick={() => {
-                                setVendorName('Goblin Store');
-                            }}
-                        >
-                            <Image
-                                className="mr-2"
-                                src={fire}
-                                alt={'Img of a fire'}
-                                width={22}
-                                height={22}
-                            />
-                            Goblin Vendor
-                        </Button>
-                    </Box>
+                    <Button
+                        fontWeight="italic"
+                        bg="white"
+                        size="lg"
+                        width="250px"
+                        color="black"
+                        borderRadius="full"
+                        onClick={() => {
+                            setVendorName('Goblin Store');
+                        }}
+                    >
+                        <Image
+                            className="mr-2"
+                            src={fire}
+                            alt={'Img of a fire'}
+                            width={22}
+                            height={22}
+                        />
+                        Goblin Vendor
+                    </Button>
 
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                            onClick={() => {
-                                setVendorName('Quality Store');
-                            }}
-                        >
-                            <Image
-                                className="mr-2"
-                                src={gift}
-                                alt={'Img of a gift'}
-                                width={22}
-                                height={22}
-                            />
-                            Quality Vendor
-                        </Button>
-                    </Box>
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                            onClick={() => {
-                                setVendorName('Headphones Store');
-                            }}
-                        >
-                            <Image
-                                className="mr-2"
-                                src={game}
-                                alt={'Img of a game'}
-                                width={22}
-                                height={22}
-                            />
-                            Headphone Vendor
-                        </Button>
-                    </Box>
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                        >
-                            <Image
-                                className="mr-2"
-                                src={laptop}
-                                alt={'Img of a laptop'}
-                                width={22}
-                                height={22}
-                            />
-                            Electronics
-                        </Button>
-                    </Box>
-                    <Box maxWidth={80}>
-                        <Button
-                            fontWeight="italic"
-                            bg="black"
-                            size="lg"
-                            color="white"
-                            borderRadius="full"
-                        >
-                            <Image
-                                className="mr-2"
-                                src={collections}
-                                alt={'Img of a collections'}
-                                width={22}
-                                height={22}
-                            />
-                            Collectible
-                        </Button>
-                    </Box>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        size="lg"
+                        width="250px"
+                        color="white"
+                        borderRadius="full"
+                        onClick={() => {
+                            setVendorName('Quality Store');
+                        }}
+                    >
+                        <Image
+                            className="mr-2"
+                            src={gift}
+                            alt={'Img of a gift'}
+                            width={22}
+                            height={22}
+                        />
+                        Quality Vendor
+                    </Button>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        size="lg"
+                        width="250px"
+                        color="white"
+                        borderRadius="full"
+                        onClick={() => {
+                            setVendorName('Headphones Store');
+                        }}
+                    >
+                        <Image
+                            className="mr-2"
+                            src={game}
+                            alt={'Img of a game'}
+                            height={22}
+                        />
+                        Headphone Vendor
+                    </Button>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        width="250px"
+                        size="lg"
+                        color="white"
+                        borderRadius="full"
+                    >
+                        <Image
+                            className="mr-2"
+                            src={laptop}
+                            alt={'Img of a laptop'}
+                            width={22}
+                            height={22}
+                        />
+                        Electronics
+                    </Button>
+                    <Button
+                        fontWeight="italic"
+                        bg="black"
+                        width="250px"
+                        size="lg"
+                        color="white"
+                        borderRadius="full"
+                    >
+                        <Image
+                            className="mr-2"
+                            src={collections}
+                            alt={'Img of a collections'}
+                            width={22}
+                            height={22}
+                        />
+                        Collectible
+                    </Button>
                 </SimpleGrid>
                 <ProductCollections vendorName={vendorName} />
             </Box>
