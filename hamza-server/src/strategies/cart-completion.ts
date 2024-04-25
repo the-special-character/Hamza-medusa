@@ -23,6 +23,13 @@ type InjectedDependencies = {
     orderService: OrderService;
 };
 
+interface IPaymentGroupData {
+    store_id: string;
+    currency_code: string;
+    items: string[];
+    total: bigint;
+}
+
 /**
  * @name CartCompletionStrategy
  *
@@ -77,16 +84,26 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         try {
             //get the cart
             const cart = await this.cartService.retrieve(cartId, {
-                relations: ['items.variant.product.store.default_currency'],
+                relations: [
+                    'items.variant.product.store',
+                    'items.variant.prices',
+                ],
             });
 
+            //group payments by store and currency
+            const groups: IPaymentGroupData[] = this.createPaymentGroups(cart);
+
             //create payments
-            const payments: Payment[] = await this.createCartPayments(cart);
+            const payments: Payment[] = await this.createCartPayments(
+                cart,
+                groups
+            );
 
             //create orders
             const orders: Order[] = await this.createOrdersForPayments(
                 cart,
-                payments
+                payments,
+                groups
             );
 
             //update payments with order ids
@@ -99,6 +116,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     payment_count: payments.length,
                     message: 'payment successful',
                     payments,
+                    orders,
                     cartId: cartId,
                 },
             };
@@ -122,29 +140,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         }
     }
 
-    private async getStoreCurrencyData(cart: Cart): Promise<{
-        store_currencies: { [key: string]: string };
-        unique_store_ids: string[];
-    }> {
-        const storeCurrencies: { [key: string]: string } = {};
-        const uniqueStoreIds: string[] = [];
-        if (cart && cart.items) {
-            cart.items.forEach((i) => {
-                const storeId: string = i.variant?.product?.store?.id;
-                storeCurrencies[storeId] =
-                    i.variant?.product.store?.default_currency_code;
-                if (uniqueStoreIds.findIndex((s) => s === storeId) < 0) {
-                    uniqueStoreIds.push(storeId);
-                }
-            });
-        }
-
-        return {
-            store_currencies: storeCurrencies,
-            unique_store_ids: uniqueStoreIds,
-        };
-    }
-
     private createPaymentInput(
         cart: Cart,
         storeId: string,
@@ -152,12 +147,14 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     ): PaymentDataInput {
         //divide the cart items
         const itemsFromStore = cart.items.filter(
-            (i) => i.variant?.product?.store?.id == storeId
+            (i) =>
+                i.variant?.product?.store?.id === storeId &&
+                i.variant?.prices[0].currency_code === currencyCode //TODO: how to get price?
         );
 
         //get total amount for the items
-        const totalAmount = itemsFromStore.reduce(
-            (a, c) => a + c.unit_price * c.quantity,
+        const amount = itemsFromStore.reduce(
+            (a, c) => a + c.variant?.prices[0].amount, //TODO: how to get price?
             0
         );
 
@@ -165,9 +162,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const output: PaymentDataInput = {
             currency_code: currencyCode,
             provider_id: 'crypto',
-            amount: totalAmount,
+            amount,
             data: {
                 store_id: storeId,
+                currency_code: currencyCode,
             },
         };
 
@@ -175,20 +173,46 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return output;
     }
 
-    private async createCartPayments(cart: Cart): Promise<Payment[]> {
-        //unique store ids
-        const currencyData = await this.getStoreCurrencyData(cart);
-        console.log('store currencies: ', currencyData.store_currencies);
-        console.log('uniqueStoreIds: ', currencyData.unique_store_ids);
+    private createPaymentGroups(cart: Cart): IPaymentGroupData[] {
+        //temp holding for groups
+        const groups: { [key: string]: IPaymentGroupData } = {};
 
-        //for each unique store, make payment input to create a payment
+        if (cart && cart.items) {
+            cart.items.forEach((i) => {
+                //create key from unique store/currency pair
+                const currency: string = i.variant?.prices[0].currency_code; //TODO: how to get price?
+                const store: string = i.variant?.product?.store?.id;
+                const key = `${store}_${currency}`;
+
+                //create new group, or add item id to existing group
+                if (!groups[key]) {
+                    groups[key] = {
+                        store_id: store,
+                        currency_code: currency,
+                        items: [],
+                        total: BigInt(0),
+                    };
+                }
+                groups[key].items.push(i.id);
+                groups[key].total += BigInt(i.variant.prices[0].amount); //TODO: how to get price?
+            });
+        }
+
+        return Object.keys(groups).map((key) => groups[key]);
+    }
+
+    private async createCartPayments(
+        cart: Cart,
+        paymentGroups: IPaymentGroupData[]
+    ): Promise<Payment[]> {
+        //for each unique group, make payment input to create a payment
         const paymentInputs: PaymentDataInput[] = [];
-        currencyData.unique_store_ids.forEach((storeId) => {
+        paymentGroups.forEach((group) => {
             paymentInputs.push(
                 this.createPaymentInput(
                     cart,
-                    storeId,
-                    currencyData.store_currencies[storeId]
+                    group.store_id,
+                    group.currency_code
                 )
             );
         });
@@ -204,12 +228,17 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
     private async createOrdersForPayments(
         cart: Cart,
-        payments: Payment[]
+        payments: Payment[],
+        paymentGroups: IPaymentGroupData[]
     ): Promise<Order[]> {
         const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
             promises.push(
-                this.orderService.createFromPayment(cart, payments[i])
+                this.orderService.createFromPayment(
+                    cart,
+                    payments[i],
+                    paymentGroups[i].store_id
+                )
             );
         }
 
