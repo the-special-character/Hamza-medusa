@@ -13,12 +13,9 @@ import wallet from '../../../../../public/wallet_connect/wallet.png';
 import arrow from '../../../../../public/Vector.png';
 import Image from 'next/image';
 import ProductCollections from '@modules/collections/product_collection_filter';
-import { useStore } from '@store/store';
 
 const RecommendedItems = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
-    const bears = useStore((state) => state.bears);
-    const increasePopulation = useStore((state) => state.increasePopulation);
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -34,13 +31,11 @@ const RecommendedItems = () => {
                 width="70%"
                 bg="#2C272D"
             >
-                {/*<Login />*/}
-                {/*// Zustand attempt*/}
-                <div className="text-white">
-                    {bears}
-                    <button onClick={increasePopulation}>one up</button>
-                </div>
-                <Flex>
+                <Flex
+                    justifyItems={'center'}
+                    justifyContent={'center'}
+                    className="my-4"
+                >
                     <Flex>
                         <Box
                             color="whitesmoke"
@@ -51,14 +46,8 @@ const RecommendedItems = () => {
                             CONNECT YOUR <br />
                             FAVORITE WALLET
                         </Box>
-                        <Image
-                            src={arrow}
-                            alt={'Img of arrow'}
-                            width={22}
-                            height={22}
-                        />
                     </Flex>
-                    <Flex>
+                    <Flex className="ml-4">
                         <SimpleGrid
                             columns={{ base: 1, md: 2, lg: 4 }}
                             justifyContent="space-around"
@@ -84,7 +73,7 @@ const RecommendedItems = () => {
                                     Coinbase
                                 </Button>
                             </Box>
-                            <Box maxWidth={80}>
+                            <Box>
                                 <Button
                                     fontWeight="italic"
                                     size="md"
@@ -104,7 +93,7 @@ const RecommendedItems = () => {
                                     Metamask
                                 </Button>
                             </Box>
-                            <Box maxWidth={80}>
+                            <Box>
                                 <Button
                                     fontWeight="italic"
                                     size="md"
@@ -124,7 +113,7 @@ const RecommendedItems = () => {
                                     Rainbowkit
                                 </Button>
                             </Box>
-                            <Box maxWidth={80}>
+                            <Box>
                                 <Button
                                     fontWeight="italic"
                                     size="md"
