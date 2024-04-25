@@ -7,6 +7,8 @@ const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
+    console.log('wishlist items??', wishlist.items);
+
     return (
         <div className="layout-base">
             <div className="flex relative flex-col-reverse lg:flex-row mb-24">

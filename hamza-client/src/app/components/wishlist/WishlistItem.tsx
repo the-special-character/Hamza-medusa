@@ -9,6 +9,7 @@ const WishlistItem = ({ item }) => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
+    console.log('WISHLISTITEM', item);
     const { product } = item;
 
     return (

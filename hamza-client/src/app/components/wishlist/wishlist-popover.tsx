@@ -54,7 +54,7 @@ const WishlistPopover = () => {
             <Popover className="relative h-full">
                 <Popover.Button className="h-full">
                     <LocalizedClientLink href="/wishlist">
-                        <div className="inline-flex items-center justify-center w-full rounded p-2 text-sm font-medium hover:opacity-1/2">
+                        <div className="inline-flex items-center justify-center w-full rounded p-2 text-sm hover:opacity-1/2">
                             <WishlistIcon {...iconStyle} />
                             <span>Wish List</span>
                         </div>

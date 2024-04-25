@@ -3,7 +3,7 @@ import { useRegion } from 'medusa-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 type WishlistItem = {
     id: string;
@@ -41,8 +41,23 @@ const useWishlistStore = create(
     persist(
         (set, get) => ({
             wishlist: {
-                items: [],
-                id: '',
+                items: [
+                    {
+                        id: '1',
+                        title: 'The Futurist Visor',
+                        thumbnail: 'http://54.253.186.85/dalle_black_vr.webp',
+                    },
+                    {
+                        id: '2',
+                        title: 'The Streamline Rift',
+                        thumbnail: 'http://54.253.186.85/dalle_vr_2.webp',
+                    },
+                    {
+                        id: '3',
+                        title: 'The Orbit Headset',
+                        thumbnail: 'http://54.253.186.85/dalle_vr_headset.webp',
+                    },
+                ],
             },
             loading: false,
             actions: {
@@ -73,7 +88,7 @@ const useWishlistStore = create(
         }),
         {
             name: 'wishlist-storage', // name of the item in the storage
-            getStorage: () => localStorage, // Specify how to access the storage
+            storage: createJSONStorage(() => sessionStorage), // Specify how to access the storage
         }
     )
 );
