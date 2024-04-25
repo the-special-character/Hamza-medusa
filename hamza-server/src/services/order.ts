@@ -73,7 +73,7 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
-    async finalizeOrdersAndPayments(
+    async finalizeCheckout(
         cartId: string,
         transactionId: string
     ): Promise<Order[]> {
