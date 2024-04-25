@@ -4,6 +4,7 @@ import React from 'react';
 import WishlistIcon from './wishlist';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import Image from 'next/image';
 
 const WishlistItem = ({ item }) => {
     const { wishlist } = useWishlistStore((state) => ({
@@ -14,9 +15,11 @@ const WishlistItem = ({ item }) => {
     return (
         <div className="flex mb-6 last:mb-0">
             <div className="bg-ui rounded-md overflow-hidden mr-4 max-w-1/4">
-                <img
+                <Image
                     className="h-auto w-full object-cover"
                     src={item.thumbnail}
+                    width="300"
+                    height="200"
                     alt={item.title}
                 />
             </div>
