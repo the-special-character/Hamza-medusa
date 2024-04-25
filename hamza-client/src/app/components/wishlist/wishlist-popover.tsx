@@ -1,7 +1,7 @@
 'use client';
 
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import React from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import WishlistIcon from '@/components/wishlist/wishlist';
 import WishlistPopoverItem from './wishlist-popover-item';
 import useWishlistStore from '@store/wishlist/wishlist-store';
@@ -13,49 +13,99 @@ const WishlistPopover = () => {
     }));
     const iconStyle = { className: 'mr-1' };
 
-    return (
-        <Popover className="relative inline-block text-left mr-2">
-            <div>
-                <Popover.Button className="inline-flex items-center justify-center w-full rounded p-2 text-sm font-medium hover:opacity-1/2">
-                    <WishlistIcon {...iconStyle} />
-                    <span>Wish List</span>
-                </Popover.Button>
-            </div>
+    const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
+        undefined
+    );
+    const [wishlistDropdownOpen, setWishlistDropdownOpen] = useState(false);
 
-            <Popover.Button className="origin-top-right absolute right-0 mt-2 w-96 px-6 py-4 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
-                    {wishlist.items.length < 1 ? (
-                        <div className="flex justify-center">
-                            <p>Your wish list is empty</p>
+    const open = () => setWishlistDropdownOpen(true);
+    const close = () => setWishlistDropdownOpen(false);
+
+    const timedOpen = () => {
+        open();
+
+        const timer = setTimeout(close, 5000);
+
+        setActiveTimer(timer);
+    };
+
+    const openAndCancel = () => {
+        if (activeTimer) {
+            clearTimeout(activeTimer);
+        }
+
+        open();
+    };
+
+    useEffect(() => {
+        return () => {
+            if (activeTimer) {
+                clearTimeout(activeTimer);
+            }
+        };
+    }, [activeTimer]);
+
+    return (
+        <div
+            className="relative inline-block text-left mr-2"
+            onMouseEnter={openAndCancel}
+            onMouseLeave={close}
+        >
+            <Popover className="relative h-full">
+                <Popover.Button className="h-full">
+                    <LocalizedClientLink href="/wishlist">
+                        <div className="inline-flex items-center justify-center w-full rounded p-2 text-sm font-medium hover:opacity-1/2">
+                            <WishlistIcon {...iconStyle} />
+                            <span>Wish List</span>
                         </div>
-                    ) : (
-                        <>
-                            {wishlist.items.map((item) => (
-                                <div className="py-2 first:pt-0" key={item.id}>
-                                    <Popover.Button>
-                                        {({ active }) => (
-                                            <WishlistPopoverItem
-                                                item={item.product}
-                                                currencyCode="usd"
-                                            />
-                                        )}
-                                    </Popover.Button>
+                    </LocalizedClientLink>
+                </Popover.Button>
+
+                <Transition
+                    show={wishlistDropdownOpen}
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                >
+                    <div className="origin-top-right absolute right-0 mt-2 w-96 px-6 py-4 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-1">
+                            {wishlist.items.length < 1 ? (
+                                <div className="flex justify-center">
+                                    <p>Your wish list is empty</p>
                                 </div>
-                            ))}
-                            <div className="flex flex-col mt-4">
-                                <Popover.Button>
-                                    <LocalizedClientLink href="/wishlist">
+                            ) : (
+                                <>
+                                    {wishlist.items.map((item) => (
+                                        <div
+                                            className="py-2 first:pt-0"
+                                            key={item.id}
+                                        >
+                                            <Popover.Button>
+                                                {({ active }) => (
+                                                    <WishlistPopoverItem
+                                                        item={item.product}
+                                                        currencyCode="usd"
+                                                    />
+                                                )}
+                                            </Popover.Button>
+                                        </div>
+                                    ))}
+                                    <div className="flex flex-col mt-4">
                                         <button className="text-ui-dark py-2 text-sm w-full border px-3 py-1.5 rounded hover:text-black hover:bg-gray-100">
                                             View Wish List
                                         </button>
-                                    </LocalizedClientLink>
-                                </Popover.Button>
-                            </div>
-                        </>
-                    )}
-                </div>
-            </Popover.Button>
-        </Popover>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </Transition>
+            </Popover>
+        </div>
     );
 };
 
