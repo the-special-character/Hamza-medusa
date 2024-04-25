@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import useWishlistStore from '@store/wishlist/wishlist-store';
-import WishlistItem from '@/components/header/Wishlistitem';
+import WishlistItem from '@/components/wishlist/Wishlistitem';
 
 const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({

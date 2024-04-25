@@ -4,7 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CartButton from '@modules/layout/components/cart-button';
-import WishListPopover from '@/components/header/wishlist-popover';
+import WishListPopover from '@/components/wishlist/wishlist-popover';
 import SideMenu from '@modules/layout/components/side-menu';
 import Image from 'next/image';
 import logo from '../../../../../public/nav/hamza_logo.png';

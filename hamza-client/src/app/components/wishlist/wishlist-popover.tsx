@@ -2,7 +2,7 @@
 
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import React from 'react';
-import WishlistIcon from '@/components/header/wishlist';
+import WishlistIcon from '@/components/wishlist/wishlist';
 import WishlistPopoverItem from './wishlist-popover-item';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 import { Popover, Transition } from '@headlessui/react';
