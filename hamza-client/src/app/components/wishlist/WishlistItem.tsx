@@ -6,12 +6,7 @@ import useWishlistStore from '@store/wishlist/wishlist-store';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
 
-const WishlistItem = ({ item }) => {
-    const { wishlist } = useWishlistStore((state) => ({
-        wishlist: state.wishlist,
-    }));
-    console.log('WISHLISTITEM', item);
-
+const WishlistItem = ({ item, currencyCode }) => {
     return (
         <div className="flex mb-6 last:mb-0">
             <div className="bg-ui rounded-md overflow-hidden mr-4 max-w-1/4">
@@ -36,9 +31,9 @@ const WishlistItem = ({ item }) => {
                 <div className="flex flex-col justify-between">
                     <div className="flex justify-end w-full">
                         <button
-                            onClick={async () =>
-                                await wishlist.removeWishItem(item.id)
-                            }
+                            onClick={async () => {
+                                /* Implement removal logic here */
+                            }}
                         >
                             <WishlistIcon fill={true} />
                         </button>

@@ -65,6 +65,7 @@ const useWishlistStore = create(
             loading: false,
             actions: {
                 addWishlistItem: async (item) => {
+                    console.log('Adding item:', item);
                     const { wishlist } = get(); // Retrieve the current state
                     localStorage.setItem(WISHLIST_ID, wishlist.id || '');
                     set((state) => ({
@@ -75,6 +76,7 @@ const useWishlistStore = create(
                     }));
                 },
                 removeWishlistItem: async (item) => {
+                    console.log('Removing Wish List item', item);
                     set((state) => ({
                         wishlist: {
                             ...state.wishlist,
@@ -91,7 +93,8 @@ const useWishlistStore = create(
         }),
         {
             name: 'wishlist-storage', // name of the item in the storage
-            storage: createJSONStorage(() => sessionStorage), // Specify how to access the storage
+            // TODO: Local Storage is failing and only saving first item.
+            // storage: createJSONStorage(() => sessionStorage), // Specify how to access the storage
         }
     )
 );
@@ -128,6 +131,7 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
             }),
         {
             onSuccess: (data) => {
+                console.log('Adding Wish list item');
                 actions.addWishlistItem(data);
             },
             onError: (error) => {
@@ -145,6 +149,7 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
             ),
         {
             onSuccess: (data) => {
+                console.log('Removing Wish List item');
                 actions.removeWishlistItem(data);
             },
             onError: (error) => {
