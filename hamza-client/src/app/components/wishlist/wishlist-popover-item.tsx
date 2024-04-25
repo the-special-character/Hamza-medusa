@@ -11,6 +11,7 @@ import { useRegions } from 'medusa-react';
 //                         {region.name}
 
 const WishlistPopoverItem = ({ item }) => {
+    console.log('Wishlist popover item', item.handle);
     return (
         <LocalizedClientLink
             href={`/products/${item.handle}`}

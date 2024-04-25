@@ -10,25 +10,22 @@ const WishlistItem = ({ item }) => {
         wishlist: state.wishlist,
     }));
     console.log('WISHLISTITEM', item);
-    const { product } = item;
 
     return (
         <div className="flex mb-6 last:mb-0">
             <div className="bg-ui rounded-md overflow-hidden mr-4 max-w-1/4">
                 <img
                     className="h-auto w-full object-cover"
-                    src={product.thumbnail}
-                    alt={product.title}
+                    src={item.thumbnail}
+                    alt={item.title}
                 />
             </div>
             <div className="flex text-sm flex-grow py-2 justify-between space-x-8">
-                <LocalizedClientLink href={product.handle} className="w-full">
+                <LocalizedClientLink href={item.handle} className="w-full">
                     <div className="flex flex-col justify-between w-full hover:text-green-400">
                         <div className="flex flex-col">
-                            <p className="font-semibold mb-4">
-                                {product.title}
-                            </p>
-                            <p>{product.description}</p>
+                            <p className="font-semibold mb-4">{item.title}</p>
+                            <p>{item.description}</p>
                         </div>
                     </div>
                 </LocalizedClientLink>

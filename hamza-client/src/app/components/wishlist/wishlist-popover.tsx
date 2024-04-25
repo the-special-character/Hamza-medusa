@@ -87,7 +87,7 @@ const WishlistPopover = () => {
                                             <Popover.Button>
                                                 {({ active }) => (
                                                     <WishlistPopoverItem
-                                                        item={item.product}
+                                                        item={item}
                                                         currencyCode="usd"
                                                     />
                                                 )}
