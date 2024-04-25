@@ -11,6 +11,7 @@ import { useRegions } from 'medusa-react';
 //                         {region.name}
 
 const WishlistPopoverItem = ({ item }) => {
+    console.log('Wishlist popover item', item.handle);
     return (
         <LocalizedClientLink
             href={`/products/${item.handle}`}
@@ -22,6 +23,8 @@ const WishlistPopoverItem = ({ item }) => {
                         className="w-16 h-auto"
                         src={item.thumbnail}
                         alt={item.title}
+                        width="300"
+                        height="200"
                     />
                 </div>
                 <div className="flex items-center">
