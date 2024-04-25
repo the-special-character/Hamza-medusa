@@ -184,19 +184,13 @@ export async function setPaymentMethod(providerId: string) {
     }
 }
 
-export async function placeOrder(transaction_id: string) {
+export async function placeOrder() {
     const cartId = cookies().get('_medusa_cart_id')?.value;
 
     if (!cartId) throw new Error('No cartId cookie found');
 
-    //passing the tx id back to the server
-    medusaClient.carts.update(cartId, {
-        context: {
-            transaction_id: transaction_id,
-        },
-    });
-
     let cart;
+
     try {
         cart = await completeCart(cartId);
         revalidateTag('cart');

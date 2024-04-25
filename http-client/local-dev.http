@@ -1,0 +1,15 @@
+// Login Admin User
+POST http://localhost:9000/admin/auth
+Content-Type: application/json
+
+{
+  "email": "admin@medusa-test.com",
+  "password": "supersecret"
+}
+
+###
+
+// Multi-Vendor Create Button (Creates 3 Users && sets store_id for products)
+// Note: This should likely be a POST request if it modifies server state.
+GET http://localhost:9000/admin/custom/user
+Content-Type: application/json

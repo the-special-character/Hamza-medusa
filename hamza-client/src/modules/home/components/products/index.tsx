@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Grid, Box, HStack, Button, Flex } from '@chakra-ui/react';
+import { SimpleGrid, Box, Button, Flex } from '@chakra-ui/react';
 import fire from '../../../../../public/product_filters/fire.png';
 import gift from '../../../../../public/product_filters/gift.png';
 import game from '../../../../../public/product_filters/games.png';
@@ -12,25 +12,10 @@ import rainbow from '../../../../../public/wallet_connect/rainbow.jpeg';
 import wallet from '../../../../../public/wallet_connect/wallet.png';
 import arrow from '../../../../../public/Vector.png';
 import Image from 'next/image';
-import Login from '@/components/AuthenticateAdmin/Login';
 import ProductCollections from '@modules/collections/product_collection_filter';
-import axios from 'axios';
 
 const RecommendedItems = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
-
-    // useEffect(() => {
-    //     const fetchProductsByStoreName = async (store_name: string) => {
-    //         try {
-    //             const response = await axios.get(
-    //                 `http://localhost:9000/store/custom/products?store_name=${store_name}`
-    //             );
-    //         } catch (e) {
-    //             console.error('Error fetching data', e);
-    //         }
-    //     };
-    //     fetchProductsByStoreName(vendorName);
-    // }, [vendorName]);
 
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
@@ -46,98 +31,115 @@ const RecommendedItems = () => {
                 width="70%"
                 bg="#2C272D"
             >
-                <HStack justifyContent="space-around" mx={12} my={6}>
-                    {/*<Login />*/}
-                    <Box
-                        color="whitesmoke"
-                        fontWeight="bold"
-                        fontSize="2xl"
-                        textAlign="center"
-                    >
-                        CONNECT YOUR <br />
-                        FAVORITE WALLET
-                    </Box>
-                    <Image
-                        className="mr-4"
-                        src={arrow}
-                        alt={'Img of arrow'}
-                        width={22}
-                        height={22}
-                    />
+                <Flex
+                    justifyItems={'center'}
+                    justifyContent={'center'}
+                    className="my-4"
+                >
+                    <Flex>
+                        <Box
+                            color="whitesmoke"
+                            fontWeight="bold"
+                            fontSize="2xl"
+                            textAlign="center"
+                        >
+                            CONNECT YOUR <br />
+                            FAVORITE WALLET
+                        </Box>
+                    </Flex>
+                    <Flex className="ml-4">
+                        <SimpleGrid
+                            columns={{ base: 1, md: 2, lg: 4 }}
+                            justifyContent="space-around"
+                            spacing={5}
+                        >
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    bg="transparent"
+                                    color="white"
+                                    width="full"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={coinbase}
+                                        alt={'Img of coinbase'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Coinbase
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    width="full"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={metamask}
+                                        alt={'Img of a game'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Metamask
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    width="full"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={rainbow}
+                                        alt={'Img of a laptop'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Rainbowkit
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    fontWeight="italic"
+                                    size="lg"
+                                    bg="transparent"
+                                    color="white"
+                                    borderRadius="full"
+                                    border="1px" // Sets the border width
+                                    borderColor="whiteAlpha.600"
+                                >
+                                    <Image
+                                        className="mr-2"
+                                        src={wallet}
+                                        alt={'Img of a collections'}
+                                        width={22}
+                                        height={22}
+                                    />
+                                    Wallet Connect
+                                </Button>
+                            </Box>
+                        </SimpleGrid>
+                    </Flex>
+                </Flex>
 
-                    <Button
-                        fontWeight="italic"
-                        size="md"
-                        bg="transparent"
-                        color="white"
-                        borderRadius="full"
-                        border="1px" // Sets the border width
-                        borderColor="whiteAlpha.600"
-                    >
-                        <Image
-                            className="mr-2"
-                            src={coinbase}
-                            alt={'Img of coinbase'}
-                            width={22}
-                            height={22}
-                        />
-                        Coinbase
-                    </Button>
-                    <Button
-                        fontWeight="italic"
-                        size="md"
-                        bg="transparent"
-                        color="white"
-                        borderRadius="full"
-                        border="1px" // Sets the border width
-                        borderColor="whiteAlpha.600"
-                    >
-                        <Image
-                            className="mr-2"
-                            src={metamask}
-                            alt={'Img of a game'}
-                            width={22}
-                            height={22}
-                        />
-                        Metamask
-                    </Button>
-                    <Button
-                        fontWeight="italic"
-                        size="md"
-                        bg="transparent"
-                        color="white"
-                        borderRadius="full"
-                        border="1px" // Sets the border width
-                        borderColor="whiteAlpha.600"
-                    >
-                        <Image
-                            className="mr-2"
-                            src={rainbow}
-                            alt={'Img of a laptop'}
-                            width={22}
-                            height={22}
-                        />
-                        Rainbowkit
-                    </Button>
-                    <Button
-                        fontWeight="italic"
-                        size="md"
-                        bg="transparent"
-                        color="white"
-                        borderRadius="full"
-                        border="1px" // Sets the border width
-                        borderColor="whiteAlpha.600"
-                    >
-                        <Image
-                            className="mr-2"
-                            src={wallet}
-                            alt={'Img of a collections'}
-                            width={22}
-                            height={22}
-                        />
-                        Wallet Connect
-                    </Button>
-                </HStack>
                 <Box
                     height="1px"
                     bg="whiteAlpha.600"
@@ -145,11 +147,19 @@ const RecommendedItems = () => {
                     width="full"
                     borderRadius="full"
                 />
-                <HStack justifyContent="space-around" mx={12} my={6}>
+                <SimpleGrid
+                    spacing={10}
+                    columns={{ base: 1, md: 2, xl: 5 }} // Adjusted to your requirements
+                    justifyContent="space-around"
+                    justifyItems="center"
+                    mx={12}
+                    my={6}
+                >
                     <Button
                         fontWeight="italic"
                         bg="white"
                         size="lg"
+                        width="250px"
                         color="black"
                         borderRadius="full"
                         onClick={() => {
@@ -165,10 +175,12 @@ const RecommendedItems = () => {
                         />
                         Goblin Vendor
                     </Button>
+
                     <Button
                         fontWeight="italic"
                         bg="black"
                         size="lg"
+                        width="250px"
                         color="white"
                         borderRadius="full"
                         onClick={() => {
@@ -188,6 +200,7 @@ const RecommendedItems = () => {
                         fontWeight="italic"
                         bg="black"
                         size="lg"
+                        width="250px"
                         color="white"
                         borderRadius="full"
                         onClick={() => {
@@ -198,7 +211,6 @@ const RecommendedItems = () => {
                             className="mr-2"
                             src={game}
                             alt={'Img of a game'}
-                            width={22}
                             height={22}
                         />
                         Headphone Vendor
@@ -206,6 +218,7 @@ const RecommendedItems = () => {
                     <Button
                         fontWeight="italic"
                         bg="black"
+                        width="250px"
                         size="lg"
                         color="white"
                         borderRadius="full"
@@ -222,6 +235,7 @@ const RecommendedItems = () => {
                     <Button
                         fontWeight="italic"
                         bg="black"
+                        width="250px"
                         size="lg"
                         color="white"
                         borderRadius="full"
@@ -235,7 +249,7 @@ const RecommendedItems = () => {
                         />
                         Collectible
                     </Button>
-                </HStack>
+                </SimpleGrid>
                 <ProductCollections vendorName={vendorName} />
             </Box>
         </Flex>
