@@ -62,14 +62,14 @@ const Wishlist = () => {
                     <span>{customer_id}</span>
                 </div>
                 <div className="w-full px-16">
-                    <SimpleGrid
-                        columns={{ base: 1, md: 2, lg: 4 }}
-                        justifyContent="center" // Ensure that grid items are centered if they don't fill the entire row
-                        spacing={5}
-                        className="text-white"
-                    >
-                        {wishlist.items.map((item) => {
-                            return (
+                    {wishlist && wishlist.items && wishlist.items.length > 0 ? (
+                        <SimpleGrid
+                            columns={{ base: 1, md: 2, lg: 4 }}
+                            justifyContent="center" // Ensure that grid items are centered if they don't fill the entire row
+                            spacing={5}
+                            className="text-white"
+                        >
+                            {wishlist.items.map((item) => (
                                 <WishlistItem
                                     key={item.id}
                                     item={item}
@@ -77,9 +77,11 @@ const Wishlist = () => {
                                         wishlist.region?.currency_code || 'usd'
                                     }
                                 />
-                            );
-                        })}
-                    </SimpleGrid>
+                            ))}
+                        </SimpleGrid>
+                    ) : (
+                        <p>Loading...</p>
+                    )}
                 </div>
             </div>
         </div>
