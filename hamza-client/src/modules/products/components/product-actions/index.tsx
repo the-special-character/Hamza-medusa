@@ -139,15 +139,16 @@ export default function ProductActions({
         } catch (e) {
             console.log('Failed to add wishlist item', e);
         }
-
-        // if (!wishlist) {
-        //     await wishlist.actions.addWishlistItem(product.id);
-        //     setWishlistDisplay(true);
-        // } else {
-        //     await wishlist.actions.removeWishlistItem(product.id);
-        //     setWishlistDisplay(false);
-        // }
     };
+
+    // if (!wishlist) {
+    //     await wishlist.actions.addWishlistItem(product.id);
+    //     setWishlistDisplay(true);
+    // } else {
+    //     await wishlist.actions.removeWishlistItem(product.id);
+    //     setWishlistDisplay(false);
+    // }
+    // };
 
     return (
         <>

@@ -5,6 +5,8 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+// TODO: Refactor to pull useWishlistStore from this component or the Wishlist component to create a sort of separation (e.g. useWishlistStore.tsx)
+
 type WishlistItem = {
     id: string;
     product_id: string;
@@ -16,63 +18,42 @@ type Wishlist = {
     items: WishlistItem[];
 };
 
+// TODO: clean up this any cast after mutations work
 type WishlistType = {
     wishlist: Wishlist;
-    loading: boolean;
-    actions: {
-        addItem: (product_id: string) => Promise<void>;
-        removeItem: (product_id: string) => Promise<void>;
-    };
+    addWishlistItem: (product: any) => Promise<void>;
+    removeWishlistItem: (product: any) => Promise<void>;
 };
 
-const defaultWishlist: WishlistType = {
-    wishlist: {
-        items: [],
-    },
-    loading: false,
-    actions: {
-        addItem: async () => {},
-        removeItem: async () => {},
-    },
-};
-
-// TODO: Refactor to pull useWishlistStore from this component or the Wishlist component to create a sort of separation (e.g. useWishlistStore.tsx)
-const useWishlistStore = create(
+const useWishlistStore = create<WishlistType>()(
     persist(
         (set, get) => ({
             wishlist: {
                 items: [],
             },
-            loading: false,
-            actions: {
-                addWishlistItem: async (item) => {
-                    console.log('Adding item:', item);
-                    const { wishlist } = get(); // Retrieve the current state
-                    localStorage.setItem(WISHLIST_ID, wishlist.id || '');
-                    set((state) => ({
-                        wishlist: {
-                            ...state.wishlist,
-                            items: [...state.wishlist.items, item],
-                        },
-                    }));
-                },
-                removeWishlistItem: async (item) => {
-                    console.log('Removing Wish List item', item);
-                    set((state) => ({
-                        wishlist: {
-                            ...state.wishlist,
-                            items: state.wishlist.items.filter(
-                                (i) => i !== item
-                            ),
-                        },
-                    }));
-                },
+            addWishlistItem: async (item) => {
+                console.log('Adding item:', item);
+                const { wishlist } = get(); // Retrieve the current state
+                localStorage.setItem('WISHLIST_ID', wishlist.id || '');
+                set((state) => ({
+                    wishlist: {
+                        items: [...state.wishlist.items, item],
+                    },
+                }));
+            },
+            removeWishlistItem: async (item) => {
+                console.log('Removing Wish List item', item);
+                set((state) => ({
+                    wishlist: {
+                        ...state.wishlist,
+                        items: state.wishlist.items.filter((i) => i !== item),
+                    },
+                }));
             },
         }),
         {
-            name: 'wishlist-storage', // name of the item in the storage
-            // TODO: Local Storage is failing and only saving first item.
-            // storage: createJSONStorage(() => sessionStorage), // Specify how to access the storage
+            name: 'wishlist-storage',
+            storage: createJSONStorage(() => localStorage),
         }
     )
 );
@@ -84,9 +65,6 @@ interface WishlistProps {
     countryCode: string;
 }
 
-const WISHLIST_ID = 'wishlist_id';
-const isBrowser = typeof window !== 'undefined';
-
 export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
     // Let's now use the useWishlistStore hook to get the wishlist state and actions
     const { actions } = useWishlistStore((state) => ({
@@ -95,12 +73,11 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
     const { region } = useRegion(countryCode);
 
     // TODO: Set initial wishlist if it already exists in localStorage
-    // useEffect(() => {
-    //     const fetchInitialWishlist = async () => {
-    //         if (isBrowser) {
-    //         }
-    //     };
-    // });
+    /*    useEffect(() => {
+        return () => {
+            // This will run when the component unmounts
+        };
+    }, []);*/
 
     const addWishlistMutation = useMutation(
         (product_id) =>
