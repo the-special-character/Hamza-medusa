@@ -9,38 +9,40 @@ type WishlistItem = {
 
 type Wishlist = {
     id?: string;
-    items: WishlistItem[];
+    products: WishlistItem[];
 };
 
 // TODO: clean up this any cast after mutations work
 type WishlistType = {
     wishlist: Wishlist;
-    addWishlistItem: (product: any) => Promise<void>;
-    removeWishlistItem: (product: any) => Promise<void>;
+    addWishlistProduct: (product: any) => Promise<void>;
+    removeWishlistProduct: (product: any) => Promise<void>;
 };
 
 const useWishlistStore = create<WishlistType>()(
     persist(
         (set, get) => ({
             wishlist: {
-                items: [],
+                products: [],
             },
-            addWishlistItem: async (item) => {
-                console.log('Adding item:', item);
+            addWishlistProduct: async (product) => {
+                console.log('Adding product:', product);
                 const { wishlist } = get(); // Retrieve the current state
                 localStorage.setItem('WISHLIST_ID', wishlist.id || '');
                 set((state) => ({
                     wishlist: {
-                        items: [...state.wishlist.items, item],
+                        products: [...state.wishlist.products, product],
                     },
                 }));
             },
-            removeWishlistItem: async (item) => {
-                console.log('Removing Wish List item', item);
+            removeWishlistProduct: async (product) => {
+                console.log('Removing Wish List product', product);
                 set((state) => ({
                     wishlist: {
                         ...state.wishlist,
-                        items: state.wishlist.items.filter((i) => i !== item),
+                        products: state.wishlist.products.filter(
+                            (i) => i !== product
+                        ),
                     },
                 }));
             },

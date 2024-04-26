@@ -4,9 +4,12 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 export const Wishlist = () => {
-    const { wishlist } = useWishlistStore((state) => ({
-        wishlist: state.wishlist,
-    }));
+    const { addWishlistProduct, removeWishlistProduct, wishlist } =
+        useWishlistStore((state) => ({
+            addWishlistProduct: state.addWishlistProduct,
+            removeWishlistProduct: state.removeWishlistProduct,
+            wishlist: state.wishlist,
+        }));
     const { customer_id } = useCustomerAuthStore((state) => ({
         customer_id: state.customer_id,
     }));
@@ -20,6 +23,7 @@ export const Wishlist = () => {
         {
             onSuccess: (data) => {
                 console.log('Adding Wish list item in DB!');
+                addWishlistProduct(data.data);
             },
             onError: (error) => {
                 console.log('Error adding item to wishlist', error);
@@ -38,6 +42,7 @@ export const Wishlist = () => {
         {
             onSuccess: (data) => {
                 console.log('Removing Wish List item in DB');
+                removeWishlistProduct({ product_id });
             },
             onError: (error) => {
                 console.log('Error removing item from wishlist', error);
