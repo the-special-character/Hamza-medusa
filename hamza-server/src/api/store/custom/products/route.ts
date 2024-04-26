@@ -1,10 +1,7 @@
-import type {
-    MedusaRequest,
-    MedusaResponse,
-    ProductService,
-} from '@medusajs/medusa';
+import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import { ProductSelector as MedusaProductSelector } from '@medusajs/medusa/dist/types/product';
 import StoreService from '../../../../services/store';
+import ProductService from '../../../../services/product';
 
 type ProductSelector = {
     store_id?: string;
@@ -30,10 +27,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         const productService: ProductService =
             req.scope.resolve('productService');
 
-        const store_id = store.id;
-        const list_products = await productService.list({
-            store_id: store_id,
-        });
+        const list_products =
+            await productService.getProductsFromStoreWithPrices(store.id);
         return res.json(list_products);
     } catch (error) {
         console.error(error);
