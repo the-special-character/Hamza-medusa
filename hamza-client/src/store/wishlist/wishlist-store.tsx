@@ -61,28 +61,20 @@ const useWishlistStore = create<WishlistType>()(
 
 export default useWishlistStore;
 
-interface WishlistProps {
-    productIds: string[];
-    countryCode: string;
-}
-
-// TODO: Speaking of separation, based off Medusas Architecture, should this component be an action?
-export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
-    // Let's now use the useWishlistStore hook to get the wishlist state and actions
-    const { actions } = useWishlistStore((state) => ({
-        actions: state.actions,
+export const Wishlist = () => {
+    const { customer_id } = useCustomerAuthStore((state) => ({
+        customer_id: state.customer_id,
     }));
-    const { region } = useRegion(countryCode);
 
     const addWishlistMutation = useMutation(
         (product_id) =>
-            axios.post(`/store/wishlist/${wishlist.id}/wish-item`, {
-                product_id,
+            axios.post(`localhost:9000/custom/wishlist/item`, {
+                customer_id: customer_id,
+                product_id: product_id,
             }),
         {
             onSuccess: (data) => {
-                console.log('Adding Wish list item');
-                actions.addWishlistItem(data);
+                console.log('Adding Wish list item in DB!');
             },
             onError: (error) => {
                 console.log('Error adding item to wishlist', error);
@@ -94,13 +86,13 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
 
     const removeWishlistItemMutation = useMutation(
         (product_id) =>
-            axios.delete(
-                `/store/wishlist/${wishlist.id}/wish-item/${product_id}`
-            ),
+            axios.delete(`localhost:9000/custom/wishlist/item`, {
+                customer_id: customer_id,
+                product_id: product_id,
+            }),
         {
             onSuccess: (data) => {
-                console.log('Removing Wish List item');
-                actions.removeWishlistItem(data);
+                console.log('Removing Wish List item in DB');
             },
             onError: (error) => {
                 console.log('Error removing item from wishlist', error);
