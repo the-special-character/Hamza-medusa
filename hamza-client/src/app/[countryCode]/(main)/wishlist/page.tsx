@@ -5,7 +5,6 @@ import WishlistItem from '@/components/wishlist/WishlistItem';
 import { SimpleGrid } from '@chakra-ui/react';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
-import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
 const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({

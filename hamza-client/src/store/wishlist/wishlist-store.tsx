@@ -1,10 +1,9 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-type WishlistItem = {
+type WishlistProduct = {
     id: string;
     product_id: string;
-    wishlist_id: string;
 };
 
 type Wishlist = {
@@ -15,8 +14,8 @@ type Wishlist = {
 // TODO: clean up this any cast after mutations work
 type WishlistType = {
     wishlist: Wishlist;
-    addWishlistProduct: (product: any) => Promise<void>;
-    removeWishlistProduct: (product: any) => Promise<void>;
+    addWishlistProduct: (product: WishlistProduct) => Promise<void>;
+    removeWishlistProduct: (product: WishlistProduct) => Promise<void>;
 };
 
 const useWishlistStore = create<WishlistType>()(
@@ -26,22 +25,29 @@ const useWishlistStore = create<WishlistType>()(
                 products: [],
             },
             addWishlistProduct: async (product) => {
-                console.log('Adding product:', product);
                 const { wishlist } = get(); // Retrieve the current state
-                localStorage.setItem('WISHLIST_ID', wishlist.id || '');
+                if (!wishlist || !Array.isArray(wishlist.products)) {
+                    console.error(
+                        'Initial state not set or corrupted. Resetting to default.'
+                    );
+                    set({ wishlist: { products: [] } }); // Reset state if corrupted
+                }
+
                 set((state) => ({
                     wishlist: {
+                        ...state.wishlist,
                         products: [...state.wishlist.products, product],
                     },
                 }));
             },
+
             removeWishlistProduct: async (product) => {
                 console.log('Removing Wish List product', product);
                 set((state) => ({
                     wishlist: {
                         ...state.wishlist,
                         products: state.wishlist.products.filter(
-                            (i) => i !== product
+                            (p) => p.id !== product.id
                         ),
                     },
                 }));

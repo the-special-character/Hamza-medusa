@@ -4,23 +4,24 @@ import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 
 export function useWishlistMutations() {
-    const { addWishlistProduct, removeWishlistProduct } = useWishlistStore(
-        (state) => ({
-            addWishlistProduct: state.addWishlistProduct,
-            removeWishlistProduct: state.removeWishlistProduct,
-        })
-    );
-    const { customer_id } = useCustomerAuthStore((state) => state.customer_id);
+    const { addWishlistProduct } = useWishlistStore((state) => state);
+
+    // Accessing state safely
+    const customerState = useCustomerAuthStore((state) => ({
+        customer_id: state.customer_id,
+    }));
+    const customer_id = customerState?.customer_id;
 
     const addWishlistItemMutation = useMutation(
         (product) =>
-            axios.post(`localhost:9000/custom/wishlist/item`, {
-                customer_id: customer_id,
+            axios.post(`http://localhost:9000/custom/wishlist/item`, {
+                customer_id: customer_id, // Ensure customer_id is handled when null
                 product_id: product.id,
             }),
         {
-            onSuccess: (data) => {
+            onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
+                console.log('FAILING TO ADD ', product);
                 addWishlistProduct(product);
             },
             onError: (error) => {
@@ -31,14 +32,14 @@ export function useWishlistMutations() {
 
     const removeWishlistItemMutation = useMutation(
         (product) =>
-            axios.delete(`localhost:9000/custom/wishlist/item`, {
+            axios.delete(`http://localhost:9000/custom/wishlist/item`, {
                 data: {
-                    customer_id: customer_id,
+                    customer_id: customer_id, // Ensure customer_id is handled when null
                     product_id: product.id,
                 },
             }),
         {
-            onSuccess: (data) => {
+            onSuccess: (data, product) => {
                 console.log('Removing Wish List item in DB');
                 removeWishlistProduct(product);
             },

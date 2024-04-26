@@ -9,7 +9,7 @@ import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutatio
 
 const WishlistItem = ({ item, currencyCode }) => {
     const { removeWishlistItemMutation } = useWishlistMutations();
-    const toggleWishlist = async () => {
+    const toggleWishlist = async (item) => {
         removeWishlistItemMutation.mutate(item);
     };
     return (
@@ -35,7 +35,7 @@ const WishlistItem = ({ item, currencyCode }) => {
 
                 <div className="flex flex-col justify-between">
                     <div className="flex justify-end w-full">
-                        <button onClick={() => toggleWishlist()}>
+                        <button onClick={() => toggleWishlist(item)}>
                             <WishlistIcon fill={true} />
                         </button>
                     </div>

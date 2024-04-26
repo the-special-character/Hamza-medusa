@@ -73,13 +73,13 @@ const WishlistPopover = () => {
                 >
                     <div className="origin-top-right absolute right-0 mt-2 w-96 px-6 py-4 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1">
-                            {wishlist.items.length < 1 ? (
+                            {wishlist.products.length < 1 ? (
                                 <div className="flex justify-center">
                                     <p>Your wish list is empty</p>
                                 </div>
                             ) : (
                                 <>
-                                    {wishlist.items.map((item) => (
+                                    {wishlist.products.map((item) => (
                                         <div
                                             className="py-2 first:pt-0"
                                             key={item.id}
