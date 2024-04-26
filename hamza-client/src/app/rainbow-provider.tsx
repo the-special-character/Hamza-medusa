@@ -20,15 +20,15 @@ import { getCustomer, getToken } from '@lib/data';
 import { revalidateTag } from 'next/cache';
 import { signOut } from '@modules/account/actions';
 import { cookies } from 'next/headers';
-import { useUserAuthStore } from '@store/user-auth';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`;
 const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
-    const { setUserAuthData, token, wallet_address, status, setStatus } =
-        useUserAuthStore();
+    const { setCustomerAuthData, token, wallet_address, status, setStatus } =
+        useCustomerAuthStore();
 
     useEffect(() => {
         // getCustomer()
@@ -112,7 +112,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                         email: '',
                         password: '',
                     }).then((token) => {
-                        setUserAuthData({
+                        setCustomerAuthData({
                             token,
                             wallet_address: message.address,
                             customer_id: verifyRes.customer_id,
@@ -128,7 +128,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
 
         signOut: async () => {
             setStatus('authenticated');
-            setUserAuthData({
+            setCustomerAuthData({
                 token: null,
                 wallet_address: null,
                 customer_id: null,
