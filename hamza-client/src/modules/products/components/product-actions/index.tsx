@@ -123,11 +123,9 @@ export default function ProductActions({
     };
 
     //
-    const addWishlistItem = useWishlistStore(
-        (state) => state.actions.addWishlistItem
-    );
+    const addWishlistItem = useWishlistStore((state) => state.addWishlistItem);
     const removeWishlistItem = useWishlistStore(
-        (state) => state.actions.removeWishlistItem
+        (state) => state.removeWishlistItem
     );
 
     const [wishlistDisplay, setWishlistDisplay] = useState(false);
