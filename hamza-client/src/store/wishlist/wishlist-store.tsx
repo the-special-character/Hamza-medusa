@@ -41,26 +41,7 @@ const useWishlistStore = create(
     persist(
         (set, get) => ({
             wishlist: {
-                items: [
-                    {
-                        id: '1',
-                        title: 'The Futurist Visor',
-                        thumbnail: 'http://54.253.186.85/dalle_black_vr.webp',
-                        handle: 'headset_future',
-                    },
-                    {
-                        id: '2',
-                        title: 'The Streamline Rift',
-                        thumbnail: 'http://54.253.186.85/dalle_vr_2.webp',
-                        handle: 'headset_sleek',
-                    },
-                    {
-                        id: '3',
-                        title: 'The Orbit Headset',
-                        thumbnail: 'http://54.253.186.85/dalle_vr_headset.webp',
-                        handle: 'headset_aural',
-                    },
-                ],
+                items: [],
             },
             loading: false,
             actions: {
@@ -85,9 +66,6 @@ const useWishlistStore = create(
                             ),
                         },
                     }));
-                },
-                setWishlist: async (wishlist) => {
-                    set((state) => ({ wishlist }));
                 },
             },
         }),
