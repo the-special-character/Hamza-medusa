@@ -31,15 +31,15 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         useUserAuthStore();
 
     useEffect(() => {
-        // getCustomer()
-        //     .then((customer) => {
-        //         setStatus(
-        //             customer?.has_account ? 'authenticated' : 'unauthenticated'
-        //         );
-        //     })
-        //     .catch(() => {
-        //         console.log('rainbow-provider: customer not found');
-        //     });
+        getCustomer()
+            .then((customer) => {
+                setStatus(
+                    customer?.has_account ? 'authenticated' : 'unauthenticated'
+                );
+            })
+            .catch(() => {
+                console.log('rainbow-provider: customer not found');
+            });
 
         token && wallet_address && setStatus('authenticated');
         (!token || !wallet_address) && setStatus('unauthenticated');

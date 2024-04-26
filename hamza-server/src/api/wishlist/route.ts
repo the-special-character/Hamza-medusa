@@ -3,6 +3,7 @@ import WishlistService from '../../services/wishlist';
 import CustomerService from '../../services/customer';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+    // TODO: Retrieve FULL wishlist via customer_id?
     // lets get wishlist items by '/:id'
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');

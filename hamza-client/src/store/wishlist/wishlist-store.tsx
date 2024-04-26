@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRegion } from 'medusa-react';
+import { useRegion, useMeCustomer } from 'medusa-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { create } from 'zustand';
@@ -65,6 +65,7 @@ interface WishlistProps {
     countryCode: string;
 }
 
+// TODO: Speaking of separation, based off Medusas Architecture, should this component be an action?
 export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
     // Let's now use the useWishlistStore hook to get the wishlist state and actions
     const { actions } = useWishlistStore((state) => ({
@@ -78,6 +79,13 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
             // This will run when the component unmounts
         };
     }, []);*/
+
+    useEffect(() => {
+        const initWishlist = async () => {
+            // pull wishlist from dB
+            const { data } = await axios.get();
+        };
+    }, []);
 
     const addWishlistMutation = useMutation(
         (product_id) =>
