@@ -36,10 +36,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const { cart_id, transaction_id } = req.body;
 
     try {
-        await orderService.finalizeOrdersAndPayments(
-            cart_id.toString(),
-            transaction_id
-        );
+        await orderService.finalizeCheckout(cart_id.toString(), transaction_id);
         res.send(true);
     } catch (e) {
         console.error(e);

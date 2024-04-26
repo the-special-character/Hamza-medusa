@@ -50,7 +50,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
     > {
         console.log('CryptoPaymentService: capturePayment');
-        console.log(paymentSessionData);
+        //console.log(paymentSessionData);
         return {
             session_data: paymentSessionData,
         };
@@ -67,7 +67,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
           }
     > {
         console.log('CryptoPaymentService: authorizePayment');
-        console.log(paymentSessionData);
+        //console.log(paymentSessionData);
         let payment_status = paymentSessionData.payment_status;
         if (!payment_status) payment_status = 'ok';
 
@@ -106,7 +106,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         context: PaymentProcessorContext
     ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
         console.log('CryptoPaymentService: initiatePayment');
-        console.log(context);
+        //console.log(context);
 
         //get the store id
         let walletAddresses: string[] = [];
@@ -123,18 +123,6 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         const intentRequestData = this.getPaymentIntentOptions();
         const { email, currency_code, amount, resource_id, customer } = context;
 
-        //if there is a tx id, verify that it's legit
-        let payment_status = 'ok';
-        if (context?.context?.transaction_id) {
-            const transactionId = context.context.transaction_id;
-            console.log('got transaction_id: ', transactionId);
-            if (!(await verifyPaymentTransactionId(transactionId))) {
-                console.log('verified transaction', transactionId);
-                //TODO: need a better system to communicate payment failure
-                //payment_status = 'failed';
-            }
-        }
-
         const session_data: any = {
             amount: Math.round(100),
             currency: 'USD',
@@ -142,7 +130,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             wallet_addresses: walletAddresses.join(','),
             payment: {
                 capture: 'manual',
-                payment_status: payment_status,
+                payment_status: 'ok',
                 capture_options: {
                     refund_speed: 'normal',
                     automatic_expiry_period: 5,
@@ -162,7 +150,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
     > {
         console.log('CryptoPaymentService: deletePayment');
-        console.log(paymentSessionData);
+        //console.log(paymentSessionData);
         return {
             session_data: paymentSessionData,
         };
@@ -172,7 +160,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         paymentSessionData: Record<string, unknown>
     ): Promise<PaymentSessionStatus> {
         console.log('CryptoPaymentService: getPaymentStatus');
-        console.log(paymentSessionData);
+        //console.log(paymentSessionData);
 
         try {
             const payment_status =
@@ -196,7 +184,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
     > {
         console.log('CryptoPaymentService: refundPayment');
-        console.log(paymentSessionData);
+        //console.log(paymentSessionData);
         return {
             session_data: paymentSessionData,
         };
@@ -208,7 +196,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         PaymentProcessorError | PaymentProcessorSessionResponse['session_data']
     > {
         console.log('CryptoPaymentService: retrievePayment');
-        console.log(paymentSessionData);
+        //console.log(paymentSessionData);
         return {
             session_data: paymentSessionData,
         };
@@ -218,7 +206,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         context: PaymentProcessorContext
     ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse | void> {
         console.log('CryptoPaymentService: updatePayment');
-        console.log(context);
+        //console.log(context);
         return this.initiatePayment(context);
     }
 

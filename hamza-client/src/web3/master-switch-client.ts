@@ -103,7 +103,7 @@ export class MasterSwitchClient {
             //place a 0 if entry is null, otherwise place a sum of all payments
             if (i.currency != ethers.ZeroAddress) {
                 output[i.currency] = output[i.currency]
-                    ? BigInt(output[i.receiver]) + sum(i.payments)
+                    ? BigInt(output[i.currency]) + sum(i.payments)
                     : sum(i.payments);
             }
         });

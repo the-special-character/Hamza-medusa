@@ -8,11 +8,17 @@ import ErrorMessage from '../error-message';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { ITransactionOutput } from 'web3';
+import { ITransactionOutput, IMultiPaymentInput } from 'web3';
 import { MasterSwitchClient } from 'web3/master-switch-client';
 import { ethers } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
 import { useRouter } from 'next/navigation';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { clearCart } from '@lib/data';
+
+const MEDUSA_SERVER_URL =
+    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -98,12 +104,6 @@ const CryptoPaymentButton = ({
             connector: new InjectedConnector(),
         });
 
-    // Check if a wallet is connected, console log results
-    console.log('isConnected: ', isConnected);
-
-    // connector: activeConnector extracts connector object from useAccount hook (provides active wallet connection data)
-    console.log('activeConnector: ', activeConnector);
-
     // useEffect hook to check if connection status changes
     // if !isConnected, connect to wallet
     useEffect(() => {
@@ -112,44 +112,34 @@ const CryptoPaymentButton = ({
         }
     }, [openConnectModal, isConnected]);
 
-    //RETURNS TRANSACTION ID
-    const makePayment = async (receiver: string) => {
+    //return transaction id
+    const doWalletPayment = async (data: any) => {
         try {
-            const session = cart.payment_session as PaymentSession;
+            //get provider and such
             const provider = new ethers.BrowserProvider(
                 window.ethereum,
                 11155111
             ); //TODO: get chain dynamically
-            const signer = await provider.getSigner();
+            const signer: ethers.Signer = await provider.getSigner();
 
-            console.log('payer: ', signer.address);
-            console.log('receiver: ', receiver);
-
+            //create the contract client
             const switchClient: MasterSwitchClient = new MasterSwitchClient(
                 provider,
                 signer,
                 '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A' //TODO: get contract address dynamically
             );
 
-            console.log('created switch client');
+            //create the inputs
+            const switchInput: IMultiPaymentInput[] = await createSwitchInput(
+                data,
+                await signer.getAddress()
+            );
+
+            console.log(switchInput);
             const output: ITransactionOutput =
-                await switchClient.placeMultiplePayments([
-                    {
-                        receiver: receiver,
-                        currency: 'eth',
-                        payments: [
-                            {
-                                id: Math.floor(Math.random() * 9999) + 1, //TODO: use real order id
-                                payer: signer.address ?? '',
-                                receiver: receiver,
-                                amount: session.amount,
-                            },
-                        ],
-                    },
-                ]);
+                await switchClient.placeMultiplePayments(switchInput);
 
             console.log(output);
-            console.log('TX ID: ', output.transaction_id);
             return output.transaction_id;
         } catch (e) {
             console.error('error has occured during transaction', e);
@@ -158,49 +148,113 @@ const CryptoPaymentButton = ({
         return '';
     };
 
-    const onPaymentCompleted = async (transactionId: string) => {
-        updateCart.mutate(
-            { context: { transactionId } },
-            {
-                onSuccess: ({}) => {
-                    console.log('updated cart successfully');
-                    completeCart.mutate(void 0, {
-                        onSuccess: ({ data, type }) => {
-                            console.log('completed cart successfully');
-                            setSubmitting(false);
-                            const countryCode =
-                                cart.shipping_address?.country_code?.toLowerCase();
-                            //Todo Add redirection after the payment is captured in order service
-                            // router.push(
-                            //     `/${countryCode}/order/confirmed/${cart.id}`
-                            // );
-                        },
-                    });
-                },
-            }
+    const retrieveCheckoutData = async (cart_id: string) => {
+        const response = await axios.get(
+            `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cart_id}`
         );
+        return response.status == 200 && response.data ? response.data : {};
     };
 
-    const session = cart.payment_session as PaymentSession;
+    const createSwitchInput = async (data: any, payer: string) => {
+        if (data.orders) {
+            const switchInput: IMultiPaymentInput[] = [];
+            data.orders.forEach((o: any) => {
+                const input: IMultiPaymentInput = {
+                    currency: o.currency_code,
+                    receiver: o.wallet_address,
+                    payments: [
+                        {
+                            id: ethers.toBigInt(
+                                ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
+                            ),
+                            payer: payer,
+                            amount: o.amount,
+                            currency: o.currency_code,
+                            receiver: o.wallet_address,
+                        },
+                    ],
+                };
+                switchInput.push(input);
+            });
+
+            return switchInput;
+        }
+        return [];
+    };
+
+    const useFinalizeCheckout = useMutation(
+        (data: { cart_id: string; transaction_id: string }) =>
+            axios.post(`${MEDUSA_SERVER_URL}/custom/checkout`, {
+                cart_id: data.cart_id,
+                transaction_id: data.transaction_id,
+            }),
+        {
+            onSuccess: (data) => {
+                return true;
+            },
+            onError: (error) => {
+                return false;
+            },
+        }
+    );
+
+    const completeCheckout = async (cart_id: string) => {
+        const data = await retrieveCheckoutData(cart_id);
+        const transaction_id = await doWalletPayment(data);
+
+        if (transaction_id?.length) {
+            //final step in process
+            const { mutate: finalizeCheckout } = useFinalizeCheckout;
+            finalizeCheckout({
+                cart_id,
+                transaction_id,
+            });
+        }
+
+        return data?.orders?.length ? data.orders[0].order_id : '';
+    };
 
     const handlePayment = async () => {
         try {
-            setSubmitting(true);
-
             //here connect wallet and sign in, if not connected
             connect();
-            //get the transaction id from payment
-            let receiver_address = '';
-            const walletAddresses: any = session.data.wallet_addresses;
-            if (walletAddresses?.length) {
-                const addresses = walletAddresses.split(',');
-                receiver_address = addresses[0];
-            }
 
-            const transactionId: string = await makePayment(receiver_address);
+            setSubmitting(true);
 
-            //pass the transaction id back to the provider
-            if (transactionId?.length) onPaymentCompleted(transactionId);
+            updateCart.mutate(
+                { context: {} },
+                {
+                    onSuccess: ({}) => {
+                        completeCart.mutate(void 0, {
+                            onSuccess: ({ data, type }) => {
+                                //TODO: data is undefined
+                                try {
+                                    completeCheckout(cart.id).then(
+                                        (order_id) => {
+                                            setSubmitting(false);
+
+                                            //clear cart
+                                            clearCart();
+
+                                            //redirect to confirmation page
+                                            const countryCode =
+                                                cart.shipping_address?.country_code?.toLowerCase();
+
+                                            router.push(
+                                                `/${countryCode}/order/confirmed/${order_id}`
+                                            );
+                                        }
+                                    );
+                                } catch (e) {
+                                    console.error(e);
+                                }
+                            },
+                        });
+                    },
+                }
+            );
+
+            return;
         } catch (e) {
             console.error(e);
         }
