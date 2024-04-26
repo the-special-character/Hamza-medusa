@@ -22,7 +22,7 @@ Content-Type: application/json
 
 
 ### Create a Wishlist
-POST http://localhost:9000/wishlist
+POST http://localhost:9000/custom/wishlist
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ### Retrieve a Wishlist
-GET http://localhost:9000/wishlist
+GET http://localhost:9000/custom/wishlist
 Content-Type: application/json
 
 {

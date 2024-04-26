@@ -1,6 +1,6 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
-import WishlistService from '../../services/wishlist';
-import CustomerService from '../../services/customer';
+import WishlistService from '../../../services/wishlist';
+import CustomerService from '../../../services/customer';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // TODO: Retrieve FULL wishlist via customer_id?

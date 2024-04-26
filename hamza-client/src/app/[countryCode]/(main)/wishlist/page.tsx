@@ -1,10 +1,10 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 import WishlistItem from '@/components/wishlist/WishlistItem';
 import { SimpleGrid } from '@chakra-ui/react';
-import { useMeCustomer } from 'medusa-react';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import axios from 'axios';
 
 const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({
@@ -16,6 +16,20 @@ const Wishlist = () => {
     }));
 
     // We're just testing getting a logged in customers id here for now...
+    useEffect(() => {
+        const getWishlist = async () => {
+            try {
+                const { data } = await axios.get(
+                    `http://localhost:9000/custom/wishlist?customer_id=${customer_id}`
+                );
+                console.log('Wishlist Data:', data);
+            } catch (error) {
+                console.error('Error fetching wishlist:', error);
+            }
+        };
+        console.log('Customer ID:', customer_id);
+        getWishlist();
+    }, [customer_id]);
 
     console.log('wishlist items??', wishlist.items);
 

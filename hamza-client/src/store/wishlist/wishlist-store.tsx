@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 // TODO: Refactor to pull useWishlistStore from this component or the Wishlist component to create a sort of separation (e.g. useWishlistStore.tsx)
 
@@ -73,19 +74,25 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
     }));
     const { region } = useRegion(countryCode);
 
-    // TODO: Set initial wishlist if it already exists in localStorage
-    /*    useEffect(() => {
-        return () => {
-            // This will run when the component unmounts
-        };
-    }, []);*/
-
+    // PULL Wishlist from DB if it exists ELSE create a new wishlist
+    const { customer_id } = useCustomerAuthStore((state) => state.customer_id);
+    // Fetch wishlist from the server when component mounts or customer_id changes
+    const {
+        data: wishlistData,
+        error: wishlistError,
+        isLoading: wishlistLoading,
+    } = useQuery(
+        ['wishlist', customer_id],
+        () => axios.get(`http://localhost:9000/custom/wishlist/${customer_id}`),
+        {
+            enabled: !!customer_id, // Only run the query if customer_id is not null
+        }
+    );
     useEffect(() => {
-        const initWishlist = async () => {
-            // pull wishlist from dB
-            const { data } = await axios.get();
-        };
-    }, []);
+        if (wishlistData) {
+            console.log('Wishlist data:', wishlistData.data);
+        }
+    }, [wishlistData]);
 
     const addWishlistMutation = useMutation(
         (product_id) =>
