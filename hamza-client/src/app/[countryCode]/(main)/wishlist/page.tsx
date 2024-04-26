@@ -4,14 +4,18 @@ import useWishlistStore from '@store/wishlist/wishlist-store';
 import WishlistItem from '@/components/wishlist/WishlistItem';
 import { SimpleGrid } from '@chakra-ui/react';
 import { useMeCustomer } from 'medusa-react';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
 
+    const { customer_id } = useCustomerAuthStore((state) => ({
+        customer_id: state.customer_id,
+    }));
+
     // We're just testing getting a logged in customers id here for now...
-    const { customer, isLoading } = useMeCustomer();
 
     console.log('wishlist items??', wishlist.items);
 
@@ -22,12 +26,7 @@ const Wishlist = () => {
                     <h1 className="font-semibold text-4xl text-white text-center">
                         Wishlist
                     </h1>
-                    {isLoading && <p>Loading...</p>}
-                    {customer && (
-                        <span>
-                            {customer.id} {customer.email}
-                        </span>
-                    )}
+                    <span>{customer_id}</span>
                 </div>
                 <div className="w-full px-16">
                     <SimpleGrid

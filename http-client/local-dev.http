@@ -29,3 +29,11 @@ Content-Type: application/json
   "region_id": "reg_01HW241PHR9AN5HVQE876TNGPS",
   "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7"
 }
+
+### Retrieve a Wishlist
+GET http://localhost:9000/wishlist
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7"
+}

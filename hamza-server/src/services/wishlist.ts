@@ -44,18 +44,18 @@ class WishlistService extends TransactionBaseService {
         });
     }
 
-    async retrieve(id) {
+    async retrieve(customer_id) {
         const wishlistRepository = this.activeManager_.getRepository(Wishlist);
         return await this.atomicPhase_(async (transactionManager) => {
             const [wishlist] = await wishlistRepository.find({
-                where: { id },
+                where: { customer_id },
                 relations: ['items', 'items.product'],
             });
 
             if (!wishlist) {
                 throw new MedusaError(
                     MedusaError.Types.NOT_FOUND,
-                    `Wishlist with ${id} was not found`
+                    `Wishlist with customer_id ${customer_id} was not found`
                 );
             }
             return wishlist;
