@@ -35,15 +35,17 @@ async function main() {
         //get the key
         const keyData = await keyResponse.json();
         console.log(keyData);
-        const apiKey = keyData.results[0].key;
-        console.log('api key', apiKey);
+        const frontendApiKey = keyData.results[0].key;
+        console.log('frontend api key', frontendApiKey);
+        const backendAPIKey = keyData.results[1].key;
+        console.log('backend api key', backendAPIKey);
 
-        //write the key to .env
-        replaceKey('../hamza-server/.env', 'MEILISEARCH_API_KEY', apiKey);
+        // write the key to .env
+        replaceKey('../hamza-server/.env', 'MEILISEARCH_API_KEY', backendAPIKey);
         replaceKey(
             '../hamza-client/.env.local',
             'NEXT_PUBLIC_SEARCH_API_KEY',
-            apiKey
+            frontendApiKey
         );
     } catch (e) {
         console.error(e);

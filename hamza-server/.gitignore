@@ -2,6 +2,7 @@
 .env
 .DS_Store
 /node_modules
+/meili_data
 yarn-error.log
 .vscode
 .idea
