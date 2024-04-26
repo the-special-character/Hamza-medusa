@@ -74,29 +74,44 @@ class WishlistService extends TransactionBaseService {
         });
     }
 
-    async addWishItem(wishlist_id, product_id) {
+    async addWishItem(customer_id, product_id) {
         const wishlistItemRepository =
             this.activeManager_.getRepository(WishlistItem);
         const wishlistRepository = this.activeManager_.getRepository(Wishlist);
         return await this.atomicPhase_(async (transactionManager) => {
+            // Find the wishlist based on the customer_id
+            const wishlist = await wishlistRepository.findOne({
+                where: { customer_id },
+            });
+
+            if (!wishlist) {
+                throw new MedusaError(
+                    MedusaError.Types.NOT_FOUND,
+                    `Wishlist not found for customer with ID ${customer_id}`
+                );
+            }
+
+            // Check if the item already exists in the wishlist
             const [item] = await wishlistItemRepository.find({
-                where: { wishlist_id, product_id },
+                where: { wishlist_id: wishlist.id, product_id },
             });
 
             if (!item) {
+                // Create a new wishlist item if it doesn't already exist
                 const createdItem = wishlistItemRepository.create({
-                    wishlist_id,
+                    wishlist_id: wishlist.id,
                     product_id,
                 });
                 await wishlistItemRepository.save(createdItem);
             }
 
-            const [wishlist] = await wishlistRepository.find({
-                where: { id: wishlist_id },
+            // Fetch the updated wishlist with items
+            const updatedWishlist = await wishlistRepository.findOne({
+                where: { id: wishlist.id },
                 relations: ['items', 'items.product'],
             });
 
-            return wishlist;
+            return updatedWishlist;
         });
     }
 
