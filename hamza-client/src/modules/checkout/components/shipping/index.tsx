@@ -99,7 +99,12 @@ const Shipping: React.FC<ShippingProps> = ({
                 <div>
                     <div className="pb-8">
                         <RadioGroup
-                            value={cart.shipping_methods[0]?.shipping_option_id}
+                            value={
+                                cart.shipping_methods?.length
+                                    ? cart.shipping_methods[0]
+                                          ?.shipping_option_id
+                                    : ''
+                            }
                             onChange={(value: string) => handleChange(value)}
                         >
                             {availableShippingMethods ? (
@@ -113,8 +118,12 @@ const Shipping: React.FC<ShippingProps> = ({
                                                 {
                                                     'border-ui-border-interactive':
                                                         option.id ===
-                                                        cart.shipping_methods[0]
-                                                            ?.shipping_option_id,
+                                                        (cart.shipping_methods
+                                                            ?.length
+                                                            ? cart
+                                                                  .shipping_methods[0]
+                                                                  ?.shipping_option_id
+                                                            : ''),
                                                 }
                                             )}
                                         >
@@ -122,8 +131,12 @@ const Shipping: React.FC<ShippingProps> = ({
                                                 <Radio
                                                     checked={
                                                         option.id ===
-                                                        cart.shipping_methods[0]
-                                                            ?.shipping_option_id
+                                                        (cart.shipping_methods
+                                                            ?.length
+                                                            ? cart
+                                                                  .shipping_methods[0]
+                                                                  ?.shipping_option_id
+                                                            : '')
                                                     }
                                                 />
                                                 <span className="text-base-regular">
@@ -155,7 +168,10 @@ const Shipping: React.FC<ShippingProps> = ({
                         className="mt-6"
                         onClick={handleSubmit}
                         isLoading={isLoading}
-                        disabled={!cart.shipping_methods[0]}
+                        disabled={
+                            !cart.shipping_methods?.length ||
+                            !cart.shipping_methods[0]
+                        }
                     >
                         Continue to payment
                     </Button>
@@ -169,13 +185,15 @@ const Shipping: React.FC<ShippingProps> = ({
                                     Method
                                 </Text>
                                 <Text className="txt-medium text-ui-fg-subtle">
-                                    {
-                                        cart.shipping_methods[0].shipping_option
-                                            .name
-                                    }{' '}
+                                    {cart.shipping_methods?.length
+                                        ? cart.shipping_methods[0]
+                                              .shipping_option.name
+                                        : ' '}{' '}
                                     (
                                     {formatAmount({
-                                        amount: cart.shipping_methods[0].price,
+                                        amount: cart.shipping_methods?.length
+                                            ? cart.shipping_methods[0].price
+                                            : 0,
                                         region: cart.region,
                                         includeTaxes: false,
                                     })
