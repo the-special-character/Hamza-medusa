@@ -17,6 +17,39 @@ const Wishlist = () => {
 
     // We're just testing getting a logged in customers id here for now...
 
+    // PULL Wishlist from DB if it exists ELSE create a new wishlist
+    useEffect(() => {
+        const getOrCreateWishlist = async () => {
+            try {
+                // Attempt to fetch the wishlist
+                const { data } = await axios.get(
+                    `http://localhost:9000/custom/wishlist?customer_id=${customer_id}`
+                );
+                console.log('Wishlist Data:', data);
+            } catch (error) {
+                // If wishlist does not exist, create a new one
+                console.error(
+                    'Wishlist does not exist so creating one...',
+                    error
+                );
+                try {
+                    // Make a POST request to create a new wishlist
+                    const response = await axios.post(
+                        'http://localhost:9000/custom/wishlist',
+                        {
+                            customer_id: customer_id,
+                        }
+                    );
+                    console.log('New Wishlist created:', response.data);
+                } catch (createError) {
+                    console.error('Error creating wishlist:', createError);
+                }
+            }
+        };
+
+        console.log('Customer ID:', customer_id);
+        getOrCreateWishlist();
+    }, [customer_id]);
     console.log('wishlist items??', wishlist.items);
 
     return (
