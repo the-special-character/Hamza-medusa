@@ -65,7 +65,7 @@ const ProductCollections = ({ vendorName }: Props) => {
                                         />
                                         <div className="flex txt-compact-medium mt-4 ">
                                             <Text className="text-ui-fg-subtle font-bold text-white ">
-                                                {product.title}
+                                                <u>{product.title}</u>
                                                 <br />
                                                 {'  '}
                                                 {(
