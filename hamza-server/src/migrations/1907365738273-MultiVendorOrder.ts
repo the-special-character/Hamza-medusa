@@ -2,7 +2,6 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class MultiVendorOrder1907365738273 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
-        // drop constraint so that a cart can have multiple associated
         await queryRunner.query(
             `ALTER TABLE "order" ADD COLUMN "store_id" VARCHAR NULL`
         );
