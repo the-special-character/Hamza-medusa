@@ -15,6 +15,8 @@ const Wishlist = () => {
         customer_id: state.customer_id,
     }));
 
+    console.log('Wishlist page items', wishlist.products);
+
     useEffect(() => {
         const getOrCreateWishlist = async () => {
             try {
@@ -59,14 +61,16 @@ const Wishlist = () => {
                     <span>{customer_id}</span>
                 </div>
                 <div className="w-full px-16">
-                    {wishlist && wishlist.items && wishlist.items.length > 0 ? (
+                    {wishlist &&
+                    wishlist.products &&
+                    wishlist.products.length > 0 ? (
                         <SimpleGrid
                             columns={{ base: 1, md: 2, lg: 4 }}
                             justifyContent="center" // Ensure that grid items are centered if they don't fill the entire row
                             spacing={5}
                             className="text-white"
                         >
-                            {wishlist.items.map((item) => (
+                            {wishlist.products.map((item) => (
                                 <WishlistItem
                                     key={item.id}
                                     item={item}

@@ -4,7 +4,9 @@ import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 
 export function useWishlistMutations() {
-    const { addWishlistProduct } = useWishlistStore((state) => state);
+    const { addWishlistProduct, removeWishlistProduct } = useWishlistStore(
+        (state) => state
+    );
 
     // Accessing state safely
     const customerState = useCustomerAuthStore((state) => ({

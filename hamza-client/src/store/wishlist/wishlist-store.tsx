@@ -33,6 +33,19 @@ const useWishlistStore = create<WishlistType>()(
                     set({ wishlist: { products: [] } }); // Reset state if corrupted
                 }
 
+                // Check if the product is already in the wishlist
+                const productExists = wishlist.products.some(
+                    (p) => p.product_id === product.product_id
+                );
+                if (productExists) {
+                    console.log(
+                        'Product already in wishlist:',
+                        product.product_id
+                    );
+                    return; // Exit the function if product already exists
+                }
+
+                // If the product does not exist, add it to the list
                 set((state) => ({
                     wishlist: {
                         ...state.wishlist,
