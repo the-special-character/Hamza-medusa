@@ -38,6 +38,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                     <ImageGallery images={product?.images || []} />
                 </div>
                 <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
+                    Hello this is the pricing? this is where we can add a
+                    wishlist icon / button
                     <ProductOnboardingCta />
                     <Suspense
                         fallback={
