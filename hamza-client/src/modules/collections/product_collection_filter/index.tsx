@@ -66,6 +66,18 @@ const ProductCollections = ({ vendorName }: Props) => {
                                         <div className="flex txt-compact-medium mt-4 ">
                                             <Text className="text-ui-fg-subtle font-bold text-white ">
                                                 {product.title}
+                                                <br />
+                                                {'  '}
+                                                {(
+                                                    product.variants[0]
+                                                        .prices[0].amount / 100
+                                                ).toFixed(2)}{' '}
+                                                {product.variants[0].prices[0].currency_code.toUpperCase()}
+                                                <br />
+                                                {'  '}
+                                                {product.variants[0].prices[1]
+                                                    .amount / 10000}{' '}
+                                                {product.variants[0].prices[1].currency_code.toUpperCase()}
                                             </Text>
                                             <div className="flex items-center gap-x-2 "></div>
                                         </div>
