@@ -148,9 +148,9 @@ const CryptoPaymentButton = ({
         return '';
     };
 
-    const retrieveCheckoutData = async (cartId: string) => {
+    const retrieveCheckoutData = async (cart_id: string) => {
         const response = await axios.get(
-            `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cartId}`
+            `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cart_id}`
         );
         return response.status == 200 && response.data ? response.data : {};
     };
@@ -164,7 +164,9 @@ const CryptoPaymentButton = ({
                     receiver: o.wallet_address,
                     payments: [
                         {
-                            id: Math.floor(Math.random() * 100000) + 1,
+                            id: ethers.toBigInt(
+                                ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
+                            ),
                             payer: payer,
                             amount: o.amount,
                             currency: o.currency_code,
@@ -196,18 +198,20 @@ const CryptoPaymentButton = ({
         }
     );
 
-    const completeCheckout = async (cartId: string) => {
-        const data = await retrieveCheckoutData(cartId);
-        const transactionId = await doWalletPayment(data);
+    const completeCheckout = async (cart_id: string) => {
+        const data = await retrieveCheckoutData(cart_id);
+        const transaction_id = await doWalletPayment(data);
 
-        if (transactionId?.length) {
+        if (transaction_id?.length) {
             //final step in process
             const { mutate: finalizeCheckout } = useFinalizeCheckout;
             finalizeCheckout({
-                cart_id: cartId,
-                transaction_id: transactionId,
+                cart_id,
+                transaction_id,
             });
         }
+
+        return data?.orders?.length ? data.orders[0].order_id : '';
     };
 
     const handlePayment = async () => {
@@ -225,20 +229,22 @@ const CryptoPaymentButton = ({
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
                                 try {
-                                    completeCheckout(cart.id).then((r) => {
-                                        setSubmitting(false);
+                                    completeCheckout(cart.id).then(
+                                        (order_id) => {
+                                            setSubmitting(false);
 
-                                        //clear cart
-                                        clearCart();
+                                            //clear cart
+                                            clearCart();
 
-                                        //redirect to confirmation page
-                                        const countryCode =
-                                            cart.shipping_address?.country_code?.toLowerCase();
+                                            //redirect to confirmation page
+                                            const countryCode =
+                                                cart.shipping_address?.country_code?.toLowerCase();
 
-                                        router.push(
-                                            `/${countryCode}/order/confirmed/${cart.id}`
-                                        );
-                                    });
+                                            router.push(
+                                                `/${countryCode}/order/confirmed/${order_id}`
+                                            );
+                                        }
+                                    );
                                 } catch (e) {
                                     console.error(e);
                                 }
