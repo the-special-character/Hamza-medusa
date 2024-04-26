@@ -8,12 +8,8 @@ import Image from 'next/image';
 
 const WishlistItem = ({ item, currencyCode }) => {
     const removeWishlistItem = useWishlistStore(
-        (state) => state.actions.removeWishlistItem
+        (state) => state.removeWishlistItem
     );
-
-    const removeFromWishlist = async (item) => {
-        await removeWishlistItem(item);
-    };
 
     return (
         <div className="flex mb-6 last:mb-0">
@@ -38,7 +34,7 @@ const WishlistItem = ({ item, currencyCode }) => {
 
                 <div className="flex flex-col justify-between">
                     <div className="flex justify-end w-full">
-                        <button onClick={() => removeFromWishlist(item)}>
+                        <button onClick={() => removeWishlistItem(item)}>
                             <WishlistIcon fill={true} />
                         </button>
                     </div>
