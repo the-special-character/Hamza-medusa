@@ -115,24 +115,44 @@ class WishlistService extends TransactionBaseService {
         });
     }
 
-    async removeWishItem(id) {
+    async removeWishItem(customer_id, product_id) {
         const wishlistItemRepository =
             this.activeManager_.getRepository(WishlistItem);
         const wishlistRepository = this.activeManager_.getRepository(Wishlist);
         return await this.atomicPhase_(async (transactionManager) => {
-            const [item] = await wishlistItemRepository.find({ where: { id } });
-            const wishlist_id = item.wishlist_id;
+            // Find the wishlist based on the customer_id
+            const wishlist = await wishlistRepository.findOne({
+                where: { customer_id },
+            });
 
-            if (item) {
-                await wishlistItemRepository.remove(item);
+            if (!wishlist) {
+                throw new MedusaError(
+                    MedusaError.Types.NOT_FOUND,
+                    `Wishlist not found for customer with ID ${customer_id}`
+                );
+            }
+            // Find the wishlist item based on the wishlist_id and product_id
+            const item = await wishlistItemRepository.findOne({
+                where: { wishlist_id: wishlist.id, product_id },
+            });
+
+            if (!item) {
+                throw new MedusaError(
+                    MedusaError.Types.NOT_FOUND,
+                    `Item not found in wishlist for customer with ID ${customer_id}`
+                );
             }
 
-            const [wishlist] = await wishlistRepository.find({
-                where: { id: wishlist_id },
+            // Remove the item from the wishlist
+            await wishlistItemRepository.remove(item);
+
+            // Fetch the updated wishlist with items
+            const updatedWishlist = await wishlistRepository.findOne({
+                where: { id: wishlist.id },
                 relations: ['items', 'items.product'],
             });
 
-            return wishlist;
+            return updatedWishlist;
         });
     }
 }
