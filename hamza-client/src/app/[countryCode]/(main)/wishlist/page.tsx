@@ -16,20 +16,6 @@ const Wishlist = () => {
     }));
 
     // We're just testing getting a logged in customers id here for now...
-    useEffect(() => {
-        const getWishlist = async () => {
-            try {
-                const { data } = await axios.get(
-                    `http://localhost:9000/custom/wishlist?customer_id=${customer_id}`
-                );
-                console.log('Wishlist Data:', data);
-            } catch (error) {
-                console.error('Error fetching wishlist:', error);
-            }
-        };
-        console.log('Customer ID:', customer_id);
-        getWishlist();
-    }, [customer_id]);
 
     console.log('wishlist items??', wishlist.items);
 

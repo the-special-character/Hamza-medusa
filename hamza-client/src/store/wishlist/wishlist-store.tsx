@@ -75,24 +75,20 @@ export const Wishlist = ({ productIds, countryCode }: WishlistProps) => {
     const { region } = useRegion(countryCode);
 
     // PULL Wishlist from DB if it exists ELSE create a new wishlist
-    const { customer_id } = useCustomerAuthStore((state) => state.customer_id);
-    // Fetch wishlist from the server when component mounts or customer_id changes
-    const {
-        data: wishlistData,
-        error: wishlistError,
-        isLoading: wishlistLoading,
-    } = useQuery(
-        ['wishlist', customer_id],
-        () => axios.get(`http://localhost:9000/custom/wishlist/${customer_id}`),
-        {
-            enabled: !!customer_id, // Only run the query if customer_id is not null
-        }
-    );
     useEffect(() => {
-        if (wishlistData) {
-            console.log('Wishlist data:', wishlistData.data);
-        }
-    }, [wishlistData]);
+        const getWishlist = async () => {
+            try {
+                const { data } = await axios.get(
+                    `http://localhost:9000/custom/wishlist?customer_id=${customer_id}`
+                );
+                console.log('Wishlist Data:', data);
+            } catch (error) {
+                console.error('Error fetching wishlist:', error);
+            }
+        };
+        console.log('Customer ID:', customer_id);
+        getWishlist();
+    }, [customer_id]);
 
     const addWishlistMutation = useMutation(
         (product_id) =>

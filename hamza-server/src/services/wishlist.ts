@@ -22,15 +22,27 @@ class WishlistService extends TransactionBaseService {
     // transactional work to ensure ALL operations are completed successfully or none are.- GN
     async create(payload: CreateWishlistPayload) {
         return await this.atomicPhase_(async (transactionManager) => {
-            if (!payload.region_id) {
+            if (!payload.customer_id) {
                 throw new MedusaError(
                     MedusaError.Types.INVALID_DATA,
-                    `A region_id must be provided when creating a wishlist`
+                    `A customer_id must be provided when creating a wishlist`
                 );
             }
 
             const wishlistRepository =
                 this.activeManager_.getRepository(Wishlist);
+
+            // Check if a wishlist already exists for the customer_id
+            const existingWishlist = await wishlistRepository.findOne({
+                where: { customer_id: payload.customer_id },
+            });
+
+            if (existingWishlist) {
+                // Wishlist already exists, return it
+                console.log('Wishlist already exists for this customer');
+                return existingWishlist;
+            }
+
             const createdWishlist = wishlistRepository.create(payload);
             const savedWishList =
                 await wishlistRepository.save(createdWishlist);

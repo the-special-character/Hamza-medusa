@@ -26,7 +26,6 @@ POST http://localhost:9000/custom/wishlist
 Content-Type: application/json
 
 {
-  "region_id": "reg_01HW241PHR9AN5HVQE876TNGPS",
   "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7"
 }
 
