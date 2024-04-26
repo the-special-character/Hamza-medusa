@@ -15,7 +15,7 @@ import OptionSelect from '@modules/products/components/option-select';
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist/wishlist';
-import useWishlistStore from '@store/wishlist/wishlist-store';
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -35,6 +35,8 @@ export default function ProductActions({
 }: ProductActionsProps): JSX.Element {
     const [options, setOptions] = useState<Record<string, string>>({});
     const [isAdding, setIsAdding] = useState(false);
+    const { addWishlistItemMutation, removeWishlistItemMutation } =
+        useWishlistMutations();
 
     const countryCode = useParams().countryCode as string;
 
@@ -122,31 +124,10 @@ export default function ProductActions({
         setIsAdding(false);
     };
 
-    //
-    const addWishlistItem = useWishlistStore((state) => state.addWishlistItem);
-    const removeWishlistItem = useWishlistStore(
-        (state) => state.removeWishlistItem
-    );
-
-    const [wishlistDisplay, setWishlistDisplay] = useState(false);
-
     // add product to wishlist
     const toggleWishlist = async () => {
-        try {
-            await addWishlistItem(product);
-        } catch (e) {
-            console.log('Failed to add wishlist item', e);
-        }
+        addWishlistItemMutation.mutate(product);
     };
-
-    // if (!wishlist) {
-    //     await wishlist.actions.addWishlistItem(product.id);
-    //     setWishlistDisplay(true);
-    // } else {
-    //     await wishlist.actions.removeWishlistItem(product.id);
-    //     setWishlistDisplay(false);
-    // }
-    // };
 
     return (
         <>

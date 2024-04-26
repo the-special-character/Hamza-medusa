@@ -5,6 +5,7 @@ import WishlistItem from '@/components/wishlist/WishlistItem';
 import { SimpleGrid } from '@chakra-ui/react';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
 const Wishlist = () => {
     const { wishlist } = useWishlistStore((state) => ({
@@ -15,9 +16,6 @@ const Wishlist = () => {
         customer_id: state.customer_id,
     }));
 
-    // We're just testing getting a logged in customers id here for now...
-
-    // PULL Wishlist from DB if it exists ELSE create a new wishlist
     useEffect(() => {
         const getOrCreateWishlist = async () => {
             try {

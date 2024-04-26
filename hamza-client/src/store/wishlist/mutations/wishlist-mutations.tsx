@@ -1,52 +1,52 @@
-import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import useWishlistStore from '@store/wishlist/wishlist-store';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 
-export const Wishlist = () => {
-    const { addWishlistProduct, removeWishlistProduct, wishlist } =
-        useWishlistStore((state) => ({
+export function useWishlistMutations() {
+    const { addWishlistProduct, removeWishlistProduct } = useWishlistStore(
+        (state) => ({
             addWishlistProduct: state.addWishlistProduct,
             removeWishlistProduct: state.removeWishlistProduct,
-            wishlist: state.wishlist,
-        }));
-    const { customer_id } = useCustomerAuthStore((state) => ({
-        customer_id: state.customer_id,
-    }));
+        })
+    );
+    const { customer_id } = useCustomerAuthStore((state) => state.customer_id);
 
     const addWishlistItemMutation = useMutation(
-        (product_id) =>
+        (product) =>
             axios.post(`localhost:9000/custom/wishlist/item`, {
                 customer_id: customer_id,
-                product_id: product_id,
+                product_id: product.id,
             }),
         {
             onSuccess: (data) => {
                 console.log('Adding Wish list item in DB!');
-                addWishlistProduct(data.data);
+                addWishlistProduct(product);
             },
             onError: (error) => {
-                console.log('Error adding item to wishlist', error);
+                console.error('Error adding item to wishlist', error);
             },
         }
     );
 
-    // now we will refactor removeWishItem to removeWishlistItemMutation
-
     const removeWishlistItemMutation = useMutation(
-        (product_id) =>
+        (product) =>
             axios.delete(`localhost:9000/custom/wishlist/item`, {
-                customer_id: customer_id,
-                product_id: product_id,
+                data: {
+                    customer_id: customer_id,
+                    product_id: product.id,
+                },
             }),
         {
             onSuccess: (data) => {
                 console.log('Removing Wish List item in DB');
-                removeWishlistProduct({ product_id });
+                removeWishlistProduct(product);
             },
             onError: (error) => {
-                console.log('Error removing item from wishlist', error);
+                console.error('Error removing item from wishlist', error);
             },
         }
     );
-};
+
+    return { addWishlistItemMutation, removeWishlistItemMutation };
+}
