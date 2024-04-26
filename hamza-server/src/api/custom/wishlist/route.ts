@@ -32,10 +32,3 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         console.log('ERROR: ', err);
     }
 };
-
-export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
-    const wishlistService: WishlistService =
-        req.scope.resolve('wishlistService');
-    const wishlist = await wishlistService.removeWishItem(req.params.item_id);
-    res.json(wishlist);
-};
