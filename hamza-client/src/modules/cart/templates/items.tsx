@@ -19,7 +19,7 @@ const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
             </div>
             <Table className="p-8">
                 <Table.Header className="w-full text-white">
-                    <Table.Row className="txt-medium-plus">
+                    <Table.Row className="txt-medium-plus bg-black">
                         <Table.HeaderCell className="!pl-0">
                             Item
                         </Table.HeaderCell>
