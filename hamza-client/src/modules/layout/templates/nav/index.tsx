@@ -48,12 +48,6 @@ export default async function Nav() {
                                     Search
                                 </LocalizedClientLink>
                             )}
-                            <LocalizedClientLink
-                                className="hover:text-ui-fg-base font-sora"
-                                href="/account"
-                            >
-                                Account
-                            </LocalizedClientLink>
                         </div>
                         <Suspense
                             fallback={
