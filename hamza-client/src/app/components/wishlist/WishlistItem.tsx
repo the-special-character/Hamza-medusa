@@ -2,12 +2,11 @@
 
 import React from 'react';
 import WishlistIcon from './wishlist';
-import useWishlistStore from '@store/wishlist/wishlist-store';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
-const WishlistItem = ({ item, currencyCode }) => {
+const WishlistItem = ({ item }) => {
     const { removeWishlistItemMutation } = useWishlistMutations();
     const toggleWishlist = async (item) => {
         removeWishlistItemMutation.mutate(item);

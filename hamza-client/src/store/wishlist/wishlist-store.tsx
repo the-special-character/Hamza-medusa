@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import axios from 'axios';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 type WishlistProduct = {
     id: string;
@@ -8,12 +10,13 @@ type WishlistProduct = {
 
 type Wishlist = {
     id?: string;
-    products: WishlistItem[];
+    items: WishlistProduct[];
 };
 
 // TODO: clean up this any cast after mutations work
 type WishlistType = {
     wishlist: Wishlist;
+    loadWishlist: (customer_id: string) => Promise<void>;
     addWishlistProduct: (product: WishlistProduct) => Promise<void>;
     removeWishlistProduct: (product: WishlistProduct) => Promise<void>;
 };
@@ -22,19 +25,19 @@ const useWishlistStore = create<WishlistType>()(
     persist(
         (set, get) => ({
             wishlist: {
-                products: [],
+                items: [],
             },
             addWishlistProduct: async (product) => {
                 const { wishlist } = get(); // Retrieve the current state
-                if (!wishlist || !Array.isArray(wishlist.products)) {
+                if (!wishlist || !Array.isArray(wishlist.items)) {
                     console.error(
                         'Initial state not set or corrupted. Resetting to default.'
                     );
-                    set({ wishlist: { products: [] } }); // Reset state if corrupted
+                    set({ wishlist: { items: [] } }); // Reset state if corrupted
                 }
 
                 // Check if the product is already in the wishlist
-                const productExists = wishlist.products.some(
+                const productExists = wishlist.items.some(
                     (p) => p.product_id === product.product_id
                 );
                 if (productExists) {
@@ -49,7 +52,7 @@ const useWishlistStore = create<WishlistType>()(
                 set((state) => ({
                     wishlist: {
                         ...state.wishlist,
-                        products: [...state.wishlist.products, product],
+                        products: [...state.wishlist.items, product],
                     },
                 }));
             },
@@ -59,16 +62,53 @@ const useWishlistStore = create<WishlistType>()(
                 set((state) => ({
                     wishlist: {
                         ...state.wishlist,
-                        products: state.wishlist.products.filter(
+                        products: state.wishlist.items.filter(
                             (p) => p.id !== product.id
                         ),
                     },
                 }));
             },
+            loadWishlist: async (customer_id) => {
+                if (!customer_id) {
+                    console.error('No customer ID available');
+                    return;
+                }
+                try {
+                    const response = await axios.get(
+                        `http://localhost:9000/custom/wishlist?customer_id=${customer_id}`
+                    );
+                    const items = response.data.items;
+                    if (Array.isArray(items)) {
+                        set({ wishlist: { items } });
+                    } else {
+                        console.error(
+                            'Failed to load wishlist: Invalid data format'
+                        );
+                    }
+                } catch (error) {
+                    console.error('Failed to load wishlist:', error);
+                }
+            },
         }),
         {
             name: 'wishlist-storage',
             storage: createJSONStorage(() => localStorage),
+            // Optional: You can trigger loadWishlist after the store has been rehydrated from localStorage
+            onRehydrateStorage: () => (state, error) => {
+                console.log('Rehydration working');
+                if (error) {
+                    console.error('Failed to rehydrate:', error);
+                    return;
+                }
+                document.addEventListener('customerAuthRehydrated', () => {
+                    const customer_id = JSON.parse(
+                        localStorage.getItem('__hamza_customer')
+                    ).customer_id;
+                    if (customer_id) {
+                        state.loadWishlist(customer_id);
+                    }
+                });
+            },
         }
     )
 );

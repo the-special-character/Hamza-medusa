@@ -71,13 +71,7 @@ const Wishlist = () => {
                             className="text-white"
                         >
                             {wishlist.products.map((item) => (
-                                <WishlistItem
-                                    key={item.id}
-                                    item={item}
-                                    currencyCode={
-                                        wishlist.region?.currency_code || 'usd'
-                                    }
-                                />
+                                <WishlistItem key={item.id} item={item} />
                             ))}
                         </SimpleGrid>
                     ) : (

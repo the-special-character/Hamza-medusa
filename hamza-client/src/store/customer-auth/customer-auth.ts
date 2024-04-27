@@ -17,7 +17,7 @@ type Actions = {
     }: {
         wallet_address: string | null;
         token: string | null;
-        customer_id: string | null;
+        customer_id: string;
     }) => void;
     setStatus: (status: AuthenticationStatus) => void;
 };
