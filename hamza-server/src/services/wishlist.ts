@@ -3,6 +3,7 @@ import { MedusaError } from 'medusa-core-utils';
 import { Lifetime } from 'awilix';
 import { WishlistItem } from '../models/wishlist-item';
 import { Wishlist } from '../models/wishlist';
+import { Region } from '@medusajs/medusa';
 
 interface CreateWishlistPayload {
     region_id: string;
@@ -20,21 +21,29 @@ class WishlistService extends TransactionBaseService {
     // TODO: Running this multiple times should NOT create multiple wishlists, look into how to prevent this && how atomicPhase_ works
     // XGH NOTE: atomicPhase_ handles dB transactions in a safe and isolated way, method is designed to encapsulate the block of
     // transactional work to ensure ALL operations are completed successfully or none are.- GN
-    async create(payload: CreateWishlistPayload) {
+    async create(customer_id) {
         return await this.atomicPhase_(async (transactionManager) => {
-            if (!payload.customer_id) {
+            if (!customer_id) {
                 throw new MedusaError(
                     MedusaError.Types.INVALID_DATA,
                     `A customer_id must be provided when creating a wishlist`
                 );
             }
 
+            const regionRepository = this.activeManager_.getRepository(Region);
+            const region = await regionRepository.findOne({
+                where: { name: 'NA' },
+            });
+
             const wishlistRepository =
                 this.activeManager_.getRepository(Wishlist);
 
             // Check if a wishlist already exists for the customer_id
             const existingWishlist = await wishlistRepository.findOne({
-                where: { customer_id: payload.customer_id },
+                where: {
+                    customer_id: customer_id,
+                    region_id: region.id,
+                },
             });
 
             if (existingWishlist) {
@@ -42,6 +51,11 @@ class WishlistService extends TransactionBaseService {
                 console.log('Wishlist already exists for this customer');
                 return existingWishlist;
             }
+
+            const payload = {
+                region_id: region.id,
+                customer_id,
+            };
 
             const createdWishlist = wishlistRepository.create(payload);
             const savedWishList =
