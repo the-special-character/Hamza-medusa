@@ -131,7 +131,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
             setCustomerAuthData({
                 token: null,
                 wallet_address: null,
-                customer_id: null,
+                customer_id: '',
             });
             return;
         },

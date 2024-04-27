@@ -5,9 +5,13 @@ import WishlistIcon from './wishlist';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 
 const WishlistItem = ({ item }) => {
     const { removeWishlistItemMutation } = useWishlistMutations();
+    const { removeWishlistProduct } = useWishlistStore((state) => ({
+        removeWishlistProduct: state.removeWishlistProduct,
+    }));
     const toggleWishlist = async () => {
         console.log('item.product', item);
         removeWishlistItemMutation.mutate(item);

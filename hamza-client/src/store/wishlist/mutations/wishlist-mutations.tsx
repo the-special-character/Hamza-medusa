@@ -42,8 +42,8 @@ export function useWishlistMutations() {
             }),
         {
             onSuccess: (data, product) => {
-                console.log('Removing Wish List item in DB');
-                removeWishlistProduct(product);
+                console.log('Removing Wish List item in DB', product.id);
+                removeWishlistProduct(product.id);
             },
             onError: (error) => {
                 console.error('Error removing item from wishlist', error);
