@@ -29,7 +29,10 @@ const WishlistItem = ({ item }) => {
                 />
             </div>
             <div className="flex text-sm flex-grow py-2 justify-between space-x-8">
-                <LocalizedClientLink href={item?.handle} className="w-full">
+                <LocalizedClientLink
+                    href={`/products/${item?.handle}`}
+                    className="w-full"
+                >
                     <div className="flex flex-col justify-between w-full hover:text-green-400">
                         <div className="flex flex-col">
                             <p className="font-semibold mb-4">{item?.title}</p>

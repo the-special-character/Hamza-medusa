@@ -86,7 +86,7 @@ const WishlistPopover = () => {
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 translate-y-1"
                 >
-                    <div className="origin-top-right absolute right-0 mt-2 w-96 px-6 py-4 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="origin-top-right absolute right-0 mt-2 w-96 px-6 py-4 rounded-md shadow-lg bg-black text-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1">
                             {wishlist.items?.length < 1 ? (
                                 <div className="flex justify-center">
@@ -109,9 +109,11 @@ const WishlistPopover = () => {
                                         </div>
                                     ))}
                                     <div className="flex flex-col mt-4">
-                                        <button className="text-ui-dark py-2 text-sm w-full border px-3 py-1.5 rounded hover:text-black hover:bg-gray-100">
-                                            View Wish List
-                                        </button>
+                                        <LocalizedClientLink href="/wishlist">
+                                            <button className="text-ui-dark py-2 text-sm w-full border px-3 py-1.5 rounded hover:text-black hover:bg-gray-100">
+                                                View Wish List
+                                            </button>
+                                        </LocalizedClientLink>
                                     </div>
                                 </>
                             )}

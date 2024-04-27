@@ -36,7 +36,6 @@ const RecommendedItems = () => {
                 marginRight={{ lg: 4 }}
                 flex="1"
                 width="70%"
-                bg="#2C272D"
             >
                 <Flex
                     justifyItems={'center'}
