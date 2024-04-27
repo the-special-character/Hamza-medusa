@@ -66,11 +66,11 @@ const WishlistPopover = () => {
             onMouseEnter={openAndCancel}
             onMouseLeave={close}
         >
-            <Popover className="relative h-full">
+            <Popover className="relative h-full bg-black">
                 <Popover.Button className="h-full">
                     <LocalizedClientLink href="/wishlist">
-                        <div className="inline-flex items-center justify-center w-full rounded p-2 text-sm hover:opacity-1/2">
-                            <WishlistIcon {...iconStyle} />
+                        <div className="inline-flex items-center justify-center w-full rounded p-2 text-xs hover:opacity-1/2">
+                            {/*<WishlistIcon {...iconStyle} />*/}
                             <span>Wish List</span>
                         </div>
                     </LocalizedClientLink>
