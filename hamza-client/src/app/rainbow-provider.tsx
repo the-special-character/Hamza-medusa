@@ -19,7 +19,6 @@ import { SiweMessage } from 'siwe';
 import { getCustomer, getToken } from '@lib/data';
 import { revalidateTag } from 'next/cache';
 import { signOut } from '@modules/account/actions';
-import { cookies } from 'next/headers';
 import { useUserAuthStore } from '@store/user-auth';
 
 const MEDUSA_SERVER_URL =
