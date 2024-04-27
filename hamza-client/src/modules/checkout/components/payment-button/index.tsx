@@ -253,7 +253,6 @@ const CryptoPaymentButton = ({
                                 try {
                                     completeCheckout(cart.id).then(
                                         (order_id) => {
-                                            setSubmitting(false);
 
                                             //clear cart
                                             clearCart();
