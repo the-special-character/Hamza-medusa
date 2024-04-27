@@ -107,7 +107,11 @@ export const config: MiddlewaresConfig = {
             matcher: '/admin/*',
             middlewares: [
                 cors({
-                    origin: ['http://localhost:7001', 'http://localhost:7000'],
+                    origin: [
+                        'http://localhost:7001',
+                        'http://localhost:7000',
+                        STORE_CORS,
+                    ],
                     credentials: true,
                 }),
                 [permissions],

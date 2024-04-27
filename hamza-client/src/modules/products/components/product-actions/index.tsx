@@ -14,6 +14,8 @@ import OptionSelect from '@modules/products/components/option-select';
 
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
+import WishlistIcon from '@/components/wishlist/wishlist';
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -33,6 +35,8 @@ export default function ProductActions({
 }: ProductActionsProps): JSX.Element {
     const [options, setOptions] = useState<Record<string, string>>({});
     const [isAdding, setIsAdding] = useState(false);
+    const { addWishlistItemMutation, removeWishlistItemMutation } =
+        useWishlistMutations();
 
     const countryCode = useParams().countryCode as string;
 
@@ -120,6 +124,11 @@ export default function ProductActions({
         setIsAdding(false);
     };
 
+    // add product to wishlist
+    const toggleWishlist = async () => {
+        addWishlistItemMutation.mutate(product);
+    };
+
     return (
         <>
             <div
@@ -145,13 +154,11 @@ export default function ProductActions({
                         </div>
                     )}
                 </div>
-
                 <ProductPrice
                     product={product}
                     variant={variant}
                     region={region}
                 />
-
                 <Button
                     onClick={handleAddToCart}
                     disabled={!inStock || !variant}
@@ -164,6 +171,21 @@ export default function ProductActions({
                         : !inStock
                           ? 'Out of stock'
                           : 'Add to cart'}
+                </Button>
+                {/* TODO: wishlist add ternary for fill IF item already in wishlist maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
+                <Button
+                    className="w-full h-10 text-white"
+                    variant="secondary"
+                    onClick={toggleWishlist}
+                >
+                    <WishlistIcon
+                        fill={false}
+                        props={{
+                            className: 'wishlist-icon',
+                            'aria-label': 'wishlist',
+                        }}
+                    />
+                    Add to Wishlist
                 </Button>
                 <MobileActions
                     product={product}

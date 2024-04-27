@@ -19,3 +19,42 @@ GET http://localhost:9000/store/custom/products?store_name=Goblin Store
 Content-Type: application/json
 
 ###
+
+
+### Create a Wishlist
+POST http://localhost:9000/custom/wishlist
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7"
+}
+
+###
+
+### Retrieve a Wishlist
+GET http://localhost:9000/custom/wishlist
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7"
+}
+
+###
+
+### Add Wishlist item by Customer_id && Product_id
+POST localhost:9000/custom/wishlist/item
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7",
+  "product_id": "prod_01HW241PXAB61RVRDBJZT7Q706"
+}
+
+### Delete Wishlist item by Customer_id && Product_id
+DELETE localhost:9000/custom/wishlist/item
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7",
+  "product_id": "prod_01HW241PKFDCDGP55DKH0A5A85"
+}
