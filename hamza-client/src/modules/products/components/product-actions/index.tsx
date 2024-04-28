@@ -175,7 +175,7 @@ export default function ProductActions({
                 {/* TODO: wishlist add ternary for fill IF item already in wishlist maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
                 <Button
                     className="w-full h-10 text-white"
-                    variant="secondary"
+                    variant="primary"
                     onClick={toggleWishlist}
                 >
                     <WishlistIcon
