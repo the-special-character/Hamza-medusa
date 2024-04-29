@@ -40,7 +40,14 @@ export const WalletConnectButton = () => {
                                         onClick={openConnectModal}
                                         type="button"
                                     >
-                                        Connect Wallet
+                                        <span
+                                            style={{
+                                                fontSize: '14px',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
+                                            Connect Wallet
+                                        </span>
                                     </button>
                                 );
                             }
@@ -49,9 +56,7 @@ export const WalletConnectButton = () => {
                                     <button
                                         onClick={openChainModal}
                                         type="button"
-                                    >
-                                        Wrong network
-                                    </button>
+                                    ></button>
                                 );
                             }
                             return (

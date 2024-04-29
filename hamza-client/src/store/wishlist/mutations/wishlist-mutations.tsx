@@ -16,10 +16,13 @@ export function useWishlistMutations() {
 
     const addWishlistItemMutation = useMutation(
         (product) =>
-            axios.post(`http://localhost:9000/custom/wishlist/item`, {
-                customer_id: customer_id, // Ensure customer_id is handled when null
-                product_id: product.id,
-            }),
+            axios.post(
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/wishlist/item`,
+                {
+                    customer_id: customer_id, // Ensure customer_id is handled when null
+                    product_id: product.id,
+                }
+            ),
         {
             onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
@@ -34,12 +37,15 @@ export function useWishlistMutations() {
 
     const removeWishlistItemMutation = useMutation(
         (product) =>
-            axios.delete(`http://localhost:9000/custom/wishlist/item`, {
-                data: {
-                    customer_id: customer_id, // Ensure customer_id is handled when null
-                    product_id: product.id,
-                },
-            }),
+            axios.delete(
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/wishlist/item`,
+                {
+                    data: {
+                        customer_id: customer_id, // Ensure customer_id is handled when null
+                        product_id: product.id,
+                    },
+                }
+            ),
         {
             onSuccess: (data, product) => {
                 console.log('Removing Wish List item in DB', product.id);

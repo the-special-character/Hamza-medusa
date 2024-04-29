@@ -45,7 +45,14 @@ export default async function Nav() {
                                     href="/search"
                                     scroll={false}
                                 >
-                                    Search
+                                    <span
+                                        style={{
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        Search
+                                    </span>
                                 </LocalizedClientLink>
                             )}
                         </div>
@@ -67,7 +74,14 @@ export default async function Nav() {
                                     className="hover:text-ui-fg-base font-sora"
                                     href="/cart"
                                 >
-                                    Cart (0)
+                                    <span
+                                        style={{
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        Cart (0)
+                                    </span>
                                 </LocalizedClientLink>
                             }
                         >

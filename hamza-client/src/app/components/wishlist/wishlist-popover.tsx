@@ -71,7 +71,12 @@ const WishlistPopover = () => {
                     <LocalizedClientLink href="/wishlist">
                         <div className="inline-flex items-center justify-center w-full rounded p-2 text-xs hover:opacity-1/2">
                             {/*<WishlistIcon {...iconStyle} />*/}
-                            <span>Wish List</span>
+
+                            <span
+                                style={{ fontSize: '14px', fontWeight: 'bold' }}
+                            >
+                                Wish List
+                            </span>
                         </div>
                     </LocalizedClientLink>
                 </Popover.Button>
