@@ -10,70 +10,76 @@ import Image from 'next/image';
 import logo from '../../../../../public/nav/hamza_logo.png';
 import SearchModal from '@modules/search/templates/search-modal';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
+import { WalletConnectButton } from '@/components/connect-button/connect-button';
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
 
     return (
-        <>
-            <div className="sticky top-0 inset-x-0 z-50 group">
-                <header className="relative h-16 mx-auto border-b duration-200 bg-white dark:bg-black border-ui-border-base">
-                    <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
-                        <div className="flex-1 basis-0 h-full flex items-center">
-                            <div className="font-sora h-full">
-                                <SideMenu regions={regions} />
-                            </div>
+        <div className="sticky top-0 inset-x-0 z-50 group">
+            <header className="relative h-16 mx-auto border-b duration-200 bg-white dark:bg-black border-ui-border-base">
+                <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
+                    <div className="flex items-center h-full">
+                        <LocalizedClientLink
+                            href="/"
+                            className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+                        >
+                            {/*<Image*/}
+                            {/*    src={logo}*/}
+                            {/*    width={50.41}*/}
+                            {/*    height={57.27}*/}
+                            {/*    alt="Hamza Logo"*/}
+                            {/*/>*/}
+                        </LocalizedClientLink>
+                    </div>
+                    <div className="flex-1 basis-0 h-full flex items-center">
+                        <div className="font-sora h-full">
+                            <SideMenu regions={regions} />
                         </div>
+                    </div>
 
-                        {/*Add ETH CURRENCY*/}
-                        <div className="flex items-center h-full">
-                            <LocalizedClientLink
-                                href="/"
-                                className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
-                            >
-                                <Image
-                                    src={logo}
-                                    width={207.41}
-                                    height={57.27}
-                                    alt="Hamza Logo"
-                                />
-                            </LocalizedClientLink>
+                    {/*Add ETH CURRENCY*/}
+
+                    <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+                        <div className="hidden small:flex items-center gap-x-6 h-full">
+                            {process.env.FEATURE_SEARCH_ENABLED && (
+                                <SearchModalWrapper />
+                            )}
                         </div>
-
-                        <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-                            <div className="hidden small:flex items-center gap-x-6 h-full">
-                                {process.env.FEATURE_SEARCH_ENABLED && (
-                                    <SearchModalWrapper />
-                                )}
-                            </div>
-                            <Suspense
-                                fallback={
-                                    <LocalizedClientLink
-                                        className="hover:text-ui-fg-base font-sora"
-                                        href="/wishlist"
-                                    >
-                                        Wishlist (0)
-                                    </LocalizedClientLink>
-                                }
-                            >
-                                <WishListPopover />
-                            </Suspense>
-                            <Suspense
-                                fallback={
-                                    <LocalizedClientLink
-                                        className="hover:text-ui-fg-base font-sora"
-                                        href="/cart"
+                        <Suspense
+                            fallback={
+                                <LocalizedClientLink
+                                    className="hover:text-ui-fg-base font-sora"
+                                    href="/wishlist"
+                                >
+                                    Wishlist
+                                </LocalizedClientLink>
+                            }
+                        >
+                            <WishListPopover />
+                        </Suspense>
+                        <Suspense
+                            fallback={
+                                <LocalizedClientLink
+                                    className="hover:text-ui-fg-base font-sora"
+                                    href="/cart"
+                                >
+                                    <span
+                                        style={{
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                        }}
                                     >
                                         Cart (0)
-                                    </LocalizedClientLink>
-                                }
-                            >
-                                <CartButton />
-                                <ConnectButton />
-                            </Suspense>
-                        </div>
-                    </nav>
-                </header>
-            </div>
-        </>
+                                    </span>
+                                </LocalizedClientLink>
+                            }
+                        >
+                            <CartButton />
+                            <WalletConnectButton />
+                        </Suspense>
+                    </div>
+                </nav>
+            </header>
+        </div>
     );
 }

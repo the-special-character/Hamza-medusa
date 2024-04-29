@@ -197,6 +197,10 @@ export async function completeCart(cartId: string) {
         .catch((err) => medusaError(err));
 }
 
+export async function clearCart() {
+    cookies().delete('_medusa_cart_id');
+}
+
 // Order actions
 export async function retrieveOrder(id: string) {
     const headers = getMedusaHeaders(['order']);

@@ -44,18 +44,19 @@ const Hero = () => {
             <Box
                 p={5}
                 mx={12}
-                borderRadius="2xl"
+                borderRadius="xl"
                 boxShadow="lg"
+                bgGradient="linear(to-l, #53594A 70%, #2C272D 100%)" // This creates a gradient from right to left
                 marginLeft={{ lg: 4 }}
                 marginRight={{ lg: 4 }}
                 flex="1"
-                bg="#2C272D"
+                // bg="#2C272D"
                 display="flex"
             >
                 <Box
                     p={5}
                     m={6}
-                    borderRadius="2xl"
+                    borderRadius="xl"
                     minHeight="600px"
                     alignItems="center"
                     justifyContent="center"
@@ -106,7 +107,7 @@ const Hero = () => {
                                 size="lg"
                                 bg="transparent"
                                 color="white"
-                                borderRadius="full"
+                                borderRadius="xl"
                                 onClick={(event) => {
                                     // event.preventDefault();
                                     connect();
@@ -118,14 +119,14 @@ const Hero = () => {
                                 <FaArrowRight />
                             </Button>
                         </Box>
-                        <Box flex="1" className="hidden lg:flex">
-                            <Image
-                                width={307}
-                                height={479}
-                                src={vr} // Adjust path accordingly
-                                alt="Image description"
-                            />
-                        </Box>
+                        {/*<Box flex="1" className="hidden lg:flex">*/}
+                        {/*    <Image*/}
+                        {/*        width={307}*/}
+                        {/*        height={479}*/}
+                        {/*        src={vr} // Adjust path accordingly*/}
+                        {/*        alt="Image description"*/}
+                        {/*    />*/}
+                        {/*</Box>*/}
                     </Flex>
                 </Box>
             </Box>

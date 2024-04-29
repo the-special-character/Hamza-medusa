@@ -60,9 +60,11 @@ yarn dev
 
 **8. Run the Client**
 
+** In a new Terminal: **
+
 ```
-./import-currencies.sh #only needs to be done once, until node_modules is cleaned
 cd ./hamza-client
+./scripts/import-currencies.sh #only needs to be done once, until node_modules is cleaned
 yarn dev
 ```
 
@@ -109,26 +111,6 @@ yarn softclean
 **Find all running containers** 3. docker ps
 
 **Show container logs** 4. docker logs <container-name>
-
-### Meilisearch
-
-I have added Meilisearch to the docker-compose.yml, so it should just be the same command
-**(recommended)**
-
-1. docker-compose up -d
-2. Obtain API Key w/ curl request: (Master_Key is in the docker-compose.yml MeiliSearch section)
-   `curl -X GET 'http://localhost:7700/keys' \
--H 'Authorization: Bearer MASTER_KEY'`
-   **This has also been added to the POSTMAN collection as a GET request, so you can use that as well.**
-3. Add the Default Admin API Key to the .env `MEILISEARCH_API_KEY=Default_Admin_API_Key```
-4. http://localhost:7700 Now the Meiliesearch should be working
-5. Copy & Paste the last three env variables from .env.local.example to the .env.local file
-6. Add `Default_Admin_API_Key` to .env.local
-
-**However if you want to download it locally;**
-
-1. curl -L https://install.meilisearch.com | sh
-2. ./meilisearch --master-key=key
 
 ## Notes
 

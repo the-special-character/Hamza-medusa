@@ -121,7 +121,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 },
             };
 
-            console.log(response);
             return response;
         } catch (e) {
             const response: CartCompletionResponse = {
@@ -149,12 +148,22 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const itemsFromStore = cart.items.filter(
             (i) =>
                 i.variant?.product?.store?.id === storeId &&
-                i.variant?.prices[0].currency_code === currencyCode //TODO: how to get price?
+                i.variant?.prices[
+                    Math.floor(i.unit_price / 10) % 2 == 0
+                        ? 0
+                        : i.variant?.prices.length - 1
+                ].currency_code === currencyCode //TODO: how to get price?
         );
 
         //get total amount for the items
         const amount = itemsFromStore.reduce(
-            (a, c) => a + c.variant?.prices[0].amount, //TODO: how to get price?
+            (a, i) =>
+                a +
+                i.variant?.prices[
+                    Math.floor(i.unit_price / 10) % 2 == 0
+                        ? 0
+                        : i.variant?.prices.length - 1
+                ].amount, //TODO: how to get price?
             0
         );
 
@@ -169,7 +178,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             },
         };
 
-        console.log('payment: ', output);
         return output;
     }
 
@@ -180,7 +188,12 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         if (cart && cart.items) {
             cart.items.forEach((i) => {
                 //create key from unique store/currency pair
-                const currency: string = i.variant?.prices[0].currency_code; //TODO: how to get price?
+                const currency: string =
+                    i.variant?.prices[
+                        Math.floor(i.unit_price / 10) % 2 == 0
+                            ? 0
+                            : i.variant?.prices.length - 1
+                    ].currency_code; //TODO: how to get price?
                 const store: string = i.variant?.product?.store?.id;
                 const key = `${store}_${currency}`;
 
@@ -194,7 +207,13 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     };
                 }
                 groups[key].items.push(i.id);
-                groups[key].total += BigInt(i.variant.prices[0].amount); //TODO: how to get price?
+                groups[key].total += BigInt(
+                    i.variant.prices[
+                        Math.floor(i.unit_price / 10) % 2 == 0
+                            ? 0
+                            : i.variant?.prices.length - 1
+                    ].amount
+                ); //TODO: how to get price?
             });
         }
 

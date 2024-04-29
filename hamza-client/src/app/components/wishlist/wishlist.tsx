@@ -4,8 +4,8 @@ const WishlistIcon = ({ props, fill }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="1.5rem"
-            height="1.5rem"
+            width="1rem"
+            height="1rem"
             viewBox="0 0 256 256"
             {...props}
         >

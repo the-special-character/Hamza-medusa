@@ -17,6 +17,13 @@ import ProductCollections from '@modules/collections/product_collection_filter';
 const RecommendedItems = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
 
+    // Dynamic button color change
+    const VENDOR_NAMES = {
+        quality: 'Quality Store',
+        goblin: 'Goblin Store',
+        headphones: 'Headphones Store',
+    } as const;
+
     return (
         <Flex className="font-sora" maxW="100%" bg="black" p={5}>
             <Box
@@ -29,7 +36,6 @@ const RecommendedItems = () => {
                 marginRight={{ lg: 4 }}
                 flex="1"
                 width="70%"
-                bg="#2C272D"
             >
                 <Flex
                     justifyItems={'center'}
@@ -149,7 +155,7 @@ const RecommendedItems = () => {
                 />
                 <SimpleGrid
                     spacing={10}
-                    columns={{ base: 1, md: 2, xl: 5 }} // Adjusted to your requirements
+                    columns={{ base: 1, md: 2, xl: 3 }} // Adjusted to your requirements
                     justifyContent="space-around"
                     justifyItems="center"
                     mx={12}
@@ -157,10 +163,19 @@ const RecommendedItems = () => {
                 >
                     <Button
                         fontWeight="italic"
-                        bg="white"
+                        bg={
+                            VENDOR_NAMES.goblin === vendorName
+                                ? 'white'
+                                : 'black'
+                        }
+                        color={
+                            VENDOR_NAMES.goblin === vendorName
+                                ? 'black'
+                                : 'white'
+                        }
                         size="lg"
+                        name={'Goblin Store'}
                         width="250px"
-                        color="black"
                         borderRadius="full"
                         onClick={() => {
                             setVendorName('Goblin Store');
@@ -178,10 +193,19 @@ const RecommendedItems = () => {
 
                     <Button
                         fontWeight="italic"
-                        bg="black"
+                        bg={
+                            VENDOR_NAMES.quality === vendorName
+                                ? 'white'
+                                : 'black'
+                        }
+                        color={
+                            VENDOR_NAMES.quality === vendorName
+                                ? 'black'
+                                : 'white'
+                        }
                         size="lg"
+                        name={'Quality Store'}
                         width="250px"
-                        color="white"
                         borderRadius="full"
                         onClick={() => {
                             setVendorName('Quality Store');
@@ -198,10 +222,19 @@ const RecommendedItems = () => {
                     </Button>
                     <Button
                         fontWeight="italic"
-                        bg="black"
+                        name="Headphones Store"
+                        bg={
+                            VENDOR_NAMES.headphones === vendorName
+                                ? 'white'
+                                : 'black'
+                        }
+                        color={
+                            VENDOR_NAMES.headphones === vendorName
+                                ? 'black'
+                                : 'white'
+                        }
                         size="lg"
                         width="250px"
-                        color="white"
                         borderRadius="full"
                         onClick={() => {
                             setVendorName('Headphones Store');
@@ -215,40 +248,40 @@ const RecommendedItems = () => {
                         />
                         Headphone Vendor
                     </Button>
-                    <Button
-                        fontWeight="italic"
-                        bg="black"
-                        width="250px"
-                        size="lg"
-                        color="white"
-                        borderRadius="full"
-                    >
-                        <Image
-                            className="mr-2"
-                            src={laptop}
-                            alt={'Img of a laptop'}
-                            width={22}
-                            height={22}
-                        />
-                        Electronics
-                    </Button>
-                    <Button
-                        fontWeight="italic"
-                        bg="black"
-                        width="250px"
-                        size="lg"
-                        color="white"
-                        borderRadius="full"
-                    >
-                        <Image
-                            className="mr-2"
-                            src={collections}
-                            alt={'Img of a collections'}
-                            width={22}
-                            height={22}
-                        />
-                        Collectible
-                    </Button>
+                    {/*<Button*/}
+                    {/*    fontWeight="italic"*/}
+                    {/*    bg="black"*/}
+                    {/*    width="250px"*/}
+                    {/*    size="lg"*/}
+                    {/*    color="white"*/}
+                    {/*    borderRadius="full"*/}
+                    {/*>*/}
+                    {/*    <Image*/}
+                    {/*        className="mr-2"*/}
+                    {/*        src={laptop}*/}
+                    {/*        alt={'Img of a laptop'}*/}
+                    {/*        width={22}*/}
+                    {/*        height={22}*/}
+                    {/*    />*/}
+                    {/*    Electronics*/}
+                    {/*</Button>*/}
+                    {/*<Button*/}
+                    {/*    fontWeight="italic"*/}
+                    {/*    bg="black"*/}
+                    {/*    width="250px"*/}
+                    {/*    size="lg"*/}
+                    {/*    color="white"*/}
+                    {/*    borderRadius="full"*/}
+                    {/*>*/}
+                    {/*    <Image*/}
+                    {/*        className="mr-2"*/}
+                    {/*        src={collections}*/}
+                    {/*        alt={'Img of a collections'}*/}
+                    {/*        width={22}*/}
+                    {/*        height={22}*/}
+                    {/*    />*/}
+                    {/*    Collectible*/}
+                    {/*</Button>*/}
                 </SimpleGrid>
                 <ProductCollections vendorName={vendorName} />
             </Box>

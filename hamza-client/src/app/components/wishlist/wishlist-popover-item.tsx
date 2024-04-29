@@ -1,14 +1,6 @@
 import React from 'react';
-import { useRegion } from 'medusa-react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
-import { useRegions } from 'medusa-react';
-
-// const { regions, isLoading } = useRegions()
-//         {regions?.length && (
-//                 {regions.map((region) => (
-//                     <li key={region.id}>
-//                         {region.name}
 
 const WishlistPopoverItem = ({ item }) => {
     console.log('Wishlist popover item', item.handle);
