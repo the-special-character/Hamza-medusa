@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
@@ -8,6 +8,8 @@ import WishListPopover from '@/components/wishlist/wishlist-popover';
 import SideMenu from '@modules/layout/components/side-menu';
 import Image from 'next/image';
 import logo from '../../../../../public/nav/hamza_logo.png';
+import SearchModal from '@modules/search/templates/search-modal';
+import SearchModalWrapper from '@modules/search/templates/search-wrapper';
 import { WalletConnectButton } from '@/components/connect-button/connect-button';
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
@@ -40,20 +42,7 @@ export default async function Nav() {
                     <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
                         <div className="hidden small:flex items-center gap-x-6 h-full">
                             {process.env.FEATURE_SEARCH_ENABLED && (
-                                <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href="/search"
-                                    scroll={false}
-                                >
-                                    <span
-                                        style={{
-                                            fontSize: '14px',
-                                            fontWeight: 'bold',
-                                        }}
-                                    >
-                                        Search
-                                    </span>
-                                </LocalizedClientLink>
+                                <SearchModalWrapper />
                             )}
                         </div>
                         <Suspense
