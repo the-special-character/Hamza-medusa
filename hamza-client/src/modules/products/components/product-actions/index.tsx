@@ -14,7 +14,7 @@ import OptionSelect from '@modules/products/components/option-select';
 
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
-import WishlistIcon from '@/components/wishlist/wishlist';
+import WishlistIcon from '@/components/wishlist/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
 type ProductActionsProps = {
@@ -126,6 +126,7 @@ export default function ProductActions({
 
     // add product to wishlist
     const toggleWishlist = async () => {
+        console.log('toggle wishlist item', product);
         addWishlistItemMutation.mutate(product);
     };
 

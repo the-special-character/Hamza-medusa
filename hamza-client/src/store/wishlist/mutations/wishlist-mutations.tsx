@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import useWishlistStore from '@store/wishlist/wishlist-store';
+import { ProductType } from '@store/wishlist/types/wishlist-types';
 
 export function useWishlistMutations() {
     const { addWishlistProduct, removeWishlistProduct } = useWishlistStore(
@@ -15,7 +16,7 @@ export function useWishlistMutations() {
     const customer_id = customerState?.customer_id;
 
     const addWishlistItemMutation = useMutation(
-        (product) =>
+        (product: ProductType) =>
             axios.post(`http://localhost:9000/custom/wishlist/item`, {
                 customer_id: customer_id, // Ensure customer_id is handled when null
                 product_id: product.id,
@@ -33,7 +34,7 @@ export function useWishlistMutations() {
     );
 
     const removeWishlistItemMutation = useMutation(
-        (product) =>
+        (product: ProductType) =>
             axios.delete(`http://localhost:9000/custom/wishlist/item`, {
                 data: {
                     customer_id: customer_id, // Ensure customer_id is handled when null

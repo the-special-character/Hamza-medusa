@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import wishlist from '@/components/wishlist/wishlist';
+import wishlist from '@/components/wishlist/wishlist-icon';
 
 type WishlistProduct = {
     id: string;

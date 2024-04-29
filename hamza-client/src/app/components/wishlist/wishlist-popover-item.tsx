@@ -1,10 +1,10 @@
 import React from 'react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
-import { WishlistItem } from '@store/wishlist/types/wishlist-types';
+import { WishlistType } from '@store/wishlist/types/wishlist-types';
 
 interface WishlistPopoverItemProps {
-    item: WishlistItem;
+    item: WishlistType;
 }
 
 const WishlistPopoverItem: React.FC<WishlistPopoverItemProps> = ({ item }) => {

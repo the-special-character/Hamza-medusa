@@ -2,17 +2,21 @@
 
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import WishlistIcon from '@/components/wishlist/wishlist';
 import WishlistPopoverItem from './wishlist-popover-item';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 import { Popover, Transition } from '@headlessui/react';
+import { WishlistType } from '@store/wishlist/types/wishlist-types';
 
-const WishlistPopover = () => {
+interface WishlistPopoverItemProps {
+    item: WishlistType;
+}
+
+const WishlistPopover: React.FC<WishlistPopoverItemProps> = ({ item }) => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
     const totalItems =
-        wishlist?.items?.reduce((acc, item) => {
+        wishlist?.product?.items?.reduce((acc, item) => {
             return acc + item.quantity;
         }, 0) || 0;
     const itemRef = useRef<number>(totalItems || 0);

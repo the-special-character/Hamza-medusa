@@ -1,15 +1,13 @@
-interface Product {
+export interface ProductType {
     id: string;
     title: string;
     handle: string;
     thumbnail: string;
 }
 
-export interface WishlistItem {
+export interface WishlistType {
     id: string;
-    created_at: string;
-    updated_at: string;
     wishlist_id: string;
     product_id: string;
-    product: Product;
+    product: ProductType;
 }
