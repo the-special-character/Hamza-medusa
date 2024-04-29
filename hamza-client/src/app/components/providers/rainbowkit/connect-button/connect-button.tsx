@@ -39,6 +39,17 @@ export const WalletConnectButton = () => {
                                     <button
                                         onClick={openConnectModal}
                                         type="button"
+                                        style={{
+                                            padding: '5px 10px',
+                                            border: '2px solid white',
+                                            backgroundColor: 'transparent',
+                                            color: 'white',
+                                            cursor: 'pointer',
+                                            borderRadius: '4px',
+                                            fontWeight: 'bold',
+                                            outline: 'none',
+                                            transition: 'all 0.3s ease',
+                                        }}
                                     >
                                         Connect Wallet
                                     </button>
@@ -67,7 +78,6 @@ export const WalletConnectButton = () => {
                                         type="button"
                                         style={{
                                             background: 'none',
-                                            border: 'none',
                                             cursor: 'pointer',
                                         }}
                                     >

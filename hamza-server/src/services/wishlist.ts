@@ -38,7 +38,7 @@ class WishlistService extends TransactionBaseService {
             const wishlistRepository =
                 this.activeManager_.getRepository(Wishlist);
 
-            // Check if a wishlist already exists for the customer_id
+            // Check if a wishlist-dropdown already exists for the customer_id
             const existingWishlist = await wishlistRepository.findOne({
                 where: {
                     customer_id: customer_id,
@@ -93,7 +93,7 @@ class WishlistService extends TransactionBaseService {
             this.activeManager_.getRepository(WishlistItem);
         const wishlistRepository = this.activeManager_.getRepository(Wishlist);
         return await this.atomicPhase_(async (transactionManager) => {
-            // Find the wishlist based on the customer_id
+            // Find the wishlist-dropdown based on the customer_id
             const wishlist = await wishlistRepository.findOne({
                 where: { customer_id },
             });
@@ -105,13 +105,13 @@ class WishlistService extends TransactionBaseService {
                 );
             }
 
-            // Check if the item already exists in the wishlist
+            // Check if the item already exists in the wishlist-dropdown
             const [item] = await wishlistItemRepository.find({
                 where: { wishlist_id: wishlist.id, product_id },
             });
 
             if (!item) {
-                // Create a new wishlist item if it doesn't already exist
+                // Create a new wishlist-dropdown item if it doesn't already exist
                 const createdItem = wishlistItemRepository.create({
                     wishlist_id: wishlist.id,
                     product_id,
@@ -119,7 +119,7 @@ class WishlistService extends TransactionBaseService {
                 await wishlistItemRepository.save(createdItem);
             }
 
-            // Fetch the updated wishlist with items
+            // Fetch the updated wishlist-dropdown with items
             const updatedWishlist = await wishlistRepository.findOne({
                 where: { id: wishlist.id },
                 relations: ['items', 'items.product'],
@@ -134,7 +134,7 @@ class WishlistService extends TransactionBaseService {
             this.activeManager_.getRepository(WishlistItem);
         const wishlistRepository = this.activeManager_.getRepository(Wishlist);
         return await this.atomicPhase_(async (transactionManager) => {
-            // Find the wishlist based on the customer_id
+            // Find the wishlist-dropdown based on the customer_id
             const wishlist = await wishlistRepository.findOne({
                 where: { customer_id },
             });
@@ -145,7 +145,7 @@ class WishlistService extends TransactionBaseService {
                     `Wishlist not found for customer with ID ${customer_id}`
                 );
             }
-            // Find the wishlist item based on the wishlist_id and product_id
+            // Find the wishlist-dropdown item based on the wishlist_id and product_id
             const item = await wishlistItemRepository.findOne({
                 where: { wishlist_id: wishlist.id, product_id },
             });
@@ -157,10 +157,10 @@ class WishlistService extends TransactionBaseService {
                 );
             }
 
-            // Remove the item from the wishlist
+            // Remove the item from the wishlist-dropdown
             await wishlistItemRepository.remove(item);
 
-            // Fetch the updated wishlist with items
+            // Fetch the updated wishlist-dropdown with items
             const updatedWishlist = await wishlistRepository.findOne({
                 where: { id: wishlist.id },
                 relations: ['items', 'items.product'],

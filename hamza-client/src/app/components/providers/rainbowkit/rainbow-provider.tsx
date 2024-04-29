@@ -12,7 +12,7 @@ import {
     chains,
     config,
     darkThemeConfig,
-} from '@/components/RainbowkitUtils/rainbow-utils';
+} from '@/components/providers/rainbowkit/rainbowkit-utils/rainbow-utils';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 const queryClient = new QueryClient();
 import { SiweMessage } from 'siwe';
@@ -26,6 +26,7 @@ const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`;
 const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
+
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
     const { setCustomerAuthData, token, wallet_address, status, setStatus } =
         useCustomerAuthStore();
