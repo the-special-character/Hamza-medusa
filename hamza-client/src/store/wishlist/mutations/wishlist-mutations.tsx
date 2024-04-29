@@ -2,9 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import useWishlistStore from '@store/wishlist/wishlist-store';
-import { ProductType } from '@store/wishlist/types/wishlist-types';
 
-// TODO: If Customer_ID === null, prompt user to login?
 export function useWishlistMutations() {
     const { addWishlistProduct, removeWishlistProduct } = useWishlistStore(
         (state) => state
@@ -33,10 +31,11 @@ export function useWishlistMutations() {
         {
             onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
+                console.log('FAILING TO ADD ', product);
                 addWishlistProduct(product);
             },
             onError: (error) => {
-                console.error('Error adding item to wishlist-dropdown', error);
+                console.error('Error adding item to wishlist', error);
             },
         }
     );

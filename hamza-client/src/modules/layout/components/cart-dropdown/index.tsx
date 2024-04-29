@@ -81,7 +81,11 @@ const CartDropdown = ({
                     <LocalizedClientLink
                         className="hover:text-ui-fg-base"
                         href="/cart"
-                    >{`Cart (${totalItems})`}</LocalizedClientLink>
+                    >
+                        <span
+                            style={{ fontSize: '14px', fontWeight: 'bold' }}
+                        >{`Cart (${totalItems})`}</span>
+                    </LocalizedClientLink>
                 </Popover.Button>
                 <Transition
                     show={cartDropdownOpen}
