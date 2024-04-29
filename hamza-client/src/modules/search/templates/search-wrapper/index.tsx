@@ -21,7 +21,7 @@ export default function SearchModalWrapper() {
             <Input
                 type="search"
                 placeholder="Search  "
-                className="!bg-white"
+                className="!bg-black !text-white"
                 onClick={() => {
                     setSearchOpened(true);
                 }}
