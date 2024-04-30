@@ -58,3 +58,12 @@ Content-Type: application/json
   "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7",
   "product_id": "prod_01HW241PKFDCDGP55DKH0A5A85"
 }
+
+### MeiliSearch Search
+GET http://localhost:7700/indexes?limit=3
+Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
+
+
+### MeilieSearch Delete All by uid
+DELETE http://localhost:7700/indexes/products/documents
+Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj

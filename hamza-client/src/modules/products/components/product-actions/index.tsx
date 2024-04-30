@@ -14,7 +14,7 @@ import OptionSelect from '@modules/products/components/option-select';
 
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
-import WishlistIcon from '@/components/wishlist/wishlist';
+import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 
 type ProductActionsProps = {
@@ -124,8 +124,9 @@ export default function ProductActions({
         setIsAdding(false);
     };
 
-    // add product to wishlist
+    // add product to wishlist-dropdown
     const toggleWishlist = async () => {
+        console.log('toggle wishlist-dropdown item', product);
         addWishlistItemMutation.mutate(product);
     };
 
@@ -172,7 +173,7 @@ export default function ProductActions({
                           ? 'Out of stock'
                           : 'Add to cart'}
                 </Button>
-                {/* TODO: wishlist add ternary for fill IF item already in wishlist maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
+                {/* TODO: wishlist-dropdown add ternary for fill IF item already in wishlist-dropdown maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
                 <Button
                     className="w-full h-10 text-white"
                     variant="primary"
@@ -181,7 +182,7 @@ export default function ProductActions({
                     <WishlistIcon
                         fill={false}
                         props={{
-                            className: 'wishlist-icon',
+                            className: 'wishlist-dropdown-icon',
                             'aria-label': 'wishlist',
                         }}
                     />
