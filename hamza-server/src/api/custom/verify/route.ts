@@ -1,11 +1,12 @@
 import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import { SiweMessage } from 'siwe';
+import CustomerService from 'src/services/customer';
 // Using Auth from SIWE example: https://github.com/spruceid/siwe-quickstart/blob/main/02_backend/src/index.js
 
 // TODO: So once the user has been verified, we can use the CustomerService.create() method to create/login the user.
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
-    const customerService = req.scope.resolve('customerService');
+    const customerService: CustomerService = req.scope.resolve('customerService');
     const { message, signature } = req.body;
     const wallet_address = message.address;
 
@@ -33,6 +34,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 
         let body = {
             customer_id: customer.id,
+            preferred_currency: customer.preferred_currency,
             bool_resp: true,
         };
         res.send(body);

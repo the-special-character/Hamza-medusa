@@ -21,9 +21,10 @@ export class Customer extends MedusaCustomer {
     preferred_currency_id?: string
 
     @BeforeInsert()
-    private assignRandomCurrency() {
+    private assignRandomCurrency(): void {
         const currencies = ['eth', 'usdt', 'usdc'];
-        // Randomly pick a currency ID
         this.preferred_currency_id = currencies[Math.floor(Math.random() * currencies.length)];
     }
+
+
 }

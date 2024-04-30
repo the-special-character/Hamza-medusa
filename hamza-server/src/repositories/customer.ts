@@ -14,8 +14,12 @@ export const CustomerRepository = dataSource
     async findByWalletAddress(wallet_address: string) {
       return this.findOne({
         where: { wallet_address },
+        relations: {
+          preferred_currency: true
+        }
       })
     },
   })
+
 
 export default CustomerRepository
