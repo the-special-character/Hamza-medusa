@@ -5,12 +5,13 @@ import {
     OrderStatus,
     PaymentStatus,
 } from '@medusajs/medusa';
-import OrderRepository from '@medusajs/medusa/dist/repositories/order';
+import OrderRepository from '../repositories/order'
 import PaymentRepository from '../repositories/payment';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
-import { UpdateResult } from 'typeorm';
+import { UpdateResult, In } from 'typeorm';
+import { AnyARecord } from 'dns';
 
 export default class OrderService extends MedusaOrderService {
     static LIFE_TIME = Lifetime.SINGLETON; // default, but just to show how to change it
@@ -69,6 +70,20 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
+    async updateOrder(orderId: string, update: Partial<Order>): Promise<Order> {
+        console.log('Received update for order:', orderId, update);
+        const result = await this.orderRepository_.save({ id: orderId, ...update });
+        console.log('Update result:', result);
+        return result;
+    }
+
+    async updatePayment(paymentId: string, update: Partial<Payment>): Promise<Payment> {
+        console.log('Received update for payment:', paymentId, update);
+        const result = await this.paymentRepository_.save({ id: paymentId, ...update });
+        console.log('Update result:', result);
+        return result;
+    }
+
     async finalizeCheckout(
         cart_id: string,
         transaction_id: string,
@@ -78,35 +93,40 @@ export default class OrderService extends MedusaOrderService {
     ): Promise<Order[]> {
         //get orders
         const orders: Order[] = await this.orderRepository_.find({
-            where: { cart_id: cart_id },
+            where: {cart_id},
         });
-
         //get payments
+        const orderIds = orders.map((order) => order.id);
+        // TODO: Payments are not setting cart_id, so they must be found by order_id instead
         const payments: Payment[] = await this.paymentRepository_.find({
-           where: { cart_id: cart_id },
+            where: { order_id: In(orderIds) },
         });
-        console.log('----------------------------------------------------')
-        console.log("payments: ", payments)
-        console.log('----------------------------------------------------')
 
-        const promises: Promise<UpdateResult>[] = [];
+
+        const promises: Promise<Order | Payment>[] = [];
 
         //update orders with transaction info
         orders.forEach((o, i) => {
-            o.transaction_id = transaction_id;
-            promises.push(this.orderRepository_.update(o.id, o));
+            console.log(o);
+            promises.push(this.updateOrder(o.id, { transaction_id }));
         });
 
         //update payments with transaction info
         payments.forEach((p, i) => {
-            p.transaction_id = transaction_id;
-            p.receiver_address = receiver_address;
-            p.payer_address = payer_address;
-            p.escrow_contract_address = escrow_contract_address;
-            promises.push(this.paymentRepository_.update(p.id, p));
+            console.log(p);
+            promises.push(this.updatePayment(p.id, {
+                transaction_id,
+                receiver_address,
+                payer_address,
+                escrow_contract_address,
+            }));
         });
 
-        await Promise.all(promises);
+        try{
+            await Promise.all(promises);
+        } catch(e){
+            console.log(`Error updating orders/payments: ${e}`);
+        }
 
         return orders;
     }

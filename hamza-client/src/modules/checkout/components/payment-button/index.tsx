@@ -139,12 +139,12 @@ const CryptoPaymentButton = ({
             const output: ITransactionOutput =
                 await switchClient.placeMultiplePayments(switchInput);
 
-            console.log(output);
+                
             return {
                 transaction_id: output.transaction_id,
-                payer_address: '',
-                receiver_address: '',
-                escrow_contract_address: '',
+                payer_address: output.receipt.from,
+                receiver_address: 'tbd',
+                escrow_contract_address: output.receipt.to,
             };
         } catch (e) {
             console.error('error has occured during transaction', e);
@@ -251,6 +251,7 @@ const CryptoPaymentButton = ({
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
                                 try {
+                                    console.log('cart', cart.id);
                                     completeCheckout(cart.id).then(
                                         (order_id) => {
 
