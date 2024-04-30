@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+
 export function useWishlistMutations() {
     const { addWishlistProduct, removeWishlistProduct } = useWishlistStore(
         (state) => state
@@ -23,7 +25,7 @@ export function useWishlistMutations() {
                 product.id
             );
             // Return the axios post call from the mutation function
-            return axios.post(`http://localhost:9000/custom/wishlist/item`, {
+            return axios.post(`${BACKEND_URL}/custom/wishlist/item`, {
                 customer_id: customer_id, // Ensure customer_id is handled when null
                 product_id: product.id,
             });
@@ -49,7 +51,7 @@ export function useWishlistMutations() {
                 product.id
             );
             // Return the axios delete call from the mutation function
-            return axios.delete(`http://localhost:9000/custom/wishlist/item`, {
+            return axios.delete(`${BACKEND_URL}/custom/wishlist/item`, {
                 data: {
                     customer_id: customer_id, // Ensure customer_id is handled when null
                     product_id: product.id,

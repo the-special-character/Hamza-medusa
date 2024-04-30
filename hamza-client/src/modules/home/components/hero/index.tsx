@@ -3,7 +3,7 @@
 import { Box, Flex, Button, Text, useBreakpointValue } from '@chakra-ui/react';
 import { FaArrowRight } from 'react-icons/fa6';
 import Image from 'next/image';
-import vr from '../../../../../public/hero/vr.png';
+import vr from '../../../../../public/images/hero/vr.png';
 import { useState, useEffect } from 'react';
 import { getCustomer } from '@lib/data';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';

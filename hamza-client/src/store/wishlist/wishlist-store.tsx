@@ -22,6 +22,9 @@ type WishlistType = {
     removeWishlistProduct: (product: WishlistProduct) => Promise<void>;
 };
 
+const BACKEND_URL =
+    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+
 const useWishlistStore = create<WishlistType>()(
     persist(
         (set, get) => ({
@@ -69,7 +72,7 @@ const useWishlistStore = create<WishlistType>()(
                 console.log('Loading wishlist-dropdown');
                 try {
                     const response = await axios.get(
-                        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/wishlist?customer_id=${customer_id}`
+                        `${BACKEND_URL}/custom/wishlist?customer_id=${customer_id}`
                     );
                     const items = response.data.items;
                     const products = items.map((item) => item.product);
