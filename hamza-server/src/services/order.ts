@@ -6,7 +6,7 @@ import {
     PaymentStatus,
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
-import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import PaymentRepository from '../repositories/payment';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
@@ -21,7 +21,7 @@ export default class OrderService extends MedusaOrderService {
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
-        //this.paymentRepository_ = container.paymentRepository_;
+        this.paymentRepository_ = container.paymentRepository;
     }
 
     async createFromPayment(
@@ -82,26 +82,29 @@ export default class OrderService extends MedusaOrderService {
         });
 
         //get payments
-        //const payments: Payment[] = await this.paymentRepository_.find({
-        //    where: { cart_id: cart_id },
-        //});
+        const payments: Payment[] = await this.paymentRepository_.find({
+           where: { cart_id: cart_id },
+        });
+        console.log('----------------------------------------------------')
+        console.log("payments: ", payments)
+        console.log('----------------------------------------------------')
 
         const promises: Promise<UpdateResult>[] = [];
 
         //update orders with transaction info
         orders.forEach((o, i) => {
             o.transaction_id = transaction_id;
-            //promises.push(this.orderRepository_.update(o.id, o));
+            promises.push(this.orderRepository_.update(o.id, o));
         });
 
         //update payments with transaction info
-        /*payments.forEach((p, i) => {
+        payments.forEach((p, i) => {
             p.transaction_id = transaction_id;
             p.receiver_address = receiver_address;
             p.payer_address = payer_address;
             p.escrow_contract_address = escrow_contract_address;
             promises.push(this.paymentRepository_.update(p.id, p));
-        });*/
+        });
 
         await Promise.all(promises);
 
