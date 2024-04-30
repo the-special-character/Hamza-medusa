@@ -18,13 +18,12 @@ import sortProducts from '@lib/util/sort-products';
 import transformProductPreview from '@lib/util/transform-product-preview';
 import { SortOptions } from '@modules/store/components/refinement-list/sort-products';
 import { ProductCategoryWithChildren, ProductPreviewType } from 'types/global';
-
 import { medusaClient } from '../config';
 import medusaError from '@lib/util/medusa-error';
-import { cookies } from 'next/headers';
 
-// Authentication actions
-// TODO: Modified to use StorePostAuthReqCustom instead of StorePostAuthReq (DONE?)
+//TODO: is the following commented out code needed? (JK)
+// We need this or it changes the whole architecture
+import { cookies } from 'next/headers';
 
 declare class StorePostAuthReqCustom {
     email: string;
@@ -50,6 +49,8 @@ const getMedusaHeaders = (tags: string[] = []) => {
         },
     } as Record<string, any>;
 
+    //TODO: is the following commented out code needed? (JK)
+    // Not a good idea to reset
     const token = cookies().get('_medusa_jwt')?.value;
 
     if (token) {
@@ -196,6 +197,10 @@ export async function completeCart(cartId: string) {
         .catch((err) => medusaError(err));
 }
 
+export async function clearCart() {
+    cookies().delete('_medusa_cart_id');
+}
+
 // Order actions
 export async function retrieveOrder(id: string) {
     const headers = getMedusaHeaders(['order']);
@@ -259,7 +264,7 @@ export async function getToken(credentials: StorePostAuthReqCustom) {
             },
         })
         .then(({ access_token }) => {
-            access_token && cookies().set('_medusa_jwt', access_token);
+            //TODO: is the following commented out code needed? (JK)access_token && cookies().set('_medusa_jwt', access_token);
             return access_token;
         })
         .catch((err) => {

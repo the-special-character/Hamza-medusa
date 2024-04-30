@@ -19,26 +19,32 @@ import { SiweMessage } from 'siwe';
 import { getCustomer, getToken } from '@lib/data';
 import { revalidateTag } from 'next/cache';
 import { signOut } from '@modules/account/actions';
+import { cookies } from 'next/headers';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`;
 const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
-    const [status, setStatus] =
-        useState<AuthenticationStatus>('unauthenticated');
+    const { setCustomerAuthData, token, wallet_address, status, setStatus } =
+        useCustomerAuthStore();
 
     useEffect(() => {
-        getCustomer()
-            .then((customer) => {
-                setStatus(
-                    customer?.has_account ? 'authenticated' : 'unauthenticated'
-                );
-            })
-            .catch(() => {
-                console.log('rainbow-provider: customer not found');
-            });
-    }, []);
+        // getCustomer()
+        //     .then((customer) => {
+        //         setStatus(
+        //             customer?.has_account ? 'authenticated' : 'unauthenticated'
+        //         );
+        //     })
+        //     .catch(() => {
+        //         console.log('rainbow-provider: customer not found');
+        //     });
+
+        token && wallet_address && setStatus('authenticated');
+        (!token || !wallet_address) && setStatus('unauthenticated');
+        console.log('status is ', status);
+    }, [token, wallet_address]);
 
     const walletSignature = createAuthenticationAdapter({
         getNonce: async () => {
@@ -74,38 +80,60 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         },
 
         verify: async ({ message, signature }) => {
-            console.log(
-                'Verifying message with signature:',
-                message,
-                signature
-            );
-            const verifyRes = await fetch(VERIFY_MSG, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message, signature }),
-            }).catch((error) =>
-                console.error('Error verifying message:', error)
-            ); // Error handling for verify fetch
+            try {
+                console.log(
+                    'Verifying message with signature:',
+                    message,
+                    signature
+                );
+                const response = await fetch(VERIFY_MSG, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, signature }),
+                });
 
-            console.log('Verification response:', verifyRes);
-            const authenticationStatus = Boolean(verifyRes)
-                ? 'authenticated'
-                : 'unauthenticated';
-            console.log(`Verification status: ${authenticationStatus}`);
-            setStatus(authenticationStatus);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-            await getToken({
-                wallet_address: message.address,
-                email: '',
-                password: '',
-            }).then(() => {
-                revalidateTag('customer');
-            });
-            return Boolean(verifyRes);
+                const verifyRes = await response.json(); // Parsing JSON from the response
+                console.log('Verification response:', verifyRes);
+
+                // Checking the boolean response to determine the authentication status
+                const authenticationStatus = verifyRes.bool_resp
+                    ? 'authenticated'
+                    : 'unauthenticated';
+                console.log(`Verification status: ${authenticationStatus}`);
+                setStatus(authenticationStatus);
+
+                if (verifyRes.bool_resp) {
+                    await getToken({
+                        wallet_address: message.address,
+                        email: '',
+                        password: '',
+                    }).then((token) => {
+                        setCustomerAuthData({
+                            token,
+                            wallet_address: message.address,
+                            customer_id: verifyRes.customer_id,
+                        });
+                    });
+                }
+                return verifyRes.bool_resp;
+            } catch (e) {
+                console.error('Error in signing in:', e);
+                return false;
+            }
         },
 
         signOut: async () => {
-            await signOut();
+            setStatus('authenticated');
+            setCustomerAuthData({
+                token: null,
+                wallet_address: null,
+                customer_id: '',
+            });
+            return;
         },
     });
 

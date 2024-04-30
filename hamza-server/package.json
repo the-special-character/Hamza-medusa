@@ -15,9 +15,9 @@
   
   "scripts": {
     "clean": "cross-env ./node_modules/.bin/rimraf dist",
-    "normalclean": "./scripts/clean.sh",
-    "softclean": "./scripts/softclean.sh",
-    "deepclean": "./scripts/deepclean.sh",
+    "normalclean": "chmod +x ./scripts/clean.sh && ./scripts/clean.sh",
+    "softclean": "chmod +x ./scripts/softclean.sh && ./scripts/softclean.sh",
+    "deepclean": "chmod +x ./scripts/deepclean.sh && ./scripts/deepclean.sh",
     "import-currencies": "./scripts/import-currencies.sh",
     "build": "cross-env npm run clean && npm run build:server && npm run build:admin",
     "build:server": "cross-env npm run clean && tsc -p tsconfig.server.json",
@@ -26,12 +26,14 @@
     "test": "cross-env jest",
     "setup-0": "./scripts/setup-0.sh",
     "setup-1": "./scripts/setup-1.sh",
-    "seed-0": "cross-env medusa seed -f data/seed-0.json",
-    "seed-1": "cross-env medusa seed -f data/seed-1.json",
+    "migrate": "chmod +x ./scripts/create-migration.sh && ./scripts/create-migration.sh",
+    "seed": "cross-env medusa seed -f data/seed.json",
     "start": "cross-env npm run build && medusa start",
+    "nuke": "docker-compose down --volumes --rmi all",
+    "up": "docker-compose up -d",
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
     "dev": "cross-env npm run build:server && medusa develop",
-    "reset-dev-server": "docker compose down && docker volume ls -q | xargs docker volume rm && docker compose up -d && yarn build && medusa migrations run && yarn seed-0 && yarn dev"
+    "ageddon": "chmod +x ./scripts/armageddon.sh && ./scripts/armageddon.sh"
   },
   "_comment": "addition to the script to remove images: //&& docker rmi $(docker images -q)",
   "dependencies": {
@@ -54,6 +56,7 @@
     "medusa-interfaces": "^1.3.8",
     "medusa-payment-manual": "^1.0.24",
     "medusa-payment-stripe": "^6.0.7",
+    "medusa-plugin-meilisearch": "^2.0.10",
     "prism-react-renderer": "^2.0.4",
     "siwe": "^2.1.4",
     "typeorm": "^0.3.16"

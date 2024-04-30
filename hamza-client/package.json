@@ -13,7 +13,10 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "cypress": "cypress open",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "normalclean": "chmod +x ./scripts/clean.sh && ./scripts/clean.sh",
+    "softclean": "chmod +x ./scripts/clean.sh && ./scripts/softclean.sh",
+    "deepclean": "chmod +x ./scripts/clean.sh && ./scripts/deepclean.sh"
   },
   "resolutions": {
     "webpack": "^5",
@@ -40,7 +43,7 @@
     "@tanstack/react-query": "4.22",
     "algoliasearch": "^4.20.0",
     "axios": "^1.6.7",
-    "ethers": "^6.11.0",
+    "ethers": "^6.12.0",
     "framer-motion": "^11.0.8",
     "lodash": "^4.17.21",
     "medusa-react": "9.0.0",
@@ -58,7 +61,8 @@
     "tailwindcss-radix": "^2.8.0",
     "viem": "^1.21.4",
     "wagmi": "^1.4.13",
-    "webpack": "^5"
+    "webpack": "^5",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",

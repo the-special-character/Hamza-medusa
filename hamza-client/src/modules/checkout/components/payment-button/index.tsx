@@ -2,22 +2,34 @@
 
 import { Cart, PaymentSession } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
-import { OnApproveActions, OnApproveData } from '@paypal/paypal-js';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { placeOrder } from '@modules/checkout/actions';
 import React, { useState, useEffect } from 'react';
 import ErrorMessage from '../error-message';
-import Spinner from '@modules/common/icons/spinner';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { ITransactionOutput, SwitchClient } from 'web3/switch-client';
+import { ITransactionOutput, IMultiPaymentInput } from 'web3';
+import { MasterSwitchClient } from 'web3/master-switch-client';
 import { ethers } from 'ethers';
+import { useCompleteCart, useUpdateCart } from 'medusa-react';
+import { useRouter } from 'next/navigation';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { clearCart } from '@lib/data';
+
+const MEDUSA_SERVER_URL =
+    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
 };
+
+// Extend the Window interface
+declare global {
+    interface Window {
+        ethereum: ethers.Eip1193Provider;
+    }
+}
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const notReady =
@@ -32,219 +44,21 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const paymentSession = cart.payment_session as PaymentSession;
 
     switch (paymentSession.provider_id) {
-        case 'stripe':
-            return (
-                <StripePaymentButton
-                    notReady={notReady}
-                    cart={cart}
-                    transaction_id={''}
-                />
-            );
         case 'manual':
-            return (
-                <ManualTestPaymentButton
-                    notReady={notReady}
-                    transaction_id={''}
-                />
-            );
-        //case 'paypal':
-        //    return <PayPalPaymentButton notReady={notReady} cart={cart} />
+            return <ManualTestPaymentButton notReady={notReady} />;
         case 'crypto':
             return <CryptoPaymentButton notReady={notReady} cart={cart} />;
         default:
-            return (
-                <ManualTestPaymentButton
-                    notReady={notReady}
-                    transaction_id={''}
-                />
-            );
-        //return <Button disabled>Select a payment method</Button>
+            return <ManualTestPaymentButton notReady={notReady} />;
     }
 };
 
-const StripePaymentButton = ({
-    cart,
-    notReady,
-    transaction_id,
-}: {
-    cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
-    notReady: boolean;
-    transaction_id: string;
-}) => {
-    const [submitting, setSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const onPaymentCompleted = async (transaction_id: string) => {
-        await placeOrder(transaction_id).catch(() => {
-            setErrorMessage('An error occurred, please try again.');
-            setSubmitting(false);
-        });
-    };
-
-    const stripe = useStripe();
-    const elements = useElements();
-    const card = elements?.getElement('card');
-
-    const session = cart.payment_session as PaymentSession;
-
-    const disabled = !stripe || !elements ? true : false;
-
-    const wrappedClickClosure = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.preventDefault();
-        handlePayment(transaction_id);
-    };
-
-    const handlePayment = async (transaction_id: string) => {
-        setSubmitting(true);
-
-        if (!stripe || !elements || !card || !cart) {
-            setSubmitting(false);
-            return;
-        }
-
-        await stripe
-            .confirmCardPayment(session.data.client_secret as string, {
-                payment_method: {
-                    card: card,
-                    billing_details: {
-                        name:
-                            cart.billing_address.first_name +
-                            ' ' +
-                            cart.billing_address.last_name,
-                        address: {
-                            city: cart.billing_address.city ?? undefined,
-                            country:
-                                cart.billing_address.country_code ?? undefined,
-                            line1: cart.billing_address.address_1 ?? undefined,
-                            line2: cart.billing_address.address_2 ?? undefined,
-                            postal_code:
-                                cart.billing_address.postal_code ?? undefined,
-                            state: cart.billing_address.province ?? undefined,
-                        },
-                        email: cart.email,
-                        phone: cart.billing_address.phone ?? undefined,
-                    },
-                },
-            })
-            .then(({ error, paymentIntent }) => {
-                if (error) {
-                    const pi = error.payment_intent;
-
-                    if (
-                        (pi && pi.status === 'requires_capture') ||
-                        (pi && pi.status === 'succeeded')
-                    ) {
-                        onPaymentCompleted(transaction_id);
-                    }
-
-                    setErrorMessage(error.message || null);
-                    return;
-                }
-
-                if (
-                    (paymentIntent &&
-                        paymentIntent.status === 'requires_capture') ||
-                    paymentIntent.status === 'succeeded'
-                ) {
-                    return onPaymentCompleted(transaction_id);
-                }
-
-                return;
-            });
-    };
-
-    return (
-        <>
-            <Button
-                disabled={disabled || notReady}
-                onClick={wrappedClickClosure}
-                size="large"
-                isLoading={submitting}
-            >
-                Place order
-            </Button>
-            <ErrorMessage error={errorMessage} />
-        </>
-    );
-};
-
-const PayPalPaymentButton = ({
-    cart,
-    notReady,
-    transaction_id,
-}: {
-    cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
-    notReady: boolean;
-    transaction_id: string;
-}) => {
+const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onPaymentCompleted = async () => {
-        await placeOrder(transaction_id).catch(() => {
-            setErrorMessage('An error occurred, please try again.');
-            setSubmitting(false);
-        });
-    };
-
-    const session = cart.payment_session as PaymentSession;
-
-    const handlePayment = async (
-        _data: OnApproveData,
-        actions: OnApproveActions
-    ) => {
-        actions?.order
-            ?.authorize()
-            .then((authorization) => {
-                if (authorization.status !== 'COMPLETED') {
-                    setErrorMessage(
-                        `An error occurred, status: ${authorization.status}`
-                    );
-                    return;
-                }
-                onPaymentCompleted();
-            })
-            .catch(() => {
-                setErrorMessage(`An unknown error occurred, please try again.`);
-                setSubmitting(false);
-            });
-    };
-
-    const [{ isPending, isResolved }] = usePayPalScriptReducer();
-
-    if (isPending) {
-        return <Spinner />;
-    }
-
-    if (isResolved) {
-        return (
-            <>
-                <PayPalButtons
-                    style={{ layout: 'horizontal' }}
-                    createOrder={async () => session.data.id as string}
-                    onApprove={handlePayment}
-                    disabled={notReady || submitting || isPending}
-                />
-                <ErrorMessage error={errorMessage} />
-            </>
-        );
-    }
-};
-
-const ManualTestPaymentButton = ({
-    notReady,
-    transaction_id,
-}: {
-    notReady: boolean;
-    transaction_id: string;
-}) => {
-    const [submitting, setSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const onPaymentCompleted = async () => {
-        await placeOrder(transaction_id).catch((err) => {
+        await placeOrder().catch((err) => {
             setErrorMessage(err.toString());
             setSubmitting(false);
         });
@@ -252,7 +66,6 @@ const ManualTestPaymentButton = ({
 
     const handlePayment = () => {
         setSubmitting(true);
-
         onPaymentCompleted();
     };
 
@@ -271,13 +84,6 @@ const ManualTestPaymentButton = ({
     );
 };
 
-// Extend the Window interface
-declare global {
-    interface Window {
-        ethereum: ethers.Eip1193Provider;
-    }
-}
-
 // TODO: (For G) Typescriptify this function with verbose error handling
 const CryptoPaymentButton = ({
     cart,
@@ -288,19 +94,15 @@ const CryptoPaymentButton = ({
 }) => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+    const completeCart = useCompleteCart(cart.id);
+    const updateCart = useUpdateCart(cart.id);
     const { openConnectModal } = useConnectModal();
     const { connector: activeConnector, isConnected } = useAccount();
+    const router = useRouter();
     const { connect, connectors, error, isLoading, pendingConnector } =
         useConnect({
             connector: new InjectedConnector(),
         });
-
-    // Check if a wallet is connected, console log results
-    console.log('isConnected: ', isConnected);
-
-    // connector: activeConnector extracts connector object from useAccount hook (provides active wallet connection data)
-    console.log('activeConnector: ', activeConnector);
 
     // useEffect hook to check if connection status changes
     // if !isConnected, connect to wallet
@@ -310,64 +112,170 @@ const CryptoPaymentButton = ({
         }
     }, [openConnectModal, isConnected]);
 
-    //RETURNS TRANSACTION ID
-    const makePayment = async (receiver: string) => {
+    //return transaction id
+    const doWalletPayment = async (data: any) => {
         try {
-            const session = cart.payment_session as PaymentSession;
+            //get provider and such
             const provider = new ethers.BrowserProvider(
                 window.ethereum,
                 11155111
             ); //TODO: get chain dynamically
-            const signer = await provider.getSigner();
+            const signer: ethers.Signer = await provider.getSigner();
 
-            console.log('payer: ', signer.address);
-            console.log('receiver: ', receiver);
-
-            const switchClient: SwitchClient = new SwitchClient(
+            //create the contract client
+            const switchClient: MasterSwitchClient = new MasterSwitchClient(
                 provider,
                 signer,
-                '0xA5ffa0a980127493Fe770BE6fC5f6BB395321312'
-            ); //TODO: get contract address dynamically
+                '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A' //TODO: get contract address dynamically
+            );
+
+            //create the inputs
+            const switchInput: IMultiPaymentInput[] = await createSwitchInput(
+                data,
+                await signer.getAddress()
+            );
+
+            console.log(switchInput);
             const output: ITransactionOutput =
-                await switchClient.placeSinglePayment({
-                    amount: session.amount,
-                    id: Math.floor(Math.random() * 9999) + 1,
-                    payer: signer.address ?? '',
-                    receiver: receiver,
-                });
+                await switchClient.placeMultiplePayments(switchInput);
 
             console.log(output);
-            console.log('TX ID: ', output.transaction_id);
-            return output.transaction_id;
+            return {
+                transaction_id: output.transaction_id,
+                payer_address: '',
+                receiver_address: '',
+                escrow_contract_address: '',
+            };
         } catch (e) {
-            console.error(e);
+            console.error('error has occured during transaction', e);
         }
 
-        return '';
+        return {};
     };
 
-    const onPaymentCompleted = async (transactionId: string) => {
-        await placeOrder(transactionId).catch(() => {
-            setErrorMessage('An error occurred, please try again.');
-            setSubmitting(false);
-        });
+    const retrieveCheckoutData = async (cart_id: string) => {
+        const response = await axios.get(
+            `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cart_id}`
+        );
+        return response.status == 200 && response.data ? response.data : {};
     };
 
-    const session = cart.payment_session as PaymentSession;
+    const createSwitchInput = async (data: any, payer: string) => {
+        if (data.orders) {
+            const switchInput: IMultiPaymentInput[] = [];
+            data.orders.forEach((o: any) => {
+                const input: IMultiPaymentInput = {
+                    currency: o.currency_code,
+                    receiver: o.wallet_address,
+                    payments: [
+                        {
+                            id: ethers.toBigInt(
+                                ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
+                            ),
+                            payer: payer,
+                            amount: o.amount,
+                            currency: o.currency_code,
+                            receiver: o.wallet_address,
+                        },
+                    ],
+                };
+                switchInput.push(input);
+            });
+
+            return switchInput;
+        }
+        return [];
+    };
+
+    const useFinalizeCheckout = useMutation(
+        (data: {
+            cart_id: string;
+            transaction_id: string;
+            payer_address: string;
+            receiver_address: string;
+            escrow_contract_address: string;
+        }) =>
+            axios.post(`${MEDUSA_SERVER_URL}/custom/checkout`, {
+                cart_id: data.cart_id,
+                transaction_id: data.transaction_id,
+                payer_address: data.payer_address,
+                receiver_address: data.receiver_address,
+                escrow_contract_address: data.escrow_contract_address,
+            }),
+        {
+            onSuccess: (data) => {
+                return true;
+            },
+            onError: (error) => {
+                return false;
+            },
+        }
+    );
+
+    const completeCheckout = async (cart_id: string) => {
+        const data = await retrieveCheckoutData(cart_id);
+        const {
+            transaction_id,
+            payer_address,
+            receiver_address,
+            escrow_contract_address,
+        } = await doWalletPayment(data);
+
+        if (transaction_id?.length) {
+            //final step in process
+            const { mutate: finalizeCheckout } = useFinalizeCheckout;
+            finalizeCheckout({
+                cart_id,
+                transaction_id,
+                payer_address,
+                receiver_address,
+                escrow_contract_address,
+            });
+        }
+
+        return data?.orders?.length ? data.orders[0].order_id : '';
+    };
 
     const handlePayment = async () => {
         try {
-            setSubmitting(true);
-
             //here connect wallet and sign in, if not connected
             connect();
-            //get the transaction id from payment
-            const transactionId: string = await makePayment(
-                session.data.wallet_address.toString()
+
+            setSubmitting(true);
+
+            updateCart.mutate(
+                { context: {} },
+                {
+                    onSuccess: ({}) => {
+                        completeCart.mutate(void 0, {
+                            onSuccess: ({ data, type }) => {
+                                //TODO: data is undefined
+                                try {
+                                    completeCheckout(cart.id).then(
+                                        (order_id) => {
+
+                                            //clear cart
+                                            clearCart();
+
+                                            //redirect to confirmation page
+                                            const countryCode =
+                                                cart.shipping_address?.country_code?.toLowerCase();
+
+                                            router.push(
+                                                `/${countryCode}/order/confirmed/${order_id}`
+                                            );
+                                        }
+                                    );
+                                } catch (e) {
+                                    console.error(e);
+                                }
+                            },
+                        });
+                    },
+                }
             );
 
-            //pass the transaction id back to the provider
-            if (transactionId?.length) onPaymentCompleted(transactionId);
+            return;
         } catch (e) {
             console.error(e);
         }

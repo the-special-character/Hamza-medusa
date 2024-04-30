@@ -23,6 +23,7 @@
       "@modules/*": ["modules/*"],
       "@pages/*": ["pages/*"],
       "@services/*": ["services/*"],
+      "@store/*": ["store/*"],
     },
     "plugins": [
       {

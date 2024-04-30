@@ -39,41 +39,9 @@ yarn global add @medusajs/medusa-cli
 
 **5. Set up the Database**
 
-Either do it by docker, or install postgresql manually on your local environment, and create an empty database called "hamza_dev_db".
+Setup will do this for you in the next step. Just make sure that you are not running anything (e.g. postgres) on the default postgresql port (5432), nor on the default redis port .
 
-If doing it by docker, in the root of the repo:
-(sudo is optional depending on your setup)
-
-**_5a. Use Docker (recommended)_**
-
-```
-sudo docker-compose up -d
-```
-
-**_5b. Manual Setup (optional)_**
-
-Install and run postgresql locally, and and redis locally. Optionally, you can omit redis, but also comment out the redis lines in /hamza-server/medusa-config.js
-
-```
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-sudo systemctl start postgresql
-
-#create the database
-sudo -u postgres psql
-postgres=# create database hamza_dev_db;
-postgres=# \c hamza_dev_db
-hamza_dev_db=# ALTER USER postgres WITH PASSWORD 'postgres'
-```
-
-Install Redis:
-
-```
-sudo apt update
-sudo apt install redis
-```
-
-**6. Seed the data**
+**6. Set up and Run the Server**
 
 ```
 cd ./hamza-server
@@ -83,7 +51,7 @@ yarn setup-1
 # at this point, you can shut the server down if you wish
 ```
 
-**7. Run the Server**
+**7. Just Run the Server (if not already running) **
 
 ```
 cd ./hamza-server
@@ -92,32 +60,57 @@ yarn dev
 
 **8. Run the Client**
 
+** In a new Terminal: **
+
 ```
-./import-currencies.sh
 cd ./hamza-client
+./scripts/import-currencies.sh #only needs to be done once, until node_modules is cleaned
 yarn dev
 ```
 
-**9. Fresh Reset**
-Backend:
+**9. Other Helpful Scripts**
+
+**Backend:**
 
 ```
-1. Remove the node_modules folder
-2. Remove the dist folder
-3. Remove the build folder
-4. Remove the .cache folder
-5. Remove yarn.lock
-6. docker-compose down
-7. docker volume rm <db_volume>
-8. docker-compose up -d
-9. yarn install
-10. yarn build
-11. npx medusa migrations run
-12. npx medusa seed --seed-file=data/seed-0.json
-13. api call shenanigans
-14. npx medusa seed --seed-file=data/seed-1.json
-13. yarn dev
+# removes node_modules, build, dist, and .cache
+yarn clean
+
+# removes node_modules, build, dist, .cache and yarn.lock/package-lock.json
+yarn deepclean
+
+# removes build & dist, and .cache
+yarn softclean
+
+# removes database entirely
+yarn nuke
 ```
+
+**Frontend:**
+
+```
+# removes node_modules, .next
+yarn clean
+
+# removes node_modules, .next, and yarn.lock/package-lock.json
+yarn deepclean
+
+# removes .next
+yarn softclean
+
+```
+
+### Docker Cheat Sheet (WIP) - G
+
+**We can either do `docker-compose` or `docker compose` (the `-` is optional)**
+
+1. docker compose up -d
+
+**This is nice to clean up everything, but be careful, it will remove all volumes and images)** 2. docker compose down --volumes --rmi all
+
+**Find all running containers** 3. docker ps
+
+**Show container logs** 4. docker logs <container-name>
 
 ## Notes
 
@@ -131,7 +124,7 @@ Automatically created thepostgres database and the admin user through the cli
 **Backend**: hamza-server/
 Environment Variable: _.env_
 
-**Frontend**: /hamza-client  
+**Frontend**: /hamza-client
 Environments Variable: _env.local_
 
 For Postgres database we can create entities in load-pipe/src/models
@@ -140,3 +133,7 @@ For Postgres database we can create entities in load-pipe/src/models
 ### Payment Architecture:
 
 [E-commerce.pdf](/E-commerce.pdf) in root of repo has a diagram of the [payment architecture](https://docs.medusajs.com/modules/carts-and-checkout/payment)
+
+```
+
+```

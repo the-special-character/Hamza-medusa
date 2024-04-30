@@ -1,5 +1,7 @@
 ./scripts/import-currencies.sh
+yarn up
+node ./scripts/init-search-api.js
 yarn build
 medusa migrations run
-medusa seed --seed-file=data/seed-0.json
+yarn seed
 yarn dev
