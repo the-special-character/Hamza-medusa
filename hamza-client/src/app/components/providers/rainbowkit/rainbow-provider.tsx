@@ -117,7 +117,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                             token,
                             wallet_address: message.address,
                             customer_id: verifyRes.customer_id,
-                            preferred_currency: verifyRes.preferred_currency
+                            preferred_currency_code: verifyRes.preferred_currency && verifyRes.preferred_currency.code
                         });
                     });
                 }
@@ -134,7 +134,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                 token: null,
                 wallet_address: null,
                 customer_id: '',
-                preferred_currency: null
+                preferred_currency_code: null
             });
             return;
         },
