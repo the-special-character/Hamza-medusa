@@ -7,6 +7,7 @@ type State = {
     token: string | null;
     customer_id: string | null;
     status: AuthenticationStatus;
+    preferred_currency_code: string | null
 };
 
 type Actions = {
@@ -14,10 +15,12 @@ type Actions = {
         wallet_address,
         token,
         customer_id,
+        preferred_currency_code
     }: {
         wallet_address: string | null;
         token: string | null;
         customer_id: string;
+        preferred_currency_code: string | null
     }) => void;
     setStatus: (status: AuthenticationStatus) => void;
 };
@@ -29,8 +32,9 @@ export const useCustomerAuthStore = create<State & Actions>()(
             wallet_address: null,
             customer_id: null,
             status: 'unauthenticated',
-            setCustomerAuthData: ({ wallet_address, token, customer_id }) =>
-                set({ token, wallet_address, customer_id }),
+            preferred_currency_code: null,
+            setCustomerAuthData: ({ wallet_address, token, customer_id, preferred_currency_code }) =>
+                set({ token, wallet_address, customer_id, preferred_currency_code }),
             setStatus: (status) => set({ status: status }),
         }),
 

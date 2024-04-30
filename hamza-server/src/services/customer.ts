@@ -1,7 +1,7 @@
-import {CustomerService as MedusaCustomerService } from "@medusajs/medusa";
-import {Customer} from "../models/customer";
-import {CreateCustomerInput, UpdateCustomerInput} from "@medusajs/medusa/dist/types/customers";
-import {Lifetime} from "awilix"
+import { CustomerService as MedusaCustomerService } from "@medusajs/medusa";
+import { Customer } from "../models/customer";
+import { CreateCustomerInput, UpdateCustomerInput } from "@medusajs/medusa/dist/types/customers";
+import { Lifetime } from "awilix"
 import { CustomerRepository } from "../repositories/customer";
 
 interface CustomCustomerInput extends CreateCustomerInput {
@@ -31,9 +31,10 @@ export default class CustomerService extends MedusaCustomerService {
     }
     console.log(`creating Customer with input ${JSON.stringify(input)}`);
     try {
-      const _customer = await super.create(input);
+      const _customer: any = await super.create(input);
       console.log(`Extending Customer with wallet address: ${_customer.wallet_address}`);
-      return _customer;
+      let customerPreferredCurrency = await this.customerRepository_.findOne({ where: { id: _customer.id, }, relations: { preferred_currency: true }, select: { id: true, } })
+      return { ..._customer, ...customerPreferredCurrency };
     } catch (e) {
       console.log(`Error creating customer: ${e}`);
     }
