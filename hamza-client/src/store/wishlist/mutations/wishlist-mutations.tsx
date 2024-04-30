@@ -15,14 +15,19 @@ export function useWishlistMutations() {
     const customer_id = customerState?.customer_id;
 
     const addWishlistItemMutation = useMutation(
-        (product) =>
-            axios.post(
-                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/wishlist/item`,
-                {
-                    customer_id: customer_id, // Ensure customer_id is handled when null
-                    product_id: product.id,
-                }
-            ),
+        (product: ProductType) => {
+            console.log(
+                'PASSING CUSTOMER_ID',
+                customer_id,
+                'AND PRODUCT ID',
+                product.id
+            );
+            // Return the axios post call from the mutation function
+            return axios.post(`http://localhost:9000/custom/wishlist/item`, {
+                customer_id: customer_id, // Ensure customer_id is handled when null
+                product_id: product.id,
+            });
+        },
         {
             onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
@@ -36,23 +41,31 @@ export function useWishlistMutations() {
     );
 
     const removeWishlistItemMutation = useMutation(
-        (product) =>
-            axios.delete(
-                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/wishlist/item`,
-                {
-                    data: {
-                        customer_id: customer_id, // Ensure customer_id is handled when null
-                        product_id: product.id,
-                    },
-                }
-            ),
+        (product: ProductType) => {
+            console.log(
+                'PASSING CUSTOMER_ID',
+                customer_id,
+                'AND PRODUCT ID',
+                product.id
+            );
+            // Return the axios delete call from the mutation function
+            return axios.delete(`http://localhost:9000/custom/wishlist/item`, {
+                data: {
+                    customer_id: customer_id, // Ensure customer_id is handled when null
+                    product_id: product.id,
+                },
+            });
+        },
         {
             onSuccess: (data, product) => {
                 console.log('Removing Wish List item in DB', product.id);
                 removeWishlistProduct(product.id);
             },
             onError: (error) => {
-                console.error('Error removing item from wishlist', error);
+                console.error(
+                    'Error removing item from wishlist-dropdown',
+                    error
+                );
             },
         }
     );

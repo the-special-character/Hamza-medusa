@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import WishlistIcon from './wishlist';
+import WishlistIcon from './icon/wishlist-icon';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
