@@ -34,6 +34,7 @@ export default function ProductPrice({
                 {preferredPrice.amount} {" "} {preferredPrice.currency_code}
             </span> : <>{selectedPrices.map((price) => {
                 return <span
+                    key={price.currency_code}
                     className={clx('text-xl-semi')}
                 >
                     {price.amount} {" "} {price.currency_code}
