@@ -23,7 +23,6 @@ export default class ProductCollectionService extends MedusaProductCollectionSer
 
     constructor(container) {
         super(container);
-        console.log('CREATERD PRODUCT COLLECTION SERVICCE');
         this.productCollectionRepository_ =
             container.productCollectionRepository;
     }
