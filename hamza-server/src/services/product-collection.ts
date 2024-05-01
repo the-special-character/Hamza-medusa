@@ -16,12 +16,13 @@ type CreateProductCollection = MedusaCreateProductCollection & {
     store_id?: string;
 };
 
-class ProductCollectionService extends MedusaProductCollectionService {
+export default class ProductCollectionService extends MedusaProductCollectionService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productCollectionRepository_: typeof ProductCollectionRepository;
 
     constructor(container) {
         super(container);
+        console.log('CREATERD PRODUCT COLLECTION SERVICCE');
         this.productCollectionRepository_ =
             container.productCollectionRepository;
     }
@@ -42,6 +43,16 @@ class ProductCollectionService extends MedusaProductCollectionService {
         console.log('creating product collection', input);
         return await this.productCollectionRepository_.create(input);
     }
-}
 
-export default ProductCollectionService;
+    async addProducts(
+        collection_id: string,
+        product_ids: string[]
+    ): Promise<ProductCollection> {
+        //TODO: check each product's store_id, make sure that it matches the collection's
+
+        await super.addProducts(collection_id, product_ids);
+        return await this.productCollectionRepository_.findOne({
+            where: { id: collection_id },
+        });
+    }
+}
