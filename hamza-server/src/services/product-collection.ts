@@ -39,10 +39,10 @@ export default class ProductCollectionService extends MedusaProductCollectionSer
         });
     }
 
-    async create(input: CreateProductCollection): Promise<ProductCollection> {
+    /*async create(input: CreateProductCollection): Promise<ProductCollection> {
         console.log('creating product collection', input);
         return await this.productCollectionRepository_.create(input);
-    }
+    }*/
 
     async addProducts(
         collection_id: string,
