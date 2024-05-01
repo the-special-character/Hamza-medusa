@@ -1,14 +1,15 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import {
     Currency,
     // alias the core entity to not cause a naming conflict
     Customer as MedusaCustomer,
 } from '@medusajs/medusa';
+import { CustomerWalletAddress } from './customer-wallet-address';
 
 @Entity()
 export class Customer extends MedusaCustomer {
-    @Column({ nullable: false, default: '' })
-    wallet_address: string;
+    @Column({ nullable: false, default: false })
+    is_verified: boolean;
 
     // @Column({ nullable: true })
     // email?: string;
@@ -19,6 +20,9 @@ export class Customer extends MedusaCustomer {
 
     @Column('preferred_currency_id')
     preferred_currency_id?: string
+
+    @OneToMany(() => CustomerWalletAddress, walletAddress => walletAddress.customer)
+    walletAddresses: CustomerWalletAddress[];
 
     @BeforeInsert()
     private assignRandomCurrency(): void {

@@ -30,15 +30,16 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     try {
         await siweMessage.verify({ signature });
         // If the signature is verified, we can create the user.
-        const customer = await customerService.create(customerInputData);
+        const customerData = await customerService.create(customerInputData);
 
         let body = {
-            customer_id: customer.id,
-            preferred_currency: customer.preferred_currency,
+            customer_id: customerData.customer.id,
+            preferred_currency: customerData.customerPreferredCurrency,
             bool_resp: true,
         };
         res.send(body);
-    } catch {
+    } catch (e) {
+        console.log('error in verifying user login ', e);
         res.send(false);
     }
 };
