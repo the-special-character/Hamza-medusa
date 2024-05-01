@@ -6,7 +6,8 @@ import {
 } from '@medusajs/medusa/dist/types/product-collection';
 import { ProductCollection } from '../models/product-collection';
 import { ProductCollectionRepository } from '../repositories/product-collection';
-import { UpdateResult } from 'typeorm';
+import { In, UpdateResult } from 'typeorm';
+import { verify } from 'crypto';
 
 type UpdateProductCollection = MedusaUpdateProductCollection & {
     store_id?: string;
@@ -48,11 +49,44 @@ export default class ProductCollectionService extends MedusaProductCollectionSer
         collection_id: string,
         product_ids: string[]
     ): Promise<ProductCollection> {
-        //TODO: check each product's store_id, make sure that it matches the collection's
+        //get the collection
+        const collection: ProductCollection =
+            await this.productCollectionRepository_.findOne({
+                where: { id: collection_id },
+            });
 
+        //verify that collection exists
+        if (!collection)
+            throw new Error(`Collection with id ${collection} not found.`);
+
+        //verify that each product
+        await this.verifyProductsInStore(collection.store_id, product_ids);
+
+        //add the products
         await super.addProducts(collection_id, product_ids);
+
+        //return the array of products
         return await this.productCollectionRepository_.findOne({
             where: { id: collection_id },
         });
+    }
+
+    protected async verifyProductsInStore(
+        store_id: string,
+        product_ids: string[]
+    ): Promise<boolean> {
+        //TODO: complete this check; will require extending product repository too
+
+        //get all products
+        const products = await this.productRepository_.find({
+            where: { id: In(product_ids) /*store_id: store_id*/ },
+        });
+
+        //check each one
+        products.forEach((p) => {
+            //if (p.store_id != store_id) return false;
+        });
+
+        return true;
     }
 }
