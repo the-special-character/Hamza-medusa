@@ -453,7 +453,7 @@ export async function retrievePricedProductById({
     const headers = getMedusaHeaders(['products']);
 
     return medusaClient.products
-        .retrieve(`${id}?region_id=${regionId}`, headers)
+        .retrieve(`${id}`, headers)
         .then(({ product }) => product)
         .catch((err) => {
             console.log(err);
@@ -502,7 +502,7 @@ export async function getProductsList({
             {
                 limit,
                 offset: pageParam,
-                region_id: region.id,
+                // region_id: region.id,
                 ...queryParams,
             },
             { next: { tags: ['products'] } }
@@ -511,6 +511,7 @@ export async function getProductsList({
         .catch((err) => {
             throw err;
         });
+
 
     const transformedProducts = products.map((product) => {
         return transformProductPreview(product, region!);

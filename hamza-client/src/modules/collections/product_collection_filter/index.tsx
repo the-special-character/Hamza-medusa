@@ -11,6 +11,7 @@ import axios from 'axios';
 import { SimpleGrid } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { getProductPrice } from '@lib/util/get-product-price';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 // TODO: Refactor goals to use <Suspense .. /> to wrap collection && <SkeletonProductGrid /> for loading state
 
 type Props = {
@@ -24,6 +25,8 @@ const ProductCollections = ({ vendorName }: Props) => {
                 `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/custom/products?store_name=${vendorName}`
             )
     );
+
+    const { status, preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
         return null; // Suspense will handle the loading fallback.
@@ -52,38 +55,51 @@ const ProductCollections = ({ vendorName }: Props) => {
                             }}
                             spacing="20px"
                         >
-                            {products.map((product) => (
-                                <LocalizedClientLink
-                                    key={product.id}
-                                    href={`/products/${product.handle}`}
-                                    className="group"
-                                >
-                                    <div key={product.id}>
-                                        <Thumbnail
-                                            thumbnail={product.thumbnail}
-                                            size="small"
-                                        />
-                                        <div className="flex txt-compact-medium mt-4 ">
-                                            <Text className="text-ui-fg-subtle font-bold text-white ">
-                                                <u>{product.title}</u>
-                                                <br />
-                                                {'  '}
-                                                {(
-                                                    product.variants[0]
-                                                        .prices[0].amount / 100
-                                                ).toFixed(2)}{' '}
-                                                {product.variants[0].prices[0].currency_code.toUpperCase()}
-                                                <br />
-                                                {'  '}
-                                                {product.variants[0].prices[1]
-                                                    .amount / 10000}{' '}
-                                                {product.variants[0].prices[1].currency_code.toUpperCase()}
-                                            </Text>
-                                            <div className="flex items-center gap-x-2 "></div>
+                            {products.map((product) => {
+
+                                let preferredPrice = status == 'authenticated' && preferred_currency_code && product.variants[0].prices.find((a: any) => a.currency_code == preferred_currency_code);
+                                return (
+                                    <LocalizedClientLink
+                                        key={product.id}
+                                        href={`/products/${product.handle}`}
+                                        className="group"
+                                    >
+                                        <div key={product.id}>
+                                            <Thumbnail
+                                                thumbnail={product.thumbnail}
+                                                size="small"
+                                            />
+                                            <div className="flex txt-compact-medium mt-4 ">
+                                                <Text className="text-ui-fg-subtle font-bold text-white ">
+                                                    <u>{product.title}</u>
+                                                    <br />
+
+                                                    {(status == 'authenticated' && preferred_currency_code) ? <> {(
+                                                        preferredPrice.amount
+                                                    ).toFixed(2)}{' '}
+                                                        {preferredPrice.currency_code.toUpperCase()}</> : <>
+
+                                                        {(
+                                                            product.variants[0]
+                                                                .prices[0].amount
+                                                        ).toFixed(2)}{' '}
+                                                        {product.variants[0].prices[0].currency_code.toUpperCase()}
+                                                        <br />
+                                                        {'  '}
+                                                        {product.variants[0].prices[1]
+                                                            .amount}{' '}
+                                                        {product.variants[0].prices[1].currency_code.toUpperCase()}
+
+                                                    </>}
+
+
+                                                </Text>
+                                                <div className="flex items-center gap-x-2 "></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </LocalizedClientLink>
-                            ))}
+                                    </LocalizedClientLink>
+                                )
+                            })}
                         </SimpleGrid>
                     </div>
                 )}
