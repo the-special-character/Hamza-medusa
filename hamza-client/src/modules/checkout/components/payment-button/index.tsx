@@ -142,9 +142,9 @@ const CryptoPaymentButton = ({
             console.log(output);
             return {
                 transaction_id: output.transaction_id,
-                payer_address: '',
-                receiver_address: '',
-                escrow_contract_address: '',
+                payer_address: 'temp',
+                receiver_address: 'temp',
+                escrow_contract_address: 'temp',
             };
         } catch (e) {
             console.error('error has occured during transaction', e);
