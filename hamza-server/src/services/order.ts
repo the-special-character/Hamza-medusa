@@ -5,7 +5,8 @@ import {
     OrderStatus,
     PaymentStatus,
 } from '@medusajs/medusa';
-import OrderRepository from '../repositories/order'
+// import OrderRepository from '@medusajs/medusa/dist/repositories/order'
+import OrderRepository from 'src/repositories/order';
 import PaymentRepository from '../repositories/payment';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
@@ -115,7 +116,7 @@ export default class OrderService extends MedusaOrderService {
         payments.forEach((p, i) => {
             console.log(p);
             promises.push(this.updatePayment(p.id, {
-                transaction_id,
+                transaction_id, // Remove from here and from model
                 receiver_address,
                 payer_address,
                 escrow_contract_address,
