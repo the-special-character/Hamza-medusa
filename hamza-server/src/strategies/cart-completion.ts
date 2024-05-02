@@ -10,7 +10,6 @@ import {
     Payment,
 } from '@medusajs/medusa';
 import OrderService from '../services/order';
-import { OrderRepository } from '@medusajs/medusa/dist/repositories/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
@@ -108,6 +107,13 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
             //update payments with order ids
             await this.updatePaymentsWithOrderId(payments, orders);
+
+
+            // Adding CartId in the payments table is impossible, currently, 
+            // it's a foreign key of cart which is unique, 
+            // this uniqueness constraint is enforced on the payment table
+
+            // await this.updatePaymentsWithCartID(payments, cartId);
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -279,6 +285,33 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         }
         await Promise.all(promises);
     }
+
+    // private async updatePaymentsWithCartID(
+    //     payments: Payment[],
+    //     cart_id: string
+    // ): Promise<void> {
+    //     console.log('--------------------------------------------')
+    //     console.log('CartId is happening')
+    //     console.log('--------------------------------------------')
+    //     const promises: Promise<Payment>[] = [];
+    //     for (let n = 0; n < payments.length; n++) {
+    //         if (cart_id) {
+    //             console.log(payments[n])
+    //             console.log(cart_id)
+    //             payments[n].cart_id = cart_id;
+    //             console.log(payments[n])
+    //             promises.push(
+    //                 this.orderService.setCartId(payments[n], { cart_id })
+    //             );
+    //         }
+    //     }
+    //     try{
+    //         await Promise.all(promises);
+    //     }
+    //     catch(e){
+    //         console.log(e)
+    //     }
+    // }
 }
 
 export default CartCompletionStrategy;
