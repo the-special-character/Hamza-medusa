@@ -7,7 +7,6 @@ import {
 import { ProductCollection } from '../models/product-collection';
 import { ProductCollectionRepository } from '../repositories/product-collection';
 import { In, UpdateResult } from 'typeorm';
-import { verify } from 'crypto';
 
 type UpdateProductCollection = MedusaUpdateProductCollection & {
     store_id?: string;
@@ -39,10 +38,10 @@ export default class ProductCollectionService extends MedusaProductCollectionSer
         });
     }
 
-    /*async create(input: CreateProductCollection): Promise<ProductCollection> {
+    async create(input: CreateProductCollection): Promise<ProductCollection> {
         console.log('creating product collection', input);
-        return await this.productCollectionRepository_.create(input);
-    }*/
+        return await this.productCollectionRepository_.save(input);
+    }
 
     async addProducts(
         collection_id: string,
