@@ -69,17 +69,8 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
-    async updateOrderAfterTransaction(orderId: string, update: Partial<Order>): Promise<Order> {
-        console.log('Received update for order:', orderId, update);
-        const result = await this.orderRepository_.save({ id: orderId, ...update });
-        console.log('Update result:', result);
-        return result;
-    }
-
     async updatePaymentAfterTransaction(paymentId: string, update: Partial<Payment>): Promise<Payment> {
-        console.log('Received update for payment:', paymentId, update);
         const result = await this.paymentRepository_.save({ id: paymentId, ...update });
-        console.log('Update result:', result);
         return result;
     }
 
@@ -104,15 +95,12 @@ export default class OrderService extends MedusaOrderService {
 
         const promises: Promise<Order | Payment>[] = [];
 
-        //update orders with transaction info
-        orders.forEach((o, i) => {
-            promises.push(this.updateOrderAfterTransaction(o.id, { transaction_id }));
-        });
+        
 
         //update payments with transaction info
         payments.forEach((p, i) => {
             promises.push(this.updatePaymentAfterTransaction(p.id, {
-                transaction_id, // Remove from here and from model
+                transaction_id, 
                 receiver_address,
                 payer_address,
                 escrow_contract_address,

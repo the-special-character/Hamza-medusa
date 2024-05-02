@@ -282,33 +282,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         }
         await Promise.all(promises);
     }
-
-    // private async updatePaymentsWithCartID(
-    //     payments: Payment[],
-    //     cart_id: string
-    // ): Promise<void> {
-    //     console.log('--------------------------------------------')
-    //     console.log('CartId is happening')
-    //     console.log('--------------------------------------------')
-    //     const promises: Promise<Payment>[] = [];
-    //     for (let n = 0; n < payments.length; n++) {
-    //         if (cart_id) {
-    //             console.log(payments[n])
-    //             console.log(cart_id)
-    //             payments[n].cart_id = cart_id;
-    //             console.log(payments[n])
-    //             promises.push(
-    //                 this.orderService.setCartId(payments[n], { cart_id })
-    //             );
-    //         }
-    //     }
-    //     try{
-    //         await Promise.all(promises);
-    //     }
-    //     catch(e){
-    //         console.log(e)
-    //     }
-    // }
 }
 
 export default CartCompletionStrategy;
