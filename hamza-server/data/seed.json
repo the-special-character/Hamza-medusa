@@ -191,11 +191,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 250
+              "amount": 0.0000035
             },
             {
               "currency_code": "eth",
-              "amount": 250
+              "amount": 0.000040
             }
           ],
           "options": [
@@ -239,11 +239,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 299
+              "amount": 0.0000060
             },
             {
               "currency_code": "eth",
-              "amount": 350
+              "amount": 0.0000032
             }
           ],
           "options": [
@@ -287,11 +287,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 280
+              "amount": 0.0000023
             },
             {
               "currency_code": "eth",
-              "amount": 300
+              "amount": 0.0000056
             }
           ],
           "options": [
@@ -335,11 +335,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 270
+              "amount": 0.0000045
             },
             {
               "currency_code": "eth",
-              "amount": 290
+              "amount": 0.0000078
             }
           ],
           "options": [
@@ -383,11 +383,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 310
+              "amount": 0.0000076
             },
             {
               "currency_code": "eth",
-              "amount": 330
+              "amount": 0.0000080
             }
           ],
           "options": [
@@ -431,11 +431,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 320
+              "amount": 0.0000046
             },
             {
               "currency_code": "eth",
-              "amount": 340
+              "amount": 0.0000033
             }
           ],
           "options": [
@@ -479,11 +479,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 250
+              "amount": 0.0000047
             },
             {
               "currency_code": "eth",
-              "amount": 270
+              "amount": 0.0000066
             }
           ],
           "options": [
@@ -527,11 +527,11 @@
           "prices": [
             {
               "currency_code": "usdc",
-              "amount": 260
+              "amount": 0.0000033
             },
             {
               "currency_code": "eth",
-              "amount": 280
+              "amount": 0.0000044
             }
           ],
           "options": [

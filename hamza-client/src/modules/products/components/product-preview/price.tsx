@@ -9,20 +9,20 @@ export default async function PreviewPrice({ prices }: { prices: { currency_code
   let preferredPrice = (status == 'authenticated' && preferred_currency_code && prices.find(a => a.currency_code == preferred_currency_code)) || null
 
   return (
-    <div className="flex flex-row space-x-2">
+    <div className="flex flex-col space-y-1">
       {preferredPrice ? <Text
         key={preferredPrice.currency_code}
         className={clx("text-ui-fg-muted font-bold text-white text-ui-fg-interactive font-bold text-white"
         )}
       >
-        {preferredPrice.amount}{" "}{preferredPrice.currency_code}
+        {preferredPrice.amount}{" "}{preferredPrice.currency_code.toUpperCase()}
       </Text> : <>{prices.map((price) => {
         return <Text
           key={price.currency_code}
           className={clx("text-ui-fg-muted font-bold text-white text-ui-fg-interactive font-bold text-white"
           )}
         >
-          {price.amount}{" "}{price.currency_code}
+          {price.amount}{" "}{price.currency_code.toUpperCase()}
         </Text>
       })}</>}
 
