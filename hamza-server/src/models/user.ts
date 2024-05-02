@@ -14,7 +14,7 @@ import { Role } from './role';
 // `admin` will have all permissions
 // `member` will have limited permissions; they will act as vendors
 // Vendors will only have access to their own products
-// TODO: https://docs.medusajs.com/modules/users/backend/rbac
+
 @Entity()
 export class User extends MedusaUser {
     // @OneToMany(() => WalletAddress, walletAddress => walletAddress.user)

@@ -67,3 +67,7 @@ Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
 ### MeilieSearch Delete All by uid
 DELETE http://localhost:7700/indexes/products/documents
 Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
+
+### Permission Create
+GET http://localhost:9000/custom/permission
+Content-Type: application/json

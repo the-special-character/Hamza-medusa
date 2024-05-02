@@ -5,7 +5,6 @@
 ```
 cd ./hamza-server
 yarn install
-docker-compose up -d
 yarn setup-0
 # WAIT for the server to start listening on port 9000
 yarn setup-1

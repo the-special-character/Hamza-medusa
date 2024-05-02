@@ -7,7 +7,6 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const customer_id = req.query.customer_id; // Correctly retrieving from query parameters
 
     if (!customer_id) {
-        // Respond with an error if no customer_id is provided
         return res.status(400).json({ error: 'customer_id is required' });
     }
 
