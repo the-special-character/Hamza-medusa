@@ -2,12 +2,12 @@ import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     try {
-        const permissionService = req.scope.resolve('permissionService');
-        const permissions = await permissionService.setupInitialRoles();
+        const roleService = req.scope.resolve('roleService');
+        const role = await roleService.setupInitialRoles();
         res.json({
             success: true,
-            message: 'Permissions setup successfully',
-            permissions,
+            message: 'Roles setup successfully',
+            role,
         });
     } catch (e) {
         console.log(e);

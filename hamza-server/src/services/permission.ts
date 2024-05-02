@@ -21,8 +21,6 @@ type InjectedDependencies = {
  *  - Sales data, generate reports, and view customer information
  *  `customerSupport` will have limited permissions; they will act as customer support
  *  - Access to order details, customer information, and can `resolve customer issues`
- *
- *
  * @author Garo Nazarian
  **/
 
