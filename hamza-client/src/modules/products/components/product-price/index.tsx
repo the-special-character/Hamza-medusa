@@ -27,17 +27,17 @@ export default function ProductPrice({
     }
 
     return (
-        <div className="flex flex-row space-x-2 text-ui-fg-base text-white">
+        <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
             {preferredPrice ? <span
                 className={clx('text-xl-semi')}
             >
-                {preferredPrice.amount} {" "} {preferredPrice.currency_code}
+                {preferredPrice.amount} {" "} {preferredPrice.currency_code.toUpperCase()}
             </span> : <>{selectedPrices.map((price) => {
                 return <span
                     key={price.currency_code}
                     className={clx('text-xl-semi')}
                 >
-                    {price.amount} {" "} {price.currency_code}
+                    {price.amount} {" "} {price.currency_code.toUpperCase()}
                 </span>
             })}</>}
 
