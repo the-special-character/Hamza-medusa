@@ -83,12 +83,6 @@ export default class OrderService extends MedusaOrderService {
         return result;
     }
 
-    async setCartId (payment: Payment, update: Partial<Payment>): Promise<Payment> {
-        console.log(`payment: ${payment}`);
-        const result = await this.paymentRepository_.save({id: payment.id, ...update})
-        return result
-    }
-
     async finalizeCheckout(
         cart_id: string,
         transaction_id: string,

@@ -108,12 +108,9 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             //update payments with order ids
             await this.updatePaymentsWithOrderId(payments, orders);
 
-
             // Adding CartId in the payments table is impossible, currently, 
             // it's a foreign key of cart which is unique, 
             // this uniqueness constraint is enforced on the payment table
-
-            // await this.updatePaymentsWithCartID(payments, cartId);
 
             //create & return the response
             const response: CartCompletionResponse = {
