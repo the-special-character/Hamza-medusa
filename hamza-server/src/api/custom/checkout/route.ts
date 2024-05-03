@@ -23,7 +23,6 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 amount: o.payments[0].amount,
             });
         });
-        console.log(output);
         res.send({ orders: output });
     } catch (e) {
         console.error(e);
