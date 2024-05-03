@@ -289,6 +289,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     ): Promise<Payment> {
         const fullOrder = await this.orderService.getOrderWithStore(order.id);
         payment.order_id = order.id;
+        payment.cart_id = order.cart_id;
         payment.receiver_address =
             fullOrder.store?.owner?.wallet_address ?? 'NA';
         return await this.paymentRepository.save(payment);
