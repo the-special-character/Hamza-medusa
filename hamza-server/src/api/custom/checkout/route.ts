@@ -33,20 +33,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
-    const {
-        cart_id,
-        transaction_id,
-        payer_address,
-        receiver_address,
-        escrow_contract_address,
-    } = req.body;
+    const { cart_id, transaction_id, payer_address, escrow_contract_address } =
+        req.body;
 
     try {
         await orderService.finalizeCheckout(
             cart_id.toString(),
             transaction_id,
             payer_address,
-            receiver_address,
             escrow_contract_address
         );
         res.send(true);

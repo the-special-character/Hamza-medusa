@@ -69,8 +69,21 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
-    async updatePaymentAfterTransaction(paymentId: string, update: Partial<Payment>): Promise<Payment> {
-        const result = await this.paymentRepository_.save({ id: paymentId, ...update });
+    async getOrderWithStore(orderId: string): Promise<Order> {
+        return await this.orderRepository_.findOne({
+            where: { id: orderId },
+            relations: ['store.owner'],
+        });
+    }
+
+    async updatePaymentAfterTransaction(
+        paymentId: string,
+        update: Partial<Payment>
+    ): Promise<Payment> {
+        const result = await this.paymentRepository_.save({
+            id: paymentId,
+            ...update,
+        });
         return result;
     }
 
@@ -78,12 +91,11 @@ export default class OrderService extends MedusaOrderService {
         cart_id: string,
         transaction_id: string,
         payer_address,
-        receiver_address,
         escrow_contract_address
     ): Promise<Order[]> {
         //get orders
         const orders: Order[] = await this.orderRepository_.find({
-            where: {cart_id},
+            where: { cart_id },
         });
         //get payments
         const orderIds = orders.map((order) => order.id);
@@ -92,24 +104,22 @@ export default class OrderService extends MedusaOrderService {
             where: { order_id: In(orderIds) },
         });
 
-
         const promises: Promise<Order | Payment>[] = [];
-
-        
 
         //update payments with transaction info
         payments.forEach((p, i) => {
-            promises.push(this.updatePaymentAfterTransaction(p.id, {
-                transaction_id, 
-                receiver_address,
-                payer_address,
-                escrow_contract_address,
-            }));
+            promises.push(
+                this.updatePaymentAfterTransaction(p.id, {
+                    transaction_id,
+                    payer_address,
+                    escrow_contract_address,
+                })
+            );
         });
 
-        try{
+        try {
             await Promise.all(promises);
-        } catch(e){
+        } catch (e) {
             console.log(`Error updating orders/payments: ${e}`);
         }
 
