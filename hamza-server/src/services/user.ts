@@ -23,7 +23,7 @@ class UserService extends MedusaUserService {
         try {
             this.loggedInUser_ = container.loggedInUser;
         } catch (e) {
-            // avoid errors when backend first runs
+            console.log('No logged in user found', e);
         }
     }
 

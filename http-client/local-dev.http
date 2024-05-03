@@ -75,3 +75,12 @@ Content-Type: application/json
 ### Role Create
 GET http://localhost:9000/custom/role
 Content-Type: application/json
+
+### Role Assign
+POST http://localhost:9000/custom/user-role
+Content-Type: application/json
+
+{
+  "user_id": "usr_01HWST1VB3Q91X66F8JJA6ZNNG",
+  "role_id": "role_01HWWF1PXQ293WMCK06J8530SG"
+}
