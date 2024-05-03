@@ -142,9 +142,9 @@ const CryptoPaymentButton = ({
             console.log(output);
             return {
                 transaction_id: output.transaction_id,
-                payer_address: '',
-                receiver_address: '',
-                escrow_contract_address: '',
+                payer_address: output.receipt.from,
+                receiver_address: 'tbd', // assume this needs to be the array of switchInput[i].payments[j].reciever
+                escrow_contract_address: output.receipt.to,
             };
         } catch (e) {
             console.error('error has occured during transaction', e);

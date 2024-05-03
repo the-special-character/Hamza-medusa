@@ -10,7 +10,6 @@ import {
     Payment,
 } from '@medusajs/medusa';
 import OrderService from '../services/order';
-import { OrderRepository } from '@medusajs/medusa/dist/repositories/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
@@ -108,6 +107,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
             //update payments with order ids
             await this.updatePaymentsWithOrderId(payments, orders);
+
+            // Adding CartId in the payments table is impossible, currently, 
+            // it's a foreign key of cart which is unique, 
+            // this uniqueness constraint is enforced on the payment table
 
             //create & return the response
             const response: CartCompletionResponse = {
