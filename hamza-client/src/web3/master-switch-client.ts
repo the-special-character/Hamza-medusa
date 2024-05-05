@@ -25,6 +25,8 @@ export class MasterSwitchClient {
         this.provider = provider;
         this.signer = signer;
         this.contractAddress = address;
+
+        console.log('MasterSwitch contract addr is', this.contractAddress);
         this.masterSwitch = new ethers.Contract(
             this.contractAddress,
             masterAbi,
