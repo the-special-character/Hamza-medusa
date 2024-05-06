@@ -8,6 +8,29 @@ import type {
 } from '@medusajs/medusa';
 import cors from 'cors';
 
+const storeAccessControl = async (req, res, next) => {
+    if (!req.user || !req.user.userId) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const userService = req.scope.resolve('userService') as UserService;
+    const loggedInUser = await userService.retrieve(req.user.userId, {
+        relations: ['role', 'role.store'], // Ensure 'role.store' is correctly populated
+    });
+
+    const requestStoreId = req.params.store_id; // Adjust based on how store_id is passed in your requests
+
+    if (loggedInUser.role_id === requestStoreId) {
+        next();
+    } else {
+        res.status(403).send(
+            'Access denied: You do not have access to this store’s data'
+        );
+        return;
+    }
+};
+
 const STORE_CORS = process.env.STORE_CORS || 'http://localhost:8000';
 const ADMIN_CORS =
     process.env.ADMIN_CORS || 'http://localhost:7001;http://localhost:7000';
