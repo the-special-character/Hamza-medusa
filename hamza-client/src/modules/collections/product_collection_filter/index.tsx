@@ -56,8 +56,14 @@ const ProductCollections = ({ vendorName }: Props) => {
                             spacing="20px"
                         >
                             {products.map((product) => {
-
-                                let preferredPrice = status == 'authenticated' && preferred_currency_code && product.variants[0].prices.find((a: any) => a.currency_code == preferred_currency_code);
+                                let preferredPrice =
+                                    status == 'authenticated' &&
+                                    preferred_currency_code &&
+                                    product.variants[0].prices.find(
+                                        (a: any) =>
+                                            a.currency_code ==
+                                            preferred_currency_code
+                                    );
                                 return (
                                     <LocalizedClientLink
                                         key={product.id}
@@ -70,35 +76,34 @@ const ProductCollections = ({ vendorName }: Props) => {
                                                 size="small"
                                             />
                                             <div className="flex txt-compact-medium mt-4 ">
-                                                <Text className="text-ui-fg-subtle font-bold text-white ">
-                                                    <u>{product.title}</u>
-                                                    <br />
+                                                {/*<Text className="text-ui-fg-subtle font-bold text-white ">*/}
+                                                {/*    <u>{product.title}</u>*/}
+                                                {/*    <br />*/}
 
-                                                    {(status == 'authenticated' && preferred_currency_code) ? <> {(
-                                                        preferredPrice.amount
-                                                    ).toFixed(2)}{' '}
-                                                        {preferredPrice.currency_code.toUpperCase()}</> : <>
+                                                {/*    {(status == 'authenticated' && preferred_currency_code) ? <> {(*/}
+                                                {/*        preferredPrice.amount*/}
+                                                {/*    ).toFixed(2)}{' '}*/}
+                                                {/*        {preferredPrice.currency_code.toUpperCase()}</> : <>*/}
 
-                                                        {(
-                                                            product.variants[0]
-                                                                .prices[0].amount
-                                                        ).toFixed(2)}{' '}
-                                                        {product.variants[0].prices[0].currency_code.toUpperCase()}
-                                                        <br />
-                                                        {'  '}
-                                                        {product.variants[0].prices[1]
-                                                            .amount}{' '}
-                                                        {product.variants[0].prices[1].currency_code.toUpperCase()}
+                                                {/*        {(*/}
+                                                {/*            product.variants[0]*/}
+                                                {/*                .prices[0].amount*/}
+                                                {/*        ).toFixed(2)}{' '}*/}
+                                                {/*        {product.variants[0].prices[0].currency_code.toUpperCase()}*/}
+                                                {/*        <br />*/}
+                                                {/*        {'  '}*/}
+                                                {/*        {product.variants[0].prices[1]*/}
+                                                {/*            .amount}{' '}*/}
+                                                {/*        {product.variants[0].prices[1].currency_code.toUpperCase()}*/}
 
-                                                    </>}
+                                                {/*    </>}*/}
 
-
-                                                </Text>
+                                                {/*</Text>*/}
                                                 <div className="flex items-center gap-x-2 "></div>
                                             </div>
                                         </div>
                                     </LocalizedClientLink>
-                                )
+                                );
                             })}
                         </SimpleGrid>
                     </div>
