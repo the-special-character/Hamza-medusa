@@ -126,7 +126,7 @@ const CryptoPaymentButton = ({
             const switchClient: MasterSwitchClient = new MasterSwitchClient(
                 provider,
                 signer,
-                '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A' //TODO: get contract address dynamically
+                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9' //TODO: get contract address dynamically
             );
 
             //create the inputs
@@ -142,9 +142,8 @@ const CryptoPaymentButton = ({
             console.log(output);
             return {
                 transaction_id: output.transaction_id,
-                payer_address: '',
-                receiver_address: '',
-                escrow_contract_address: '',
+                payer_address: output.receipt.from,
+                escrow_contract_address: output.receipt.to,
             };
         } catch (e) {
             console.error('error has occured during transaction', e);
@@ -192,14 +191,12 @@ const CryptoPaymentButton = ({
             cart_id: string;
             transaction_id: string;
             payer_address: string;
-            receiver_address: string;
             escrow_contract_address: string;
         }) =>
             axios.post(`${MEDUSA_SERVER_URL}/custom/checkout`, {
                 cart_id: data.cart_id,
                 transaction_id: data.transaction_id,
                 payer_address: data.payer_address,
-                receiver_address: data.receiver_address,
                 escrow_contract_address: data.escrow_contract_address,
             }),
         {
@@ -214,12 +211,8 @@ const CryptoPaymentButton = ({
 
     const completeCheckout = async (cart_id: string) => {
         const data = await retrieveCheckoutData(cart_id);
-        const {
-            transaction_id,
-            payer_address,
-            receiver_address,
-            escrow_contract_address,
-        } = await doWalletPayment(data);
+        const { transaction_id, payer_address, escrow_contract_address } =
+            await doWalletPayment(data);
 
         if (transaction_id?.length) {
             //final step in process
@@ -228,7 +221,6 @@ const CryptoPaymentButton = ({
                 cart_id,
                 transaction_id,
                 payer_address,
-                receiver_address,
                 escrow_contract_address,
             });
         }
@@ -253,7 +245,6 @@ const CryptoPaymentButton = ({
                                 try {
                                     completeCheckout(cart.id).then(
                                         (order_id) => {
-
                                             //clear cart
                                             clearCart();
 

@@ -10,7 +10,7 @@ import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
-import { UpdateResult } from 'typeorm';
+import { In } from 'typeorm';
 
 export default class OrderService extends MedusaOrderService {
     static LIFE_TIME = Lifetime.SINGLETON; // default, but just to show how to change it
@@ -21,7 +21,7 @@ export default class OrderService extends MedusaOrderService {
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
-        //this.paymentRepository_ = container.paymentRepository_;
+        this.paymentRepository_ = container.paymentRepository;
     }
 
     async createFromPayment(
@@ -69,41 +69,61 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
+    async getOrderWithStore(orderId: string): Promise<Order> {
+        return await this.orderRepository_.findOne({
+            where: { id: orderId },
+            relations: ['store.owner'],
+        });
+    }
+
+    async updatePaymentAfterTransaction(
+        paymentId: string,
+        update: Partial<Payment>
+    ): Promise<Payment> {
+        const result = await this.paymentRepository_.save({
+            id: paymentId,
+            ...update,
+        });
+        return result;
+    }
+
     async finalizeCheckout(
         cart_id: string,
         transaction_id: string,
         payer_address,
-        receiver_address,
         escrow_contract_address
     ): Promise<Order[]> {
         //get orders
         const orders: Order[] = await this.orderRepository_.find({
-            where: { cart_id: cart_id },
+            where: { cart_id },
         });
 
         //get payments
-        //const payments: Payment[] = await this.paymentRepository_.find({
-        //    where: { cart_id: cart_id },
-        //});
+        const orderIds = orders.map((order) => order.id);
 
-        const promises: Promise<UpdateResult>[] = [];
-
-        //update orders with transaction info
-        orders.forEach((o, i) => {
-            o.transaction_id = transaction_id;
-            //promises.push(this.orderRepository_.update(o.id, o));
+        //get payments associated with orders
+        const payments: Payment[] = await this.paymentRepository_.find({
+            where: { order_id: In(orderIds) },
         });
 
-        //update payments with transaction info
-        /*payments.forEach((p, i) => {
-            p.transaction_id = transaction_id;
-            p.receiver_address = receiver_address;
-            p.payer_address = payer_address;
-            p.escrow_contract_address = escrow_contract_address;
-            promises.push(this.paymentRepository_.update(p.id, p));
-        });*/
+        const promises: Promise<Order | Payment>[] = [];
 
-        await Promise.all(promises);
+        //update payments with transaction info
+        payments.forEach((p, i) => {
+            promises.push(
+                this.updatePaymentAfterTransaction(p.id, {
+                    transaction_id,
+                    payer_address,
+                    escrow_contract_address,
+                })
+            );
+        });
+
+        try {
+            await Promise.all(promises);
+        } catch (e) {
+            console.log(`Error updating orders/payments: ${e}`);
+        }
 
         return orders;
     }

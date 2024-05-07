@@ -74,21 +74,23 @@ const ProductCollections = ({ vendorName }: Props) => {
                                                     <u>{product.title}</u>
                                                     <br />
 
-                                                    {(status == 'authenticated' && preferred_currency_code) ? <> {(
+                                                    {(status == 'authenticated' && preferred_currency_code && preferredPrice) ? <> {(
                                                         preferredPrice.amount
                                                     ).toFixed(2)}{' '}
                                                         {preferredPrice.currency_code.toUpperCase()}</> : <>
 
-                                                        {(
-                                                            product.variants[0]
-                                                                .prices[0].amount
-                                                        ).toFixed(2)}{' '}
-                                                        {product.variants[0].prices[0].currency_code.toUpperCase()}
-                                                        <br />
-                                                        {'  '}
-                                                        {product.variants[0].prices[1]
-                                                            .amount}{' '}
-                                                        {product.variants[0].prices[1].currency_code.toUpperCase()}
+                                                        {product.variants[0].prices.map((price: any) => {
+                                                            return <>
+                                                                {(
+                                                                    price.amount
+                                                                ).toFixed(2)}{' '}
+                                                                {price.currency_code.toUpperCase()}
+                                                                <br />
+                                                                {'  '}
+
+                                                            </>
+                                                        })}
+
 
                                                     </>}
 

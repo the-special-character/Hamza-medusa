@@ -6,14 +6,14 @@ import {
     IdempotencyKeyService,
     ProductService,
     CartService,
-    Order,
-    Payment,
 } from '@medusajs/medusa';
 import OrderService from '../services/order';
-import { OrderRepository } from '@medusajs/medusa/dist/repositories/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
+import { Payment } from '../models/payment';
+import { Order } from '../models/order';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
+import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
 
 type InjectedDependencies = {
     idempotencyKeyService: IdempotencyKeyService;
@@ -21,6 +21,7 @@ type InjectedDependencies = {
     paymentService: PaymentService;
     cartService: CartService;
     orderService: OrderService;
+    paymentRepository: typeof PaymentRepository;
 };
 
 interface IPaymentGroupData {
@@ -47,6 +48,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     protected readonly productService: ProductService;
     protected readonly paymentService: PaymentService;
     protected readonly orderService: OrderService;
+    protected readonly paymentRepository: typeof PaymentRepository;
 
     constructor({
         idempotencyKeyService,
@@ -54,6 +56,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         paymentService,
         cartService,
         orderService,
+        paymentRepository,
     }: InjectedDependencies) {
         super(arguments[0]);
         this.idempotencyKeyService = idempotencyKeyService;
@@ -61,6 +64,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         this.paymentService = paymentService;
         this.productService = productService;
         this.orderService = orderService;
+        this.paymentRepository = paymentRepository;
     }
 
     /**
@@ -107,7 +111,11 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
 
             //update payments with order ids
-            await this.updatePaymentsWithOrderId(payments, orders);
+            await this.updatePaymentFromOrder(payments, orders);
+
+            // Adding CartId in the payments table is impossible, currently,
+            // it's a foreign key of cart which is unique,
+            // this uniqueness constraint is enforced on the payment table
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -141,18 +149,18 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
     private createPaymentInput(
         cart: Cart,
-        storeId: string,
-        currencyCode: string
+        store_id: string,
+        currency_code: string
     ): PaymentDataInput {
         //divide the cart items
         const itemsFromStore = cart.items.filter(
             (i) =>
-                i.variant?.product?.store?.id === storeId &&
+                i.variant?.product?.store?.id === store_id &&
                 i.variant?.prices[
                     Math.floor(i.unit_price / 10) % 2 == 0
                         ? 0
                         : i.variant?.prices.length - 1
-                ].currency_code === currencyCode //TODO: how to get price?
+                ].currency_code === currency_code //TODO: how to get price?
         );
 
         //get total amount for the items
@@ -169,13 +177,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
         //create payment input
         const output: PaymentDataInput = {
-            currency_code: currencyCode,
+            currency_code: currency_code,
             provider_id: 'crypto',
             amount,
-            data: {
-                store_id: storeId,
-                currency_code: currencyCode,
-            },
+            data: {},
         };
 
         return output;
@@ -242,7 +247,8 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             promises.push(this.paymentService.create(paymentInputs[i]));
         }
 
-        return await Promise.all(promises);
+        const payments: Payment[] = await Promise.all(promises);
+        return payments;
     }
 
     private async createOrdersForPayments(
@@ -264,20 +270,29 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return await Promise.all(promises);
     }
 
-    private async updatePaymentsWithOrderId(
+    private async updatePaymentFromOrder(
         payments: Payment[],
         orders: Order[]
     ): Promise<void> {
         const promises: Promise<Payment>[] = [];
         for (let n = 0; n < payments.length; n++) {
             if (orders.length > n) {
-                payments[n].order_id = orders[n].id;
-                promises.push(
-                    this.paymentService.update(payments[n].id, payments[n])
-                );
+                promises.push(this.updatePayment(payments[n], orders[n]));
             }
         }
         await Promise.all(promises);
+    }
+
+    private async updatePayment(
+        payment: Payment,
+        order: Order
+    ): Promise<Payment> {
+        const fullOrder = await this.orderService.getOrderWithStore(order.id);
+        payment.order_id = order.id;
+        payment.cart_id = order.cart_id;
+        payment.receiver_address =
+            fullOrder.store?.owner?.wallet_address ?? 'NA';
+        return await this.paymentRepository.save(payment);
     }
 }
 
