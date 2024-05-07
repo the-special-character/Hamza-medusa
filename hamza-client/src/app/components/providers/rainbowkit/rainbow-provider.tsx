@@ -21,6 +21,9 @@ import { revalidateTag } from 'next/cache';
 import { signOut } from '@modules/account/actions';
 import { cookies } from 'next/headers';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -30,6 +33,7 @@ const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
     const { setCustomerAuthData, token, wallet_address, status, setStatus } =
         useCustomerAuthStore();
+    const router = useRouter();
 
     useEffect(() => {
         // getCustomer()
@@ -42,10 +46,14 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         //         console.log('rainbow-provider: customer not found');
         //     });
 
-        token && wallet_address && setStatus('authenticated');
-        (!token || !wallet_address) && setStatus('unauthenticated');
-        console.log('status is ', status);
-    }, [token, wallet_address]);
+        getCustomer().then((customer) => {
+            console.log('customer is ', customer)
+        })
+
+        !wallet_address && setStatus('unauthenticated')
+        wallet_address && setStatus('authenticated')
+
+    }, [wallet_address]);
 
     const walletSignature = createAuthenticationAdapter({
         getNonce: async () => {
@@ -87,41 +95,36 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                     message,
                     signature
                 );
-                const response = await fetch(VERIFY_MSG, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, signature }),
+                const response = await axios({
+                    method: 'post',
+                    data: {
+                        message, signature
+                    },
+                    url: `${VERIFY_MSG}`,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                let data = response.data;
+
+                if (data.status == true) {
+
+                    const tokenResponse = await getToken({ wallet_address: message.address, email: '', password: '' })
+                    console.log('token response is ', tokenResponse);
+                    Cookies.set('_medusa_jwt', tokenResponse)
+                    setStatus('authenticated');
+                    setCustomerAuthData({
+                        wallet_address: message.address, customer_id: data.data.customer_id, preferred_currency_code: data.data.preferred_currency.code, token: tokenResponse
+                    })
+                } else {
+                    setStatus('unauthenticated')
+                    throw new Error(data.message)
                 }
 
-                const verifyRes = await response.json(); // Parsing JSON from the response
-                console.log('Verification response:', verifyRes);
 
-                // Checking the boolean response to determine the authentication status
-                const authenticationStatus = verifyRes.bool_resp
-                    ? 'authenticated'
-                    : 'unauthenticated';
-                console.log(`Verification status: ${authenticationStatus}`);
-                setStatus(authenticationStatus);
-
-                if (verifyRes.bool_resp) {
-                    await getToken({
-                        wallet_address: message.address,
-                        email: '',
-                        password: '',
-                    }).then((token) => {
-                        setCustomerAuthData({
-                            token,
-                            wallet_address: message.address,
-                            customer_id: verifyRes.customer_id,
-                            preferred_currency_code: verifyRes.preferred_currency && verifyRes.preferred_currency.code
-                        });
-                    });
-                }
-                return verifyRes.bool_resp;
+                return false;
             } catch (e) {
                 console.error('Error in signing in:', e);
                 return false;
@@ -129,13 +132,15 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         },
 
         signOut: async () => {
-            setStatus('authenticated');
+            Cookies.remove('_medusa_jwt')
+            setStatus('unauthenticated');
             setCustomerAuthData({
                 token: null,
                 wallet_address: null,
                 customer_id: '',
                 preferred_currency_code: null
             });
+            router.replace('/');
             return;
         },
     });

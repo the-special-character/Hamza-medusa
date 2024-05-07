@@ -75,14 +75,18 @@ const ProductCollections = ({ vendorName }: Props) => {
                                                     <br />
 
                                                     {(status == 'authenticated' && preferred_currency_code && preferredPrice) ? <> {(
-                                                        preferredPrice.amount
+                                                        //casting to number here may not be the actual solution
+                                                        // *******************************
+                                                        Number(preferredPrice.amount)
                                                     ).toFixed(2)}{' '}
                                                         {preferredPrice.currency_code.toUpperCase()}</> : <>
 
                                                         {product.variants[0].prices.map((price: any) => {
                                                             return <>
                                                                 {(
-                                                                    price.amount
+                                                                    //casting to number here may not be the actual solution
+                                                                    // *******************************
+                                                                    Number(price.amount)
                                                                 ).toFixed(2)}{' '}
                                                                 {price.currency_code.toUpperCase()}
                                                                 <br />
