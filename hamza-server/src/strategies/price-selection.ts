@@ -45,6 +45,14 @@ export default class PriceSelectionStrategy extends AbstractPriceSelectionStrate
         );
     }
 
+    /**
+     * Gets the given customer's preferred currency code, if the customer id is non-null
+     * and valid, and if that customer exists and has a preferred currency. Otherwise null
+     * or empty.
+     *
+     * @param customerId Unique customer id
+     * @returns A currency code (string)
+     */
     private async getCustomerPreferredCurrency(
         customerId: string = null
     ): Promise<string> {
@@ -56,6 +64,16 @@ export default class PriceSelectionStrategy extends AbstractPriceSelectionStrate
         return null;
     }
 
+    /**
+     * If no preferredCurrencyId is not passed in, all found prices for all given variants
+     * will be returned. If preferredCurrencyId is passed, only prices with that currency
+     * will be returned. Unless that results in 0 prices, in which case again, all prices
+     * will be returned instead by default.
+     *
+     * @param variantIds Array of product variant unique ids
+     * @param preferredCurrencyId Optional; a currency code by which to filter.
+     * @returns Map of string -> PriceSelectionResult, where the key is the variant id.
+     */
     private async getPricesForVariants(
         variantIds: string[],
         preferredCurrencyId: string = null
