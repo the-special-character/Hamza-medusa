@@ -40,7 +40,6 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
         cart.shipping_methods.length < 1
             ? true
             : false;
-
     const paymentSession = cart.payment_session as PaymentSession;
 
     switch (paymentSession.provider_id) {
