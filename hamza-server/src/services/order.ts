@@ -97,9 +97,11 @@ export default class OrderService extends MedusaOrderService {
         const orders: Order[] = await this.orderRepository_.find({
             where: { cart_id },
         });
+
         //get payments
         const orderIds = orders.map((order) => order.id);
-        // TODO: Payments are not setting cart_id, so they must be found by order_id instead
+
+        //get payments associated with orders
         const payments: Payment[] = await this.paymentRepository_.find({
             where: { order_id: In(orderIds) },
         });
