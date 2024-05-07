@@ -6,6 +6,7 @@ import {
     ProductVariant,
 } from '@medusajs/medusa';
 import ProductVariantRepository from '@medusajs/medusa/dist/repositories/product-variant';
+import { In } from 'typeorm';
 
 type InjectedDependencies = {
     customerService: CustomerService;
@@ -33,68 +34,65 @@ export default class PriceSelectionStrategy extends AbstractPriceSelectionStrate
         }[],
         context: PriceSelectionContext
     ): Promise<Map<string, PriceSelectionResult>> {
-        console.log('PRICE SELECTION:', context);
+        //if we have a customer, then we will check for preferred currency
+        const preferredCurrency: string =
+            await this.getCustomerPreferredCurrency(context.customer_id);
+
+        //get all relevant variants, including preferred currency (if any)
+        return await this.getPricesForVariants(
+            data.map((d) => d.variantId), //variant ids
+            preferredCurrency
+        );
+    }
+
+    private async getCustomerPreferredCurrency(
+        customerId: string = null
+    ): Promise<string> {
+        if (customerId) {
+            const customer = await this.customerService_.retrieve(customerId);
+            return customer?.preferred_currency_id;
+        }
+
+        return null;
+    }
+
+    private async getPricesForVariants(
+        variantIds: string[],
+        preferredCurrencyId: string = null
+    ): Promise<Map<string, PriceSelectionResult>> {
         const output: Map<string, PriceSelectionResult> = new Map<
             string,
             PriceSelectionResult
         >();
-        //const dataMap = new Map(data.map((d) => [d.variantId, d]));
 
-        let preferredCurrency: string = 'eth';
+        //get the variant objects
+        const variants: ProductVariant[] =
+            await this.productVariantRepository_.find({
+                where: { id: In(variantIds) },
+                relations: ['product', 'prices'],
+            });
 
-        if (context.customer_id) {
-            const customer = await this.customerService_.retrieve(
-                context.customer_id
-            );
+        //if no preferred currency, just return all prices
+        for (const v of variants) {
+            let prices = v.prices;
 
-            preferredCurrency = customer.preferred_currency_id;
-            console.log('user preferred currency is ', preferredCurrency);
+            //if preferred currency, filter out the non-matchers
+            if (preferredCurrencyId) {
+                prices = prices.filter(
+                    (p) => p.currency_code == preferredCurrencyId
+                );
 
-            /*
-            if (preferred) {
-                const variant: ProductVariant =
-                    await this.productVariantService_.retrieve(
-                        data[0].variantId,
-                        {
-                            relations: ['product', 'prices'],
-                        }
-                    );
-
-                if (variant) {
-                    for (const price of variant.prices) {
-                        if (price.currency_code == preferred) {
-                            output.set(preferred, {
-                                originalPrice: 11,
-                                originalPriceIncludesTax: false,
-                                calculatedPrice: 11,
-                                prices: [price],
-                            });
-
-                            return output;
-                        }
-                    }
-                }
+                //if no matchers, then just return all
+                if (!prices.length) prices = v.prices;
             }
-            */
-        }
 
-        for (const d of data) {
-            const variant: ProductVariant =
-                await this.productVariantRepository_.findOne({
-                    where: { id: d.variantId },
-                    relations: ['product', 'prices'],
-                });
-
-            for (const price of variant.prices) {
-                if (price.currency_code == preferredCurrency) {
-                    output.set(variant.id, {
-                        originalPrice: price.amount,
-                        originalPriceIncludesTax: false,
-                        calculatedPrice: price.amount,
-                        prices: [price],
-                    });
-                }
-            }
+            //gather and return the output
+            output.set(v.id, {
+                originalPrice: prices.length ? prices[0].amount : 0,
+                calculatedPrice: prices.length ? prices[0].amount : 0,
+                originalPriceIncludesTax: false,
+                prices: prices,
+            });
         }
 
         return output;
