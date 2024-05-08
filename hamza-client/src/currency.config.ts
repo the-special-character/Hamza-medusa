@@ -15,7 +15,7 @@ const chainConfig: any = {
             precision: 6,
         },
         eth: {
-            contract_address: '',
+            contract_address: '0x0000000000000000000000000000000000000000',
             precision: 18,
         },
     },
@@ -30,7 +30,7 @@ const chainConfig: any = {
             precision: 6,
         },
         eth: {
-            contract_address: '',
+            contract_address: '0x0000000000000000000000000000000000000000',
             precision: 18,
         },
     },
@@ -45,7 +45,7 @@ const chainConfig: any = {
             precision: 6,
         },
         eth: {
-            contract_address: '',
+            contract_address: '0x0000000000000000000000000000000000000000',
             precision: 18,
         },
     },
