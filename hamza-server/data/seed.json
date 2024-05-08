@@ -200,7 +200,7 @@
                     "prices": [
                         {
                             "currency_code": "usdc",
-                            "amount": 6000
+                            "amount": 12300
                         }
                     ],
                     "options": [
@@ -278,11 +278,11 @@
                     "prices": [
                         {
                             "currency_code": "usdc",
-                            "amount": 45
+                            "amount": 14500
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 3500
+                            "amount": 4800000
                         }
                     ],
                     "options": [
@@ -321,11 +321,11 @@
                     "prices": [
                         {
                             "currency_code": "usdt",
-                            "amount": 76
+                            "amount": 7600
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 80
+                            "amount": 2500000
                         }
                     ],
                     "options": [
@@ -364,11 +364,11 @@
                     "prices": [
                         {
                             "currency_code": "usdc",
-                            "amount": 46
+                            "amount": 15600
                         },
                         {
                             "currency_code": "usdt",
-                            "amount": 33
+                            "amount": 5100000
                         }
                     ],
                     "options": [
@@ -407,15 +407,15 @@
                     "prices": [
                         {
                             "currency_code": "usdc",
-                            "amount": 47
+                            "amount": 14700
                         },
                         {
                             "currency_code": "usdt",
-                            "amount": 34
+                            "amount": 14700
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 66
+                            "amount": 6600000
                         }
                     ],
                     "options": [
@@ -454,11 +454,15 @@
                     "prices": [
                         {
                             "currency_code": "usdc",
-                            "amount": 3
+                            "amount": 15500
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 15500
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4
+                            "amount": 6600000
                         }
                     ],
                     "options": [
@@ -510,7 +514,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2200
+                            "amount": 670000
                         }
                     ],
                     "options": [
@@ -532,8 +536,12 @@
                             "amount": 1950
                         },
                         {
+                            "currency_code": "usdt",
+                            "amount": 1950
+                        },
+                        {
                             "currency_code": "eth",
-                            "amount": 2200
+                            "amount": 670000
                         }
                     ],
                     "options": [
@@ -551,12 +559,12 @@
                     "title": "M / Black",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 1950
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2200
+                            "amount": 670000
                         }
                     ],
                     "options": [
@@ -578,8 +586,8 @@
                             "amount": 1950
                         },
                         {
-                            "currency_code": "eth",
-                            "amount": 2200
+                            "currency_code": "usdt",
+                            "amount": 1950
                         }
                     ],
                     "options": [
@@ -601,8 +609,12 @@
                             "amount": 1950
                         },
                         {
+                            "currency_code": "usdt",
+                            "amount": 1950
+                        },
+                        {
                             "currency_code": "eth",
-                            "amount": 2200
+                            "amount": 660000
                         }
                     ],
                     "options": [
@@ -624,8 +636,8 @@
                             "amount": 1950
                         },
                         {
-                            "currency_code": "eth",
-                            "amount": 2200
+                            "currency_code": "usdt",
+                            "amount": 1950
                         }
                     ],
                     "options": [
@@ -647,8 +659,8 @@
                             "amount": 1950
                         },
                         {
-                            "currency_code": "eth",
-                            "amount": 2200
+                            "currency_code": "usdt",
+                            "amount": 1950
                         }
                     ],
                     "options": [
@@ -666,12 +678,12 @@
                     "title": "XL / White",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 1950
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2200
+                            "amount": 660000
                         }
                     ],
                     "options": [
@@ -719,8 +731,12 @@
                             "amount": 2950
                         },
                         {
+                            "currency_code": "usdt",
+                            "amount": 2950
+                        },
+                        {
                             "currency_code": "eth",
-                            "amount": 3350
+                            "amount": 850000
                         }
                     ],
                     "options": [
@@ -740,7 +756,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 3350
+                            "amount": 850000
                         }
                     ],
                     "options": [
@@ -755,12 +771,8 @@
                     "title": "L",
                     "prices": [
                         {
-                            "currency_code": "usdc",
-                            "amount": 2950
-                        },
-                        {
                             "currency_code": "eth",
-                            "amount": 3350
+                            "amount": 850000
                         }
                     ],
                     "options": [
@@ -777,10 +789,6 @@
                         {
                             "currency_code": "usdc",
                             "amount": 2950
-                        },
-                        {
-                            "currency_code": "eth",
-                            "amount": 3350
                         }
                     ],
                     "options": [
@@ -821,12 +829,8 @@
                     "title": "S",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 2950
-                        },
-                        {
-                            "currency_code": "eth",
-                            "amount": 3350
                         }
                     ],
                     "options": [
@@ -845,8 +849,12 @@
                             "amount": 2950
                         },
                         {
+                            "currency_code": "usdc",
+                            "amount": 2950
+                        },
+                        {
                             "currency_code": "eth",
-                            "amount": 3350
+                            "amount": 850000
                         }
                     ],
                     "options": [
@@ -861,12 +869,12 @@
                     "title": "L",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 2950
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 3350
+                            "amount": 850000
                         }
                     ],
                     "options": [
@@ -881,12 +889,8 @@
                     "title": "XL",
                     "prices": [
                         {
-                            "currency_code": "usdc",
-                            "amount": 2950
-                        },
-                        {
                             "currency_code": "eth",
-                            "amount": 3350
+                            "amount": 850000
                         }
                     ],
                     "options": [
@@ -932,7 +936,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2850
+                            "amount": 810000
                         }
                     ],
                     "options": [
@@ -952,7 +956,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2850
+                            "amount": 810000
                         }
                     ],
                     "options": [
@@ -972,7 +976,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2850
+                            "amount": 810000
                         }
                     ],
                     "options": [
@@ -992,7 +996,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 2850
+                            "amount": 810000
                         }
                     ],
                     "options": [
@@ -1036,12 +1040,12 @@
                     "title": "S",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 3650
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1060,8 +1064,8 @@
                             "amount": 3650
                         },
                         {
-                            "currency_code": "eth",
-                            "amount": 4150
+                            "currency_code": "usdt",
+                            "amount": 3650
                         }
                     ],
                     "options": [
@@ -1076,12 +1080,12 @@
                     "title": "L",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 3650
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1101,7 +1105,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1145,12 +1149,12 @@
                     "title": "S",
                     "prices": [
                         {
-                            "currency_code": "usdc",
+                            "currency_code": "usdt",
                             "amount": 3650
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1170,7 +1174,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1190,7 +1194,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1210,7 +1214,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 4150
+                            "amount": 1200000
                         }
                     ],
                     "options": [
@@ -1258,7 +1262,7 @@
                         },
                         {
                             "currency_code": "eth",
-                            "amount": 1200
+                            "amount": 300000
                         }
                     ],
                     "options": [
