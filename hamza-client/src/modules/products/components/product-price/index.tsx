@@ -40,7 +40,10 @@ export default function ProductPrice({
         <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
             {preferredPrice ? (
                 <span className={clx('text-xl-semi')}>
-                    {preferredPrice.amount}{' '}
+                    {formatCryptoPrice(
+                        preferredPrice.amount,
+                        preferredPrice.currency_code
+                    )}{' '}
                     {preferredPrice.currency_code.toUpperCase()}
                 </span>
             ) : (
