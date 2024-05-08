@@ -52,9 +52,11 @@ const chainConfig: any = {
 };
 
 const getCurrencyAddress = (chainId: number, currencyId: string) =>
-    chainConfig[chainId] ? chainConfig[chainId][currencyId]?.contract_address ?? '' : '';
+    chainConfig[chainId]
+        ? chainConfig[chainId][currencyId]?.contract_address ?? ''
+        : '';
 
-const getCurrencyPrecision = (chainId: number, currencyId: string) =>
-    chainConfig[chainId] ? chainConfig[chainId][currencyId]?.precision ?? 0 : 0;
+const getCurrencyPrecision = (currencyId: string) =>
+    chainConfig[1] ? chainConfig[1][currencyId]?.precision ?? 0 : 0;
 
 export { getCurrencyAddress, getCurrencyPrecision };
