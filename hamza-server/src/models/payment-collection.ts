@@ -6,11 +6,11 @@ import {
     ManyToOne,
     PrimaryColumn,
 } from 'typeorm';
-import { PaymentCollectionService } from '@medusajs/medusa';
+import { PaymentCollection as MedusaPaymentCollection } from '@medusajs/medusa';
 import { Store } from './store';
 
 @Entity()
-export class PaymentCollection extends PaymentCollectionService {
+export class PaymentCollection extends MedusaPaymentCollection {
     @PrimaryColumn({ type: 'varchar', primary: true })
     id: string;
 
