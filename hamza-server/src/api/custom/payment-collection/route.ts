@@ -1,10 +1,18 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { readRequestBody } from '../../../utils/request-body';
 import PaymentCollectionService from '../../../services/payment-collection';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const paymentCollectionService: PaymentCollectionService =
         req.scope.resolve('paymentCollectionService');
-    const payload = req.body;
+
+    const payload = readRequestBody(req.body, [
+        'region_id',
+        'type',
+        'currency_code',
+        'amount',
+        'created_by',
+    ]);
 
     try {
         const paymentCollection =
