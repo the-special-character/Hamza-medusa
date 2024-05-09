@@ -1,4 +1,5 @@
 import { RelayClient } from '@massmarket/client';
+
 import { randomBytes } from 'crypto';
 import { http, createWalletClient, PrivateKeyAccount } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
@@ -117,9 +118,7 @@ export class RelayClientWrapper {
             keyCard
         );
 
-        //await client.connect();
         await client._client.login();
-        //await client._client.writeStoreManifest(client.storeId);
 
         return client;
     }
