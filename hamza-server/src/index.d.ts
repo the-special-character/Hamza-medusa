@@ -22,7 +22,8 @@ export declare module '@medusajs/medusa/dist/models/customer' {
         wallet_address: string;
         email?: string;
         password_hash?: string;
-        preferred_currency?: Currency
+        preferred_currency_id?: string;
+        preferred_currency?: Currency;
     }
 }
 

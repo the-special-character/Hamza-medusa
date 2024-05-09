@@ -3,20 +3,22 @@ import { Suspense } from 'react';
 import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid';
 import Thumbnail from '@modules/products/components/thumbnail';
 import { Text } from '@medusajs/ui';
-import PreviewPrice from '@modules/products/components/product-preview/price';
-import { ProductPreviewType } from 'types/global';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import { useProducts } from 'medusa-react';
 import axios from 'axios';
 import { SimpleGrid } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { getProductPrice } from '@lib/util/get-product-price';
+//import PreviewPrice from '@modules/products/components/product-preview/price';
+//import { ProductPreviewType } from 'types/global';
+//import { getProductPrice } from '@lib/util/get-product-price';
+//import { useProducts } from 'medusa-react';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 // TODO: Refactor goals to use <Suspense .. /> to wrap collection && <SkeletonProductGrid /> for loading state
 
 type Props = {
     vendorName: string;
 };
+
 const ProductCollections = ({ vendorName }: Props) => {
     const { data, error, isLoading } = useQuery(
         ['products', { vendor: vendorName }],
@@ -80,25 +82,42 @@ const ProductCollections = ({ vendorName }: Props) => {
                                                 {/*    <u>{product.title}</u>*/}
                                                 {/*    <br />*/}
 
-                                                {/*    {(status == 'authenticated' && preferred_currency_code) ? <> {(*/}
-                                                {/*        preferredPrice.amount*/}
-                                                {/*    ).toFixed(2)}{' '}*/}
-                                                {/*        {preferredPrice.currency_code.toUpperCase()}</> : <>*/}
-
-                                                {/*        {(*/}
-                                                {/*            product.variants[0]*/}
-                                                {/*                .prices[0].amount*/}
-                                                {/*        ).toFixed(2)}{' '}*/}
-                                                {/*        {product.variants[0].prices[0].currency_code.toUpperCase()}*/}
-                                                {/*        <br />*/}
-                                                {/*        {'  '}*/}
-                                                {/*        {product.variants[0].prices[1]*/}
-                                                {/*            .amount}{' '}*/}
-                                                {/*        {product.variants[0].prices[1].currency_code.toUpperCase()}*/}
-
-                                                {/*    </>}*/}
-
-                                                {/*</Text>*/}
+                                                    {status ==
+                                                        'authenticated' &&
+                                                    preferred_currency_code &&
+                                                    preferredPrice ? (
+                                                        <>
+                                                            {' '}
+                                                            {formatCryptoPrice(
+                                                                preferredPrice.amount,
+                                                                preferred_currency_code
+                                                            )}{' '}
+                                                            {preferredPrice.currency_code.toUpperCase()}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            {product.variants[0].prices.map(
+                                                                (
+                                                                    price: any
+                                                                ) => {
+                                                                    return (
+                                                                        <>
+                                                                            {formatCryptoPrice(
+                                                                                price.amount,
+                                                                                price.currency_code
+                                                                            )}{' '}
+                                                                            {price.currency_code.toUpperCase()}
+                                                                            <br />
+                                                                            {
+                                                                                '  '
+                                                                            }
+                                                                        </>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </Text>
                                                 <div className="flex items-center gap-x-2 "></div>
                                             </div>
                                         </div>

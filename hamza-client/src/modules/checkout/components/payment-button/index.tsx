@@ -34,13 +34,12 @@ declare global {
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const notReady =
         !cart ||
-        !cart.shipping_address ||
-        !cart.billing_address ||
-        !cart.email ||
-        cart.shipping_methods.length < 1
+            !cart.shipping_address ||
+            !cart.billing_address ||
+            !cart.email ||
+            cart.shipping_methods.length < 1
             ? true
             : false;
-
     const paymentSession = cart.payment_session as PaymentSession;
 
     switch (paymentSession.provider_id) {
@@ -126,7 +125,7 @@ const CryptoPaymentButton = ({
             const switchClient: MasterSwitchClient = new MasterSwitchClient(
                 provider,
                 signer,
-                '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A' //TODO: get contract address dynamically
+                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9' //TODO: get contract address dynamically
             );
 
             //create the inputs
@@ -238,7 +237,7 @@ const CryptoPaymentButton = ({
             updateCart.mutate(
                 { context: {} },
                 {
-                    onSuccess: ({}) => {
+                    onSuccess: ({ }) => {
                         completeCart.mutate(void 0, {
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
