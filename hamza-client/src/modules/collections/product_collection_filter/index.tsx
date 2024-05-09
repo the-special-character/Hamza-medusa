@@ -82,42 +82,36 @@ const ProductCollections = ({ vendorName }: Props) => {
                                                 {/*    <u>{product.title}</u>*/}
                                                 {/*    <br />*/}
 
-                                                    {status ==
-                                                        'authenticated' &&
-                                                    preferred_currency_code &&
-                                                    preferredPrice ? (
-                                                        <>
-                                                            {' '}
-                                                            {formatCryptoPrice(
-                                                                preferredPrice.amount,
-                                                                preferred_currency_code
-                                                            )}{' '}
-                                                            {preferredPrice.currency_code.toUpperCase()}
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {product.variants[0].prices.map(
-                                                                (
-                                                                    price: any
-                                                                ) => {
-                                                                    return (
-                                                                        <>
-                                                                            {formatCryptoPrice(
-                                                                                price.amount,
-                                                                                price.currency_code
-                                                                            )}{' '}
-                                                                            {price.currency_code.toUpperCase()}
-                                                                            <br />
-                                                                            {
-                                                                                '  '
-                                                                            }
-                                                                        </>
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </Text>
+                                                {status == 'authenticated' &&
+                                                preferred_currency_code &&
+                                                preferredPrice ? (
+                                                    <>
+                                                        {' '}
+                                                        {formatCryptoPrice(
+                                                            preferredPrice.amount,
+                                                            preferred_currency_code
+                                                        )}{' '}
+                                                        {preferredPrice.currency_code.toUpperCase()}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {product.variants[0].prices.map(
+                                                            (price: any) => {
+                                                                return (
+                                                                    <>
+                                                                        {formatCryptoPrice(
+                                                                            price.amount,
+                                                                            price.currency_code
+                                                                        )}{' '}
+                                                                        {price.currency_code.toUpperCase()}
+                                                                        <br />
+                                                                        {'  '}
+                                                                    </>
+                                                                );
+                                                            }
+                                                        )}
+                                                    </>
+                                                )}
                                                 <div className="flex items-center gap-x-2 "></div>
                                             </div>
                                         </div>
