@@ -1,9 +1,9 @@
 import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import { SiweMessage } from 'siwe';
-import CustomerRepository from 'src/repositories/customer';
-import AuthService from 'src/services/auth';
-import CustomerService from 'src/services/customer';
-import { readRequestBody } from 'src/utils/request-body';
+import CustomerRepository from '../../../repositories/customer';
+import AuthService from '../../../../src/services/auth';
+import CustomerService from '../../../../src/services/customer';
+import { readRequestBody } from '../../../utils/request-body';
 // Using Auth from SIWE example: https://github.com/spruceid/siwe-quickstart/blob/main/02_backend/src/index.js
 
 // TODO: So once the user has been verified, we can use the CustomerService.create() method to create/login the user.

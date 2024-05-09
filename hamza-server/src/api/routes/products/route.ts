@@ -1,5 +1,5 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
-import { readRequestBody } from 'src/utils/request-body';
+import { readRequestBody } from '../../../utils/request-body';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     try {

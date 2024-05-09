@@ -1,6 +1,6 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
-import RoleService from 'src/services/role';
-import { readRequestBody } from 'src/utils/request-body';
+import RoleService from '../../../services/role';
+import { readRequestBody } from '../../../utils/request-body';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     // omitting validation for simplicity

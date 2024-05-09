@@ -1,6 +1,6 @@
 import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import OrderService from '../../../services/order';
-import { readRequestBody } from 'src/utils/request-body';
+import { readRequestBody } from '../../../utils/request-body';
 
 interface ICheckoutData {
     order_id: string;
