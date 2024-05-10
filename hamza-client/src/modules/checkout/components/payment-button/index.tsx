@@ -10,12 +10,13 @@ import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { ITransactionOutput, IMultiPaymentInput } from 'web3';
 import { MasterSwitchClient } from 'web3/master-switch-client';
-import { ethers } from 'ethers';
+import { ethers, BigNumberish } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
 import { useRouter } from 'next/navigation';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
+import { getCurrencyPrecision } from 'currency.config';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -158,10 +159,22 @@ const CryptoPaymentButton = ({
         return response.status == 200 && response.data ? response.data : {};
     };
 
+    const translateToNativeAmount = (order: any) => {
+        const { amount, currency_code } = order;
+        const precision = getCurrencyPrecision(11155111, currency_code);
+        const adjustmentFactor = Math.pow(10, precision.native - precision.db);
+        const nativeAmount = BigInt(amount) * BigInt(adjustmentFactor);
+        return ethers.toBigInt(nativeAmount);
+    };
+
     const createSwitchInput = async (data: any, payer: string) => {
+        //TODO: typeSafety of the data
         if (data.orders) {
             const switchInput: IMultiPaymentInput[] = [];
             data.orders.forEach((o: any) => {
+                console.log(o)
+                o.amount = translateToNativeAmount(o);
+                console.log(o)
                 const input: IMultiPaymentInput = {
                     currency: o.currency_code,
                     receiver: o.wallet_address,

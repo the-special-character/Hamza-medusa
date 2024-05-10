@@ -1,7 +1,7 @@
 import { BigNumberish, ethers } from 'ethers';
 import { masterAbi, erc20abi } from './switch-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
-import getCurrencyAddress from '../currency.config';
+import { getCurrencyAddress } from '../currency.config';
 
 /**
  * Client-side Switch contract client; allows for payments to be made.
