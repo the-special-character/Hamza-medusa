@@ -3,24 +3,14 @@ import { MedusaError } from 'medusa-core-utils';
 import { Lifetime } from 'awilix';
 import { WishlistItem } from '../models/wishlist-item';
 import { Wishlist } from '../models/wishlist';
-import { Region } from '@medusajs/medusa';
 
-interface CreateWishlistPayload {
-    region_id: string;
-    customer_id: string;
-}
 class WishlistService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
-
-    // TODO: Use BaseRepository instead of injecting repositories
 
     constructor(container) {
         super(container);
     }
 
-    // TODO: Running this multiple times should NOT create multiple wishlists, look into how to prevent this && how atomicPhase_ works
-    // XGH NOTE: atomicPhase_ handles dB transactions in a safe and isolated way, method is designed to encapsulate the block of
-    // transactional work to ensure ALL operations are completed successfully or none are.- GN
     async create(customer_id) {
         return await this.atomicPhase_(async (transactionManager) => {
             if (!customer_id) {
@@ -30,11 +20,6 @@ class WishlistService extends TransactionBaseService {
                 );
             }
 
-            const regionRepository = this.activeManager_.getRepository(Region);
-            const region = await regionRepository.findOne({
-                where: { name: 'NA' },
-            });
-
             const wishlistRepository =
                 this.activeManager_.getRepository(Wishlist);
 
@@ -42,7 +27,6 @@ class WishlistService extends TransactionBaseService {
             const existingWishlist = await wishlistRepository.findOne({
                 where: {
                     customer_id: customer_id,
-                    region_id: region.id,
                 },
             });
 
@@ -53,7 +37,6 @@ class WishlistService extends TransactionBaseService {
             }
 
             const payload = {
-                region_id: region.id,
                 customer_id,
             };
 
