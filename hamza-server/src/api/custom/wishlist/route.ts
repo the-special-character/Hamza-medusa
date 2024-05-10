@@ -47,11 +47,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     // lets create a payload for wishlist-dropdown
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');
-    // const payload = {
-    //     region_id: req.body.region_id,
-    //     customer_id: req.body.customer_id,
-    // };
-    //const customer_id = req.body.customer_id;
 
     const { customer_id } = readRequestBody(req.body, ['customer_id']);
 
