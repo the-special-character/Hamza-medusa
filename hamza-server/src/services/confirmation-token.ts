@@ -2,7 +2,7 @@ import { TransactionBaseService } from '@medusajs/medusa';
 import ConfirmationTokenRepository from '../repositories/confirmation-token';
 import CustomerRepository from '../repositories/customer';
 import moment from 'moment';
-import keccak256 from 'keccak256';
+import { ethers } from 'ethers';
 
 export default class ConfirmationTokenService extends TransactionBaseService {
     protected readonly confirmationTokenRepository_: typeof ConfirmationTokenRepository;
@@ -26,9 +26,8 @@ export default class ConfirmationTokenService extends TransactionBaseService {
         if (emailCheck) {
             throw new Error('Email already associated with different account');
         }
-        let token = keccak256(
-            JSON.stringify({ customer_id, email })
-        ).toString();
+        let token = ethers.keccak256(new Uint8Array(32));
+
         console.log('token is ', token);
         let confirmationToken = await this.confirmationTokenRepository_.save({
             id: token,
