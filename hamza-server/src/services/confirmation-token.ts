@@ -44,19 +44,26 @@ export default class ConfirmationTokenService extends TransactionBaseService {
         let tokenCheck = await this.confirmationTokenRepository_.findOne({
             where: { token: token },
         });
-        if (!token) {
-            throw new Error("Token doesn't exists");
+
+        //check for existence of token
+        if (!tokenCheck) {
+            throw new Error('Token not found');
         }
+
+        //check if already used
         if (tokenCheck.redeemed) {
-            throw new Error('Token redemmed already');
+            throw new Error('Token redeemed already');
         }
+
+        //check for token expiration
         if (
             moment().diff(tokenCheck.created_at, 'hour') >
-            -tokenCheck.expiration_hours
+            tokenCheck.expiration_hours
         ) {
             throw new Error('Token Expired');
         }
 
+        //get the customer & verify
         let customerData = await this.customerRepository_.findOne({
             where: { id: tokenCheck.customer_id },
             relations: { walletAddresses: true },
@@ -65,6 +72,7 @@ export default class ConfirmationTokenService extends TransactionBaseService {
             throw new Error('Please link a wallet before email verification');
         }
 
+        //update customer record
         await this.customerRepository_.update(
             { id: customerData.id },
             { is_verified: true, email: tokenCheck.email_address }
