@@ -17,7 +17,6 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
 import { getCurrencyPrecision } from 'currency.config';
-import { chain } from 'lodash';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
