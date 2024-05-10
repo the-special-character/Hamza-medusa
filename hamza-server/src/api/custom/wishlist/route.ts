@@ -1,5 +1,6 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
-import WishlistService from '../../../services/wishlist';
+import WishlistService from 'src/services/wishlist';
+import { readRequestBody } from '../../../utils/request-body';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const wishlistService: WishlistService =
@@ -50,7 +51,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     //     region_id: req.body.region_id,
     //     customer_id: req.body.customer_id,
     // };
-    const customer_id = req.body.customer_id;
+    //const customer_id = req.body.customer_id;
+
+    const { customer_id } = readRequestBody(req.body, ['customer_id']);
 
     console.log('customer_id: ', customer_id);
 
