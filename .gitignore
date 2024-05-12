@@ -1,1 +1,2 @@
 .env*
+/hamza-server/meili_data/*
