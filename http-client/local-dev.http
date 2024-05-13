@@ -67,3 +67,11 @@ Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
 ### MeilieSearch Delete All by uid
 DELETE http://localhost:7700/indexes/products/documents
 Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
+
+### Product Variant Response??
+POST http://localhost:9000/custom/variant
+
+{
+  "variant_id": "variant_01HXR1W042YE8G0AESHQZQ9FQS",
+}
+
