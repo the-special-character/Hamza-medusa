@@ -78,7 +78,7 @@ export default class ConfirmationTokenService extends TransactionBaseService {
             { is_verified: true, email: tokenCheck.email_address }
         );
         await this.confirmationTokenRepository_.update(
-            { id: tokenCheck.id },
+            { token: tokenCheck.token },
             { redeemed: true }
         );
         return;

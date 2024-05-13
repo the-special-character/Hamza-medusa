@@ -1,35 +1,43 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { BaseEntity, } from '@medusajs/medusa';
+import {
+    BeforeInsert,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+import { BaseEntity } from '@medusajs/medusa';
 import { generateEntityId } from '@medusajs/medusa/dist/utils';
-import { Customer } from './customer'
+import { Customer } from './customer';
 
 @Entity({ name: 'confirmation_token' })
-export class ConfirmationToken extends BaseEntity {
-
-
-    @Column()
-    token: string
+export class ConfirmationToken {
+    @PrimaryColumn()
+    token: string;
 
     @Column()
-    email_address: string
+    email_address: string;
 
     @Column({ default: false })
     redeemed: boolean;
 
     @Column({ default: 3 })
-    expiration_hours: number
+    expiration_hours: number;
 
-
-    @ManyToOne(() => Customer, customer => customer.walletAddresses, { nullable: false })
+    @ManyToOne(() => Customer, (customer) => customer.walletAddresses, {
+        nullable: false,
+    })
     @JoinColumn({ name: 'customer_id' })
     customer: Customer;
 
     @Column({ type: 'varchar', name: 'customer_id' })
     customer_id: string;
 
-    @BeforeInsert()
-    private beforeInsert(): void {
-        console.log('running generate entity id ', this.id, ' generated', generateEntityId(this.id, 'conf'))
-        this.id = generateEntityId(this.id, 'conf');
-    }
+    @CreateDateColumn({ type: 'timestamptz' })
+    created_at: Date;
+
+    @UpdateDateColumn({ type: 'timestamptz' })
+    updated_at: Date;
 }
