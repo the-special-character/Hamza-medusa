@@ -10,12 +10,13 @@ import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { ITransactionOutput, IMultiPaymentInput } from 'web3';
 import { MasterSwitchClient } from 'web3/master-switch-client';
-import { ethers } from 'ethers';
+import { ethers, BigNumberish } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
 import { useRouter } from 'next/navigation';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
+import { getCurrencyPrecision } from 'currency.config';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -115,10 +116,14 @@ const CryptoPaymentButton = ({
     const doWalletPayment = async (data: any) => {
         try {
             //get provider and such
+            const rawchainId = await window.ethereum.request({
+                method: 'eth_chainId',
+            });
+            const chainId = parseInt(rawchainId, 16);
             const provider = new ethers.BrowserProvider(
                 window.ethereum,
-                11155111
-            ); //TODO: get chain dynamically
+                chainId
+            );
             const signer: ethers.Signer = await provider.getSigner();
 
             //create the contract client
@@ -131,7 +136,8 @@ const CryptoPaymentButton = ({
             //create the inputs
             const switchInput: IMultiPaymentInput[] = await createSwitchInput(
                 data,
-                await signer.getAddress()
+                await signer.getAddress(),
+                chainId
             );
 
             console.log(switchInput);
@@ -158,10 +164,24 @@ const CryptoPaymentButton = ({
         return response.status == 200 && response.data ? response.data : {};
     };
 
-    const createSwitchInput = async (data: any, payer: string) => {
+    const translateToNativeAmount = (order: any, chainId: number) => {
+        const { amount, currency_code } = order;
+        const precision = getCurrencyPrecision(currency_code, chainId);
+        const adjustmentFactor = Math.pow(10, precision.native - precision.db);
+        const nativeAmount = BigInt(amount) * BigInt(adjustmentFactor);
+        return ethers.toBigInt(nativeAmount);
+    };
+
+    const createSwitchInput = async (
+        data: any,
+        payer: string,
+        chainId: number
+    ) => {
+        //TODO: typeSafety of the data
         if (data.orders) {
             const switchInput: IMultiPaymentInput[] = [];
             data.orders.forEach((o: any) => {
+                o.amount = translateToNativeAmount(o, chainId);
                 const input: IMultiPaymentInput = {
                     currency: o.currency_code,
                     receiver: o.wallet_address,
