@@ -49,12 +49,12 @@ export class MasterSwitchClient {
             } else {
                 if (!ethers.isAddress(input.currency)) {
                     input.currency = getCurrencyAddress(
+                        input.currency,
                         parseInt(
                             (
                                 await this.provider.getNetwork()
                             ).chainId.toString()
-                        ),
-                        input.currency
+                        )
                     );
                 }
             }

@@ -99,7 +99,7 @@ export function formatCryptoPrice(
     currencyCode: string
 ): string | number {
     try {
-        const precision = getCurrencyPrecision(currencyCode);
+        const precision = getCurrencyPrecision(currencyCode).native;
         const displayPrecision = precision === 18 ? 8 : 2; //TODO: get this better
 
         amount = amount / 10 ** displayPrecision;

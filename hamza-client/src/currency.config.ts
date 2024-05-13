@@ -11,21 +11,21 @@ const chainConfig: any = {
             precision: {
                 db: 2,
                 native: 6,
-            }
+            },
         },
         usdt: {
             contract_address: '0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0',
             precision: {
                 db: 2,
                 native: 6,
-            }
+            },
         },
         eth: {
             contract_address: '0x0000000000000000000000000000000000000000',
             precision: {
                 db: 8,
                 native: 18,
-            }
+            },
         },
     },
     11155420: {
@@ -35,14 +35,14 @@ const chainConfig: any = {
             precision: {
                 db: 2,
                 native: 6,
-            }
+            },
         },
         usdt: {
             contract_address: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
             precision: {
                 db: 2,
                 native: 6,
-            }
+            },
         },
         eth: {
             contract_address: '0x0000000000000000000000000000000000000000',
@@ -56,33 +56,33 @@ const chainConfig: any = {
             pprecision: {
                 db: 2,
                 native: 6,
-            }
+            },
         },
         usdt: {
             contract_address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
             precision: {
                 db: 2,
                 native: 6,
-            }
+            },
         },
         eth: {
             contract_address: '0x0000000000000000000000000000000000000000',
             precision: {
                 db: 8,
                 native: 18,
-            }
+            },
         },
     },
 };
 
-const getCurrencyAddress = (chainId: number, currencyId: string) =>
+const getCurrencyAddress = (currencyId: string, chainId: number = 1) =>
     chainConfig[chainId]
         ? chainConfig[chainId][currencyId]?.contract_address ?? ''
         : '';
 
-const getCurrencyPrecision = (chainId: number, currencyId: string) =>
-    chainConfig[chainId] 
-        ? chainConfig[chainId][currencyId]?.precision 
+const getCurrencyPrecision = (currencyId: string, chainId: number = 1) =>
+    chainConfig[chainId]
+        ? chainConfig[chainId][currencyId]?.precision
         : undefined;
 
 export { getCurrencyAddress, getCurrencyPrecision };
