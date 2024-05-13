@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  backend: 
+    build:
+      context: ./hamza-server
+      dockerfile: Dockerfile
+    env.file:
+      - ./env.docker.server
+    restart: always
+    depends_on: 
+      -postgres
+      -redis
+      -meilisearch
+    ports:
+      - "9000:9000"
+      - "7005:7000"
+      - "7001:7001"
+      - "7700:7700"
+  storefront:
+    biuld:
+      context: ./hamza-client
+      dockerfile: Dockerfile
+    env_file:
+      - .env.docker.client
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "8000:8000"
+  postgres: 
+    env_file:
+      - .env.docker.server
+    image: postgres:15.6
+    restart: always
+    volumes: 
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:6.2.14
+    restart: always
+    ports: 
+      - "6379:6379"
+  meilisearch:
+    image: getmeili/meilisearch:v1.7
+    container_name: meilisearch
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_ENV: development
+      MEILI_MASTER_KEY: "Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj"
+    volumes:
+      - ./meili_data:/meili_data
+
+volumes:
+  postgres-data:
