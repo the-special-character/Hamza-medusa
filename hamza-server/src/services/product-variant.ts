@@ -12,7 +12,10 @@ class ProductVariantService extends MedusaProductVariantService {
         this.productVariantRepository_ = container.productVariantRepository;
     }
 
-    async updateInventory(variantOrVariantId: string, quantityToDeduct = 1) {
+    async updateInventory(
+        variantOrVariantId: string,
+        quantityToDeduct: number
+    ) {
         try {
             const productVariant = await this.productVariantRepository_.findOne(
                 {
@@ -33,6 +36,7 @@ class ProductVariantService extends MedusaProductVariantService {
                 console.log(
                     `Inventory updated for variant ${productVariant.id}, new inventory count: ${productVariant.inventory_quantity}`
                 );
+                return productVariant;
             } else if (productVariant.allow_backorder) {
                 console.log(
                     'Inventory below requested deduction but backorders are allowed.'
