@@ -10,12 +10,11 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const { variant_id, reduction_quantity, test } = readRequestBody(req.body, [
         'variant_id',
         'reduction_quantity',
-        'test',
     ]);
 
     try {
         // Defaulting quantity to deduct to 1 if not provided
-        console.log(`Variant Quantity is ${test}`);
+        console.log(`Variant Quantity is ${reduction_quantity}`);
         const quantityToDeduct = reduction_quantity
             ? parseInt(reduction_quantity, 10)
             : 1;

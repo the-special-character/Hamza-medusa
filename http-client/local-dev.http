@@ -70,10 +70,10 @@ Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
 
 ### Product Variant Response??
 POST http://localhost:9000/custom/variant
+Content-Type: application/json
 
 {
-  "variant_id": "variant_01HXR1W042YE8G0AESHQZQ9FQS",
-  "reduction_quantity": "10",
-  "test": "hello"
+  "variant_id": "variant_01HXR92NF3C3SR0P1JGMQFT4VX",
+  "reduction_quantity": "10"
 }
 

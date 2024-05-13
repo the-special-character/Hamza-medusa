@@ -23,13 +23,6 @@ class ProductVariantService extends MedusaProductVariantService {
                 }
             );
 
-            if (!productVariant.manage_inventory) {
-                console.log(
-                    'Inventory management is not enabled for this variant'
-                );
-                return;
-            }
-
             if (productVariant.inventory_quantity >= quantityToDeduct) {
                 productVariant.inventory_quantity -= quantityToDeduct;
                 await this.productVariantRepository_.save(productVariant);
