@@ -12,6 +12,24 @@ class ProductVariantService extends MedusaProductVariantService {
         this.productVariantRepository_ = container.productVariantRepository;
     }
 
+    async checkInventory(variantId: string) {
+        try {
+            const productVariant = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: variantId },
+                }
+            );
+            console.log(
+                `Inventory for variant ${productVariant.id}: ${productVariant.inventory_quantity}`
+            );
+            return productVariant.inventory_quantity;
+        } catch (e) {
+            console.log(
+                `Error checking inventory for variant ${variantId}: ${e}`
+            );
+        }
+    }
+
     async updateInventory(
         variantOrVariantId: string,
         quantityToDeduct: number
