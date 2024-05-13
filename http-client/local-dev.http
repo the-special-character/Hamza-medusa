@@ -68,6 +68,15 @@ Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
 DELETE http://localhost:7700/indexes/products/documents
 Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
 
+### Product Variant Response??
+POST http://localhost:9000/custom/variant
+Content-Type: application/json
+
+{
+  "variant_id": "variant_01HXR92NF3C3SR0P1JGMQFT4VX",
+  "reduction_quantity": "10"
+}
+
 ### Create PaymentCollection
 POST localhost:9000/custom/payment-collection
 Content-Type: application/json
