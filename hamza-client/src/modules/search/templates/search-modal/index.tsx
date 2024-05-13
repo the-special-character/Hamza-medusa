@@ -21,7 +21,11 @@ export default function SearchModal({
     // close modal on outside click
     const handleOutsideClick = (event: MouseEvent) => {
         if (event.target === searchRef.current) {
-            closeModal();
+            try {
+                closeModal();
+            } catch (e) {
+                //TODO: what to do here?
+            }
         }
     };
 
@@ -46,7 +50,11 @@ export default function SearchModal({
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
-                closeModal();
+                try {
+                    closeModal();
+                } catch (e) {
+                    //TODO: what to do here?
+                }
             }
         };
         window.addEventListener('keydown', handleEsc);
