@@ -35,10 +35,10 @@ declare global {
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const notReady =
         !cart ||
-            !cart.shipping_address ||
-            !cart.billing_address ||
-            !cart.email ||
-            cart.shipping_methods.length < 1
+        !cart.shipping_address ||
+        !cart.billing_address ||
+        !cart.email ||
+        cart.shipping_methods.length < 1
             ? true
             : false;
     const paymentSession = cart.payment_session as PaymentSession;
@@ -116,12 +116,14 @@ const CryptoPaymentButton = ({
     const doWalletPayment = async (data: any) => {
         try {
             //get provider and such
-            const rawchainId = await window.ethereum.request({ method: 'eth_chainId' })
+            const rawchainId = await window.ethereum.request({
+                method: 'eth_chainId',
+            });
             const chainId = parseInt(rawchainId, 16);
             const provider = new ethers.BrowserProvider(
                 window.ethereum,
                 chainId
-            ); 
+            );
             const signer: ethers.Signer = await provider.getSigner();
 
             //create the contract client
@@ -164,13 +166,17 @@ const CryptoPaymentButton = ({
 
     const translateToNativeAmount = (order: any, chainId: number) => {
         const { amount, currency_code } = order;
-        const precision = getCurrencyPrecision(chainId, currency_code);
+        const precision = getCurrencyPrecision(currency_code, chainId);
         const adjustmentFactor = Math.pow(10, precision.native - precision.db);
         const nativeAmount = BigInt(amount) * BigInt(adjustmentFactor);
         return ethers.toBigInt(nativeAmount);
     };
 
-    const createSwitchInput = async (data: any, payer: string, chainId: number) => {
+    const createSwitchInput = async (
+        data: any,
+        payer: string,
+        chainId: number
+    ) => {
         //TODO: typeSafety of the data
         if (data.orders) {
             const switchInput: IMultiPaymentInput[] = [];
@@ -251,7 +257,7 @@ const CryptoPaymentButton = ({
             updateCart.mutate(
                 { context: {} },
                 {
-                    onSuccess: ({ }) => {
+                    onSuccess: ({}) => {
                         completeCart.mutate(void 0, {
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
