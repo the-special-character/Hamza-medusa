@@ -30,6 +30,21 @@ const MEDUSA_SERVER_URL =
 const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`;
 const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
 
+async function sendVerifyRequest(message: any, signature: any) {
+    return await axios({
+        method: 'post',
+        data: {
+            message,
+            signature,
+        },
+        url: `${VERIFY_MSG}`,
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    });
+}
+
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
     const { setCustomerAuthData, token, wallet_address, status, setStatus } =
         useCustomerAuthStore();
@@ -94,33 +109,15 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                     message,
                     signature
                 );
-                const response = await axios({
-                    method: 'post',
-                    data: {
-                        message,
-                        signature,
-                    },
-                    url: `${VERIFY_MSG}`,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                    },
-                });
+                const response = await sendVerifyRequest(message, signature);
+
                 let data = response.data;
                 if (data.status == true && data.data?.created == true) {
                     //if just creating, then a second request is needed
-                    const authResponse = await axios({
-                        method: 'post',
-                        data: {
-                            message,
-                            signature,
-                        },
-                        url: `${VERIFY_MSG}`,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                        },
-                    });
+                    const authResponse = await sendVerifyRequest(
+                        message,
+                        signature
+                    );
                     data = authResponse.data;
                 }
 
