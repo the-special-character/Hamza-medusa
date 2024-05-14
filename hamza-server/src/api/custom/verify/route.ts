@@ -10,10 +10,13 @@ import { readRequestBody } from '../../../utils/request-body';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     try {
+        //get the service instances
         const customerService: CustomerService =
             req.scope.resolve('customerService');
         const authService: AuthService = req.scope.resolve('authService');
+        let created = false;
 
+        //read request
         const { message, signature } = readRequestBody(req.body, [
             'message',
             'signature',
@@ -35,8 +38,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             password: 'password', //TODO: (JK) store the default password someplace
             wallet_address: wallet_address,
         };
+
         console.log('customer input is ', customerInputData);
-        //send the requests to server
+        //verify the signature
         const siweMessage = new SiweMessage(message);
         let siweResponse = await siweMessage.verify({ signature });
         console.log('siwe response is ', siweResponse);
@@ -44,12 +48,14 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             throw new Error('Error in validating wallet address signature');
         }
 
+        //find the existing customer record
         let customerData = await CustomerRepository.findOne({
             where: { email: customerInputData.email.toLowerCase() },
             relations: { preferred_currency: true },
         });
         console.log('customer data is ', customerData);
 
+        //if no customer record exists, create a new customer
         if (!customerData) {
             console.log('creating new customer ');
             await customerService.create(customerInputData);
@@ -57,21 +63,26 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
                 where: { email: customerInputData.email.toLowerCase() },
                 relations: { preferred_currency: true },
             });
-        }
-        let authResult = await authService.authenticateCustomer(
-            customerInputData.email.toLowerCase(),
-            customerInputData.password,
-            customerInputData.wallet_address
-        );
-        console.log('auth result is ', authResult);
-        if (!authResult.success) {
-            throw new Error('Error in verifying email and password');
+            created = true;
+        } else {
+            //if customer record exists, authenticate the user
+            let authResult = await authService.authenticateCustomer(
+                customerInputData.email.toLowerCase(),
+                customerInputData.password,
+                customerInputData.wallet_address
+            );
+            console.log('auth result is ', authResult);
+            if (!authResult.success) {
+                throw new Error('Error in verifying email and password');
+            }
         }
 
+        //return the response
         console.log('customer data is ', customerData);
         let body = {
             customer_id: customerData.id,
             preferred_currency: customerData.preferred_currency,
+            created,
         };
         res.send({ status: true, data: body });
     } catch (e) {
