@@ -16,6 +16,7 @@ import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import axios from 'axios';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -37,10 +38,64 @@ export default function ProductActions({
     const [isAdding, setIsAdding] = useState(false);
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
-
+    const [inventoryCount, setInventoryCount] = useState(null);
+    const [loading, setLoading] = useState(true);
     const countryCode = useParams().countryCode as string;
 
     const variants = product.variants;
+    console.log(`This is the variants ${JSON.stringify(variants)}`); // Add this log to verify the variants
+
+    const selectedVariantId = useMemo(() => {
+        // Here, you can add logic to select a variant based on initial conditions or default
+        // For example, selecting the first variant if no options are chosen
+        if (variants.length === 0) return null;
+        const defaultVariant = variants[0];
+        for (const variant of variants) {
+            let matches = true;
+            for (const option of variant.options) {
+                if (
+                    options[option.option_id] &&
+                    options[option.option_id] !== option.value
+                ) {
+                    matches = false;
+                    break;
+                }
+            }
+            if (matches) {
+                return variant.id;
+            }
+        }
+        return defaultVariant.id; // Return the first variant if no matches or options are set
+    }, [variants, options]);
+
+    // Effect to fetch inventory count when the selected variant ID is determined or changes
+    useEffect(() => {
+        if (!selectedVariantId) return;
+
+        const fetchInventoryCount = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:9000/custom/variant/count',
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        params: {
+                            variant_id: selectedVariantId,
+                        },
+                    }
+                );
+                setInventoryCount(response.data.variant); // Assuming response structure { variant: 100 }
+            } catch (error) {
+                console.error('Failed to fetch inventory count:', error);
+                setInventoryCount('Error');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchInventoryCount();
+    }, [selectedVariantId]);
 
     // initialize the option state
     useEffect(() => {
@@ -160,6 +215,15 @@ export default function ProductActions({
                     variant={variant}
                     region={region}
                 />
+                <Button
+                    disabled={!inStock || !variant}
+                    variant="secondary"
+                    className="w-full h-10 "
+                >
+                    {loading
+                        ? 'Loading...'
+                        : `Inventory Count: ${inventoryCount ?? 'Unavailable'}`}
+                </Button>
                 <Button
                     onClick={handleAddToCart}
                     disabled={!inStock || !variant}
