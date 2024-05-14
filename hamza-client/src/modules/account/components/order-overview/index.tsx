@@ -7,6 +7,7 @@ import OrderCard from '../order-card';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
+    console.log('ORDER OVERVIEW', orders);
     if (orders?.length) {
         return (
             <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">

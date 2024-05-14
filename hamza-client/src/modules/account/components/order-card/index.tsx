@@ -34,7 +34,8 @@ const OrderCard = ({ order }: OrderCardProps) => {
                 </span>
                 <span className="px-2">
                     {formatAmount({
-                        amount: order.total,
+                        amount: order.paid_total,
+                        currency_code: order.currency_code,
                         region: order.region,
                         includeTaxes: false,
                     })}

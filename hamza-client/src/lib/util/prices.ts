@@ -97,6 +97,7 @@ export const findCheapestPrice = (variants: Variant[], region: Region) => {
 type FormatVariantPriceParams = {
     variant: ProductVariantInfo;
     region: RegionInfo;
+    currency_code: string;
     includeTaxes?: boolean;
     minimumFractionDigits?: number;
     maximumFractionDigits?: number;
@@ -108,6 +109,7 @@ type FormatVariantPriceParams = {
  */
 export const formatVariantPrice = ({
     variant,
+    currency_code,
     region,
     includeTaxes = true,
     ...rest
@@ -116,7 +118,7 @@ export const formatVariantPrice = ({
 
     return convertToLocale({
         amount,
-        currency_code: region?.currency_code,
+        currency_code: currency_code,
         ...rest,
     });
 };
@@ -142,6 +144,7 @@ export const computeVariantPrice = ({
 
     return computeAmount({
         amount,
+        currency_code,
         region,
         includeTaxes,
     });
@@ -168,6 +171,7 @@ export const getVariantPrice = (
 
 type ComputeAmountParams = {
     amount: number;
+    currency_code: string;
     region: RegionInfo;
     includeTaxes?: boolean;
 };
@@ -177,6 +181,7 @@ type ComputeAmountParams = {
  */
 export const computeAmount = ({
     amount,
+    currency_code,
     region,
     includeTaxes = true,
 }: ComputeAmountParams) => {
@@ -192,6 +197,7 @@ export const computeAmount = ({
 type FormatAmountParams = {
     amount: number;
     region: RegionInfo;
+    currency_code: string;
     includeTaxes?: boolean;
     minimumFractionDigits?: number;
     maximumFractionDigits?: number;
@@ -203,23 +209,24 @@ type FormatAmountParams = {
  */
 export const formatAmount = ({
     amount,
+    currency_code,
     region,
     includeTaxes = true,
     ...rest
 }: FormatAmountParams) => {
     const taxAwareAmount = computeAmount({
         amount,
+        currency_code,
         region,
         includeTaxes,
     });
 
     return convertToLocale({
         amount: taxAwareAmount,
-        currency_code: region.currency_code,
+        currency_code: currency_code,
         ...rest,
     });
 };
-
 const convertToDecimal = (amount: number, region: RegionInfo) => {
     const divisor = noDivisionCurrencies.includes(
         region?.currency_code?.toLowerCase()
@@ -234,24 +241,27 @@ const getTaxRate = (region?: RegionInfo) => {
     return region && !isEmpty(region) ? region?.tax_rate / 100 : 0;
 };
 
+const traditionalCurrencies = ['usdt', 'eth']; // Add more as needed
+
 const convertToLocale = ({
     amount,
     currency_code,
-    minimumFractionDigits,
-    maximumFractionDigits,
+    minimumFractionDigits = 2, // Default value if not provided
+    maximumFractionDigits = 2,
     locale = 'en-US',
-}: ConvertToLocaleParams) => {
-    return `${amount.toString()} ${currency_code.toUpperCase()}`;
-    return currency_code && !isEmpty(currency_code)
-        ? new Intl.NumberFormat(locale, {
-              style: 'currency',
-              currency: currency_code,
-              minimumFractionDigits,
-              maximumFractionDigits,
-          }).format(amount)
-        : amount.toString();
+}) => {
+    if (traditionalCurrencies.includes(currency_code.toUpperCase())) {
+        return new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency: currency_code,
+            minimumFractionDigits,
+            maximumFractionDigits,
+        }).format(amount);
+    } else {
+        // Custom handling for non-standard currency codes
+        return `${amount.toFixed(minimumFractionDigits)} ${currency_code.toUpperCase()}`;
+    }
 };
-
 type ConvertToLocaleParams = {
     amount: number;
     currency_code: string;

@@ -18,7 +18,7 @@ type OrderDetailsTemplateProps = {
 const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     order,
 }) => {
-    const order_status = order.status;
+    console.log(`Order is ${JSON.stringify(order)})`);
     return (
         <div className="flex flex-col justify-center gap-y-4 ">
             <div className="flex gap-2 justify-between items-center">
