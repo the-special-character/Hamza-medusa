@@ -1,3 +1,5 @@
+'use client';
+import React from 'react';
 import ItemsTemplate from './items';
 import Summary from './summary';
 import EmptyCartMessage from '../components/empty-cart-message';
@@ -13,6 +15,21 @@ const CartTemplate = ({
     cart: CartWithCheckoutStep | null;
     customer: Omit<Customer, 'password_hash'> | null;
 }) => {
+    const updateInventory = async (cart: CartWithCheckoutStep) => {
+        const items = cart.items.map((item) => ({
+            variant_id: item.variant_id,
+            quantity: item.quantity,
+        }));
+        console.log('ITEMS ARE', items);
+    };
+
+    // Ensure `cart` is not null before calling `updateInventory`
+    const handleUpdateInventory = () => {
+        if (cart) {
+            updateInventory(cart);
+        }
+    };
+
     return (
         <div className="py-12 bg-black">
             <div className="content-container">
@@ -29,6 +46,13 @@ const CartTemplate = ({
                                 region={cart?.region}
                                 items={cart?.items}
                             />
+                            {/* Button to trigger `updateInventory` */}
+                            <button
+                                onClick={handleUpdateInventory}
+                                className="bg-blue-600 text-white px-4 py-2 mt-4"
+                            >
+                                Update Inventory
+                            </button>
                         </div>
                         <div className="relative">
                             <div className="flex flex-col gap-y-8 sticky top-12 bg-black text-white">
