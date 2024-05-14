@@ -3,6 +3,9 @@ import ConfirmationTokenRepository from '../repositories/confirmation-token';
 import CustomerRepository from '../repositories/customer';
 import moment from 'moment';
 import { ethers } from 'ethers';
+import SmtpMailService from './smtp-mail';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default class ConfirmationTokenService extends TransactionBaseService {
     protected readonly confirmationTokenRepository_: typeof ConfirmationTokenRepository;
@@ -36,6 +39,16 @@ export default class ConfirmationTokenService extends TransactionBaseService {
             token: token,
         });
         //sending email
+        let smtpService = new SmtpMailService();
+        await smtpService.mailSender({
+            from: process.env.SMTP_FROM,
+            subject: 'Email Verification',
+            templateName: 'verify-email',
+            to: email,
+            mailData: {
+                url: `${process.env.STORE_URL}/verify-confirmation-token/${token}`,
+            },
+        });
 
         return;
     }
