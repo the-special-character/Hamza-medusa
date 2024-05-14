@@ -21,12 +21,14 @@ const OrderCard = ({ order }: OrderCardProps) => {
         return order.items.length;
     }, [order]);
 
+    console.log(`Order is ${JSON.stringify(order)}`);
+
     return (
         <div className="flex flex-col">
-            <div className="uppercase text-large-semi mb-1">
+            <div className="uppercase text-large-semi mb-1 text-white">
                 #{order.display_id}
             </div>
-            <div className="flex items-center divide-x divide-gray-200 text-small-regular text-ui-fg-base">
+            <div className="flex items-center divide-x divide-gray-200 text-small-regular text-white">
                 <span className="pr-2">
                     {new Date(order.created_at).toDateString()}
                 </span>
@@ -44,14 +46,17 @@ const OrderCard = ({ order }: OrderCardProps) => {
             <div className="grid grid-cols-2 small:grid-cols-4 gap-4 my-4">
                 {order.items.slice(0, 3).map((i) => {
                     return (
-                        <div key={i.id} className="flex flex-col gap-y-2">
+                        <div
+                            key={i.id}
+                            className="flex flex-col gap-y-2 text-white"
+                        >
                             <Thumbnail
                                 thumbnail={i.thumbnail}
                                 images={[]}
                                 size="full"
                             />
-                            <div className="flex items-center text-small-regular text-ui-fg-base">
-                                <span className="text-ui-fg-base font-semibold">
+                            <div className="flex items-center text-small-regular ">
+                                <span className="text-white font-semibold">
                                     {i.title}
                                 </span>
                                 <span className="ml-2">x</span>
