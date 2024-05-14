@@ -124,7 +124,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                 if (data.status == true) {
                     const tokenResponse = await getToken({
                         wallet_address: message.address,
-                        email: '',
+                        email: data.data.email,
                         password: '',
                     });
                     console.log('token response is ', tokenResponse);
