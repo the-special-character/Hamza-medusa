@@ -81,3 +81,21 @@ Content-Type: application/json
   "payment_method": "card",
   "status": "succeeded"
 }
+
+
+### Product Variant Response??
+POST http://localhost:9000/custom/variant
+Content-Type: application/json
+
+{
+  "variant_id": "variant_01HXRHH78797JBX60CAY22G170",
+  "reduction_quantity": "39"
+}
+
+### Check Product Inventory
+POST http://localhost:9000/custom/variant/count
+Content-Type: application/json
+
+{
+  "variant_id": "variant_01HXRHH760R2FKV0YN5XVTPR97"
+}

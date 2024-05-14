@@ -1,9 +1,8 @@
 'use client';
-
 import { Cart, PaymentSession } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
 import { placeOrder } from '@modules/checkout/actions';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ErrorMessage from '../error-message';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
@@ -228,6 +227,61 @@ const CryptoPaymentButton = ({
         }
     );
 
+    const cartRef = useRef<
+        Array<{ variant_id: string; reduction_quantity: number }>
+    >(
+        cart.items.map((item) => ({
+            variant_id: item.variant_id,
+            reduction_quantity: item.quantity, // or any logic to determine the reduction quantity
+        }))
+    );
+    const reduceInventory = async () => {
+        const inventoryUpdatePromises = cartRef.current.map((item) => {
+            return axios
+                .post(
+                    'http://localhost:9000/custom/variant',
+                    {
+                        variant_id: item.variant_id,
+                        reduction_quantity: item.reduction_quantity,
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                .then((response) => ({
+                    variantId: item.variant_id,
+                    success: true,
+                    response: response.data,
+                }))
+                .catch((error) => ({
+                    variantId: item.variant_id,
+                    success: false,
+                    error: error.response?.data || 'Unknown error',
+                }));
+        });
+
+        return Promise.all(inventoryUpdatePromises);
+    };
+
+    const handlePurchase = async () => {
+        setSubmitting(true);
+        try {
+            const results = await reduceInventory();
+            if (results.every((item) => item.success)) {
+                // Handle successful inventory update
+                console.log('Inventory successfully updated.');
+            } else {
+                // Handle error in inventory update
+                setErrorMessage('Failed to update inventory for some items.');
+            }
+        } catch (error) {
+            setErrorMessage('An error occurred during inventory update.');
+        }
+        setSubmitting(false);
+    };
+
     const completeCheckout = async (cart_id: string) => {
         const data = await retrieveCheckoutData(cart_id);
         const { transaction_id, payer_address, escrow_contract_address } =
@@ -253,7 +307,7 @@ const CryptoPaymentButton = ({
             connect();
 
             setSubmitting(true);
-
+            await handlePurchase();
             updateCart.mutate(
                 { context: {} },
                 {
@@ -262,6 +316,8 @@ const CryptoPaymentButton = ({
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
                                 try {
+                                    reduceInventory();
+
                                     completeCheckout(cart.id).then(
                                         (order_id) => {
                                             //clear cart

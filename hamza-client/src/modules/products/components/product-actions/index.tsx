@@ -6,7 +6,7 @@ import { Button } from '@medusajs/ui';
 import { isEqual } from 'lodash';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-
+import axios from 'axios';
 import { useIntersection } from '@lib/hooks/use-in-view';
 import { addToCart } from '@modules/cart/actions';
 import Divider from '@modules/common/components/divider';
@@ -16,6 +16,7 @@ import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import Medusa from '@medusajs/medusa-js';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -37,11 +38,36 @@ export default function ProductActions({
     const [isAdding, setIsAdding] = useState(false);
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
-
+    const [inventoryCount, setInventoryCount] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const countryCode = useParams().countryCode as string;
 
     const variants = product.variants;
+    const variant_id = variants[0].id;
+    console.log('Variant id is', variant_id);
 
+    useEffect(() => {
+        if (!variant_id) return;
+
+        const fetchInventoryCount = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.post(
+                    'http://localhost:9000/custom/variant/count',
+                    { variant_id }
+                );
+                console.log('Response is', JSON.stringify(response));
+                setInventoryCount(response.data.variant);
+            } catch (error) {
+                console.error('Error fetching inventory count:', error);
+                setError('Failed to fetch inventory count');
+            }
+            setLoading(false);
+        };
+
+        fetchInventoryCount();
+    }, [variant_id]);
     // initialize the option state
     useEffect(() => {
         const optionObj: Record<string, string> = {};
@@ -160,6 +186,15 @@ export default function ProductActions({
                     variant={variant}
                     region={region}
                 />
+                <Button
+                    variant="secondary"
+                    className="w-full h-10 "
+                    disabled={!inStock || !variant}
+                >
+                    {loading
+                        ? 'Loading...'
+                        : `Inventory Count: ${inventoryCount !== null ? inventoryCount : 'Unavailable'}`}
+                </Button>
                 <Button
                     onClick={handleAddToCart}
                     disabled={!inStock || !variant}
