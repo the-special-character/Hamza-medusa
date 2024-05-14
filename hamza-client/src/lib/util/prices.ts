@@ -241,7 +241,7 @@ const getTaxRate = (region?: RegionInfo) => {
     return region && !isEmpty(region) ? region?.tax_rate / 100 : 0;
 };
 
-const traditionalCurrencies = ['usdt', 'eth']; // Add more as needed
+const traditionalCurrencies = ['usdc', 'eth', 'usdt']; // Add more as needed
 
 const convertToLocale = ({
     amount,
