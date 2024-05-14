@@ -93,9 +93,9 @@ Content-Type: application/json
 }
 
 ### Check Product Inventory
-GET http://localhost:9000/custom/variant/count
+POST http://localhost:9000/custom/variant/count
 Content-Type: application/json
 
 {
-  "variant_id": "variant_01HXRHH7K1HNJNEDXZ35K4AGJN"
+  "variant_id": "variant_01HXRHH760R2FKV0YN5XVTPR97"
 }

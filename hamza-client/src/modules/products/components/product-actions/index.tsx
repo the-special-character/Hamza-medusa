@@ -6,7 +6,7 @@ import { Button } from '@medusajs/ui';
 import { isEqual } from 'lodash';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-
+import axios from 'axios';
 import { useIntersection } from '@lib/hooks/use-in-view';
 import { addToCart } from '@modules/cart/actions';
 import Divider from '@modules/common/components/divider';
@@ -16,7 +16,7 @@ import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
-import axios from 'axios';
+import Medusa from '@medusajs/medusa-js';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -39,64 +39,35 @@ export default function ProductActions({
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
     const [inventoryCount, setInventoryCount] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const countryCode = useParams().countryCode as string;
 
     const variants = product.variants;
-    console.log(`This is the variants ${JSON.stringify(variants)}`); // Add this log to verify the variants
+    const variant_id = variants[0].id;
+    console.log('Variant id is', variant_id);
 
-    const selectedVariantId = useMemo(() => {
-        // Here, you can add logic to select a variant based on initial conditions or default
-        // For example, selecting the first variant if no options are chosen
-        if (variants.length === 0) return null;
-        const defaultVariant = variants[0];
-        for (const variant of variants) {
-            let matches = true;
-            for (const option of variant.options) {
-                if (
-                    options[option.option_id] &&
-                    options[option.option_id] !== option.value
-                ) {
-                    matches = false;
-                    break;
-                }
-            }
-            if (matches) {
-                return variant.id;
-            }
-        }
-        return defaultVariant.id; // Return the first variant if no matches or options are set
-    }, [variants, options]);
-
-    // Effect to fetch inventory count when the selected variant ID is determined or changes
     useEffect(() => {
-        if (!selectedVariantId) return;
+        if (!variant_id) return;
 
         const fetchInventoryCount = async () => {
+            setLoading(true);
             try {
-                const response = await axios.get(
+                const response = await axios.post(
                     'http://localhost:9000/custom/variant/count',
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        params: {
-                            variant_id: selectedVariantId,
-                        },
-                    }
+                    { variant_id }
                 );
-                setInventoryCount(response.data.variant); // Assuming response structure { variant: 100 }
+                console.log('Response is', JSON.stringify(response));
+                setInventoryCount(response.data.variant);
             } catch (error) {
-                console.error('Failed to fetch inventory count:', error);
-                setInventoryCount('Error');
-            } finally {
-                setLoading(false);
+                console.error('Error fetching inventory count:', error);
+                setError('Failed to fetch inventory count');
             }
+            setLoading(false);
         };
 
         fetchInventoryCount();
-    }, [selectedVariantId]);
-
+    }, [variant_id]);
     // initialize the option state
     useEffect(() => {
         const optionObj: Record<string, string> = {};
@@ -216,13 +187,13 @@ export default function ProductActions({
                     region={region}
                 />
                 <Button
-                    disabled={!inStock || !variant}
                     variant="secondary"
                     className="w-full h-10 "
+                    disabled={!inStock || !variant}
                 >
                     {loading
                         ? 'Loading...'
-                        : `Inventory Count: ${inventoryCount ?? 'Unavailable'}`}
+                        : `Inventory Count: ${inventoryCount !== null ? inventoryCount : 'Unavailable'}`}
                 </Button>
                 <Button
                     onClick={handleAddToCart}
