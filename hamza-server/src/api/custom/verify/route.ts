@@ -4,6 +4,8 @@ import CustomerRepository from '../../../repositories/customer';
 import AuthService from '../../../../src/services/auth';
 import CustomerService from '../../../../src/services/customer';
 import { readRequestBody } from '../../../utils/request-body';
+import CustomerWalletAddressRepository from '../../../repositories/customer-wallet-address';
+import { Customer } from 'src/models/customer';
 // Using Auth from SIWE example: https://github.com/spruceid/siwe-quickstart/blob/main/02_backend/src/index.js
 
 // TODO: So once the user has been verified, we can use the CustomerService.create() method to create/login the user.
@@ -21,9 +23,15 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 
         const wallet_address = message.address;
 
+        let checkCustomerWithWalletAddress =
+            await CustomerWalletAddressRepository.findOne({
+                where: { wallet_address: wallet_address },
+                relations: { customer: { preferred_currency: true } },
+            });
+
         //create customer input data
         const customerInputData = {
-            email: `${wallet_address}@evm.blockchain`,
+            email: `${checkCustomerWithWalletAddress && checkCustomerWithWalletAddress.customer ? checkCustomerWithWalletAddress.customer.email : `${wallet_address}@evm.blockchain`}`,
             first_name:
                 wallet_address.length >= 10
                     ? wallet_address.substring(0, 10)
@@ -44,16 +52,12 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             throw new Error('Error in validating wallet address signature');
         }
 
-        let customerData = await CustomerRepository.findOne({
-            where: { email: customerInputData.email.toLowerCase() },
-            relations: { preferred_currency: true },
-        });
-        console.log('customer data is ', customerData);
-
-        if (!customerData) {
+        console.log('customer data is ', checkCustomerWithWalletAddress);
+        let newCustomerData: Customer;
+        if (!checkCustomerWithWalletAddress) {
             console.log('creating new customer ');
             await customerService.create(customerInputData);
-            customerData = await CustomerRepository.findOne({
+            newCustomerData = await CustomerRepository.findOne({
                 where: { email: customerInputData.email.toLowerCase() },
                 relations: { preferred_currency: true },
             });
@@ -68,10 +72,16 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             throw new Error('Error in verifying email and password');
         }
 
-        console.log('customer data is ', customerData);
         let body = {
-            customer_id: customerData.id,
-            preferred_currency: customerData.preferred_currency,
+            customer_id:
+                checkCustomerWithWalletAddress &&
+                checkCustomerWithWalletAddress.customer &&
+                checkCustomerWithWalletAddress.customer.id,
+            preferred_currency:
+                checkCustomerWithWalletAddress &&
+                checkCustomerWithWalletAddress.customer &&
+                checkCustomerWithWalletAddress.customer.preferred_currency,
+            email: customerInputData.email,
         };
         res.send({ status: true, data: body });
     } catch (e) {

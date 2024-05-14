@@ -21,8 +21,8 @@ import { revalidateTag } from 'next/cache';
 import { signOut } from '@modules/account/actions';
 import { cookies } from 'next/headers';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
 const MEDUSA_SERVER_URL =
@@ -47,12 +47,11 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         //     });
 
         getCustomer().then((customer) => {
-            console.log('customer is ', customer)
-        })
+            console.log('customer is ', customer);
+        });
 
-        !wallet_address && setStatus('unauthenticated')
-        wallet_address && setStatus('authenticated')
-
+        !wallet_address && setStatus('unauthenticated');
+        wallet_address && setStatus('authenticated');
     }, [wallet_address]);
 
     const walletSignature = createAuthenticationAdapter({
@@ -98,31 +97,38 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                 const response = await axios({
                     method: 'post',
                     data: {
-                        message, signature
+                        message,
+                        signature,
                     },
                     url: `${VERIFY_MSG}`,
                     headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
                     },
                 });
 
                 let data = response.data;
 
                 if (data.status == true) {
-
-                    const tokenResponse = await getToken({ wallet_address: message.address, email: '', password: '' })
+                    const tokenResponse = await getToken({
+                        wallet_address: message.address,
+                        email: data.data.email,
+                        password: '',
+                    });
                     console.log('token response is ', tokenResponse);
-                    Cookies.set('_medusa_jwt', tokenResponse)
+                    Cookies.set('_medusa_jwt', tokenResponse);
                     setStatus('authenticated');
                     setCustomerAuthData({
-                        wallet_address: message.address, customer_id: data.data.customer_id, preferred_currency_code: data.data.preferred_currency.code, token: tokenResponse
-                    })
+                        wallet_address: message.address,
+                        customer_id: data.data.customer_id,
+                        preferred_currency_code:
+                            data.data.preferred_currency.code,
+                        token: tokenResponse,
+                    });
                 } else {
-                    setStatus('unauthenticated')
-                    throw new Error(data.message)
+                    setStatus('unauthenticated');
+                    throw new Error(data.message);
                 }
-
 
                 return false;
             } catch (e) {
@@ -132,13 +138,13 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         },
 
         signOut: async () => {
-            Cookies.remove('_medusa_jwt')
+            Cookies.remove('_medusa_jwt');
             setStatus('unauthenticated');
             setCustomerAuthData({
                 token: null,
                 wallet_address: null,
                 customer_id: '',
-                preferred_currency_code: null
+                preferred_currency_code: null,
             });
             router.replace('/');
             return;
