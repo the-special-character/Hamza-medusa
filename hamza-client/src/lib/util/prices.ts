@@ -84,6 +84,7 @@ export const findCheapestPrice = (variants: Variant[], region: Region) => {
     if (cheapestPrice) {
         return formatAmount({
             amount: cheapestPrice.amount,
+            currency_code: currency_code,
             region: region,
         });
     }
@@ -127,6 +128,7 @@ type ComputeVariantPriceParams = {
     variant: ProductVariantInfo;
     region: RegionInfo;
     includeTaxes?: boolean;
+    currency_code: string;
 };
 
 /**
@@ -138,9 +140,10 @@ type ComputeVariantPriceParams = {
 export const computeVariantPrice = ({
     variant,
     region,
+    currency_code,
     includeTaxes = true,
 }: ComputeVariantPriceParams) => {
-    const amount = getVariantPrice(variant, region);
+    const amount = getVariantPrice(variant, region, currency_code);
 
     return computeAmount({
         amount,
@@ -158,12 +161,11 @@ export const computeVariantPrice = ({
  */
 export const getVariantPrice = (
     variant: ProductVariantInfo,
-    region: RegionInfo
+    region: RegionInfo,
+    currency_code: string
 ) => {
     const price = variant?.prices?.find(
-        (p) =>
-            p.currency_code.toLowerCase() ===
-            region?.currency_code?.toLowerCase()
+        (p) => p.currency_code.toLowerCase() === currency_code?.toLowerCase()
     );
 
     return price?.amount || 0;
@@ -249,7 +251,13 @@ const convertToLocale = ({
     minimumFractionDigits = 2, // Default value if not provided
     maximumFractionDigits = 2,
     locale = 'en-US',
-}) => {
+}): ConvertToLocaleParams => {
+    // Ensure currency_code is a valid string before proceeding
+    if (typeof currency_code !== 'string' || !currency_code) {
+        console.error('Invalid or missing currency code');
+        return amount.toString(); // or handle the error as needed
+    }
+
     if (traditionalCurrencies.includes(currency_code.toUpperCase())) {
         return new Intl.NumberFormat(locale, {
             style: 'currency',
@@ -262,6 +270,7 @@ const convertToLocale = ({
         return `${amount.toFixed(minimumFractionDigits)} ${currency_code.toUpperCase()}`;
     }
 };
+
 type ConvertToLocaleParams = {
     amount: number;
     currency_code: string;

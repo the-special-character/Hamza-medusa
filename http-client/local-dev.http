@@ -99,3 +99,11 @@ Content-Type: application/json
 {
   "variant_id": "variant_01HXRHH760R2FKV0YN5XVTPR97"
 }
+
+### Get Cart Product information
+POST http://localhost:9000/custom/order
+Content-Type: application/json
+
+{
+  "order_id": "order_01HXV8F7KAVA0R3HYYYFMCMRBF"
+}

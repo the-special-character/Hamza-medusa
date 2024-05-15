@@ -21,8 +21,6 @@ const OrderCard = ({ order }: OrderCardProps) => {
         return order.items.length;
     }, [order]);
 
-    console.log(`$$$$$$ Order is ${JSON.stringify(order)}`);
-
     return (
         <div className="flex flex-col">
             <div className="uppercase text-large-semi mb-1 text-white">
