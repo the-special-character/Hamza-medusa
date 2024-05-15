@@ -5,6 +5,7 @@ import { clx } from '@medusajs/ui';
 import { getPercentageDiff } from '@lib/util/get-precentage-diff';
 import { CalculatedVariant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 type LineItemPriceProps = {
     item: Omit<LineItem, 'beforeInsert'>;
@@ -21,6 +22,8 @@ const LineItemPrice = ({
         (item.variant as CalculatedVariant).original_price * item.quantity;
     const hasReducedPrice = (item.total || 0) < originalPrice;
 
+    const { status, preferred_currency_code } = useCustomerAuthStore();
+
     return (
         <div className="flex flex-col gap-x-2 text-ui-fg-subtle items-end">
             <div className="text-left">
@@ -33,7 +36,11 @@ const LineItemPrice = ({
                                 </span>
                             )}
                             <span className="line-through text-ui-fg-muted">
-                                {formatCryptoPrice(originalPrice, 'usdc')} USDC
+                                {formatCryptoPrice(
+                                    originalPrice,
+                                    preferred_currency_code ?? 'usdt'
+                                )}{' '}
+                                {preferred_currency_code?.toUpperCase() ?? ''}
                             </span>
                         </p>
                         {style === 'default' && (
@@ -53,7 +60,10 @@ const LineItemPrice = ({
                         'text-ui-fg-interactive': hasReducedPrice,
                     })}
                 >
-                    {formatCryptoPrice(originalPrice, 'usdc')} USDC
+                    {!isNaN(originalPrice) &&
+                        formatCryptoPrice(originalPrice, 'usdc') +
+                            ' ' +
+                            (preferred_currency_code?.toUpperCase() ?? '')}
                 </span>
             </div>
         </div>
