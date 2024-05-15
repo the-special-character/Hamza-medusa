@@ -1,6 +1,7 @@
-import { CartService as MedusaCartService, LineItem } from '@medusajs/medusa';
+import { CartService as MedusaCartService } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import { LineItem } from '../models/line-item';
 import { Lifetime } from 'awilix';
 
 export default class CartService extends MedusaCartService {
@@ -20,7 +21,16 @@ export default class CartService extends MedusaCartService {
         lineItems: LineItem | LineItem[],
         config: { validateSalesChannels: boolean }
     ): Promise<void> {
+        if (lineItems) {
+            if (Array.isArray(lineItems)) {
+                for (let n = 0; n < lineItems.length; n++) {
+                    lineItems[n].currency_code = 'eth';
+                }
+            } else {
+                lineItems.currency_code = 'eth';
+            }
+        }
         console.log('ADDING LINE ITEM', lineItems);
-        super.addOrUpdateLineItems(cartId, lineItems, config);
+        await super.addOrUpdateLineItems(cartId, lineItems, config);
     }
 }
