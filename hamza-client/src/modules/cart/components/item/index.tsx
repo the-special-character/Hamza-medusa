@@ -1,8 +1,8 @@
 'use client';
 
-import { LineItem, Region } from '@medusajs/medusa';
+import { Region } from '@medusajs/medusa';
 import { Table, Text, clx } from '@medusajs/ui';
-
+import { LineItem as MedusaLineItem } from '@medusajs/medusa';
 import CartItemSelect from '@modules/cart/components/cart-item-select';
 import DeleteButton from '@modules/common/components/delete-button';
 import LineItemOptions from '@modules/common/components/line-item-options';
@@ -14,6 +14,10 @@ import Spinner from '@modules/common/icons/spinner';
 import { useState } from 'react';
 import ErrorMessage from '@modules/checkout/components/error-message';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+
+class LineItem extends MedusaLineItem {
+    currency_code: string = 'usdt';
+}
 
 type ItemProps = {
     item: Omit<LineItem, 'beforeInsert'>;
