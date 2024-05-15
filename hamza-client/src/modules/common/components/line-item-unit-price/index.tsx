@@ -7,8 +7,12 @@ import { CalculatedVariant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
+type ExtendedLineItem = LineItem & {
+    currency_code?: string;
+};
+
 type LineItemUnitPriceProps = {
-    item: Omit<LineItem, 'beforeInsert'>;
+    item: Omit<ExtendedLineItem, 'beforeInsert'>;
     region: Region;
     style?: 'default' | 'tight';
 };
@@ -22,8 +26,6 @@ const LineItemUnitPrice = ({
     const hasReducedPrice = (originalPrice * item.quantity || 0) > item.total!;
     const reducedPrice = (item.total || 0) / item.quantity!;
 
-    const { status, preferred_currency_code } = useCustomerAuthStore();
-
     return (
         <div className="flex flex-col text-ui-fg-muted justify-center h-full">
             {hasReducedPrice && (
@@ -35,9 +37,9 @@ const LineItemUnitPrice = ({
                         <span className="line-through">
                             {formatCryptoPrice(
                                 originalPrice,
-                                preferred_currency_code ?? 'usdt'
+                                item.currency_code ?? 'usdt'
                             )}{' '}
-                            {preferred_currency_code?.toUpperCase() ?? ''}
+                            {item.currency_code?.toUpperCase() ?? ''}
                         </span>
                     </p>
                     {style === 'default' && (
@@ -59,9 +61,9 @@ const LineItemUnitPrice = ({
             >
                 {formatCryptoPrice(
                     reducedPrice || item.unit_price || 0,
-                    preferred_currency_code ?? 'usdt'
+                    item.currency_code ?? 'usdt'
                 )}{' '}
-                {preferred_currency_code?.toUpperCase() ?? ''}
+                {item.currency_code?.toUpperCase() ?? ''}
             </span>
         </div>
     );
