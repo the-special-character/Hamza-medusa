@@ -10,9 +10,9 @@ type OrderDetailsProps = {
 /*
 
       <Text>
-        We have sent the order confirmation details to{" "}
+        We have sent the line-item confirmation details to{" "}
         <span className="text-ui-fg-medium-plus font-semibold">
-          {order.email}
+          {line-item.email}
         </span>
         .
       </Text>

@@ -105,5 +105,5 @@ POST http://localhost:9000/custom/order
 Content-Type: application/json
 
 {
-  "order_id": "order_01HXV8F7KAVA0R3HYYYFMCMRBF"
+  "cart_id": "cart_01HXV0SZ60PQ5WP7ZRRSA240Z5"
 }
