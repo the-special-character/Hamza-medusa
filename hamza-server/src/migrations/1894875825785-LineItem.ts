@@ -6,7 +6,7 @@ export class LineItem1894875825785 implements MigrationInterface {
             `ALTER TABLE "line_item" ADD COLUMN "currency_code" VARCHAR NOT NULL`
         );
         await queryRunner.query(
-            `ALTER TABLE "line_item" ADD CONSTRAINT "FK_LineItem_Currency" FOREIGN KEY ("currency_code") REFERENCES "currency"("id")`
+            `ALTER TABLE "line_item" ADD CONSTRAINT "FK_LineItem_Currency" FOREIGN KEY ("currency_code") REFERENCES "currency"("code")`
         );
     }
 
