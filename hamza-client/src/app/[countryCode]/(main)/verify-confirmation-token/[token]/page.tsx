@@ -5,18 +5,18 @@ import Input from '@modules/common/components/input';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Toast } from '@medusajs/ui';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
 const VerifyEmail = () => {
     const [message, setDisplayMessage] = useState(
         'loading results, Please wait!!!!'
     );
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const { token } = useParams();
 
     const confirmationTokenHandler = async () => {
         let res = await axios.get(
-            `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/confirmation-token/verify?token=${searchParams.get('token')}`
+            `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/confirmation-token/verify?token=${token}`
         );
 
         let data = res.data;

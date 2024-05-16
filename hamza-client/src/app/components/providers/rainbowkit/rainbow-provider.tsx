@@ -124,7 +124,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                 if (data.status == true) {
                     const tokenResponse = await getToken({
                         wallet_address: message.address,
-                        email: '',
+                        email: data.data.email,
                         password: '',
                     });
                     console.log('token response is ', tokenResponse);
@@ -150,7 +150,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         },
 
         signOut: async () => {
-            Cookies.remove('_medusa_jwt');
+            // Cookies.remove('_medusa_jwt');
             setStatus('unauthenticated');
             setCustomerAuthData({
                 token: null,
@@ -158,6 +158,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                 customer_id: '',
                 preferred_currency_code: null,
             });
+            await signOut();
             router.replace('/');
             return;
         },
