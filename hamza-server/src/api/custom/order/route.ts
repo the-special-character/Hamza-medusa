@@ -5,10 +5,10 @@ import { LineItemService } from '@medusajs/medusa';
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: LineItemService = req.scope.resolve('lineItemService');
 
-    const { order_id } = readRequestBody(req.query, ['order_id']);
+    const { cart_id } = readRequestBody(req.query, ['cart_id']);
 
     try {
-        const order = await orderService.retrieve(order_id);
+        const order = await orderService.list({ cart_id });
 
         res.status(200).json({ order });
     } catch (err) {
