@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class MultiVendorPayment1893867137584 implements MigrationInterface {
+export class LineItem1894875825785 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
             `ALTER TABLE "line_item" ADD COLUMN "currency_code" VARCHAR NOT NULL`
