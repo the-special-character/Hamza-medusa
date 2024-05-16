@@ -91,7 +91,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             const cart = await this.cartService.retrieve(cartId, {
                 relations: [
                     'items.variant.product.store',
-                    'items.variant.prices',
+                    'items.variant.prices', //TODO: we need prices?
                 ],
             });
 

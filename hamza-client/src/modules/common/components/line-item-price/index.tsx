@@ -62,7 +62,10 @@ const LineItemPrice = ({
                     })}
                 >
                     {!isNaN(originalPrice) &&
-                        formatCryptoPrice(originalPrice, 'usdc') +
+                        formatCryptoPrice(
+                            originalPrice,
+                            item.currency_code ?? ''
+                        ) +
                             ' ' +
                             (item.currency_code?.toUpperCase() ?? '')}
                 </span>
