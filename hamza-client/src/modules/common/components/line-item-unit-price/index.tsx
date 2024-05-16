@@ -37,7 +37,7 @@ const LineItemUnitPrice = ({
                         <span className="line-through">
                             {formatCryptoPrice(
                                 originalPrice,
-                                item.currency_code ?? 'usdt'
+                                item.currency_code ?? ''
                             )}{' '}
                             {item.currency_code?.toUpperCase() ?? ''}
                         </span>
@@ -61,7 +61,7 @@ const LineItemUnitPrice = ({
             >
                 {formatCryptoPrice(
                     reducedPrice || item.unit_price || 0,
-                    item.currency_code ?? 'usdt'
+                    item.currency_code ?? ''
                 )}{' '}
                 {item.currency_code?.toUpperCase() ?? ''}
             </span>
