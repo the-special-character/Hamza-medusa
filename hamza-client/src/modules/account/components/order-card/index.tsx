@@ -52,13 +52,13 @@ const OrderCard = ({ order }: OrderCardProps) => {
             </div>
             <div className="my-4">
                 <Thumbnail
-                    thumbnail={order.details.thumbnail}
+                    thumbnail={order.thumbnail}
                     images={[]}
                     height="60px"
                 />
                 <div className="text-small-regular text-white mt-2">
-                    <span className="font-semibold">{order.details.title}</span>
-                    <p>{order.details.description}</p>
+                    <span className="font-semibold">{order.title}</span>
+                    <p>{order.description}</p>
                 </div>
             </div>
             <div className="flex justify-end">

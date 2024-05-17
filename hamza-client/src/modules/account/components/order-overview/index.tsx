@@ -17,45 +17,49 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
     console.log('Orders: ', orders);
 
+    // lets make an axios call to http://localhost:9000/custom/order
     useEffect(() => {
-        const fetchOrderDetails = async () => {
-            const details = await Promise.all(
-                orders.map((order) =>
-                    axios
-                        .post('http://localhost:9000/custom/order', {
-                            cart_id: order.cart_id, // Using cart_id instead of order_id
-                        })
-                        .then((response) => ({
-                            ...order,
-                            details: response.data.order, // Assuming response.data.order is the structure you expect
-                        }))
-                        .catch((error) => {
-                            console.error(
-                                'Error fetching order details:',
-                                error
-                            );
-                            return { ...order }; // Return order without details in case of an error
-                        })
-                )
-            );
-            setDetailedOrders(details);
+        const fetchOrders = async () => {
+            try {
+                const { data } = await axios.post(
+                    'http://localhost:9000/custom/order',
+                    {
+                        cart_id: orders[0].cart_id,
+                    }
+                );
+                console.log('Data: ', data);
+                setDetailedOrders(data.order);
+            } catch (error) {
+                console.error('Error fetching orders: ', error);
+            }
         };
 
-        if (orders.length > 0) {
-            fetchOrderDetails();
-        }
+        fetchOrders();
     }, [orders]);
 
-    if (detailedOrders?.length) {
-        console.log('Detailed Orders: ', detailedOrders);
+    const groupedByCartId = detailedOrders.reduce((acc, item) => {
+        if (!acc[item.cart_id]) {
+            acc[item.cart_id] = [];
+        }
+        acc[item.cart_id].push(item);
+        return acc;
+    }, {});
+
+    console.log('Detailed Orders: ', groupedByCartId);
+
+    if (Object.keys(groupedByCartId).length > 0) {
+        console.log('Detailed Orders:', groupedByCartId);
+
         return (
             <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
-                {detailedOrders.map((order) => (
+                {Object.entries(groupedByCartId).map(([cartId, items]) => (
                     <div
-                        key={order.id}
-                        className="border-b border-gray-200 pb-6 last:pb-0 last:border-none bg-black text-white"
+                        key={cartId}
+                        className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
                     >
-                        <OrderCard order={order} />
+                        {items.map((item) => (
+                            <OrderCard key={item.id} order={item} />
+                        ))}
                     </div>
                 ))}
             </div>
