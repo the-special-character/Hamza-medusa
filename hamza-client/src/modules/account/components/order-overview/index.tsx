@@ -45,23 +45,29 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         return acc;
     }, {});
 
-    console.log('Detailed Orders: ', groupedByCartId);
+    console.log('Grouped Orders: ', groupedByCartId);
 
     if (Object.keys(groupedByCartId).length > 0) {
         console.log('Detailed Orders:', groupedByCartId);
 
         return (
             <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
-                {Object.entries(groupedByCartId).map(([cartId, items]) => (
-                    <div
-                        key={cartId}
-                        className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
-                    >
-                        {items.map((item) => (
-                            <OrderCard key={item.id} order={item} />
-                        ))}
-                    </div>
-                ))}
+                {Object.entries(groupedByCartId).map(
+                    ([cartId, items], index) => (
+                        <div
+                            key={cartId}
+                            className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+                        >
+                            <div className="p-4 bg-gray-700">
+                                Order {orders[index].id} - Total Items:{' '}
+                                {items.length}
+                            </div>
+                            {items.map((item) => (
+                                <OrderCard key={item.id} order={item} />
+                            ))}
+                        </div>
+                    )
+                )}
             </div>
         );
     }
