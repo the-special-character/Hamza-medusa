@@ -207,6 +207,7 @@ const CryptoPaymentButton = ({
             };
         } catch (e) {
             console.error('error has occured during transaction', e);
+            setErrorMessage('Checkout was not completed.');
             setSubmitting(false);
         }
 
@@ -309,6 +310,7 @@ const CryptoPaymentButton = ({
                 );
             } else {
                 setSubmitting(false);
+                setErrorMessage('Checkout was not completed.');
             }
         } else {
             throw new Error('Checkout failed to complete.');
@@ -340,11 +342,14 @@ const CryptoPaymentButton = ({
                                 } catch (e) {
                                     console.error(e);
                                     setSubmitting(false);
+                                    setErrorMessage(
+                                        'Checkout was not completed.'
+                                    );
                                 }
                             },
                             onError: ({}) => {
                                 setSubmitting(false);
-                                throw new Error('Checkout is not completed');
+                                setErrorMessage('Checkout was not completed.');
                             },
                         });
                     },
@@ -355,6 +360,7 @@ const CryptoPaymentButton = ({
         } catch (e) {
             console.error(e);
             setSubmitting(false);
+            setErrorMessage('Checkout was not completed.');
         }
     };
 
