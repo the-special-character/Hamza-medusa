@@ -58,14 +58,6 @@ const OrderCard = ({ order }: OrderCardProps) => {
                     <p>{order.description}</p>
                 </div>
             </div>
-            <div className="flex justify-end">
-                <LocalizedClientLink
-                    href={`/account/orders/details/${order.id}`}
-                    passHref
-                >
-                    <Button variant="secondary">See details</Button>
-                </LocalizedClientLink>
-            </div>
         </div>
     );
 };

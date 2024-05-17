@@ -65,6 +65,16 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             {items.map((item) => (
                                 <OrderCard key={item.id} order={item} />
                             ))}
+                            <div className="flex justify-end">
+                                <LocalizedClientLink
+                                    href={`/account/orders/details/${orders[index].id}`}
+                                    passHref
+                                >
+                                    <Button variant="secondary">
+                                        See details
+                                    </Button>
+                                </LocalizedClientLink>
+                            </div>
                         </div>
                     )
                 )}
