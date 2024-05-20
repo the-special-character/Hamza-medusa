@@ -1,6 +1,5 @@
-import { Metadata } from "next"
-
 import LoginTemplate from "@modules/account/templates/login-template"
+import { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -8,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function Login() {
-  return <div>Use connect wallet for sign in.</div>
+  return <LoginTemplate/>
 }

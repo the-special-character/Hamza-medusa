@@ -11,6 +11,7 @@ import logo from '../../../../../public/nav/hamza_logo.png';
 import { WalletConnectButton } from '@/components/providers/rainbowkit/connect-button/connect-button';
 import SearchModal from '@modules/search/templates/search-modal';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
+import AccountButton from '@modules/layout/components/account-button';
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
 
@@ -75,6 +76,7 @@ export default async function Nav() {
                             }
                         >
                             <CartButton />
+                            <AccountButton/>
                             <WalletConnectButton />
                         </Suspense>
                     </div>
